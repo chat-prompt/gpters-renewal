@@ -1,0 +1,38 @@
+/* Design Tokens */
+@import '@gpters-internal/ui/tokens.css';
+@import '@gpters-internal/ui/palettes/gpters.css';
+
+/* Tailwind CSS v4 */
+@import "tailwindcss";
+
+/* Tailwind Theme - tokens.css 변수를 Tailwind 테마에 매핑 */
+@theme {
+  /* Colors - shadcn compatible */
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-primary: var(--color-primary);
+  --color-primary-foreground: var(--color-primary-foreground);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-foreground: var(--color-secondary-foreground);
+  --color-muted: var(--color-muted);
+  --color-muted-foreground: var(--color-muted-foreground);
+  --color-accent: var(--color-accent);
+  --color-accent-foreground: var(--color-accent-foreground);
+  --color-destructive: var(--color-destructive);
+  --color-destructive-foreground: var(--color-destructive-foreground);
+  --color-border: var(--color-border);
+  --color-input: var(--color-input);
+  --color-ring: var(--color-ring);
+
+  /* Radius */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-full: var(--radius-full);
+
+  /* Font Family */
+  --font-sans: var(--font-family-sans);
+  --font-mono: var(--font-family-mono);
+}
