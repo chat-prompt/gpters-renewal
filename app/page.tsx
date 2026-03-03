@@ -71,58 +71,6 @@ const posts = [
     comments: 19,
     thumbnail: false,
   },
-  {
-    slug: "midjourney-branding",
-    category: "AI 활용법",
-    title: "Midjourney로 브랜드 이미지 만들기",
-    author: "이수현",
-    time: "2일 전",
-    tags: ["Midjourney", "디자인"],
-    excerpt:
-      "로고, 배너, SNS 콘텐츠까지 Midjourney로 일관된 브랜드 아이덴티티를 구축한 과정입니다.",
-    votes: 65,
-    comments: 8,
-    thumbnail: true,
-  },
-  {
-    slug: "n8n-workflow",
-    category: "자동화",
-    title: "n8n으로 업무 자동화 시작하기 — 슬랙 알림부터 데이터 수집까지",
-    author: "박영호",
-    time: "2일 전",
-    tags: ["n8n", "자동화", "노코드"],
-    excerpt:
-      "n8n 셀프호스팅 후 슬랙 알림, 구글시트 동기화, RSS 수집 워크플로우를 만든 과정을 정리했습니다.",
-    votes: 54,
-    comments: 14,
-    thumbnail: false,
-  },
-  {
-    slug: "chatgpt-email",
-    category: "AI 활용법",
-    title: "ChatGPT로 이메일 자동 분류하기",
-    author: "김영호",
-    time: "3일 전",
-    tags: ["ChatGPT", "자동화"],
-    excerpt:
-      "하루 100통 넘는 이메일을 ChatGPT API로 자동 분류하고 우선순위를 매기는 시스템을 구축했습니다.",
-    votes: 24,
-    comments: 5,
-    thumbnail: false,
-  },
-  {
-    slug: "system-prompt",
-    category: "프롬프트",
-    title: "시스템 프롬프트 설계 패턴 5가지",
-    author: "박민수",
-    time: "3일 전",
-    tags: ["Claude", "고급"],
-    excerpt:
-      "역할 부여, 제약 조건, 출력 포맷, 예시 주입, 체인 오브 쏘트. 실무에서 검증된 5가지 패턴을 소개합니다.",
-    votes: 67,
-    comments: 18,
-    thumbnail: false,
-  },
 ];
 
 const categories = [
@@ -165,7 +113,7 @@ const studies = [
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-4 space-y-4">
+    <div className="mx-auto max-w-6xl px-4 py-6 space-y-5">
       <AnnouncementBar
         text="21기 AI 스터디 모집 중 — 3/15 시작, 얼리버드 할인 진행 중"
         href="/study/ai-automation"
@@ -173,7 +121,7 @@ export default function Home() {
 
       <div className="flex gap-6 items-start">
         {/* Main Feed */}
-        <div className="flex-1 min-w-0 space-y-4">
+        <div className="flex-1 min-w-0 space-y-5">
           <InlinePostForm />
           <SortTabs />
           <div className="border border-border rounded-lg divide-y divide-border">
@@ -187,7 +135,7 @@ export default function Home() {
         </div>
 
         {/* Sidebar */}
-        <aside className="w-80 hidden lg:flex flex-col gap-4 shrink-0">
+        <aside className="w-72 hidden lg:flex flex-col gap-5 shrink-0">
           <CommunityInfoCard
             members="12.4k"
             online="342"

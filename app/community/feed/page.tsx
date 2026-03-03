@@ -52,30 +52,6 @@ const feedPosts = [
     votes: 67,
     comments: 18,
   },
-  {
-    id: "4",
-    author: "지은",
-    username: "jieun",
-    time: "어제",
-    content:
-      "오늘 모각AI에서 Midjourney로 브랜드 로고 만들기 도전했는데, 생각보다 퀄리티가 좋아서 놀랐어요. 비포/애프터 공유합니다.",
-    hasImage: true,
-    tags: ["Midjourney", "디자인"],
-    votes: 34,
-    comments: 8,
-  },
-  {
-    id: "5",
-    author: "재호",
-    username: "jaeho",
-    time: "어제",
-    content:
-      "Cursor + Claude 조합으로 Chrome 확장 프로그램을 하루 만에 만들었습니다. AI 검색 결과를 요약해주는 간단한 도구인데, 반응이 좋아서 놀랐어요.",
-    hasImage: false,
-    tags: ["Cursor", "Claude", "개발"],
-    votes: 89,
-    comments: 24,
-  },
 ];
 
 const freePosts = [
@@ -170,10 +146,10 @@ export default function CommunityFeedPage() {
   const currentPosts = getPostsForTab();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-4">
+    <div className="mx-auto max-w-6xl px-4 py-6">
       <div className="flex gap-6 items-start">
         {/* Main Feed */}
-        <div className="flex-1 min-w-0 space-y-4">
+        <div className="flex-1 min-w-0 space-y-5">
           {/* Tab Navigation */}
           <div className="flex gap-1 border-b border-border overflow-x-auto">
             {tabs.map((tab) => (
@@ -208,7 +184,7 @@ export default function CommunityFeedPage() {
         </div>
 
         {/* Sidebar */}
-        <aside className="w-80 hidden lg:flex flex-col gap-4 shrink-0">
+        <aside className="w-72 hidden lg:flex flex-col gap-5 shrink-0">
           <CommunityInfoCard
             members="12.4k"
             online="342"

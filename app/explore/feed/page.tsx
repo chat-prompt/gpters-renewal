@@ -17,7 +17,6 @@ import { CategoryFilter } from "@/components/site/category-filter";
 import { TagFilter } from "@/components/site/tag-filter";
 import { CategoryList } from "@/components/site/category-list";
 import { SidebarStudyList } from "@/components/site/sidebar-study-list";
-import { CommunityRules } from "@/components/site/community-rules";
 import { Pagination } from "@/components/ui/pagination";
 
 /* ─── Mock Data ─── */
@@ -117,32 +116,6 @@ const allPosts = [
     comments: 8,
     thumbnail: true,
   },
-  {
-    slug: "gemini-analysis",
-    category: "AI 활용법",
-    title: "Gemini로 데이터 분석하기 - 실전 사례",
-    author: "정재호",
-    time: "3일 전",
-    tags: ["Gemini", "데이터", "중급"],
-    excerpt:
-      "구글 Gemini의 멀티모달 능력을 활용하여 엑셀 데이터를 자동 분석하고 인사이트를 도출하는 방법.",
-    votes: 43,
-    comments: 7,
-    thumbnail: false,
-  },
-  {
-    slug: "ai-news-weekly",
-    category: "뉴스",
-    title: "AI 뉴스 위클리 - Claude 4, GPT-5 루머 정리",
-    author: "뉴스봇",
-    time: "4일 전",
-    tags: ["뉴스", "트렌드"],
-    excerpt:
-      "이번 주 주요 AI 뉴스를 정리했습니다. Anthropic의 Claude 4 발표, OpenAI GPT-5 루머, Google의 Gemini 업데이트 등.",
-    votes: 112,
-    comments: 35,
-    thumbnail: false,
-  },
 ];
 
 const sidebarCategories = [
@@ -177,14 +150,14 @@ const studies = [
 
 export default function FeedPage() {
   const [selectedCategory, setSelectedCategory] = useState("전체");
-  const [selectedTags, setSelectedTags] = useState(["ChatGPT", "Claude", "Gemini"]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-4">
+    <div className="mx-auto max-w-6xl px-4 py-6">
       <div className="flex gap-6 items-start">
         {/* Main Feed */}
-        <div className="flex-1 min-w-0 space-y-4">
+        <div className="flex-1 min-w-0 space-y-5">
           {/* Header */}
           <div className="flex items-center justify-between">
             <h1 className="text-lg font-bold text-foreground">탐색</h1>
@@ -229,10 +202,9 @@ export default function FeedPage() {
         </div>
 
         {/* Sidebar */}
-        <aside className="w-80 hidden lg:flex flex-col gap-4 shrink-0">
-          <CategoryList categories={sidebarCategories} />
+        <aside className="w-72 hidden lg:flex flex-col gap-5 shrink-0">
           <SidebarStudyList studies={studies} />
-          <CommunityRules />
+          <CategoryList categories={sidebarCategories} />
         </aside>
       </div>
     </div>
