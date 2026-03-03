@@ -1,14 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import { Check, X, Minus, Circle, PenSquare, Play } from "lucide-react";
+import { useState } from "react";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Accordion } from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Tabs } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
-import { useState } from "react";
+import { WeekAccordionItem } from "@/components/lms/week-accordion-item";
 
 // -- Mock Data --
 
@@ -16,6 +12,8 @@ const notice = {
   date: "2/25",
   content: "이번 주 줌 세션은 수요일 8PM으로 변경됩니다",
 };
+
+const studySlug = "21-ai-automation";
 
 const weeks = [
   {
@@ -78,17 +76,6 @@ const progressSummary = {
   vod: { done: 2, total: 3 },
 };
 
-function StatusBadge({ status }: { status: "completed" | "in-progress" | "upcoming" }) {
-  switch (status) {
-    case "completed":
-      return <Badge variant="completed">완료</Badge>;
-    case "in-progress":
-      return <Badge variant="active">진행중</Badge>;
-    case "upcoming":
-      return <Badge variant="default">예정</Badge>;
-  }
-}
-
 export default function StudyLearnPage() {
   const [activeTab, setActiveTab] = useState("progress");
 
@@ -122,19 +109,19 @@ export default function StudyLearnPage() {
 
       {/* Progress Summary */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="rounded-lg border border-border bg-background p-4 text-center">
+        <div className="rounded-lg border border-border p-4 text-center">
           <p className="text-xs text-muted-foreground">출석</p>
           <p className="text-lg font-bold text-foreground mt-1">
             {progressSummary.attendance.done}/{progressSummary.attendance.total}
           </p>
         </div>
-        <div className="rounded-lg border border-border bg-background p-4 text-center">
+        <div className="rounded-lg border border-border p-4 text-center">
           <p className="text-xs text-muted-foreground">과제</p>
           <p className="text-lg font-bold text-foreground mt-1">
             {progressSummary.assignment.done}/{progressSummary.assignment.total}
           </p>
         </div>
-        <div className="rounded-lg border border-border bg-background p-4 text-center">
+        <div className="rounded-lg border border-border p-4 text-center">
           <p className="text-xs text-muted-foreground">VOD</p>
           <p className="text-lg font-bold text-foreground mt-1">
             {progressSummary.vod.done}/{progressSummary.vod.total}
@@ -145,11 +132,11 @@ export default function StudyLearnPage() {
       {/* Tabs - navigate to sub-pages for VOD and Tasks */}
       <Tabs items={tabItems} activeKey={activeTab} onTabChange={(key) => {
         if (key === "vod") {
-          window.location.href = "/study/21-ai-automation/learn/vod";
+          window.location.href = `/study/${studySlug}/learn/vod`;
           return;
         }
         if (key === "tasks") {
-          window.location.href = "/study/21-ai-automation/learn/tasks";
+          window.location.href = `/study/${studySlug}/learn/tasks`;
           return;
         }
         setActiveTab(key);
@@ -162,77 +149,16 @@ export default function StudyLearnPage() {
           key: w.key,
           title: `${w.week}주차: ${w.title}`,
           children: (
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <p className="text-xs text-muted-foreground">{w.period}</p>
-                <StatusBadge status={w.status} />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                <span className="text-xs font-medium text-foreground">커리큘럼:</span>{" "}
-                {w.curriculum}
-              </p>
-
-              {w.attendance && (
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="text-xs text-muted-foreground w-10">출석</span>
-                  {w.attendance.done ? (
-                    <Check className="w-3.5 h-3.5 text-primary" />
-                  ) : (
-                    <X className="w-3.5 h-3.5 text-destructive" />
-                  )}
-                  <span className="text-xs text-muted-foreground">{w.attendance.label}</span>
-                </div>
-              )}
-
-              {w.assignment && (
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="text-xs text-muted-foreground w-10">과제</span>
-                  {w.assignment.done ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-primary" />
-                      <span className="text-xs text-muted-foreground">{w.assignment.label}</span>
-                      {w.assignment.postSlug && (
-                        <Link href={w.assignment.postSlug} className="text-xs text-primary hover:text-primary/80 transition-colors">
-                          &ldquo;{w.assignment.postTitle}&rdquo;
-                        </Link>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <X className="w-3.5 h-3.5 text-destructive" />
-                      <span className="text-xs text-muted-foreground">{w.assignment.label}</span>
-                      <Link href={`/write?type=case&studyId=21-ai-automation&week=${w.week}`}>
-                        <Button variant="ghost" size="sm" className="h-6 px-2 text-xs">
-                          <PenSquare className="w-3 h-3" />
-                          과제 쓰기
-                        </Button>
-                      </Link>
-                    </>
-                  )}
-                </div>
-              )}
-
-              {w.vods.length > 0 && (
-                <div className="space-y-1">
-                  <span className="text-xs text-muted-foreground">VOD</span>
-                  {w.vods.map((vod) => (
-                    <div key={vod.title} className="flex items-center gap-2 ml-2">
-                      <Play className="w-3 h-3 text-muted-foreground" />
-                      <span className="text-xs text-foreground">{vod.title}</span>
-                      {vod.watched ? (
-                        <Badge variant="completed">시청 완료</Badge>
-                      ) : (
-                        <Badge variant="active">신규</Badge>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {w.status === "upcoming" && (
-                <p className="text-xs text-muted-foreground">({w.period})</p>
-              )}
-            </div>
+            <WeekAccordionItem
+              week={w.week}
+              status={w.status}
+              period={w.period}
+              curriculum={w.curriculum}
+              attendance={w.attendance}
+              assignment={w.assignment}
+              vods={w.vods}
+              studySlug={studySlug}
+            />
           ),
         }))}
       />

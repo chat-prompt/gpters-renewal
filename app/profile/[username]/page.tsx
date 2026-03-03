@@ -1,22 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { Award, Sparkles } from "lucide-react";
+import { Tabs } from "@/components/ui/tabs";
+import { StatGrid } from "@/components/site/stat-grid";
+import { SkillBarList, type SkillItem } from "@/components/site/skill-bar";
+import { ActivityList, type ActivityItem } from "@/components/site/activity-list";
+import { ProfileHeader } from "@/components/site/profile-header";
+import { StudyHistoryList } from "@/components/site/study-history-card";
+import { BadgeDetailCard } from "@/components/site/badge-detail-card";
 import {
-  ExternalLink,
-  FileText,
+  Medal,
   GraduationCap,
-  MessageSquare,
-  ArrowUp,
-  Award,
-  Share2,
-  Trophy,
   Star,
-  Users,
+  Handshake,
   Crown,
-  Sparkles,
-  BadgeCheck,
-  ScrollText,
+  PenLine,
+  Rocket,
+  MessageCircle,
 } from "lucide-react";
 
 const stats = [
@@ -27,14 +28,14 @@ const stats = [
   { label: "포인트", value: "2,450" },
 ];
 
-const skills = [
+const skills: SkillItem[] = [
   { name: "자동화/노코드", level: 100, note: "스터디 2회 수료" },
   { name: "프롬프트", level: 80, note: "스터디 1회 수료" },
   { name: "마케팅 AI", level: 60, note: "게시글 12건" },
   { name: "개발/코딩", level: 40, note: "게시글 5건" },
 ];
 
-const activities = [
+const activities: ActivityItem[] = [
   {
     type: "post",
     text: '"Claude로 마케팅 자동화 구축기" 게시',
@@ -93,177 +94,126 @@ const interestTags = [
 ];
 
 const profileBadges = [
-  { icon: "🏅", label: "AI 자동화 전문가" },
-  { icon: "🎓", label: "3기 수료" },
-  { icon: "⭐", label: "베스트 사례 3회" },
-  { icon: "🤝", label: "모각AI 리더" },
-  { icon: "👑", label: "기여왕" },
+  { icon: Medal, label: "AI 자동화 전문가" },
+  { icon: GraduationCap, label: "3기 수료" },
+  { icon: Star, label: "베스트 사례 3회" },
+  { icon: Handshake, label: "모각AI 리더" },
+  { icon: Crown, label: "기여왕" },
 ];
 
 const allBadges = [
   {
-    icon: "🏅",
+    icon: Medal,
     name: "AI 자동화 전문가",
-    date: "2026.02.26",
+    earnedDate: "2026.02.26",
     description: "AI 자동화 스터디를 수료하고 최종 프로젝트를 완성하여 획득",
   },
   {
-    icon: "🎓",
+    icon: GraduationCap,
     name: "3기 수료",
-    date: "2026.02.26",
+    earnedDate: "2026.02.26",
     description: "3개 기수 연속으로 스터디를 수료하여 획득",
   },
   {
-    icon: "⭐",
+    icon: Star,
     name: "베스트 사례 3회",
-    date: "2026.01.20",
+    earnedDate: "2026.01.20",
     description: "작성한 AI 활용 사례가 3회 베스트로 선정되어 획득",
   },
   {
-    icon: "🤝",
+    icon: Handshake,
     name: "모각AI 리더",
-    date: "2025.12.15",
+    earnedDate: "2025.12.15",
     description: "모각AI 세션을 5회 이상 리드하여 획득",
   },
   {
-    icon: "👑",
+    icon: Crown,
     name: "기여왕",
-    date: "2025.11.30",
+    earnedDate: "2025.11.30",
     description: "월간 기여 포인트 Top 3에 진입하여 획득",
   },
   {
-    icon: "📝",
+    icon: PenLine,
     name: "프롬프트 마스터",
-    date: "2025.12.13",
+    earnedDate: "2025.12.13",
     description: "프롬프트 엔지니어링 스터디를 수료하여 획득",
   },
   {
-    icon: "🚀",
+    icon: Rocket,
     name: "AI 입문자",
-    date: "2025.10.12",
+    earnedDate: "2025.10.12",
     description: "첫 번째 AI 스터디를 성공적으로 수료하여 획득",
   },
   {
-    icon: "💬",
+    icon: MessageCircle,
     name: "소통왕",
-    date: "2025.10.01",
+    earnedDate: "2025.10.01",
     description: "댓글 100개 이상 작성하여 획득",
   },
 ];
 
-const tabs = ["개요", "스터디 이력", "작성글", "뱃지"];
+const tabItems = [
+  { key: "overview", label: "개요" },
+  { key: "study", label: "스터디 이력" },
+  { key: "posts", label: "작성글" },
+  { key: "badges", label: "뱃지" },
+];
 
 export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState("개요");
+  const [activeTab, setActiveTab] = useState("overview");
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       {/* Profile Header */}
-      <section className="border border-border rounded-lg p-6 mb-6 bg-background">
-        <div className="flex items-start gap-4">
-          <div className="w-24 h-24 rounded-full bg-muted shrink-0" />
-          <div className="space-y-2 flex-1">
-            <div className="flex items-center gap-3">
-              <h1 className="text-xl font-bold text-foreground">홍길동</h1>
-              <span className="text-sm text-muted-foreground">
-                @honggildong
-              </span>
-              <span className="inline-flex items-center gap-1 text-sm font-semibold text-primary">
-                <Trophy className="w-4 h-4" />
-                기여 포인트: 2,450 P
-              </span>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              AI 자동화 전문가 · 마케터
-            </p>
-            <p className="text-xs text-muted-foreground">
-              GPTers 활동 시작: 2025.03
-            </p>
-            <p className="text-sm text-foreground italic">
-              &ldquo;AI로 반복 업무를 자동화하는 것에 관심이 많습니다.&rdquo;
-            </p>
-            {/* Interest Tags */}
-            <div className="flex flex-wrap gap-2 pt-1">
-              {interestTags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-0.5 text-xs rounded-full bg-accent text-primary border border-border"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <div className="flex items-center gap-3 text-sm text-primary">
-              <Link href="#" className="flex items-center gap-1">
-                GitHub <ExternalLink className="w-3 h-3" />
-              </Link>
-              <Link href="#" className="flex items-center gap-1">
-                LinkedIn <ExternalLink className="w-3 h-3" />
-              </Link>
-              <Link href="#" className="flex items-center gap-1">
-                블로그 <ExternalLink className="w-3 h-3" />
-              </Link>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 shrink-0">
-            <button className="px-4 py-2 text-sm border border-border rounded-md text-foreground">
-              프로필 수정
-            </button>
-            <button className="px-4 py-2 text-sm rounded-md bg-primary text-primary-foreground flex items-center gap-1.5">
-              <Share2 className="w-3.5 h-3.5" />
-              이 프로필을 LinkedIn에 공유
-            </button>
-          </div>
-        </div>
-      </section>
+      <ProfileHeader
+        user={{
+          name: "홍길동",
+          username: "honggildong",
+          bio: "AI 자동화 전문가 · 마케터",
+          joinDate: "2025.03",
+          quote: "AI로 반복 업무를 자동화하는 것에 관심이 많습니다.",
+          points: "2,450",
+          interestTags,
+          links: [
+            { label: "GitHub", href: "#" },
+            { label: "LinkedIn", href: "#" },
+            { label: "블로그", href: "#" },
+          ],
+        }}
+        className="mb-6"
+      />
 
       {/* Badges Row */}
       <section className="mb-6 overflow-x-auto">
         <div className="flex gap-2">
-          {profileBadges.map((badge) => (
-            <span
-              key={badge.label}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-full bg-accent text-foreground whitespace-nowrap border border-border"
-            >
-              <span>{badge.icon}</span>
-              {badge.label}
-            </span>
-          ))}
+          {profileBadges.map((badge) => {
+            const Icon = badge.icon;
+            return (
+              <span
+                key={badge.label}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-full bg-accent text-foreground whitespace-nowrap border border-border"
+              >
+                <Icon className="w-4 h-4 text-primary" />
+                {badge.label}
+              </span>
+            );
+          })}
         </div>
       </section>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-        {stats.map((stat) => (
-          <div
-            key={stat.label}
-            className="border border-border rounded-lg p-4 text-center bg-background"
-          >
-            <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-            <p className="text-xs text-muted-foreground">{stat.label}</p>
-          </div>
-        ))}
-      </div>
+      <StatGrid items={stats} columns={5} className="mb-8" />
 
       {/* Tabs */}
-      <div className="flex gap-1 border-b border-border mb-8 overflow-x-auto">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 text-sm whitespace-nowrap border-b-2 ${
-              activeTab === tab
-                ? "border-primary text-foreground font-medium"
-                : "border-transparent text-muted-foreground"
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
+      <Tabs
+        items={tabItems}
+        activeKey={activeTab}
+        onTabChange={setActiveTab}
+        className="mb-8"
+      />
 
       {/* Overview Tab */}
-      {activeTab === "개요" && (
+      {activeTab === "overview" && (
         <div className="space-y-8">
           {/* AI Usage Auto-Summary */}
           <div className="border border-border rounded-lg bg-accent p-5 space-y-2">
@@ -287,61 +237,19 @@ export default function ProfilePage() {
           {/* Skill Map */}
           <div>
             <h3 className="font-bold text-foreground mb-4">AI 스킬 맵</h3>
-            <div className="border border-border rounded-lg p-4 bg-background space-y-3">
-              {skills.map((skill) => (
-                <div key={skill.name} className="flex items-center gap-4">
-                  <span className="text-sm text-foreground w-28 shrink-0">
-                    {skill.name}
-                  </span>
-                  <div className="flex-1 bg-muted rounded-full h-2">
-                    <div
-                      className="bg-primary rounded-full h-2"
-                      style={{ width: `${skill.level}%` }}
-                    />
-                  </div>
-                  <span className="text-xs text-muted-foreground w-28 shrink-0 text-right">
-                    ({skill.note})
-                  </span>
-                </div>
-              ))}
-            </div>
+            <SkillBarList skills={skills} />
           </div>
 
           {/* Recent Activity */}
           <div>
             <h3 className="font-bold text-foreground mb-4">최근 활동</h3>
-            <div className="border border-border rounded-lg divide-y divide-border bg-background">
-              {activities.map((activity) => (
-                <div
-                  key={activity.text}
-                  className="flex items-center gap-3 p-4"
-                >
-                  <span className="text-muted-foreground">
-                    {activity.type === "post" && (
-                      <FileText className="w-4 h-4" />
-                    )}
-                    {activity.type === "study" && (
-                      <GraduationCap className="w-4 h-4" />
-                    )}
-                    {activity.type === "comment" && (
-                      <MessageSquare className="w-4 h-4" />
-                    )}
-                  </span>
-                  <span className="text-sm text-foreground flex-1">
-                    {activity.text}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    {activity.time}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <ActivityList activities={activities} />
           </div>
         </div>
       )}
 
       {/* Study History Tab */}
-      {activeTab === "스터디 이력" && (
+      {activeTab === "study" && (
         <div className="space-y-4">
           {/* Cumulative Badge */}
           <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-accent border border-border">
@@ -354,71 +262,21 @@ export default function ProfilePage() {
             </span>
           </div>
 
-          <div className="border border-border rounded-lg divide-y divide-border bg-background">
-            {studyHistory.map((study) => (
-              <div key={study.title} className="p-4 space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <GraduationCap className="w-4 h-4 text-primary" />
-                    <span className="font-medium text-foreground">
-                      {study.title}
-                    </span>
-                  </div>
-                  <span className="text-xs text-primary bg-accent px-2 py-0.5 rounded-sm">
-                    수료 완료
-                  </span>
-                </div>
-                <div className="text-sm text-muted-foreground space-y-1 pl-6">
-                  <p>{study.period}</p>
-                  <p>스터디장: {study.leader}</p>
-                  <p>사례글: {study.posts}건 작성</p>
-                  <p>최종 프로젝트: {study.project}</p>
-                  <p className="flex items-center gap-1.5 text-foreground">
-                    <Award className="w-3.5 h-3.5 text-primary" />
-                    획득 뱃지: 🏅 {study.badge}
-                  </p>
-                </div>
-                <div className="pl-6 flex gap-2">
-                  <button className="text-xs text-primary">사례글 보기</button>
-                  <button className="text-xs text-primary">
-                    프로젝트 보기
-                  </button>
-                  <button className="text-xs text-primary flex items-center gap-1">
-                    <ScrollText className="w-3 h-3" />
-                    수료증 보기
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+          <StudyHistoryList studies={studyHistory} />
         </div>
       )}
 
-      {activeTab === "작성글" && (
+      {activeTab === "posts" && (
         <p className="text-sm text-muted-foreground">
           작성글 목록이 여기에 표시됩니다.
         </p>
       )}
 
       {/* Badges Tab */}
-      {activeTab === "뱃지" && (
+      {activeTab === "badges" && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {allBadges.map((badge) => (
-            <div
-              key={badge.name}
-              className="border border-border rounded-lg p-4 bg-background space-y-2"
-            >
-              <div className="flex items-center gap-3">
-                <span className="text-3xl">{badge.icon}</span>
-                <div>
-                  <p className="font-semibold text-foreground">{badge.name}</p>
-                  <p className="text-xs text-muted-foreground">{badge.date}</p>
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                {badge.description}
-              </p>
-            </div>
+            <BadgeDetailCard key={badge.name} badge={badge} />
           ))}
         </div>
       )}

@@ -119,7 +119,7 @@ export default function MyStudyPage() {
             <ChevronRight className="w-3 h-3 ml-0.5" />
           </Link>
         </div>
-        <div className="rounded-lg border border-border bg-background divide-y divide-border">
+        <div className="rounded-lg border border-border divide-y divide-border">
           {historyItems.map((item) => (
             <div key={item.title} className="flex items-center justify-between p-4">
               <div className="flex items-center gap-3">

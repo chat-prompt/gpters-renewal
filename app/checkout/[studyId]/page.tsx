@@ -6,6 +6,7 @@ import { ArrowLeft, Calendar, Users, Tag, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { PriceBreakdown } from "@/components/site/price-breakdown";
 
 export default function CheckoutPage() {
   const [couponCode, setCouponCode] = useState("");
@@ -41,7 +42,7 @@ export default function CheckoutPage() {
       <h1 className="text-xl font-bold text-foreground mb-8">결제하기</h1>
 
       {/* Study Summary */}
-      <section className="border border-border rounded-lg p-6 bg-background mb-6 space-y-3">
+      <section className="border border-border rounded-lg p-6 mb-6 space-y-3">
         <h2 className="font-bold text-foreground">21기 AI 자동화 스터디</h2>
         <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
           <span className="flex items-center gap-1">
@@ -55,38 +56,19 @@ export default function CheckoutPage() {
       </section>
 
       {/* Price Breakdown */}
-      <section className="border border-border rounded-lg p-6 bg-background mb-6 space-y-3">
-        <h2 className="font-bold text-foreground mb-2">가격 정보</h2>
-        <div className="flex justify-between text-sm">
-          <span className="text-muted-foreground">정상가</span>
-          <span className="text-foreground">
-            {regularPrice.toLocaleString()}원
-          </span>
-        </div>
-        <div className="flex justify-between text-sm">
-          <span className="text-primary">얼리버드 할인</span>
-          <span className="text-primary">
-            -{earlyBirdDiscount.toLocaleString()}원
-          </span>
-        </div>
-        {couponApplied && (
-          <div className="flex justify-between text-sm">
-            <span className="text-primary">쿠폰 할인</span>
-            <span className="text-primary">
-              -{couponDiscount.toLocaleString()}원
-            </span>
-          </div>
-        )}
-        <div className="border-t border-border pt-3 flex justify-between">
-          <span className="font-bold text-foreground">최종 결제금액</span>
-          <span className="font-bold text-foreground text-lg">
-            {finalPrice.toLocaleString()}원
-          </span>
-        </div>
+      <section className="border border-border rounded-lg p-6 mb-6">
+        <h2 className="font-bold text-foreground mb-4">가격 정보</h2>
+        <PriceBreakdown
+          originalPrice={regularPrice}
+          discountLabel="얼리버드 할인"
+          discountAmount={earlyBirdDiscount}
+          couponDiscount={couponDiscount}
+          finalPrice={finalPrice}
+        />
       </section>
 
       {/* Coupon */}
-      <section className="border border-border rounded-lg p-6 bg-background mb-6 space-y-3">
+      <section className="border border-border rounded-lg p-6 mb-6 space-y-3">
         <h2 className="font-bold text-foreground mb-2">쿠폰 적용</h2>
         <div className="flex gap-2">
           <Input
@@ -114,7 +96,7 @@ export default function CheckoutPage() {
       </section>
 
       {/* Buddy Registration */}
-      <section className="border border-border rounded-lg p-6 bg-background mb-6 space-y-3">
+      <section className="border border-border rounded-lg p-6 mb-6 space-y-3">
         <div className="flex items-center gap-2 mb-2">
           <h2 className="font-bold text-foreground">버디 등록</h2>
           <span className="text-xs text-muted-foreground">(선택사항)</span>
@@ -138,7 +120,7 @@ export default function CheckoutPage() {
       </section>
 
       {/* Terms Agreement */}
-      <section className="border border-border rounded-lg p-6 bg-background mb-6 space-y-3">
+      <section className="border border-border rounded-lg p-6 mb-6 space-y-3">
         <h2 className="font-bold text-foreground mb-2">약관 동의</h2>
         <label className="flex items-center gap-2 cursor-pointer">
           <input

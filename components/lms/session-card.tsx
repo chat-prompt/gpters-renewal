@@ -47,7 +47,7 @@ export function SessionCard({
   return (
     <div
       className={cn(
-        "rounded-lg border border-border bg-background p-4 flex items-start gap-3",
+        "rounded-lg border border-border p-4 flex items-start gap-3",
         status === "today" && "border-primary",
         className
       )}

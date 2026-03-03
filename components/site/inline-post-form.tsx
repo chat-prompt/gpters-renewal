@@ -8,7 +8,7 @@ export function InlinePostForm() {
   const [content, setContent] = useState("");
 
   return (
-    <div className="border border-border rounded-lg p-4 bg-background">
+    <div className="border border-border rounded-lg p-4">
       {!open ? (
         <div
           className="flex items-center gap-3 cursor-pointer"

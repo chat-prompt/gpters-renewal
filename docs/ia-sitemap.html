@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPTers Information Architecture</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #FFF8F0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      padding: 60px 40px 80px;
+      min-width: 1800px;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .header .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #EF6020;
+      color: #fff;
+      font-size: 28px;
+      font-weight: 800;
+      padding: 16px 36px;
+      border-radius: 14px;
+      letter-spacing: -0.5px;
+    }
+
+    .header .logo .dot {
+      width: 14px;
+      height: 14px;
+      background: #fff;
+      border-radius: 50%;
+    }
+
+    .header .subtitle {
+      margin-top: 12px;
+      color: #9B5A3C;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    /* ── Root node ── */
+    .root {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .root-node {
+      background: #EF6020;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      padding: 14px 40px;
+      border-radius: 10px;
+      text-align: center;
+      position: relative;
+    }
+
+    .root-node .url {
+      font-size: 12px;
+      font-weight: 400;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    /* ── Vertical connector from root ── */
+    .root-connector {
+      width: 2px;
+      height: 40px;
+      background: #EF6020;
+    }
+
+    /* ── Top-level sections container ── */
+    .sections {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      position: relative;
+    }
+
+    /* Horizontal line connecting sections */
+    .sections::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50px;
+      right: 50px;
+      height: 2px;
+      background: #EF6020;
+    }
+
+    /* ── Section (one GNB column) ── */
+    .section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 180px;
+      padding: 0 6px;
+      position: relative;
+    }
+
+    .section.wide {
+      min-width: 220px;
+    }
+
+    .section.narrow {
+      min-width: 150px;
+    }
+
+    /* Vertical connector from horizontal line to section head */
+    .section-connector {
+      width: 2px;
+      height: 30px;
+      background: #EF6020;
+    }
+
+    /* ── Level 1 node (GNB menu) ── */
+    .node-l1 {
+      background: #EF6020;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-align: center;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .node-l1 .url {
+      font-size: 11px;
+      font-weight: 400;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    /* ── Vertical connector from L1 to children ── */
+    .child-connector {
+      width: 2px;
+      height: 16px;
+      background: #D4561A;
+    }
+
+    /* ── Level 2+ nodes ── */
+    .node-l2 {
+      background: #fff;
+      border: 2px solid #EF6020;
+      color: #333;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 6px;
+      text-align: center;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .node-l2 .url {
+      font-size: 10px;
+      font-weight: 400;
+      color: #999;
+      margin-top: 1px;
+    }
+
+    .node-l2.new {
+      border-color: #D4561A;
+      background: #FFF5EE;
+    }
+
+    .node-l2.new::after {
+      content: 'NEW';
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #EF6020;
+      color: #fff;
+      font-size: 8px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    .node-l2.future {
+      border-style: dashed;
+      border-color: #D4A07A;
+      color: #999;
+    }
+
+    .node-l2.future .url {
+      color: #bbb;
+    }
+
+    /* ── Level 3 nodes ── */
+    .node-l3 {
+      background: #fff;
+      border: 1.5px solid #E8955A;
+      color: #555;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 5px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .node-l3 .url {
+      font-size: 9px;
+      font-weight: 400;
+      color: #aaa;
+      margin-top: 1px;
+    }
+
+    /* ── Tiny connector ── */
+    .tiny-connector {
+      width: 2px;
+      height: 10px;
+      background: #E8955A;
+    }
+
+    /* ── Children list (vertical stack) ── */
+    .children {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* ── Sub-children (L3) container ── */
+    .sub-children {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* ── Group header ── */
+    .group-header {
+      width: 100%;
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .group-header span {
+      background: #FFF8F0;
+      padding: 0 12px;
+      color: #9B5A3C;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .group-header::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #E8C5A8;
+    }
+
+    /* ── Area dividers ── */
+    .area-container {
+      margin-top: 80px;
+      position: relative;
+    }
+
+    .area-label {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .area-label span {
+      display: inline-block;
+      background: #9B5A3C;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 24px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+    }
+
+    .area-description {
+      text-align: center;
+      color: #9B5A3C;
+      font-size: 12px;
+      margin-top: -20px;
+      margin-bottom: 24px;
+    }
+
+    /* ── 3-area layout ── */
+    .three-areas {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      margin-top: 80px;
+    }
+
+    .area-box {
+      background: #fff;
+      border: 2px solid #E8C5A8;
+      border-radius: 16px;
+      padding: 30px 24px;
+      min-width: 500px;
+    }
+
+    .area-box.admin {
+      border-color: #9B5A3C;
+    }
+
+    .area-box.lms {
+      border-color: #D4561A;
+    }
+
+    .area-box.utility {
+      border-color: #E8955A;
+    }
+
+    .area-box-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .area-box-header .badge {
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 8px 24px;
+      border-radius: 8px;
+      color: #fff;
+    }
+
+    .area-box-header .badge.admin {
+      background: #9B5A3C;
+    }
+
+    .area-box-header .badge.lms {
+      background: #D4561A;
+    }
+
+    .area-box-header .badge.utility {
+      background: #E8955A;
+    }
+
+    .area-box-header .desc {
+      display: block;
+      font-size: 11px;
+      color: #999;
+      margin-top: 6px;
+    }
+
+    /* ── Admin/LMS internal grid ── */
+    .internal-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .internal-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .internal-l1 {
+      background: #9B5A3C;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .internal-l1.lms-color {
+      background: #D4561A;
+    }
+
+    .internal-l1.utility-color {
+      background: #E8955A;
+    }
+
+    .internal-connector {
+      width: 2px;
+      height: 10px;
+      background: #D4A07A;
+    }
+
+    .internal-l2 {
+      background: #FFF8F0;
+      border: 1.5px solid #D4A07A;
+      color: #555;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 5px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .internal-l2 .url {
+      font-size: 9px;
+      color: #aaa;
+      margin-top: 1px;
+    }
+
+    .internal-l2.lms-border {
+      border-color: #E8955A;
+    }
+
+    /* ── Legend ── */
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 60px;
+      padding: 20px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .legend-swatch {
+      width: 28px;
+      height: 18px;
+      border-radius: 4px;
+    }
+
+    .legend-swatch.l1 {
+      background: #EF6020;
+    }
+
+    .legend-swatch.l2 {
+      background: #fff;
+      border: 2px solid #EF6020;
+    }
+
+    .legend-swatch.new {
+      background: #FFF5EE;
+      border: 2px solid #D4561A;
+    }
+
+    .legend-swatch.future {
+      background: #fff;
+      border: 2px dashed #D4A07A;
+    }
+
+    .legend-swatch.admin-sw {
+      background: #9B5A3C;
+    }
+
+    .legend-swatch.lms-sw {
+      background: #D4561A;
+    }
+
+    /* ── Footer note ── */
+    .footer-note {
+      text-align: center;
+      margin-top: 40px;
+      color: #bbb;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <span class="dot"></span>
+      GPTers
+    </div>
+    <div class="subtitle">Information Architecture &mdash; Site Map</div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- PART 1: Site (Public) IA                       -->
+  <!-- ============================================== -->
+
+  <div class="root">
+
+    <!-- Root node -->
+    <div class="root-node">
+      Home
+      <div class="url">/</div>
+    </div>
+    <div class="root-connector"></div>
+
+    <!-- Top-level sections -->
+    <div class="sections">
+
+      <!-- ─── Explore ─── -->
+      <div class="section wide">
+        <div class="section-connector"></div>
+        <div class="node-l1">
+          Explore (탐색)
+          <div class="url">/explore</div>
+        </div>
+        <div class="children">
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            전체 피드
+            <div class="url">/explore/feed</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            카테고리별
+            <div class="url">/explore/category/{slug}</div>
+          </div>
+          <!-- L3 sub-categories -->
+          <div class="sub-children">
+            <div class="tiny-connector"></div>
+            <div class="node-l3">
+              AI 활용법
+              <div class="url">/explore/category/ai-usage</div>
+            </div>
+            <div class="tiny-connector"></div>
+            <div class="node-l3">
+              프롬프트
+              <div class="url">/explore/category/prompt</div>
+            </div>
+            <div class="tiny-connector"></div>
+            <div class="node-l3">
+              자동화/노코드
+              <div class="url">/explore/category/automation</div>
+            </div>
+            <div class="tiny-connector"></div>
+            <div class="node-l3">
+              개발/코딩
+              <div class="url">/explore/category/dev</div>
+            </div>
+            <div class="tiny-connector"></div>
+            <div class="node-l3">
+              비즈니스/마케팅
+              <div class="url">/explore/category/business</div>
+            </div>
+            <div class="tiny-connector"></div>
+            <div class="node-l3">
+              AI 뉴스
+              <div class="url">/explore/category/news</div>
+            </div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            인기글
+            <div class="url">/explore/trending</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            게시글 상세
+            <div class="url">/posts/{slug}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Study ─── -->
+      <div class="section wide">
+        <div class="section-connector"></div>
+        <div class="node-l1">
+          Study (스터디)
+          <div class="url">/study</div>
+        </div>
+        <div class="children">
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            모집 중
+            <div class="url">/study?status=recruiting</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            진행 중
+            <div class="url">/study?status=ongoing</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            스터디 상세 (랜딩)
+            <div class="url">/study/{slug}</div>
+          </div>
+          <div class="sub-children">
+            <div class="tiny-connector"></div>
+            <div class="node-l3">
+              소개 / 커리큘럼 / 후기 / FAQ
+              <div class="url">페이지 내 섹션</div>
+            </div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            체크아웃 (결제)
+            <div class="url">/checkout/{studyId}</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            내 스터디
+            <div class="url">/study/my</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Community ─── -->
+      <div class="section wide">
+        <div class="section-connector"></div>
+        <div class="node-l1">
+          Community (커뮤니티)
+          <div class="url">/community</div>
+        </div>
+        <div class="children">
+          <div class="child-connector"></div>
+          <div class="node-l2 new">
+            피드 (가벼운 포스트)
+            <div class="url">/community/feed</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            자유 게시판
+            <div class="url">/community/free</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            Q&A
+            <div class="url">/community/qna</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            이벤트/모임
+            <div class="url">/community/events</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2 new">
+            모각AI
+            <div class="url">/community/mogak-ai</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2 new">
+            AI토크
+            <div class="url">/community/ai-talk</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            게시글 상세
+            <div class="url">/community/{board}/{post-slug}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── AI Resume ─── -->
+      <div class="section">
+        <div class="section-connector"></div>
+        <div class="node-l1">
+          AI 이력서
+          <div class="url">/profile/{username}</div>
+        </div>
+        <div class="children">
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            개요 (기본 탭)
+            <div class="url">/profile/{username}</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            스터디 이력
+            <div class="url">/profile/{username}/studies</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            작성글
+            <div class="url">/profile/{username}/posts</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            포트폴리오
+            <div class="url">/profile/{username}/portfolio</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2 new">
+            포인트/뱃지
+            <div class="url">/profile/{username}/badges</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Search ─── -->
+      <div class="section narrow">
+        <div class="section-connector"></div>
+        <div class="node-l1">
+          검색
+          <div class="url">/search</div>
+        </div>
+        <div class="children">
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            통합 검색
+            <div class="url">/search?q={query}</div>
+          </div>
+          <div class="sub-children">
+            <div class="tiny-connector"></div>
+            <div class="node-l3">
+              게시글 / 스터디 / 사용자
+              <div class="url">타입별 탭</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Messages ─── -->
+      <div class="section">
+        <div class="section-connector"></div>
+        <div class="node-l1">
+          메시지
+          <div class="url">/messages</div>
+        </div>
+        <div class="children">
+          <div class="child-connector"></div>
+          <div class="node-l2 new">
+            받은 메시지
+            <div class="url">/messages/inbox</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2 new">
+            보낸 메시지
+            <div class="url">/messages/sent</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2 new">
+            자동 알림
+            <div class="url">/messages/notifications</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Write ─── -->
+      <div class="section">
+        <div class="section-connector"></div>
+        <div class="node-l1">
+          글쓰기
+          <div class="url">/write</div>
+        </div>
+        <div class="children">
+          <div class="child-connector"></div>
+          <div class="node-l2 new">
+            피드 포스트
+            <div class="url">/write?type=feed</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            사례 게시글
+            <div class="url">/write?type=case</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            임시저장 목록
+            <div class="url">/write/drafts</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Auth ─── -->
+      <div class="section narrow">
+        <div class="section-connector"></div>
+        <div class="node-l1">
+          인증
+          <div class="url">/auth</div>
+        </div>
+        <div class="children">
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            로그인
+            <div class="url">/auth/login</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            회원가입
+            <div class="url">/auth/register</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            비밀번호 재설정
+            <div class="url">/auth/reset-password</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Settings ─── -->
+      <div class="section narrow">
+        <div class="section-connector"></div>
+        <div class="node-l1">
+          설정
+          <div class="url">/settings</div>
+        </div>
+        <div class="children">
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            내 정보
+            <div class="url">/settings/profile</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            구매내역
+            <div class="url">/settings/orders</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            쿠폰 관리
+            <div class="url">/settings/coupons</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2">
+            알림 설정
+            <div class="url">/settings/notifications</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Jobs (Future) ─── -->
+      <div class="section narrow">
+        <div class="section-connector"></div>
+        <div class="node-l1" style="background: #D4A07A;">
+          채용
+          <div class="url">/jobs</div>
+        </div>
+        <div class="children">
+          <div class="child-connector"></div>
+          <div class="node-l2 future">
+            구인
+            <div class="url">/jobs/hiring</div>
+          </div>
+          <div class="child-connector"></div>
+          <div class="node-l2 future">
+            구직
+            <div class="url">/jobs/seeking</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- PART 2: Admin + LMS + Utility Areas            -->
+  <!-- ============================================== -->
+
+  <div class="three-areas">
+
+    <!-- ─── Admin Area ─── -->
+    <div class="area-box admin">
+      <div class="area-box-header">
+        <span class="badge admin">Admin (관리자)</span>
+        <span class="desc">/admin &mdash; 운영자/마케터 전용, Flat 구조 대시보드</span>
+      </div>
+      <div class="internal-grid">
+
+        <div class="internal-section">
+          <div class="internal-l1">대시보드</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            통계 카드 / 빠른 작업 / 최근 활동
+            <div class="url">/admin</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">게시글 관리</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            검색, 필터, 카테고리 이동, 일괄 작업
+            <div class="url">/admin/posts</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">스터디 관리</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            기수 필터, 상태 변경, 최종제출 토글
+            <div class="url">/admin/studies</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">배너 관리</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            히어로/피드/하단 3탭, 순서 변경
+            <div class="url">/admin/banners</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">상품/쿠폰</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            상품 CRUD, 가격 단계, 쿠폰
+            <div class="url">/admin/products</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">텍스트 관리</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            인라인 편집, 미리보기
+            <div class="url">/admin/texts</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">기수 관리</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            기수 CRUD, 타임라인, 슬롯 배정
+            <div class="url">/admin/cohorts</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">세션 관리</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            세션 CRUD, 반복, 캘린더
+            <div class="url">/admin/sessions</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">결제/주문</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            주문 검색, 환불 처리
+            <div class="url">/admin/orders</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">수료/환급</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            수료 판정, 수료증, 환급
+            <div class="url">/admin/completion</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">회원 관리</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            검색, 권한 부여
+            <div class="url">/admin/users</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">분류 관리</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            카테고리/태그 관리
+            <div class="url">/admin/taxonomy</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">뱃지/포인트</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            뱃지 CRUD, 포인트 기준
+            <div class="url">/admin/badges</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">DM/알림</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            템플릿, 알림 규칙
+            <div class="url">/admin/messaging</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">신고/모더레이션</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            신고 큐, 처리 액션
+            <div class="url">/admin/moderation</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1">리포트</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2">
+            기수별/콘텐츠/퍼널, CSV
+            <div class="url">/admin/reports</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── LMS Area ─── -->
+    <div class="area-box lms">
+      <div class="area-box-header">
+        <span class="badge lms">LMS (학습 관리)</span>
+        <span class="desc">수강생/스터디장 전용 &mdash; 사이트 내 학습 완결</span>
+      </div>
+      <div class="internal-grid">
+
+        <!-- 수강생 -->
+        <div class="internal-section">
+          <div class="internal-l1 lms-color">수강생 대시보드</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2 lms-border">
+            내 스터디 / 이번 주 할 일 / 진도
+            <div class="url">/study/my</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1 lms-color">스터디 학습</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2 lms-border">
+            주차별 커리큘럼, 출석/과제/VOD
+            <div class="url">/study/{slug}/learn</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1 lms-color">VOD 다시보기</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2 lms-border">
+            내 스터디/다른 스터디 탭
+            <div class="url">/study/{slug}/learn/vod</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1 lms-color">과제 현황</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2 lms-border">
+            주차별 과제 상태
+            <div class="url">/study/{slug}/learn/tasks</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1 lms-color">청강 VOD</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2 lms-border">
+            전체 스터디 VOD (과제 연동)
+            <div class="url">/study/my/audit</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1 lms-color">수강 이력</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2 lms-border">
+            기수별 참여 이력
+            <div class="url">/study/my/history</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1 lms-color">수료 현황</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2 lms-border">
+            수료증 조회/다운로드
+            <div class="url">/study/my/certificates</div>
+          </div>
+        </div>
+
+        <!-- 스터디장 -->
+        <div class="internal-section">
+          <div class="internal-l1 lms-color" style="background: #B54E1A;">스터디장 대시보드</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2 lms-border" style="border-color: #B54E1A;">
+            빠른 설정, 수강생 요약
+            <div class="url">/study/manage/{slug}</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1 lms-color" style="background: #B54E1A;">수강생 현황</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2 lms-border" style="border-color: #B54E1A;">
+            출석/과제 매트릭스
+            <div class="url">/study/manage/{slug}/members</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1 lms-color" style="background: #B54E1A;">VOD 관리</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2 lms-border" style="border-color: #B54E1A;">
+            주차별 VOD 등록
+            <div class="url">/study/manage/{slug}/vod</div>
+          </div>
+        </div>
+
+        <div class="internal-section">
+          <div class="internal-l1 lms-color" style="background: #B54E1A;">공지 관리</div>
+          <div class="internal-connector"></div>
+          <div class="internal-l2 lms-border" style="border-color: #B54E1A;">
+            멤버/스터디장/세션 공지
+            <div class="url">/study/manage/{slug}/notices</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Chat (Future) callout ── -->
+  <div style="text-align: center; margin-top: 40px;">
+    <div class="node-l2 future" style="display: inline-block; font-size: 13px; padding: 10px 24px;">
+      채팅 (2026년 2Q 이후)
+      <div class="url">/chat/rooms &mdash; 게시판 양방향 채널</div>
+    </div>
+  </div>
+
+  <!-- ── Legend ── -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-swatch l1"></div>
+      1단계 (GNB 메뉴)
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch l2"></div>
+      2~3단계 (하위 페이지)
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch new"></div>
+      NEW (신규 추가 기능)
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch future"></div>
+      향후 예정 (낮은 우선순위)
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch admin-sw"></div>
+      어드민 영역
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch lms-sw"></div>
+      LMS 영역
+    </div>
+  </div>
+
+  <div class="footer-note">
+    GPTers IA &mdash; 기준: IA 설계 (05-Information-Architecture.md), 사이트 PRD, 어드민 PRD, LMS PRD, 개발 가이드 &mdash; 2026.02
+  </div>
+
+</body>
+</html>

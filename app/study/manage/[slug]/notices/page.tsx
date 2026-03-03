@@ -79,7 +79,7 @@ export default function NoticesManagePage() {
         {currentNotices.map((notice) => (
           <div
             key={notice.id}
-            className="rounded-lg border border-border bg-background p-4 flex items-start gap-3"
+            className="rounded-lg border border-border p-4 flex items-start gap-3"
           >
             <GripVertical className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5 cursor-grab" />
             <span className="text-xs text-muted-foreground w-6 text-center shrink-0 mt-0.5">

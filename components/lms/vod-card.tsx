@@ -22,7 +22,7 @@ export function VodCard({
   return (
     <div
       className={cn(
-        "rounded-lg border border-border bg-background overflow-hidden",
+        "rounded-lg border border-border overflow-hidden",
         className
       )}
     >

@@ -2,20 +2,40 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { PenSquare, X } from "lucide-react";
+import {
+  PenSquare,
+  Lightbulb,
+  Sparkles,
+  Zap,
+  Code,
+  Briefcase,
+  Newspaper,
+} from "lucide-react";
 import { PostCard } from "@/components/site/post-card";
+import { SortTabs } from "@/components/site/sort-tabs";
+import { CategoryFilter } from "@/components/site/category-filter";
+import { TagFilter } from "@/components/site/tag-filter";
+import { CategoryList } from "@/components/site/category-list";
+import { SidebarStudyList } from "@/components/site/sidebar-study-list";
+import { CommunityRules } from "@/components/site/community-rules";
 import { Pagination } from "@/components/ui/pagination";
 
 /* ─── Mock Data ─── */
 
-const categories = [
-  "전체",
-  "AI활용법",
-  "프롬프트",
-  "자동화",
-  "개발/코딩",
-  "비즈니스",
-  "뉴스",
+const categoryTabs = [
+  { id: "전체", name: "전체" },
+  { id: "AI활용법", name: "AI활용법" },
+  { id: "프롬프트", name: "프롬프트" },
+  { id: "자동화", name: "자동화" },
+  { id: "개발/코딩", name: "개발/코딩" },
+  { id: "비즈니스", name: "비즈니스" },
+  { id: "뉴스", name: "뉴스" },
+];
+
+const tagOptions = [
+  { id: "ChatGPT", name: "ChatGPT" },
+  { id: "Claude", name: "Claude" },
+  { id: "Gemini", name: "Gemini" },
 ];
 
 const allPosts = [
@@ -30,6 +50,7 @@ const allPosts = [
       "이번에 Claude를 활용해서 마케팅 이메일 자동화 파이프라인을 구축한 경험을 공유합니다. 매주 3시간 걸리던 작업이 30분으로 줄었어요.",
     votes: 142,
     comments: 23,
+    thumbnail: true,
   },
   {
     slug: "gpt4o-prompt",
@@ -42,6 +63,7 @@ const allPosts = [
       "프롬프트 엔지니어링 기초부터 고급 기법까지 체계적으로 정리했습니다. 비개발자도 쉽게 따라할 수 있는 가이드.",
     votes: 98,
     comments: 15,
+    thumbnail: false,
   },
   {
     slug: "cursor-fullstack",
@@ -54,6 +76,7 @@ const allPosts = [
       "바이브 코딩으로 실제 서비스를 만드는 과정을 처음부터 끝까지 공유합니다. React + Supabase 조합으로 진행.",
     votes: 87,
     comments: 31,
+    thumbnail: true,
   },
   {
     slug: "n8n-automation",
@@ -66,6 +89,7 @@ const allPosts = [
       "반복적인 업무를 n8n 워크플로우로 자동화한 실전 사례를 소개합니다. Slack 알림부터 데이터 수집까지.",
     votes: 65,
     comments: 12,
+    thumbnail: false,
   },
   {
     slug: "ai-business-plan",
@@ -78,6 +102,7 @@ const allPosts = [
       "ChatGPT와 Claude를 활용하여 투자 유치용 사업계획서를 작성하는 방법을 단계별로 안내합니다.",
     votes: 76,
     comments: 19,
+    thumbnail: false,
   },
   {
     slug: "midjourney-branding",
@@ -90,6 +115,7 @@ const allPosts = [
       "Midjourney V6의 새로운 기능을 활용하여 브랜드 로고와 마케팅 이미지를 직접 만드는 과정을 공유합니다.",
     votes: 65,
     comments: 8,
+    thumbnail: true,
   },
   {
     slug: "gemini-analysis",
@@ -102,6 +128,7 @@ const allPosts = [
       "구글 Gemini의 멀티모달 능력을 활용하여 엑셀 데이터를 자동 분석하고 인사이트를 도출하는 방법.",
     votes: 43,
     comments: 7,
+    thumbnail: false,
   },
   {
     slug: "ai-news-weekly",
@@ -114,106 +141,99 @@ const allPosts = [
       "이번 주 주요 AI 뉴스를 정리했습니다. Anthropic의 Claude 4 발표, OpenAI GPT-5 루머, Google의 Gemini 업데이트 등.",
     votes: 112,
     comments: 35,
+    thumbnail: false,
   },
 ];
 
-const initialTags = ["ChatGPT", "Claude", "Gemini"];
+const sidebarCategories = [
+  { name: "AI 활용법", slug: "ai-usage", count: 234, icon: Lightbulb },
+  { name: "프롬프트", slug: "prompt", count: 156, icon: Sparkles },
+  { name: "자동화", slug: "automation", count: 89, icon: Zap },
+  { name: "개발/코딩", slug: "dev", count: 121, icon: Code },
+  { name: "비즈니스", slug: "business", count: 78, icon: Briefcase },
+  { name: "AI 뉴스", slug: "news", count: 203, icon: Newspaper },
+];
+
+const studies = [
+  {
+    slug: "ai-automation",
+    title: "21기 AI 자동화 스터디",
+    date: "3/15 ~ 4/26 (6주)",
+    enrolled: 12,
+    capacity: 20,
+    price: "150,000원",
+  },
+  {
+    slug: "prompt-engineering",
+    title: "21기 프롬프트 엔지니어링",
+    date: "3/22 ~ 5/3 (6주)",
+    enrolled: 8,
+    capacity: 15,
+    price: "120,000원",
+  },
+];
 
 /* ─── Page ─── */
 
 export default function FeedPage() {
   const [selectedCategory, setSelectedCategory] = useState("전체");
-  const [selectedSort, setSelectedSort] = useState("인기순");
-  const [tags, setTags] = useState(initialTags);
+  const [selectedTags, setSelectedTags] = useState(["ChatGPT", "Claude", "Gemini"]);
   const [currentPage, setCurrentPage] = useState(1);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold text-foreground">탐색</h1>
-        <Link
-          href="/write?type=case"
-          className="flex items-center gap-2 px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md"
-        >
-          <PenSquare className="w-4 h-4" /> 글쓰기
-        </Link>
-      </div>
-
-      {/* Category Tabs */}
-      <div className="flex gap-1 border-b border-border mb-4 overflow-x-auto">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            className={`px-4 py-2 text-sm whitespace-nowrap border-b-2 ${
-              selectedCategory === cat
-                ? "border-primary text-foreground font-medium"
-                : "border-transparent text-muted-foreground"
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
-      {/* Tag Filter */}
-      <div className="flex items-center gap-2 mb-4 flex-wrap">
-        <span className="text-sm text-muted-foreground">태그 필터:</span>
-        {tags.map((tag) => (
-          <span
-            key={tag}
-            className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-accent text-accent-foreground rounded-md"
-          >
-            #{tag}
-            <button onClick={() => setTags(tags.filter((t) => t !== tag))}>
-              <X className="w-3 h-3" />
-            </button>
-          </span>
-        ))}
-        <button className="text-xs text-primary font-medium">
-          + 태그 추가
-        </button>
-      </div>
-
-      {/* Sort & Filter */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex gap-2">
-          {["인기순", "최신순", "추천순"].map((sort) => (
-            <button
-              key={sort}
-              onClick={() => setSelectedSort(sort)}
-              className={`px-3 py-1 text-sm rounded-md ${
-                selectedSort === sort
-                  ? "bg-foreground text-background"
-                  : "text-muted-foreground"
-              }`}
+    <div className="mx-auto max-w-6xl px-4 py-4">
+      <div className="flex gap-6 items-start">
+        {/* Main Feed */}
+        <div className="flex-1 min-w-0 space-y-4">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <h1 className="text-lg font-bold text-foreground">탐색</h1>
+            <Link
+              href="/write?type=case"
+              className="flex items-center gap-2 px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md"
             >
-              {sort}
-            </button>
-          ))}
+              <PenSquare className="w-4 h-4" /> 글쓰기
+            </Link>
+          </div>
+
+          {/* Category Tabs */}
+          <CategoryFilter
+            categories={categoryTabs}
+            selected={selectedCategory}
+            onChange={setSelectedCategory}
+          />
+
+          {/* Tag Filter */}
+          <TagFilter
+            tags={tagOptions}
+            selected={selectedTags}
+            onChange={setSelectedTags}
+          />
+
+          {/* Sort */}
+          <SortTabs />
+
+          {/* Post List */}
+          <div className="border border-border rounded-lg divide-y divide-border">
+            {allPosts.map((post) => (
+              <PostCard key={post.slug} {...post} />
+            ))}
+          </div>
+
+          {/* Pagination */}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={5}
+            onPageChange={setCurrentPage}
+          />
         </div>
-        <select className="text-sm border border-border rounded-md px-2 py-1 bg-background text-foreground">
-          <option>난이도: 전체</option>
-          <option>입문</option>
-          <option>중급</option>
-          <option>고급</option>
-        </select>
-      </div>
 
-      {/* Post List */}
-      <div className="border border-border rounded-lg divide-y divide-border bg-background">
-        {allPosts.map((post) => (
-          <PostCard key={post.slug} {...post} thumbnail />
-        ))}
-      </div>
-
-      {/* Pagination */}
-      <div className="mt-8">
-        <Pagination
-          currentPage={currentPage}
-          totalPages={5}
-          onPageChange={setCurrentPage}
-        />
+        {/* Sidebar */}
+        <aside className="w-80 hidden lg:flex flex-col gap-4 shrink-0">
+          <CategoryList categories={sidebarCategories} />
+          <SidebarStudyList studies={studies} />
+          <CommunityRules />
+        </aside>
       </div>
     </div>
   );

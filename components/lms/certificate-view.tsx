@@ -27,7 +27,7 @@ export function CertificateView({
   return (
     <div
       className={cn(
-        "rounded-lg border-2 border-border bg-background p-6 space-y-4",
+        "rounded-lg border-2 border-border p-6 space-y-4",
         isOutstanding && "border-primary",
         className
       )}

@@ -36,7 +36,7 @@ export function StudyCard({
   }[status];
 
   return (
-    <div className="border border-border rounded-lg p-6 space-y-4 bg-background">
+    <div className="border border-border rounded-lg p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="font-bold text-foreground">{title}</h3>
         <span

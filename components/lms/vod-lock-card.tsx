@@ -20,7 +20,7 @@ export function VodLockCard({
   return (
     <div
       className={cn(
-        "rounded-lg border border-border bg-background overflow-hidden opacity-70",
+        "rounded-lg border border-border overflow-hidden opacity-70",
         className
       )}
     >

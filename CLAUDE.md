@@ -38,7 +38,7 @@ npm run start    # 프로덕션 서버
 ## Tech Stack
 
 - **Framework**: Next.js 16 (App Router)
-- **UI**: @gpters-internal/ui + shadcn/ui (Radix primitives)
+- **UI**: shadcn/ui (Radix primitives)
 - **Styling**: Tailwind CSS v4 (CSS-first, `@theme` block in globals.css)
 - **Icons**: lucide-react (SVG only)
 - **Infra**: Supabase (auth, DB, storage)
@@ -51,41 +51,39 @@ Tailwind v4 CSS-first 방식. `tailwind.config.js` 없음.
 
 ```
 app/globals.css
-├── @import '@gpters-internal/ui/tokens.css'    # 디자인 토큰
-├── @import '@gpters-internal/ui/palettes/gpters.css'  # GPTers Orange 팔레트
-├── @import "tailwindcss"                        # Tailwind v4
-└── @theme { ... }                               # CSS 변수 → Tailwind 테마 매핑
+├── @import "tailwindcss"        # Tailwind v4
+└── @theme { ... }               # 색상, radius, 폰트 직접 정의 (hex값)
 ```
+
+**globals.css가 유일한 디자인 토큰 소스.** 외부 import 없이 모든 색상/radius/폰트를 `@theme` 블록에 hex값으로 직접 정의한다.
 
 PostCSS: `postcss.config.mjs`에서 `@tailwindcss/postcss` 플러그인 사용.
 
 ## 디자인 시스템
 
-이 프로젝트는 @gpters-internal/ui 디자인 시스템을 사용합니다.
 디자인 방향은 **Reddit-inspired** — 투표 기반 큐레이션, Compact 카드, 계층형 댓글 등 (`docs/prd/04-디자인-가이드.md` 섹션 1.2).
 
-### 토큰
-- 모든 색상, 간격, radius는 tokens.css의 CSS 변수를 Tailwind 클래스로 사용
+### 색상 토큰 (globals.css @theme)
 
-### 규칙 (자동 적용)
+| Tailwind 클래스 | 값 | 용도 |
+|---|---|---|
+| `bg-background` | `#ffffff` | 페이지 배경 (body에 적용됨, 하위 요소에 중복 사용 금지) |
+| `text-foreground` | `#171717` | 기본 텍스트 |
+| `bg-primary` / `text-primary` | `#EF6020` | GPTers 오렌지 (CTA, 강조) |
+| `bg-muted` | `#f5f5f5` | 비활성/태그 배경 |
+| `text-muted-foreground` | `#525252` | 보조 텍스트 |
+| `bg-accent` | `#fff5ed` | hover 강조 배경 (연한 오렌지) |
+| `border-border` | `#e5e5e5` | 기본 테두리 |
 
-UI 생성 시 design-rules가 PostToolUse hook에서 자동 로드됩니다:
-- 하드코딩 색상 금지 (#fff, rgb 등) → Tailwind 클래스 사용 (`bg-primary`, `text-foreground`)
+> 전체 토큰: `app/globals.css` @theme 블록 참조
+
+### 규칙
+
+- Tailwind 클래스만 사용 — 하드코딩 색상 금지 (#fff, rgb 등)
+- `bg-background` 중복 금지 — body에 이미 적용됨. input/select/sticky 요소만 예외
 - 간격은 Tailwind 4px 기반 스케일 (`p-4`, `gap-6`)
-- radius는 토큰만 사용 (`rounded-md`, `rounded-lg`)
 - Shadow 금지 (Modal/Dropdown/Toast 제외)
 - 이모지/텍스트 아이콘 금지 → SVG만 사용 (lucide-react)
-
-> design-rules.md 전체: `node_modules/@gpters-internal/ui/.claude/skills/design-rules.md`
-
-### 컴포넌트 생성 규칙 (필수)
-
-**디자인 가이드의 컴포넌트 코드는 삭제됨. 이름/용도만 참고하고 코드는 직접 새로 작성한다.**
-
-1. **design-rules.md + Reddit-inspired 방향(04-디자인-가이드.md §1.2)을 기준으로 새로 작성**
-2. **컴포넌트 목록**: `04-디자인-가이드.md` 섹션 3 (이름/용도만 정리됨)
-3. **생성 후 자가 검증**: lint-design-rules.sh 자동 실행됨
-4. **기존 컴포넌트 위반 발견 시**: 사용자에게 보고, 새 컴포넌트는 규칙대로 작성
 
 ## 작업 방식: 에이전트 팀 활용
 
@@ -107,8 +105,8 @@ UI 생성 시 design-rules가 PostToolUse hook에서 자동 로드됩니다:
 ```
 app/
 ├── layout.tsx                    # Root layout (Navbar + Footer)
-├── page.tsx                      # 홈: 히어로 배너, 인기 게시글, 카테고리, 모집 중 스터디
-├── globals.css                   # Tailwind v4 + 디자인 토큰 임포트
+├── page.tsx                      # 홈: Reddit 스타일 피드 (2컬럼 — 메인 피드 + 사이드바)
+├── globals.css                   # Tailwind v4 + @theme (유일한 토큰 소스)
 ├── explore/feed/page.tsx         # 콘텐츠 피드: 카테고리 탭, 태그 필터, 정렬
 ├── community/feed/page.tsx       # 커뮤니티 피드
 ├── posts/[slug]/page.tsx         # 게시글 상세: 본문, 투표, 댓글, 관련 스터디
@@ -124,11 +122,11 @@ app/
     └── products/page.tsx         # 상품 관리
 components/
 ├── navbar.tsx                    # GNB ('use client', usePathname)
-├── footer.tsx                    # 푸터
-├── ui/                           # (계획) 공통 재사용 컴포넌트 — Batch 0에서 생성
-├── site/                         # (계획) 사이트 전용 — Batch 1에서 생성
-├── admin/                        # (계획) 어드민 전용 — Batch 2에서 생성
-└── lms/                          # (계획) LMS 전용 — Batch 4에서 생성
+├── footer.tsx                    # 푸터 (Reddit 스타일 — 한 줄 텍스트, 배경 구분 없음)
+├── ui/                           # 공통 재사용 컴포넌트 (button, card, tabs, badge 등)
+├── site/                         # 사이트 전용 (post-card, vote, sort-tabs, sidebar 위젯 등)
+├── admin/                        # 어드민 전용
+└── lms/                          # LMS 전용
 ```
 
 > 컴포넌트 구조 상세: `docs/prd/04-디자인-가이드.md` 섹션 7.3

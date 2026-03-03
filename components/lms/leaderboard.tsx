@@ -27,7 +27,7 @@ export function Leaderboard({
   return (
     <div
       className={cn(
-        "rounded-lg border border-border bg-background",
+        "rounded-lg border border-border",
         className
       )}
     >

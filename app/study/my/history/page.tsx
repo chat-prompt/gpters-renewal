@@ -80,7 +80,7 @@ export default function HistoryPage() {
 
       <h1 className="text-2xl font-bold text-foreground">수강 이력</h1>
 
-      <div className="rounded-lg border border-border bg-background divide-y divide-border">
+      <div className="rounded-lg border border-border divide-y divide-border">
         {historyItems.map((item) => (
           <div
             key={item.id}

@@ -114,7 +114,7 @@ export default function AdminBannersPage() {
         드래그하여 순서를 변경하세요
       </p>
 
-      <div className="border border-border rounded-lg divide-y divide-border bg-background">
+      <div className="border border-border rounded-lg divide-y divide-border">
         {currentBanners.map((banner, i) => (
           <div
             key={banner.id}

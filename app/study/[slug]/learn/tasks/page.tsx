@@ -81,7 +81,7 @@ export default function TasksPage() {
       </div>
 
       {/* Overall Progress */}
-      <div className="rounded-lg border border-border bg-background p-4 space-y-2">
+      <div className="rounded-lg border border-border p-4 space-y-2">
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground">전체 과제 제출률</span>
           <span className="font-medium text-foreground">
@@ -92,7 +92,7 @@ export default function TasksPage() {
       </div>
 
       {/* Weekly Assignment List */}
-      <div className="rounded-lg border border-border bg-background divide-y divide-border">
+      <div className="rounded-lg border border-border divide-y divide-border">
         {assignments.map((a) => (
           <div key={a.week} className="p-4 flex flex-col sm:flex-row sm:items-center gap-3">
             <div className="flex items-center gap-3 shrink-0">

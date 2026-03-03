@@ -1,52 +1,46 @@
-/* Design Tokens */
-@import '@gpters-internal/ui/tokens.css';
-@import '@gpters-internal/ui/palettes/gpters.css';
-
-/* Tailwind CSS v4 */
 @import "tailwindcss";
 
-/* Tailwind Theme - tokens.css 변수를 Tailwind 테마에 매핑 */
-@theme inline {
+@theme {
   /* Background / Text */
-  --color-background: var(--color-bg-surface);        /* #ffffff */
-  --color-foreground: var(--color-text-default);      /* #171717 */
+  --color-background: #ffffff;
+  --color-foreground: #171717;
 
-  /* Primary (GPTers Orange) */
-  --color-primary: var(--color-primary);              /* #EF6020 */
-  --color-primary-foreground: var(--color-on-primary); /* #ffffff */
+  /* Primary (GPTers Orange #EF6020) */
+  --color-primary: #EF6020;
+  --color-primary-foreground: #ffffff;
 
-  /* Secondary (Warm neutral) */
-  --color-secondary: var(--neutral-100);              /* #f5f5f5 — 연한 배경 */
-  --color-secondary-foreground: var(--neutral-900);   /* #171717 */
+  /* Secondary */
+  --color-secondary: #f5f5f4;
+  --color-secondary-foreground: #1c1917;
 
-  /* Muted — bg-muted는 배경용이므로 연한 색 */
-  --color-muted: var(--neutral-100);                  /* #f5f5f5 */
-  --color-muted-foreground: var(--color-text-secondary); /* #525252 */
+  /* Muted (배경용 연한 회색) */
+  --color-muted: #f5f5f5;
+  --color-muted-foreground: #525252;
 
-  /* Accent — hover/active 강조 배경 */
-  --color-accent: var(--primary-50);                  /* #fff5ed (연한 오렌지) */
-  --color-accent-foreground: var(--primary-700);      /* #b43712 (진한 오렌지) */
+  /* Accent (연한 오렌지 — hover/강조 배경) */
+  --color-accent: #fff5ed;
+  --color-accent-foreground: #b43712;
 
   /* Destructive */
-  --color-destructive: var(--color-destructive);      /* #ef4444 */
-  --color-destructive-foreground: var(--color-on-error); /* #ffffff */
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
 
   /* Border / Input / Ring */
-  --color-border: var(--color-border-default);        /* #e5e5e5 */
-  --color-input: var(--neutral-200);                  /* #e5e5e5 */
-  --color-ring: var(--color-primary);                 /* #EF6020 */
+  --color-border: #e5e5e5;
+  --color-input: #e5e5e5;
+  --color-ring: #EF6020;
 
   /* Radius */
-  --radius-sm: var(--radius-sm);
-  --radius-md: var(--radius-md);
-  --radius-lg: var(--radius-lg);
-  --radius-xl: var(--radius-xl);
-  --radius-2xl: var(--radius-2xl);
-  --radius-full: var(--radius-full);
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --radius-2xl: 12px;
+  --radius-full: 9999px;
 
   /* Font */
-  --font-sans: var(--font-family-sans);
-  --font-mono: var(--font-family-mono);
+  --font-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  --font-mono: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
 }
 
 body {

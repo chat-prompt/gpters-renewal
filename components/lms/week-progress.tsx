@@ -49,7 +49,7 @@ export function WeekProgress({
   return (
     <div
       className={cn(
-        "rounded-lg border border-border bg-background p-3 text-center min-w-[80px]",
+        "rounded-lg border border-border p-3 text-center min-w-[80px]",
         status === "in-progress" && "border-primary",
         className
       )}

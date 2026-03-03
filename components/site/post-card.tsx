@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MessageSquare, Bookmark, Share2 } from "lucide-react";
 import { Vote } from "./vote";
+import { UserMeta } from "./user-meta";
 
 interface PostCardProps {
   slug: string;
@@ -38,7 +39,8 @@ export function PostCard({
           {title}
         </Link>
         <p className="text-xs text-muted-foreground">
-          <span className="text-primary font-medium">{category}</span> · @{author} · {time}
+          <span className="text-primary font-medium">{category}</span> ·{" "}
+          <UserMeta username={author} date={time} showAvatar={false} className="gap-0" />
         </p>
         <div className="flex gap-1 flex-wrap">
           {tags.map((tag) => (

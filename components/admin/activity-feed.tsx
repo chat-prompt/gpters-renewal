@@ -30,7 +30,7 @@ const typeIcons: Record<ActivityType, LucideIcon> = {
 
 export function ActivityFeed({ items }: ActivityFeedProps) {
   return (
-    <div className="border border-border rounded-lg divide-y divide-border bg-background">
+    <div className="border border-border rounded-lg divide-y divide-border">
       {items.map((item) => {
         const Icon = typeIcons[item.type];
         return (

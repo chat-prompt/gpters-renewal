@@ -169,7 +169,7 @@ export default function AdminTextsPage() {
       {groups.map((group, gi) => (
         <section key={group.label} className="space-y-3">
           <h3 className="text-sm font-bold text-foreground">{group.label}</h3>
-          <div className="border border-border rounded-lg divide-y divide-border bg-background">
+          <div className="border border-border rounded-lg divide-y divide-border">
             {group.items.map((item) => (
               <div
                 key={item.id}

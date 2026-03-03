@@ -24,7 +24,7 @@ export function BestPresenterCard({
   return (
     <div
       className={cn(
-        "rounded-lg border border-border bg-background p-4 space-y-3",
+        "rounded-lg border border-border p-4 space-y-3",
         isSelected && "border-primary",
         className
       )}

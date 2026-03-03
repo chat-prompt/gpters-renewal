@@ -6,7 +6,7 @@ const List = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
     <div
       ref={ref}
       className={cn(
-        "rounded-lg border border-border divide-y divide-border bg-background",
+        "rounded-lg border border-border divide-y divide-border",
         className
       )}
       {...props}

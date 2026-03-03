@@ -1,29 +1,22 @@
 import Link from "next/link";
 import {
-  ChevronRight,
-  Flame,
-  Clock,
-  TrendingUp,
   Lightbulb,
   Sparkles,
   Zap,
   Code,
   Briefcase,
   Newspaper,
-  Users,
-  FileText,
-  Calendar,
 } from "lucide-react";
 import { PostCard } from "@/components/site/post-card";
 import { InlinePostForm } from "@/components/site/inline-post-form";
-import { StudyCard } from "@/components/site/study-card";
+import { AnnouncementBar } from "@/components/site/announcement-bar";
+import { SortTabs } from "@/components/site/sort-tabs";
+import { CommunityInfoCard } from "@/components/site/community-info-card";
+import { CategoryList } from "@/components/site/category-list";
+import { SidebarStudyList } from "@/components/site/sidebar-study-list";
+import { CommunityRules } from "@/components/site/community-rules";
 
 /* ─── Mock Data ─── */
-
-const announcement = {
-  text: "21기 AI 스터디 모집 중 — 3/15 시작, 얼리버드 할인 진행 중",
-  href: "/study/ai-automation",
-};
 
 const posts = [
   {
@@ -168,183 +161,41 @@ const studies = [
   },
 ];
 
-/* ─── Sort Tabs ─── */
-
-const sortOptions = [
-  { label: "인기", icon: Flame },
-  { label: "최신", icon: Clock },
-  { label: "추천", icon: TrendingUp },
-];
-
 /* ─── Page ─── */
 
 export default function Home() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-4 space-y-4">
-      {/* Announcement Bar */}
-      <Link
-        href={announcement.href}
-        className="flex items-center justify-between px-4 py-2.5 rounded-lg bg-primary/10 text-sm"
-      >
-        <span className="text-primary font-medium">{announcement.text}</span>
-        <ChevronRight className="w-4 h-4 text-primary shrink-0" />
-      </Link>
+      <AnnouncementBar
+        text="21기 AI 스터디 모집 중 — 3/15 시작, 얼리버드 할인 진행 중"
+        href="/study/ai-automation"
+      />
 
-      {/* Two-Column Layout */}
       <div className="flex gap-6 items-start">
-        {/* ── Main Feed ── */}
+        {/* Main Feed */}
         <div className="flex-1 min-w-0 space-y-4">
-          {/* Inline Compose */}
           <InlinePostForm />
-
-          {/* Sort Tabs */}
-          <div className="flex items-center gap-1 border-b border-border pb-0">
-            {sortOptions.map((opt, i) => (
-              <button
-                key={opt.label}
-                className={`flex items-center gap-1.5 px-3 py-2.5 text-sm font-medium border-b-2 transition-colors ${
-                  i === 0
-                    ? "border-primary text-primary"
-                    : "border-transparent text-muted-foreground"
-                }`}
-              >
-                <opt.icon className="w-4 h-4" />
-                {opt.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Post Feed */}
-          <div className="border border-border rounded-lg bg-background divide-y divide-border">
+          <SortTabs />
+          <div className="border border-border rounded-lg divide-y divide-border">
             {posts.map((post) => (
               <PostCard key={post.slug} {...post} />
             ))}
           </div>
-
-          {/* Load More */}
-          <button className="w-full py-3 text-sm text-muted-foreground border border-border rounded-lg bg-background">
+          <button className="w-full py-3 text-sm text-muted-foreground border border-border rounded-lg">
             더 보기
           </button>
         </div>
 
-        {/* ── Sidebar ── */}
+        {/* Sidebar */}
         <aside className="w-80 hidden lg:flex flex-col gap-4 shrink-0">
-          {/* Community Info */}
-          <div className="border border-border rounded-lg bg-background overflow-hidden">
-            <div className="bg-primary px-4 py-3">
-              <h2 className="text-sm font-bold text-primary-foreground">
-                GPTers 커뮤니티
-              </h2>
-            </div>
-            <div className="p-4 space-y-3">
-              <p className="text-sm text-muted-foreground">
-                AI 활용에 관심 있는 사람들이 모여 인사이트를 나누는 커뮤니티
-              </p>
-              <div className="flex gap-4 text-sm">
-                <div>
-                  <p className="font-bold text-foreground">12.4k</p>
-                  <p className="text-xs text-muted-foreground">멤버</p>
-                </div>
-                <div>
-                  <p className="font-bold text-foreground">342</p>
-                  <p className="text-xs text-muted-foreground">온라인</p>
-                </div>
-                <div>
-                  <p className="font-bold text-foreground">1.2k</p>
-                  <p className="text-xs text-muted-foreground">게시글/주</p>
-                </div>
-              </div>
-              <button className="w-full py-2 text-sm bg-primary text-primary-foreground rounded-md font-medium">
-                가입하기
-              </button>
-            </div>
-          </div>
-
-          {/* Categories */}
-          <div className="border border-border rounded-lg bg-background">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-              <h3 className="text-sm font-bold text-foreground">카테고리</h3>
-              <Link
-                href="/explore/feed"
-                className="text-xs text-muted-foreground"
-              >
-                전체보기
-              </Link>
-            </div>
-            <div className="p-2">
-              {categories.map((cat) => (
-                <Link
-                  key={cat.slug}
-                  href={`/explore/feed?category=${cat.slug}`}
-                  className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-foreground"
-                >
-                  <cat.icon className="w-4 h-4 text-primary shrink-0" />
-                  <span className="flex-1">{cat.name}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {cat.count}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Recruiting Studies */}
-          <div className="border border-border rounded-lg bg-background">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-              <h3 className="text-sm font-bold text-foreground">
-                모집 중인 스터디
-              </h3>
-              <Link href="/study" className="text-xs text-muted-foreground">
-                전체보기
-              </Link>
-            </div>
-            <div className="p-3 space-y-3">
-              {studies.map((study) => (
-                <Link
-                  key={study.slug}
-                  href={`/study/${study.slug}`}
-                  className="block p-3 border border-border rounded-md space-y-2"
-                >
-                  <p className="text-sm font-medium text-foreground">
-                    {study.title}
-                  </p>
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />
-                      {study.date}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="flex items-center gap-1 text-muted-foreground">
-                      <Users className="w-3 h-3" />
-                      {study.enrolled}/{study.capacity}명
-                    </span>
-                    <span className="text-primary font-medium">
-                      {study.price}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Community Rules */}
-          <div className="border border-border rounded-lg bg-background">
-            <div className="px-4 py-3 border-b border-border">
-              <h3 className="text-sm font-bold text-foreground">
-                커뮤니티 규칙
-              </h3>
-            </div>
-            <div className="p-4 space-y-2 text-xs text-muted-foreground">
-              <p>1. 서로 존중하기</p>
-              <p>2. AI 관련 주제만 게시</p>
-              <p>3. 홍보/스팸 금지</p>
-              <p>4. 출처 명시하기</p>
-              <p>5. 개인정보 보호</p>
-            </div>
-          </div>
-
-          {/* Footer Links */}
+          <CommunityInfoCard
+            members="12.4k"
+            online="342"
+            postsPerWeek="1.2k"
+          />
+          <CategoryList categories={categories} />
+          <SidebarStudyList studies={studies} />
+          <CommunityRules />
           <div className="text-xs text-muted-foreground space-y-2 px-2">
             <div className="flex flex-wrap gap-x-3 gap-y-1">
               <Link href="#">이용약관</Link>

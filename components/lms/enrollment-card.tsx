@@ -31,7 +31,7 @@ export function EnrollmentCard({
   return (
     <div
       className={cn(
-        "rounded-lg border border-border bg-background p-6 space-y-4",
+        "rounded-lg border border-border p-6 space-y-4",
         className
       )}
     >

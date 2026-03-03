@@ -151,7 +151,7 @@ export default function AdminStudiesPage() {
       </div>
 
       {/* Table */}
-      <div className="border border-border rounded-lg bg-background overflow-hidden">
+      <div className="border border-border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>

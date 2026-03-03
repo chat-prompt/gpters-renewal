@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { ArrowUp, MessageSquare, Share2, Send } from "lucide-react";
 import { InlinePostForm } from "@/components/site/inline-post-form";
+import { FeedPost } from "@/components/site/feed-post";
+import { CommunityInfoCard } from "@/components/site/community-info-card";
+import { CommunityRules } from "@/components/site/community-rules";
 
 /* ─── Mock Data ─── */
 
@@ -83,7 +84,8 @@ const freePosts = [
     author: "소연",
     username: "soyeon",
     time: "1시간 전",
-    content: "GPTers 모임 후기! 오프라인에서 만나니 더 좋았어요. 다음 모임도 기대됩니다.",
+    content:
+      "GPTers 모임 후기! 오프라인에서 만나니 더 좋았어요. 다음 모임도 기대됩니다.",
     hasImage: false,
     tags: [],
     votes: 12,
@@ -94,7 +96,8 @@ const freePosts = [
     author: "현우",
     username: "hyunwoo",
     time: "3시간 전",
-    content: "AI 스터디 21기 같이 하실 분 계신가요? 버디로 함께 시작하면 할인도 된다고 하더라구요.",
+    content:
+      "AI 스터디 21기 같이 하실 분 계신가요? 버디로 함께 시작하면 할인도 된다고 하더라구요.",
     hasImage: false,
     tags: ["스터디"],
     votes: 8,
@@ -108,7 +111,8 @@ const qnaPosts = [
     author: "정민",
     username: "jungmin",
     time: "2시간 전",
-    content: "Claude API에서 시스템 프롬프트 길이 제한이 있나요? 8000토큰 정도 넣으려는데 가능할까요?",
+    content:
+      "Claude API에서 시스템 프롬프트 길이 제한이 있나요? 8000토큰 정도 넣으려는데 가능할까요?",
     hasImage: false,
     tags: ["Claude", "질문"],
     votes: 5,
@@ -119,7 +123,8 @@ const qnaPosts = [
     author: "은서",
     username: "eunseo",
     time: "5시간 전",
-    content: "n8n과 Make 중 어떤 걸 먼저 배우는 게 좋을까요? 비개발자 입장에서 추천 부탁드립니다.",
+    content:
+      "n8n과 Make 중 어떤 걸 먼저 배우는 게 좋을까요? 비개발자 입장에서 추천 부탁드립니다.",
     hasImage: false,
     tags: ["n8n", "Make", "질문"],
     votes: 15,
@@ -133,7 +138,8 @@ const eventPosts = [
     author: "GPTers 운영팀",
     username: "gpters",
     time: "3일 전",
-    content: "3월 오프라인 모각AI 안내: 3/20(토) 14:00, 강남역 위워크. AI 도구 자유 실습 + 네트워킹 시간입니다.",
+    content:
+      "3월 오프라인 모각AI 안내: 3/20(토) 14:00, 강남역 위워크. AI 도구 자유 실습 + 네트워킹 시간입니다.",
     hasImage: true,
     tags: ["모각AI", "오프라인"],
     votes: 42,
@@ -141,61 +147,7 @@ const eventPosts = [
   },
 ];
 
-type PostItem = typeof feedPosts[number];
-
-/* ─── Components ─── */
-
-function FeedPost({ post }: { post: PostItem }) {
-  return (
-    <div className="border border-border rounded-lg p-4 bg-background space-y-3">
-      {/* Author Info */}
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-muted shrink-0" />
-        <div>
-          <p className="text-sm font-medium text-foreground">
-            {post.author}{" "}
-            <span className="text-muted-foreground font-normal">
-              @{post.username}
-            </span>
-          </p>
-          <p className="text-xs text-muted-foreground">{post.time}</p>
-        </div>
-      </div>
-
-      {/* Content */}
-      <p className="text-sm text-foreground leading-relaxed">{post.content}</p>
-
-      {/* Image Placeholder */}
-      {post.hasImage && <div className="h-48 bg-muted rounded-md" />}
-
-      {/* Tags */}
-      {post.tags.length > 0 && (
-        <div className="flex gap-2 flex-wrap">
-          {post.tags.map((tag) => (
-            <Link key={tag} href="#" className="text-xs text-primary">
-              #{tag}
-            </Link>
-          ))}
-        </div>
-      )}
-
-      {/* Actions */}
-      <div className="flex items-center gap-6 pt-1 border-t border-border">
-        <button className="flex items-center gap-1.5 text-sm text-muted-foreground pt-3">
-          <ArrowUp className="w-4 h-4" />
-          {post.votes}
-        </button>
-        <button className="flex items-center gap-1.5 text-sm text-muted-foreground pt-3">
-          <MessageSquare className="w-4 h-4" />
-          {post.comments}
-        </button>
-        <button className="flex items-center gap-1.5 text-sm text-muted-foreground pt-3">
-          <Share2 className="w-4 h-4" />
-        </button>
-      </div>
-    </div>
-  );
-}
+type PostItem = (typeof feedPosts)[number];
 
 /* ─── Page ─── */
 
@@ -218,48 +170,52 @@ export default function CommunityFeedPage() {
   const currentPosts = getPostsForTab();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold text-foreground">커뮤니티</h1>
-        <button className="flex items-center gap-2 px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md">
-          <Send className="w-4 h-4" /> 포스트 작성
-        </button>
-      </div>
+    <div className="mx-auto max-w-6xl px-4 py-4">
+      <div className="flex gap-6 items-start">
+        {/* Main Feed */}
+        <div className="flex-1 min-w-0 space-y-4">
+          {/* Tab Navigation */}
+          <div className="flex gap-1 border-b border-border overflow-x-auto">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`px-4 py-2.5 text-sm whitespace-nowrap border-b-2 ${
+                  activeTab === tab.key
+                    ? "border-primary text-primary font-medium"
+                    : "border-transparent text-muted-foreground"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
 
-      {/* Tab Navigation */}
-      <div className="flex gap-1 border-b border-border mb-6 overflow-x-auto">
-        {tabs.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveTab(tab.key)}
-            className={`px-4 py-2 text-sm whitespace-nowrap border-b-2 ${
-              activeTab === tab.key
-                ? "border-primary text-foreground font-medium"
-                : "border-transparent text-muted-foreground"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+          {/* Inline Post Form */}
+          {activeTab === "feed" && <InlinePostForm />}
 
-      {/* Content */}
-      <div className="space-y-4">
-        {/* Inline Post Form (only on Feed tab) */}
-        {activeTab === "feed" && <InlinePostForm />}
+          {/* Posts */}
+          <div className="border border-border rounded-lg divide-y divide-border">
+            {currentPosts.map((post) => (
+              <FeedPost key={post.id} {...post} />
+            ))}
+          </div>
 
-        {/* Posts */}
-        {currentPosts.map((post) => (
-          <FeedPost key={post.id} post={post} />
-        ))}
-
-        {/* Load More */}
-        <div className="text-center py-4">
-          <button className="px-6 py-2 text-sm border border-border rounded-md text-muted-foreground bg-background">
+          {/* Load More */}
+          <button className="w-full py-3 text-sm text-muted-foreground border border-border rounded-lg">
             더 불러오기
           </button>
         </div>
+
+        {/* Sidebar */}
+        <aside className="w-80 hidden lg:flex flex-col gap-4 shrink-0">
+          <CommunityInfoCard
+            members="12.4k"
+            online="342"
+            postsPerWeek="1.2k"
+          />
+          <CommunityRules />
+        </aside>
       </div>
     </div>
   );

@@ -30,7 +30,7 @@ export function ChallengeWidget({
   return (
     <div
       className={cn(
-        "rounded-lg border border-border bg-background p-4 space-y-4",
+        "rounded-lg border border-border p-4 space-y-4",
         className
       )}
     >

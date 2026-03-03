@@ -2,21 +2,16 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  Calendar,
-  Users,
-  MapPin,
-  Coins,
-  Star,
-  ExternalLink,
-  Clock,
-} from "lucide-react";
+import { Clock } from "lucide-react";
 import { Tabs } from "@/components/ui/tabs";
-import { Accordion } from "@/components/ui/accordion";
-import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { StudyHero } from "@/components/site/study-hero";
+import { CurriculumTab } from "@/components/site/curriculum-tab";
+import { LeaderTab } from "@/components/site/leader-tab";
+import { ReviewTab } from "@/components/site/review-tab";
+import { FaqTab } from "@/components/site/faq-tab";
 
 const curriculum = [
   {
@@ -159,9 +154,6 @@ const tabItems = [
   { key: "faq", label: "FAQ" },
 ];
 
-const avgRating =
-  reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
-
 export default function StudyDetailPage() {
   const [activeTab, setActiveTab] = useState("intro");
 
@@ -172,37 +164,18 @@ export default function StudyDetailPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      {/* Hero */}
-      <section className="border border-border rounded-lg p-8 mb-8 bg-background">
-        <div className="flex items-center gap-2 mb-3">
-          <Badge variant="active">모집중</Badge>
-          <span className="text-sm text-muted-foreground">21기</span>
-        </div>
-        <h1 className="text-2xl font-bold text-foreground mb-2">
-          21기 AI 자동화 스터디
-        </h1>
-        <p className="text-muted-foreground mb-6">
-          반복 업무를 AI로 자동화하는 4주 실전 과정
-        </p>
-
-        <div className="flex flex-wrap gap-6 text-sm text-muted-foreground">
-          <span className="flex items-center gap-1">
-            <Calendar className="w-4 h-4" /> 2026.03.15 ~ 04.12 (4주)
-          </span>
-          <span className="flex items-center gap-1">
-            <Users className="w-4 h-4" /> {enrolled}/{capacity}명
-          </span>
-          <span className="flex items-center gap-1">
-            <MapPin className="w-4 h-4" /> 온라인 (Zoom)
-          </span>
-          <span className="flex items-center gap-1">
-            <Coins className="w-4 h-4" /> 150,000원
-          </span>
-          <span className="flex items-center gap-1">
-            <Clock className="w-4 h-4" /> 마감 {deadline}
-          </span>
-        </div>
-      </section>
+      <StudyHero
+        cohort="21기"
+        title="21기 AI 자동화 스터디"
+        description="반복 업무를 AI로 자동화하는 4주 실전 과정"
+        status="recruiting"
+        dateRange="2026.03.15 ~ 04.12 (4주)"
+        enrolled={enrolled}
+        capacity={capacity}
+        location="온라인 (Zoom)"
+        price="150,000원"
+        deadline={deadline}
+      />
 
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Main Content */}
@@ -265,107 +238,23 @@ export default function StudyDetailPage() {
             </section>
           )}
 
-          {/* Curriculum Tab */}
           {activeTab === "curriculum" && (
-            <section>
-              <Accordion items={curriculum} defaultOpen={["week-1"]} />
-            </section>
+            <CurriculumTab items={curriculum} defaultOpen={["week-1"]} />
           )}
 
-          {/* Leader Tab */}
           {activeTab === "leader" && (
-            <section className="border border-border rounded-lg p-6 bg-background">
-              <div className="flex items-start gap-4">
-                <Avatar size="md" />
-                <div className="space-y-2">
-                  <p className="font-bold text-foreground">홍길동</p>
-                  <p className="text-sm text-muted-foreground">
-                    AI 자동화 전문가
-                  </p>
-                  <div className="flex gap-2">
-                    <Badge>GPTers 19기 수료</Badge>
-                    <Badge>n8n Expert</Badge>
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    5년간 마케팅 자동화를 전문적으로 해왔습니다. n8n과 Claude
-                    API를 결합한 업무 자동화 파이프라인을 50개 이상 구축한
-                    경험이 있으며, 실무에서 바로 쓸 수 있는 자동화 노하우를
-                    전달합니다.
-                  </p>
-                  <Link
-                    href="/profile/honggildong"
-                    className="text-sm text-primary flex items-center gap-1"
-                  >
-                    AI 이력서 보기 <ExternalLink className="w-3 h-3" />
-                  </Link>
-                </div>
-              </div>
-            </section>
+            <LeaderTab
+              name="홍길동"
+              title="AI 자동화 전문가"
+              badges={["GPTers 19기 수료", "n8n Expert"]}
+              bio="5년간 마케팅 자동화를 전문적으로 해왔습니다. n8n과 Claude API를 결합한 업무 자동화 파이프라인을 50개 이상 구축한 경험이 있으며, 실무에서 바로 쓸 수 있는 자동화 노하우를 전달합니다."
+              profileUrl="/profile/honggildong"
+            />
           )}
 
-          {/* Reviews Tab */}
-          {activeTab === "reviews" && (
-            <section className="space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-5 h-5 ${
-                        i < Math.round(avgRating)
-                          ? "text-primary fill-primary"
-                          : "text-muted"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  {avgRating.toFixed(1)} ({reviews.length}개 후기)
-                </span>
-              </div>
+          {activeTab === "reviews" && <ReviewTab reviews={reviews} />}
 
-              <div className="space-y-4">
-                {reviews.map((review, i) => (
-                  <div
-                    key={i}
-                    className="border border-border rounded-lg p-4 bg-background space-y-2"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Avatar size="sm" />
-                      <div>
-                        <p className="text-sm font-medium text-foreground">
-                          {review.name}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {review.cohort}
-                        </p>
-                      </div>
-                      <div className="flex gap-0.5 ml-auto">
-                        {Array.from({ length: 5 }).map((_, j) => (
-                          <Star
-                            key={j}
-                            className={`w-3 h-3 ${
-                              j < review.rating
-                                ? "text-primary fill-primary"
-                                : "text-muted"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-sm text-foreground">{review.text}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* FAQ Tab */}
-          {activeTab === "faq" && (
-            <section>
-              <Accordion items={faqs} />
-            </section>
-          )}
+          {activeTab === "faq" && <FaqTab items={faqs} />}
         </div>
 
         {/* Desktop Sticky CTA */}

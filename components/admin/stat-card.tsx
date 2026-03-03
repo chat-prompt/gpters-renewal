@@ -16,7 +16,7 @@ export function StatCard({ label, value, change, className }: StatCardProps) {
   return (
     <div
       className={cn(
-        "border border-border rounded-lg p-4 bg-background",
+        "border border-border rounded-lg p-4",
         className
       )}
     >

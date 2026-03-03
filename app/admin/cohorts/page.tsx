@@ -51,7 +51,7 @@ export default function AdminCohortsPage() {
         </Button>
       </div>
 
-      <div className="border border-border rounded-lg bg-background overflow-hidden">
+      <div className="border border-border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>

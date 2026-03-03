@@ -156,11 +156,36 @@
 
 ---
 
-## Phase 2: 프로토타입 구현 (03-03 → 03-14) — 마일스톤 미생성
+## Phase 2: 프로토타입 구현 (03-03 → 03-14) — 마일스톤 생성 완료
 
 > dev-guide.md의 Batch 0~6 구조 기반. 배치 내 작업은 병렬 실행 가능.
 
-### 6. Batch 0 — 공유 인프라 — 📋 Todo | Est: 3
+### 5-1. 디자인 시스템 정리 & 핵심 페이지 리디자인 — ✅ Done | Est: 3 | EDU-6485
+
+**목표**: 프로토타입의 디자인 시스템 정리 및 핵심 3개 페이지 Reddit-inspired 스타일 리디자인
+
+**작업 내용**:
+- 색상 토큰 단순화: `@gpters-internal/ui` 임포트 제거 → `globals.css` @theme에 직접 hex 값 (3-layer → 1-layer)
+- 핵심 페이지 Reddit 스타일 리디자인 3개: 홈, 탐색, 커뮤니티 (2컬럼 피드 + 사이드바)
+- 공용 컴포넌트 추출 7개: announcement-bar, sort-tabs, community-info-card, category-list, sidebar-study-list, community-rules, feed-post
+- Navbar 드롭다운 메뉴 (알림 + 프로필) + useClickOutside 훅
+- Footer Reddit 스타일 변경, bg-background 불필요 클래스 정리 (~40 파일), hero-banner.tsx 삭제, CLAUDE.md 업데이트
+
+---
+
+### 5-2. 남은 페이지 컴포넌트 추출 & 디자인 일관성 적용 — 📋 Todo | Est: 2 | EDU-6486
+
+**목표**: 나머지 4개 페이지(게시글 상세/프로필/검색/메시지) 하드코딩 UI → 컴포넌트 추출, Reddit-inspired 디자인 일관성 적용
+
+**작업 내용**:
+- 게시글 상세 (`/posts/[slug]`) — 6개 섹션 (InlineSignupCTA, ReaderStats, RelatedStudyCard 등)
+- 프로필 (`/profile/[username]`) — 9개 섹션 (ProfileHeader, SkillMap, BadgesList 등)
+- 검색 (`/search`) — 4개 섹션 (SearchInput, TypeFilter 등)
+- 메시지 (`/messages`) — 3개 섹션 (MessageItem, NotificationItem 등)
+
+---
+
+### 6. Batch 0 — 공유 인프라 — 📋 Todo | Est: 3 | EDU-6487
 
 **목표**: 모든 배치의 선행 작업. DB, Auth, 공통 UI, 레이아웃 완성
 
@@ -175,7 +200,9 @@
 
 ---
 
-### 7. Batch 1 — 콘텐츠 코어 — 📋 Todo | Est: 3
+### 7. Batch 1 — 콘텐츠 코어 — 📋 Todo | Est: 3 | EDU-6488
+
+> **Blocked by**: EDU-6487 (Batch 0)
 
 > Batch 2와 **병렬 가능**
 
@@ -193,7 +220,9 @@
 
 ---
 
-### 8. Batch 2 — 어드민 MVP — 📋 Todo | Est: 3
+### 8. Batch 2 — 어드민 MVP — 📋 Todo | Est: 3 | EDU-6489
+
+> **Blocked by**: EDU-6487 (Batch 0)
 
 > Batch 1과 **병렬 가능**. 프로토타입 4개 확장 + 신규 2개
 

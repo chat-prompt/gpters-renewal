@@ -78,7 +78,7 @@ export default function AdminModerationPage() {
         onTabChange={setStatusFilter}
       />
 
-      <div className="border border-border rounded-lg bg-background overflow-hidden">
+      <div className="border border-border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>

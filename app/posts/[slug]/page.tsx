@@ -1,17 +1,15 @@
 "use client";
 
-import Link from "next/link";
-import {
-  ArrowUp,
-  ArrowDown,
-  MessageSquare,
-  Bookmark,
-  Share2,
-  Calendar,
-  Coins,
-} from "lucide-react";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { CommentTree, type CommentData } from "@/components/site/comment";
+import { TagList } from "@/components/site/tag-list";
+import { PostActionsSidebar } from "@/components/site/post-actions-sidebar";
+import { CommentInput } from "@/components/site/comment-input";
+import { RelatedPostCard } from "@/components/site/related-post-card";
+import { PostAuthorMeta } from "@/components/site/post-author-meta";
+import { PostDetailCTA } from "@/components/site/post-detail-cta";
+import { ReaderStatsCard } from "@/components/site/reader-stats-card";
+import { StudyPromoCard } from "@/components/site/study-promo-card";
 
 /* ─── Mock Data ─── */
 
@@ -96,10 +94,10 @@ const comments: CommentData[] = [
 ];
 
 const readerStats = [
-  { label: "마케터", percent: 35 },
-  { label: "개발자", percent: 28 },
-  { label: "기획자", percent: 20 },
-  { label: "기타", percent: 17 },
+  { label: "마케터", percentage: 35 },
+  { label: "개발자", percentage: 28 },
+  { label: "기획자", percentage: 20 },
+  { label: "기타", percentage: 17 },
 ];
 
 const relatedPosts = [
@@ -134,16 +132,7 @@ export default function PostDetailPage() {
             { label: post.title },
           ]}
         />
-        <div className="flex gap-1 flex-wrap">
-          {post.tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded-sm"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
+        <TagList tags={post.tags} />
       </div>
 
       <div className="flex gap-8">
@@ -153,17 +142,15 @@ export default function PostDetailPage() {
             {post.title}
           </h1>
 
-          <div className="flex items-center gap-3 text-sm text-muted-foreground mb-8">
-            <div className="w-8 h-8 rounded-full bg-muted" />
-            <Link
-              href={`/profile/${post.username}`}
-              className="text-foreground font-medium"
-            >
-              {post.author}
-            </Link>
-            <span>{post.time}</span>
-            <span>조회 {post.views.toLocaleString()}</span>
-          </div>
+          <PostAuthorMeta
+            author={{
+              name: post.author,
+              href: `/profile/${post.username}`,
+            }}
+            date={post.time}
+            viewCount={post.views}
+            className="mb-8"
+          />
 
           {/* Article Body */}
           <div className="space-y-6 text-foreground leading-relaxed mb-8">
@@ -215,68 +202,21 @@ const response = await anthropic.messages.create({
           </div>
 
           {/* Inline CTA (for non-members) */}
-          <div className="border border-border rounded-lg p-6 my-8 text-center bg-muted space-y-3">
-            <p className="text-foreground font-medium">
-              이 글이 도움이 되셨나요?
-            </p>
-            <p className="text-sm text-muted-foreground">
-              GPTers에 가입하면 매주 AI 활용 인사이트를 받을 수 있어요
-            </p>
-            <div className="flex justify-center gap-3">
-              <button className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md">
-                무료 가입하기
-              </button>
-              <button className="px-4 py-2 text-sm border border-border rounded-md text-foreground bg-background">
-                뉴스레터만 구독
-              </button>
-            </div>
-          </div>
+          <PostDetailCTA className="my-8" />
 
           {/* Reader Stats */}
-          <section className="border border-border rounded-lg p-6 mb-8 bg-background">
-            <p className="text-sm font-medium text-foreground mb-3">
-              이 글을 읽은 독자
-            </p>
-            <div className="flex gap-4 flex-wrap">
-              {readerStats.map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <p className="text-lg font-bold text-foreground">
-                    {stat.percent}%
-                  </p>
-                  <p className="text-xs text-muted-foreground">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </section>
+          <ReaderStatsCard stats={readerStats} className="mb-8" />
 
           {/* Related Study */}
-          <section className="border border-border rounded-lg p-6 mb-8 bg-background">
-            <p className="text-sm font-medium text-foreground mb-3">
-              이 주제를 더 깊이 배우고 싶다면?
-            </p>
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-muted rounded-md shrink-0" />
-              <div className="space-y-1">
-                <p className="font-medium text-foreground">
-                  21기 AI 자동화 스터디
-                </p>
-                <p className="text-xs text-muted-foreground flex items-center gap-3">
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-3 h-3" /> 3/15 ~ 4/26
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Coins className="w-3 h-3" /> 150,000원
-                  </span>
-                </p>
-                <Link
-                  href="/study/ai-automation"
-                  className="text-xs text-primary font-medium"
-                >
-                  상세보기
-                </Link>
-              </div>
-            </div>
-          </section>
+          <StudyPromoCard
+            study={{
+              title: "21기 AI 자동화 스터디",
+              date: "3/15 ~ 4/26",
+              price: "150,000원",
+              href: "/study/ai-automation",
+            }}
+            className="mb-8"
+          />
 
           {/* Comments */}
           <section>
@@ -286,22 +226,7 @@ const response = await anthropic.messages.create({
 
             <CommentTree comments={comments} />
 
-            {/* Comment Input */}
-            <div className="mt-6 border border-border rounded-lg p-4 bg-background">
-              <p className="text-sm text-muted-foreground mb-2">
-                댓글 작성 (로그인 필요)
-              </p>
-              <textarea
-                className="w-full border border-input rounded-md p-3 text-sm bg-background text-foreground resize-none"
-                rows={3}
-                placeholder="댓글을 입력하세요..."
-              />
-              <div className="flex justify-end mt-2">
-                <button className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md">
-                  댓글 등록
-                </button>
-              </div>
-            </div>
+            <CommentInput className="mt-6" />
           </section>
 
           {/* Related Posts */}
@@ -309,51 +234,19 @@ const response = await anthropic.messages.create({
             <h3 className="font-bold text-foreground mb-4">관련 글 추천</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {relatedPosts.map((rp) => (
-                <Link
+                <RelatedPostCard
                   key={rp.slug}
-                  href={`/posts/${rp.slug}`}
-                  className="border border-border rounded-lg p-4 bg-background"
-                >
-                  <div className="h-20 bg-muted rounded-md mb-2" />
-                  <p className="text-xs text-primary font-medium mb-1">
-                    {rp.category}
-                  </p>
-                  <p className="text-sm font-medium text-foreground">
-                    {rp.title}
-                  </p>
-                </Link>
+                  slug={rp.slug}
+                  title={rp.title}
+                  category={rp.category}
+                />
               ))}
             </div>
           </section>
         </article>
 
         {/* Sticky Sidebar (Desktop) */}
-        <aside className="hidden lg:block w-16 shrink-0">
-          <div className="sticky top-20 flex flex-col items-center gap-4">
-            <div className="flex flex-col items-center gap-1">
-              <button className="text-muted-foreground">
-                <ArrowUp className="w-5 h-5" />
-              </button>
-              <span className="text-sm font-bold text-foreground">
-                {post.votes}
-              </span>
-              <button className="text-muted-foreground">
-                <ArrowDown className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="w-full border-t border-border" />
-            <button className="text-muted-foreground flex flex-col items-center gap-0.5">
-              <MessageSquare className="w-5 h-5" />
-              <span className="text-xs">{post.comments}</span>
-            </button>
-            <button className="text-muted-foreground">
-              <Bookmark className="w-5 h-5" />
-            </button>
-            <button className="text-muted-foreground">
-              <Share2 className="w-5 h-5" />
-            </button>
-          </div>
-        </aside>
+        <PostActionsSidebar votes={post.votes} comments={post.comments} />
       </div>
     </div>
   );

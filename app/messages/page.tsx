@@ -2,17 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  Mail,
-  Bell,
-  Send,
-  MessageSquare,
-  CreditCard,
-  Calendar,
-  UserPlus,
-  Megaphone,
-  PenSquare,
-} from "lucide-react";
+import { Mail, PenSquare } from "lucide-react";
+import { Avatar } from "@/components/ui/avatar";
+import { Tabs } from "@/components/ui/tabs";
+import { MessageRow } from "@/components/site/message-row";
+import { NotificationRow } from "@/components/site/notification-row";
 
 const receivedMessages = [
   {
@@ -86,27 +80,14 @@ const sentMessages = [
   { to: "김영호", subject: "re: 자동화 파이프라인 공유", time: "1주 전" },
 ];
 
-const tabs = ["받은 메시지", "자동 알림", "보낸 메시지"];
-
-function NotificationIcon({ type }: { type: string }) {
-  switch (type) {
-    case "welcome":
-      return <UserPlus className="w-4 h-4" />;
-    case "payment":
-      return <CreditCard className="w-4 h-4" />;
-    case "event":
-      return <Calendar className="w-4 h-4" />;
-    case "comment":
-      return <MessageSquare className="w-4 h-4" />;
-    case "system":
-      return <Megaphone className="w-4 h-4" />;
-    default:
-      return <Bell className="w-4 h-4" />;
-  }
-}
+const tabItems = [
+  { key: "received", label: "받은 메시지" },
+  { key: "notifications", label: "자동 알림" },
+  { key: "sent", label: "보낸 메시지" },
+];
 
 export default function MessagesPage() {
-  const [activeTab, setActiveTab] = useState("받은 메시지");
+  const [activeTab, setActiveTab] = useState("received");
 
   const unreadCount = receivedMessages.filter((m) => m.unread).length;
 
@@ -130,130 +111,61 @@ export default function MessagesPage() {
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex gap-1 border-b border-border mb-6">
-        {tabs.map((tab) => {
-          const icon =
-            tab === "받은 메시지" ? (
-              <Mail className="w-4 h-4" />
-            ) : tab === "자동 알림" ? (
-              <Bell className="w-4 h-4" />
-            ) : (
-              <Send className="w-4 h-4" />
-            );
-
-          return (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`inline-flex items-center gap-1.5 px-4 py-2 text-sm whitespace-nowrap border-b-2 ${
-                activeTab === tab
-                  ? "border-primary text-foreground font-medium"
-                  : "border-transparent text-muted-foreground"
-              }`}
-            >
-              {icon}
-              {tab}
-            </button>
-          );
-        })}
-      </div>
+      <Tabs
+        items={tabItems}
+        activeKey={activeTab}
+        onTabChange={setActiveTab}
+        className="mb-6"
+      />
 
       {/* "받은 메시지" Tab Content */}
-      {activeTab === "받은 메시지" && (
-        <div className="border border-border rounded-lg divide-y divide-border bg-background">
+      {activeTab === "received" && (
+        <div className="border border-border rounded-lg divide-y divide-border">
           {receivedMessages.map((message) => (
-            <Link
+            <MessageRow
               key={message.subject}
+              from={message.from}
+              username={message.username}
+              subject={message.subject}
+              preview={message.preview}
+              time={message.time}
+              unread={message.unread}
               href={`/messages/${message.username}`}
-              className={`flex items-start gap-3 p-4 ${
-                message.unread ? "bg-accent" : ""
-              }`}
-            >
-              {/* Avatar */}
-              <div className="w-10 h-10 rounded-full bg-muted shrink-0" />
-
-              {/* Content */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-0.5">
-                  <span
-                    className={`text-sm ${
-                      message.unread
-                        ? "font-bold text-foreground"
-                        : "font-medium text-foreground"
-                    }`}
-                  >
-                    {message.from}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    @{message.username}
-                  </span>
-                </div>
-                <p
-                  className={`text-sm mb-0.5 ${
-                    message.unread
-                      ? "font-semibold text-foreground"
-                      : "text-foreground"
-                  }`}
-                >
-                  {message.subject}
-                </p>
-                <p className="text-sm text-muted-foreground truncate">
-                  {message.preview}
-                </p>
-              </div>
-
-              {/* Time and Unread Indicator */}
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="text-xs text-muted-foreground">
-                  {message.time}
-                </span>
-                {message.unread && (
-                  <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
-                )}
-              </div>
-            </Link>
+            />
           ))}
         </div>
       )}
 
       {/* "자동 알림" Tab Content */}
-      {activeTab === "자동 알림" && (
+      {activeTab === "notifications" && (
         <div className="space-y-3">
           <p className="text-xs text-muted-foreground mb-4">
             자동으로 발송된 알림 메시지입니다. 실제 사용자 메시지는 &ldquo;받은
             메시지&rdquo; 탭에서 확인하세요.
           </p>
-          <div className="border border-border rounded-lg divide-y divide-border bg-background">
+          <div className="border border-border rounded-lg divide-y divide-border">
             {autoNotifications.map((notification) => (
-              <div
+              <NotificationRow
                 key={notification.text}
-                className="flex items-center gap-3 p-4"
-              >
-                <span className="text-muted-foreground">
-                  <NotificationIcon type={notification.type} />
-                </span>
-                <span className="flex-1 text-sm text-muted-foreground">
-                  {notification.text}
-                </span>
-                <span className="text-xs text-muted-foreground shrink-0">
-                  {notification.time}
-                </span>
-              </div>
+                text={notification.text}
+                time={notification.time}
+                type={notification.type}
+              />
             ))}
           </div>
         </div>
       )}
 
       {/* "보낸 메시지" Tab Content */}
-      {activeTab === "보낸 메시지" && (
-        <div className="border border-border rounded-lg divide-y divide-border bg-background">
+      {activeTab === "sent" && (
+        <div className="border border-border rounded-lg divide-y divide-border">
           {sentMessages.map((message) => (
             <Link
               key={message.subject}
-              href={`/messages/sent`}
+              href="/messages/sent"
               className="flex items-center gap-3 p-4"
             >
-              <div className="w-10 h-10 rounded-full bg-muted shrink-0" />
+              <Avatar size="sm" className="w-10 h-10" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-0.5">
                   <span className="text-sm font-medium text-foreground">

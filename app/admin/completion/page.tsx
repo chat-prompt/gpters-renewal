@@ -182,7 +182,7 @@ export default function AdminCompletionPage() {
       </div>
 
       {/* 수료 현황 테이블 */}
-      <div className="border border-border rounded-lg bg-background overflow-hidden">
+      <div className="border border-border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>

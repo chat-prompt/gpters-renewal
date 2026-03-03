@@ -50,7 +50,7 @@ export function AttendanceMatrix({
 }: AttendanceMatrixProps) {
   return (
     <div className={className}>
-      <div className="border border-border rounded-lg bg-background overflow-hidden">
+      <div className="border border-border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>

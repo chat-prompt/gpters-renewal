@@ -22,7 +22,7 @@ export function ActionItemCard({
   return (
     <div
       className={cn(
-        "rounded-lg border border-border bg-background p-4 flex flex-col gap-3",
+        "rounded-lg border border-border p-4 flex flex-col gap-3",
         className
       )}
     >

@@ -90,7 +90,7 @@ export default function AdminTaxonomyPage() {
       <Tabs items={sectionTabs} activeKey={activeTab} onTabChange={setActiveTab} />
 
       {activeTab === "categories" && (
-        <div className="border border-border rounded-lg bg-background overflow-hidden">
+        <div className="border border-border rounded-lg overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow>
@@ -142,7 +142,7 @@ export default function AdminTaxonomyPage() {
       )}
 
       {activeTab === "tags" && (
-        <div className="border border-border rounded-lg bg-background overflow-hidden">
+        <div className="border border-border rounded-lg overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow>
