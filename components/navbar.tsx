@@ -16,6 +16,8 @@ import {
   Heart,
   AtSign,
 } from "lucide-react";
+import { IconButton } from "@/components/ui/icon-button";
+import { DropdownMenu, DropdownMenuItem, DropdownMenuDivider } from "@/components/ui/dropdown-menu";
 
 const navItems = [
   { label: "탐색", href: "/explore/feed" },
@@ -71,6 +73,8 @@ export function Navbar() {
   const toggle = (key: "notifications" | "profile") =>
     setOpenDropdown((prev) => (prev === key ? null : key));
 
+  const close = () => setOpenDropdown(null);
+
   return (
     <header className="border-b border-border bg-background sticky top-0 z-50">
       <div className="mx-auto max-w-6xl flex items-center justify-between px-4 h-14">
@@ -83,10 +87,10 @@ export function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm ${
+                className={`text-sm transition-colors ${
                   pathname.startsWith(item.href)
                     ? "text-foreground font-medium"
-                    : "text-muted-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {item.label}
@@ -96,124 +100,72 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-4" ref={dropdownRef}>
-          <Link href="/search" className="text-muted-foreground">
-            <Search className="w-5 h-5" />
-          </Link>
+          <IconButton icon={Search} href="/search" />
 
           {/* Notifications */}
           <div className="relative">
-            <button
+            <IconButton
+              icon={Mail}
+              badge={3}
               onClick={() => toggle("notifications")}
-              className="text-muted-foreground relative"
-            >
-              <Mail className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-[10px] flex items-center justify-center rounded-full">
-                3
-              </span>
-            </button>
+            />
             {openDropdown === "notifications" && (
-              <div className="absolute right-0 top-10 w-80 border border-border rounded-lg bg-background z-50">
+              <DropdownMenu className="w-80">
                 <div className="flex items-center justify-between px-4 py-3 border-b border-border">
                   <p className="text-sm font-bold text-foreground">알림</p>
-                  <button className="text-xs text-primary">모두 읽음</button>
+                  <button className="text-xs text-primary hover:underline">모두 읽음</button>
                 </div>
                 <div className="divide-y divide-border">
                   {notifications.map((n, i) => (
                     <Link
                       key={i}
                       href={n.href}
-                      onClick={() => setOpenDropdown(null)}
-                      className="flex items-start gap-3 px-4 py-3"
+                      onClick={close}
+                      className="flex items-start gap-3 px-4 py-3 hover:bg-muted transition-colors"
                     >
                       <n.icon className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm text-foreground">{n.text}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {n.time}
-                        </p>
+                        <p className="text-xs text-muted-foreground">{n.time}</p>
                       </div>
                     </Link>
                   ))}
                 </div>
                 <Link
                   href="/messages"
-                  onClick={() => setOpenDropdown(null)}
-                  className="block text-center text-sm text-primary py-3 border-t border-border"
+                  onClick={close}
+                  className="block text-center text-sm text-primary py-3 border-t border-border hover:bg-muted transition-colors"
                 >
                   전체보기
                 </Link>
-              </div>
+              </DropdownMenu>
             )}
           </div>
 
           {/* Profile */}
           <div className="relative">
-            <button
-              onClick={() => toggle("profile")}
-              className="text-muted-foreground"
-            >
-              <User className="w-5 h-5" />
-            </button>
+            <IconButton icon={User} onClick={() => toggle("profile")} />
             {openDropdown === "profile" && (
-              <div className="absolute right-0 top-10 w-56 border border-border rounded-lg bg-background z-50">
+              <DropdownMenu className="w-56">
                 <div className="px-4 py-3 border-b border-border">
-                  <p className="text-sm font-medium text-foreground">
-                    홍길동
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    @honggildong
-                  </p>
+                  <p className="text-sm font-medium text-foreground">홍길동</p>
+                  <p className="text-xs text-muted-foreground">@honggildong</p>
                 </div>
                 <div className="py-1">
-                  <Link
-                    href="/profile/honggildong"
-                    onClick={() => setOpenDropdown(null)}
-                    className="flex items-center gap-3 px-4 py-2 text-sm text-foreground"
-                  >
-                    <User className="w-4 h-4 text-muted-foreground" />내 프로필
-                  </Link>
-                  <Link
-                    href="/study/my"
-                    onClick={() => setOpenDropdown(null)}
-                    className="flex items-center gap-3 px-4 py-2 text-sm text-foreground"
-                  >
-                    <BookOpen className="w-4 h-4 text-muted-foreground" />내
-                    스터디
-                  </Link>
-                  <Link
-                    href="/messages"
-                    onClick={() => setOpenDropdown(null)}
-                    className="flex items-center gap-3 px-4 py-2 text-sm text-foreground"
-                  >
-                    <Bell className="w-4 h-4 text-muted-foreground" />
-                    알림/쪽지
-                  </Link>
-                  <Link
-                    href="/settings"
-                    onClick={() => setOpenDropdown(null)}
-                    className="flex items-center gap-3 px-4 py-2 text-sm text-foreground"
-                  >
-                    <Settings className="w-4 h-4 text-muted-foreground" />
-                    설정
-                  </Link>
+                  <DropdownMenuItem icon={User} label="내 프로필" href="/profile/honggildong" onClick={close} />
+                  <DropdownMenuItem icon={BookOpen} label="내 스터디" href="/study/my" onClick={close} />
+                  <DropdownMenuItem icon={Bell} label="알림/쪽지" href="/messages" onClick={close} />
+                  <DropdownMenuItem icon={Settings} label="설정" href="/settings" onClick={close} />
                 </div>
-                <div className="border-t border-border py-1">
-                  <Link
-                    href="/admin"
-                    onClick={() => setOpenDropdown(null)}
-                    className="flex items-center gap-3 px-4 py-2 text-sm text-foreground"
-                  >
-                    <Shield className="w-4 h-4 text-muted-foreground" />
-                    어드민
-                  </Link>
+                <DropdownMenuDivider />
+                <div className="py-1">
+                  <DropdownMenuItem icon={Shield} label="어드민" href="/admin" onClick={close} />
                 </div>
-                <div className="border-t border-border py-1">
-                  <button className="flex items-center gap-3 px-4 py-2 text-sm text-foreground w-full">
-                    <LogOut className="w-4 h-4 text-muted-foreground" />
-                    로그아웃
-                  </button>
+                <DropdownMenuDivider />
+                <div className="py-1">
+                  <DropdownMenuItem icon={LogOut} label="로그아웃" onClick={close} />
                 </div>
-              </div>
+              </DropdownMenu>
             )}
           </div>
         </div>

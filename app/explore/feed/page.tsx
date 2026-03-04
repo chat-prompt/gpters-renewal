@@ -127,24 +127,22 @@ const sidebarCategories = [
   { name: "AI 뉴스", slug: "news", count: 203, icon: Newspaper },
 ];
 
-const studies = [
-  {
-    slug: "ai-automation",
-    title: "21기 AI 자동화 스터디",
-    date: "3/15 ~ 4/26 (6주)",
-    enrolled: 12,
-    capacity: 20,
-    price: "150,000원",
-  },
-  {
-    slug: "prompt-engineering",
-    title: "21기 프롬프트 엔지니어링",
-    date: "3/22 ~ 5/3 (6주)",
-    enrolled: 8,
-    capacity: 15,
-    price: "120,000원",
-  },
-];
+const cohortStudy = {
+  slug: "ai-study-21",
+  cohort: "21기",
+  date: "3/15 ~ 4/12 (4주)",
+  enrolled: 47,
+  capacity: 120,
+  price: "150,000원",
+  programs: [
+    { slug: "ai-automation", title: "AI 자동화" },
+    { slug: "prompt-engineering", title: "프롬프트 엔지니어링" },
+    { slug: "vibe-coding", title: "바이브 코딩" },
+    { slug: "ai-business", title: "AI 비즈니스" },
+    { slug: "ai-design", title: "AI 디자인" },
+    { slug: "ai-data", title: "AI 데이터 분석" },
+  ],
+};
 
 /* ─── Page ─── */
 
@@ -203,7 +201,7 @@ export default function FeedPage() {
 
         {/* Sidebar */}
         <aside className="w-72 hidden lg:flex flex-col gap-5 shrink-0">
-          <SidebarStudyList studies={studies} />
+          <SidebarStudyList study={cohortStudy} />
           <CategoryList categories={sidebarCategories} />
         </aside>
       </div>
