@@ -29,7 +29,7 @@ export function ProfileHeader({ user, className }: ProfileHeaderProps) {
   return (
     <section className={cn("border border-border rounded-lg p-6", className)}>
       <div className="flex items-start gap-4">
-        <Avatar src={user.avatar} alt={user.name} size="lg" />
+        <Avatar size="lg" />
         <div className="space-y-2 flex-1">
           <div className="flex items-center gap-3">
             <h1 className="text-xl font-bold text-foreground">{user.name}</h1>
@@ -62,10 +62,10 @@ export function ProfileHeader({ user, className }: ProfileHeaderProps) {
           </div>
         </div>
         <div className="flex flex-col gap-2 shrink-0">
-          <Button variant="secondary" size="md">
+          <Button variant="secondary">
             프로필 수정
           </Button>
-          <Button variant="primary" size="md">
+          <Button>
             <Share2 className="w-3.5 h-3.5" />
             이 프로필을 LinkedIn에 공유
           </Button>

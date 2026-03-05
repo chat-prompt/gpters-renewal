@@ -28,7 +28,7 @@ export function MessageRow({
       href={href}
       className={cn("flex items-start gap-3 p-4", unread && "bg-accent")}
     >
-      <Avatar size="sm" src={avatarSrc} alt={from} className="w-10 h-10" />
+      <Avatar size="sm" className="w-10 h-10" />
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">

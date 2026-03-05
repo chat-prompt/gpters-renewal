@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Link2, Mail } from "lucide-react";
 import { Tabs } from "@/components/ui/tabs";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -104,7 +103,6 @@ export default function SettingsPage() {
               </label>
               <Input
                 defaultValue="chulsu@example.com"
-                icon={<Mail className="w-4 h-4" />}
                 disabled
               />
             </div>
@@ -136,12 +134,11 @@ export default function SettingsPage() {
               </label>
               <Input
                 defaultValue="https://linkedin.com/in/chulsu"
-                icon={<Link2 className="w-4 h-4" />}
               />
             </div>
           </div>
 
-          <Button size="md">저장</Button>
+          <Button>저장</Button>
         </section>
       )}
 

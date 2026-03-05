@@ -67,7 +67,7 @@ export default function NoticesManagePage() {
 
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-foreground">공지 관리</h1>
-        <Button variant="primary" size="sm">
+        <Button size="sm">
           <Plus className="w-3.5 h-3.5" />
           공지 추가
         </Button>

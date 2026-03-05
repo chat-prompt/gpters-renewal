@@ -21,7 +21,7 @@ import { DropdownMenu, DropdownMenuItem, DropdownMenuDivider } from "@/component
 
 const navItems = [
   { label: "탐색", href: "/explore/feed" },
-  { label: "스터디", href: "/study/ai-automation" },
+  { label: "스터디", href: "/study" },
   { label: "커뮤니티", href: "/community/feed" },
   { label: "AI이력서", href: "/profile/honggildong" },
 ];

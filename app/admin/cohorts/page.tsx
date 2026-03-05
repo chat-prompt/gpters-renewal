@@ -45,7 +45,7 @@ export default function AdminCohortsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-foreground">기수 관리</h1>
-        <Button variant="primary" size="sm">
+        <Button size="sm">
           <Plus className="w-3.5 h-3.5" />
           기수 추가
         </Button>

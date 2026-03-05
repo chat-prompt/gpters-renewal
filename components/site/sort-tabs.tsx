@@ -1,8 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { Flame, Clock, TrendingUp } from "lucide-react";
+import { Flame, Clock } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 interface SortOption {
   label: string;
@@ -13,43 +20,40 @@ interface SortOption {
 const defaultOptions: SortOption[] = [
   { label: "인기", value: "popular", icon: Flame },
   { label: "최신", value: "recent", icon: Clock },
-  { label: "추천", value: "recommended", icon: TrendingUp },
 ];
 
 interface SortTabsProps {
   options?: SortOption[];
   defaultValue?: string;
   onChange?: (value: string) => void;
+  className?: string;
 }
 
 export function SortTabs({
   options = defaultOptions,
   defaultValue,
   onChange,
+  className,
 }: SortTabsProps) {
-  const [active, setActive] = useState(defaultValue ?? options[0].value);
-
-  const handleClick = (value: string) => {
-    setActive(value);
-    onChange?.(value);
-  };
-
   return (
-    <div className="flex items-center gap-1 border-b border-border">
-      {options.map((opt) => (
-        <button
-          key={opt.value}
-          onClick={() => handleClick(opt.value)}
-          className={`flex items-center gap-1.5 px-3 py-2.5 text-sm font-medium border-b-2 transition-colors ${
-            active === opt.value
-              ? "border-primary text-primary"
-              : "border-transparent text-muted-foreground"
-          }`}
-        >
-          <opt.icon className="w-4 h-4" />
-          {opt.label}
-        </button>
-      ))}
-    </div>
+    <Select
+      defaultValue={defaultValue ?? options[0].value}
+      onValueChange={onChange}
+    >
+      <SelectTrigger size="sm" className={cn("w-auto", className)}>
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {options.map((opt) => {
+          const Icon = opt.icon;
+          return (
+            <SelectItem key={opt.value} value={opt.value}>
+              <Icon className="w-3.5 h-3.5" />
+              {opt.label}
+            </SelectItem>
+          );
+        })}
+      </SelectContent>
+    </Select>
   );
 }

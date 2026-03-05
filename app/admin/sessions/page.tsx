@@ -4,6 +4,13 @@ import { useState } from "react";
 import { Plus, Link as LinkIcon } from "lucide-react";
 import { Badge, Button } from "@/components/ui";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Table,
   TableHeader,
   TableBody,
@@ -48,15 +55,15 @@ const typeVariant = (type: Session["type"]) => {
 const cohortOptions = [21, 22, 23];
 
 export default function AdminSessionsPage() {
-  const [selectedCohort, setSelectedCohort] = useState(21);
+  const [selectedCohort, setSelectedCohort] = useState("21");
 
-  const filtered = sessions.filter((s) => s.cohort === selectedCohort);
+  const filtered = sessions.filter((s) => s.cohort === Number(selectedCohort));
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-foreground">세션 관리</h1>
-        <Button variant="primary" size="sm">
+        <Button size="sm">
           <Plus className="w-3.5 h-3.5" />
           세션 추가
         </Button>
@@ -64,17 +71,18 @@ export default function AdminSessionsPage() {
 
       {/* Cohort Filter */}
       <div>
-        <select
-          value={selectedCohort}
-          onChange={(e) => setSelectedCohort(Number(e.target.value))}
-          className="border border-input rounded-md px-3 py-2 text-sm bg-background text-foreground"
-        >
-          {cohortOptions.map((c) => (
-            <option key={c} value={c}>
-              {c}기
-            </option>
-          ))}
-        </select>
+        <Select value={selectedCohort} onValueChange={setSelectedCohort}>
+          <SelectTrigger size="sm" className="w-auto">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {cohortOptions.map((c) => (
+              <SelectItem key={c} value={String(c)}>
+                {c}기
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="border border-border rounded-lg overflow-hidden">

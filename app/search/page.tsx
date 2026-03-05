@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Pagination } from "@/components/ui/pagination";
 import { SectionHeader } from "@/components/site/section-header";
@@ -75,7 +74,6 @@ export default function SearchPage() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          icon={<Search className="w-5 h-5" />}
           placeholder="검색어를 입력하세요..."
         />
         <button className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md">

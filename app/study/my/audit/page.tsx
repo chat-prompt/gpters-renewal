@@ -2,6 +2,13 @@
 
 import { useState } from "react";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { VodCard } from "@/components/lms/vod-card";
 import { VodLockCard } from "@/components/lms/vod-lock-card";
 import { AssignmentGuide } from "@/components/lms/assignment-guide";
@@ -60,39 +67,42 @@ export default function AuditVodPage() {
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3">
-        <select
-          value={selectedGen}
-          onChange={(e) => setSelectedGen(e.target.value)}
-          className="border border-input rounded-md px-3 py-1.5 text-sm bg-background text-foreground"
-        >
-          {generations.map((g) => (
-            <option key={g} value={g}>
-              {g === "전체" ? "기수 전체" : g}
-            </option>
-          ))}
-        </select>
-        <select
-          value={selectedStudy}
-          onChange={(e) => setSelectedStudy(e.target.value)}
-          className="border border-input rounded-md px-3 py-1.5 text-sm bg-background text-foreground"
-        >
-          {studies.map((s) => (
-            <option key={s} value={s}>
-              {s === "전체" ? "스터디 전체" : s}
-            </option>
-          ))}
-        </select>
-        <select
-          value={selectedWeek}
-          onChange={(e) => setSelectedWeek(e.target.value)}
-          className="border border-input rounded-md px-3 py-1.5 text-sm bg-background text-foreground"
-        >
-          {weekOptions.map((w) => (
-            <option key={w} value={w}>
-              {w === "전체" ? "주차 전체" : w}
-            </option>
-          ))}
-        </select>
+        <Select value={selectedGen} onValueChange={setSelectedGen}>
+          <SelectTrigger size="sm" className="w-auto">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {generations.map((g) => (
+              <SelectItem key={g} value={g}>
+                {g === "전체" ? "기수 전체" : g}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={selectedStudy} onValueChange={setSelectedStudy}>
+          <SelectTrigger size="sm" className="w-auto">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {studies.map((s) => (
+              <SelectItem key={s} value={s}>
+                {s === "전체" ? "스터디 전체" : s}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={selectedWeek} onValueChange={setSelectedWeek}>
+          <SelectTrigger size="sm" className="w-auto">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {weekOptions.map((w) => (
+              <SelectItem key={w} value={w}>
+                {w === "전체" ? "주차 전체" : w}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* VOD Grid */}

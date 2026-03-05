@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ArrowUp, ArrowDown, MessageSquare, ChevronDown } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 interface CommentData {
   id: string;
@@ -73,10 +74,10 @@ function CommentItem({ comment, depth = 0 }: CommentProps) {
             {/* Reply input */}
             {showReply && (
               <div className="mt-3">
-                <textarea
-                  className="w-full border border-input rounded-md p-2 text-sm bg-background text-foreground resize-none"
+                <Textarea
                   rows={2}
                   placeholder="답글을 입력하세요..."
+                  className="resize-none"
                 />
                 <div className="flex justify-end gap-2 mt-1">
                   <button

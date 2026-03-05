@@ -3,6 +3,13 @@
 import { useState } from "react";
 import { CheckCircle, XCircle, Award, FileText, RefreshCw } from "lucide-react";
 import { Badge, Button, Input } from "@/components/ui";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -76,11 +83,11 @@ const refundVariant = (status: Student["refundStatus"]) => {
 };
 
 export default function AdminCompletionPage() {
-  const [selectedCohort, setSelectedCohort] = useState(21);
+  const [selectedCohort, setSelectedCohort] = useState("21");
   const [minAttendance, setMinAttendance] = useState("3");
   const [minAssignments, setMinAssignments] = useState("3");
 
-  const students = studentsMap[selectedCohort] ?? [];
+  const students = studentsMap[Number(selectedCohort)] ?? [];
 
   const completedCount = students.filter(
     (s) => s.verdict === "수료" || s.verdict === "우수"
@@ -96,17 +103,18 @@ export default function AdminCompletionPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-foreground">수료/환급 관리</h1>
-        <select
-          value={selectedCohort}
-          onChange={(e) => setSelectedCohort(Number(e.target.value))}
-          className="border border-input rounded-md px-3 py-2 text-sm bg-background text-foreground"
-        >
-          {cohortOptions.map((c) => (
-            <option key={c} value={c}>
-              {c}기
-            </option>
-          ))}
-        </select>
+        <Select value={selectedCohort} onValueChange={setSelectedCohort}>
+          <SelectTrigger size="sm" className="w-auto">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {cohortOptions.map((c) => (
+              <SelectItem key={c} value={String(c)}>
+                {c}기
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* 수료 기준 설정 */}
@@ -142,7 +150,7 @@ export default function AdminCompletionPage() {
                 max={4}
               />
             </div>
-            <Button variant="primary" size="sm">
+            <Button size="sm">
               <RefreshCw className="w-3.5 h-3.5" />
               판정 실행
             </Button>

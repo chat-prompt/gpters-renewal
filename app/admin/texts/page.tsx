@@ -200,7 +200,6 @@ export default function AdminTextsPage() {
                 </span>
                 {editingId === item.id ? (
                   <Button
-                    variant="primary"
                     size="sm"
                     onClick={() => saveEdit(gi, item.id)}
                   >

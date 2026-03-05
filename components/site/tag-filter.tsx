@@ -1,6 +1,5 @@
 "use client";
 
-import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface TagFilterProps {
@@ -15,34 +14,36 @@ export function TagFilter({
   tags,
   selected,
   onChange,
-  variant = "hash",
   className,
 }: TagFilterProps) {
-  const selectedTags = tags.filter((tag) => selected.includes(tag.id));
-
-  const handleRemove = (id: string) => {
-    onChange(selected.filter((s) => s !== id));
+  const handleToggle = (id: string) => {
+    if (selected.includes(id)) {
+      onChange(selected.filter((s) => s !== id));
+    } else {
+      onChange([...selected, id]);
+    }
   };
 
   return (
     <div className={cn("flex items-center gap-2 flex-wrap", className)}>
-      <span className="text-xs text-muted-foreground">태그:</span>
-      {selectedTags.map((tag) => (
-        <span
-          key={tag.id}
-          className={cn(
-            "inline-flex items-center gap-1 text-xs",
-            variant === "hash"
-              ? "px-2 py-0.5 bg-accent text-accent-foreground rounded-sm"
-              : "px-2.5 py-0.5 rounded-full bg-accent text-primary border border-border"
-          )}
-        >
-          {variant === "hash" ? `#${tag.name}` : tag.name}
-          <button onClick={() => handleRemove(tag.id)}>
-            <X className="w-3 h-3" />
+      {tags.map((tag) => {
+        const isSelected = selected.includes(tag.id);
+        return (
+          <button
+            key={tag.id}
+            type="button"
+            onClick={() => handleToggle(tag.id)}
+            className={cn(
+              "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs transition-colors",
+              isSelected
+                ? "bg-primary text-primary-foreground"
+                : "bg-muted text-muted-foreground"
+            )}
+          >
+            {tag.name}
           </button>
-        </span>
-      ))}
+        );
+      })}
     </div>
   );
 }

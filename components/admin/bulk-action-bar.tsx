@@ -5,7 +5,7 @@ import { Button } from "@/components/ui";
 interface BulkAction {
   label: string;
   onClick: () => void;
-  variant?: "primary" | "secondary" | "destructive";
+  variant?: "default" | "secondary" | "destructive";
 }
 
 interface BulkActionBarProps {

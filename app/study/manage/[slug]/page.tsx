@@ -218,7 +218,7 @@ export default function StudyManagePage({
                 key={member.name}
                 className="flex items-center gap-3 rounded-lg border border-border p-3"
               >
-                <Avatar size="xs" alt={member.name} />
+                <Avatar size="sm" />
                 <div className="min-w-0">
                   <p className="text-sm text-foreground font-medium">
                     {member.name}

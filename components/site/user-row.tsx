@@ -21,7 +21,7 @@ export function UserRow({
 }: UserRowProps) {
   const content = (
     <div className={cn("flex items-center gap-3 p-4", className)}>
-      <Avatar size="sm" src={avatarSrc} alt={name} className="w-10 h-10" />
+      <Avatar size="sm" className="w-10 h-10" />
       <div>
         <p className="text-sm font-medium text-foreground">
           {name}{" "}

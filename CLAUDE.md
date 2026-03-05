@@ -23,26 +23,28 @@ GPTers 커뮤니티 사이트(gpters.org) 리뉴얼 프로젝트. Bettermode 기
 - **대상 사용자**: AI 활용에 관심 있는 일반인 (비개발자 중심)
 - **핵심 기능**: 콘텐츠 커뮤니티 + AI 스터디 + AI 이력서
 - **브랜드 컬러**: GPTers Orange (#EF6020)
-- **현재 단계**: 와이어프레임 기반 프로토타입 (정적 목업, 백엔드 미연결)
+- **현재 단계**: 프로토타입 완성 (정적 목업 37페이지, 백엔드 미연결)
+- **GitHub**: `hskim-a11y/gpters-renewal` (push 시 `gh auth switch --user hskim-a11y` 필요)
 
 ## Commands
 
 ```bash
 npm run dev      # Next.js 개발 서버 (기본 3000, 사용 중이면 자동 변경)
-npm run build    # 프로덕션 빌드
+npm run build    # 프로덕션 빌드 (타입 체크 포함)
 npm run start    # 프로덕션 서버
 ```
 
-> lint, test, format 스크립트는 아직 없음. Batch 0에서 설정 예정.
+> lint, test, format 스크립트는 아직 없음.
 
 ## Tech Stack
 
-- **Framework**: Next.js 16 (App Router)
-- **UI**: shadcn/ui (Radix primitives)
+- **Framework**: Next.js 16 (App Router, Turbopack)
+- **UI Components**: shadcn/ui (Radix UI 기반, `components.json` 설정)
 - **Styling**: Tailwind CSS v4 (CSS-first, `@theme` block in globals.css)
+- **Utility**: `cn()` from `lib/utils.ts` (clsx + tailwind-merge)
 - **Icons**: lucide-react (SVG only)
-- **Infra**: Supabase (auth, DB, storage)
-- **Language**: TypeScript
+- **Infra**: Supabase (auth, DB, storage) — 아직 미연결
+- **Language**: TypeScript v5 (strict mode)
 - **Path alias**: `@/*` → project root (`tsconfig.json`)
 
 ## Styling Architecture
@@ -58,6 +60,17 @@ app/globals.css
 **globals.css가 유일한 디자인 토큰 소스.** 외부 import 없이 모든 색상/radius/폰트를 `@theme` 블록에 hex값으로 직접 정의한다.
 
 PostCSS: `postcss.config.mjs`에서 `@tailwindcss/postcss` 플러그인 사용.
+
+### shadcn/ui
+
+`components.json`으로 설정. 새 컴포넌트 추가: `npx shadcn@latest add <component> --overwrite`
+
+**주의 — shadcn API 차이점:**
+- Button: `variant="default"` (primary 없음), size는 `"default"` | `"sm"` | `"lg"` | `"icon"`
+- Select: `onValueChange` 사용 (onChange 아님), Radix 컴포지션 패턴
+- Checkbox: `onCheckedChange` 사용 (onChange 아님)
+- Avatar: `<Avatar><AvatarImage /><AvatarFallback /></Avatar>` 컴포지션
+- Input: icon prop 없음 — 아이콘 필요 시 wrapper div으로 배치
 
 ## 디자인 시스템
 
@@ -85,6 +98,18 @@ PostCSS: `postcss.config.mjs`에서 `@tailwindcss/postcss` 플러그인 사용.
 - Shadow 금지 (Modal/Dropdown/Toast 제외)
 - 이모지/텍스트 아이콘 금지 → SVG만 사용 (lucide-react)
 
+## 프로토타입 아키텍처
+
+**모든 페이지가 정적 목업.** 각 page.tsx 파일 상단에 하드코딩된 mock data가 있고, Supabase 연결 없이 렌더링한다.
+
+```tsx
+// 전형적인 페이지 패턴
+const posts = [{ slug: "...", title: "...", ... }];  // mock data
+export default function Page() { return <PostCard {...posts[0]} /> }
+```
+
+컴포넌트는 props를 통해 데이터를 받으므로, 나중에 mock data를 API 호출로 교체하면 된다.
+
 ## 작업 방식: 에이전트 팀 활용
 
 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`가 활성화되어 있다 (`.claude/settings.local.json`).
@@ -98,48 +123,71 @@ PostCSS: `postcss.config.mjs`에서 `@tailwindcss/postcss` 플러그인 사용.
 
 ## Hooks
 
-- **PostToolUse (Write|Edit)**: `components/` 또는 `app/` 파일 수정 시 design-rules.md 로드 + lint-design-rules.sh 자동 실행
+- **PostToolUse (Write|Edit)**: `components/` 또는 `app/` 파일 수정 시 `.claude/scripts/lint-design-rules.sh` 자동 실행 (이모지/하드코딩 색상/간격/shadow 위반 탐지)
 
 ## App Structure
 
+### Layout
+
 ```
-app/
-├── layout.tsx                    # Root layout (Navbar + Footer)
-├── page.tsx                      # 홈: Reddit 스타일 피드 (2컬럼 — 메인 피드 + 사이드바)
-├── globals.css                   # Tailwind v4 + @theme (유일한 토큰 소스)
-├── explore/feed/page.tsx         # 콘텐츠 피드: 카테고리 탭, 태그 필터, 정렬
-├── community/feed/page.tsx       # 커뮤니티 피드
-├── posts/[slug]/page.tsx         # 게시글 상세: 본문, 투표, 댓글, 관련 스터디
-├── study/[slug]/page.tsx         # 스터디 상세(랜딩): 소개, 커리큘럼, 스터디장, 후기, FAQ
-├── profile/[username]/page.tsx   # AI 이력서: 스터디 이력, 사례글, 스킬맵
-├── search/page.tsx               # 통합 검색: 게시글/스터디/사용자
-├── messages/page.tsx             # 메시지
-└── admin/                        # 관리자
-    ├── page.tsx                  # 대시보드: 통계, 빠른 작업, 최근 활동
-    ├── posts/page.tsx            # 게시글 관리: 검색, 필터, 일괄 작업
-    ├── studies/page.tsx          # 스터디 관리: 상태 변경, 최종제출 토글
-    ├── banners/page.tsx          # 배너 관리: 순서 변경, 활성/비활성
-    └── products/page.tsx         # 상품 관리
-components/
-├── navbar.tsx                    # GNB ('use client', usePathname)
-├── footer.tsx                    # 푸터 (Reddit 스타일 — 한 줄 텍스트, 배경 구분 없음)
-├── ui/                           # 공통 재사용 컴포넌트 (button, card, tabs, badge 등)
-├── site/                         # 사이트 전용 (post-card, vote, sort-tabs, sidebar 위젯 등)
-├── admin/                        # 어드민 전용
-└── lms/                          # LMS 전용
+app/layout.tsx          # Root: Navbar + <main> + Footer (모든 페이지 공통)
+app/admin/layout.tsx    # Admin: 좌측 Sidebar + Content (admin/* 페이지 공통)
 ```
 
-> 컴포넌트 구조 상세: `docs/prd/04-디자인-가이드.md` 섹션 7.3
-> 배치별 개발 계획: `docs/dev-guide.md`
+### 페이지 (37개)
+
+**사이트 핵심** — 홈(`/`), 탐색(`/explore/feed`), 커뮤니티(`/community/feed`), 게시글(`/posts/[slug]`), 글쓰기(`/write`), 검색(`/search`), 메시지(`/messages`)
+
+**스터디** — 목록(`/study`), 상세(`/study/[slug]`), 체크아웃(`/checkout/[studyId]`)
+
+**수강생 LMS** — 내 스터디(`/study/my`), 학습(`/study/[slug]/learn`), 과제(`/study/[slug]/learn/tasks`), VOD(`/study/[slug]/learn/vod`), 수강이력(`/study/my/history`), 청강(`/study/my/audit`), 수료증(`/study/my/certificates`)
+
+**스터디장** — 관리(`/study/manage/[slug]`), 수강생현황(`/study/manage/[slug]/members`), 공지(`/study/manage/[slug]/notices`), VOD관리(`/study/manage/[slug]/vod`)
+
+**프로필/설정** — AI이력서(`/profile/[username]`), 설정(`/settings`)
+
+**어드민** (14개) — 대시보드, 게시글, 스터디, 배너, 텍스트, 상품, 회원, 기수, 세션, 수료/환급, 분류, 신고/모더레이션, 뱃지, 리포트 (`/admin/*`)
+
+### 컴포넌트 (75개)
+
+```
+components/
+├── navbar.tsx          # GNB ('use client') — IconButton + DropdownMenu 사용
+├── footer.tsx          # 푸터 (Reddit 스타일 — 한 줄 텍스트)
+├── ui/    (18개)       # shadcn/ui 기반: button, card, select, avatar, table, input, checkbox, textarea 등
+├── site/  (42개)       # 사이트: post-card, feed-post, hero-carousel, sidebar-study-list 등
+├── admin/ (4개)        # 어드민: stat-card, activity-feed, bulk-action-bar, quick-action
+└── lms/   (9개)        # LMS: week-progress, vod-card, attendance-matrix, enrollment-card 등
+```
+
+**핵심 공용 컴포넌트:**
+- `ui/icon-button` — 아이콘 버튼 (Link/button 자동 분기, 뱃지 지원)
+- `ui/dropdown-menu` — 드롭다운 메뉴 컨테이너 + 아이템 + 디바이더
+- `site/user-meta` — 유저 아바타+이름+시간 (5개 페이지에서 공용)
+- `site/sidebar-study-list` — 기수 단위 스터디 사이드바 위젯
 
 ## Domain Context: AI 스터디
 
 GPTers AI 스터디는 4주간의 커뮤니티형 학습 프로그램입니다.
 
+### 기수(Cohort) 모델
+
+**스터디는 기수당 하나만 열린다.** 예: "21기 AI 스터디"가 열리면 그 안에 여러 프로그램(AI 자동화, 프롬프트 엔지니어링, 바이브코딩 등)이 포함된다. 가격도 기수 단위로 하나. 여러 스터디가 동시에 별도 가격으로 모집되는 구조가 아님.
+
+```
+21기 AI 스터디 (150,000원)
+├── AI 자동화
+├── 프롬프트 엔지니어링
+├── 바이브 코딩
+├── AI 비즈니스
+├── AI 디자인
+└── AI 데이터 분석
+```
+
 ### 핵심 흐름
-1. **준비** (D-42~D-0): 스터디장 모집 → 선발 → 상세페이지 작성 → 사전판매 → 수강신청 오픈
-2. **모집** (D-14~D-4): 가격 자동 전환 (슈퍼얼리버드 → 얼리버드 → 일반가), 할인쿠폰, 버디 등록
-3. **진행** (4주): 사례 게시글(과제) 작성 → 다시보기 열람 권한 자동 부여, AI토크/줌 세션
+1. **준비** (D-42~D-0): 스터디장 모집 → 선발 → 상세페이지 작성 → 수강신청 오픈
+2. **모집** (D-14~D-4): 가격 자동 전환 (슈퍼얼리버드 → 얼리버드 → 일반가)
+3. **진행** (4주): 사례 게시글(과제) 작성 → 다시보기 열람 권한 자동 부여
 4. **종료 후**: 수료 판정, 수료증 발급, 환급 처리
 
 ### 핵심 자동화 (사이트)
@@ -154,25 +202,16 @@ GPTers AI 스터디는 4주간의 커뮤니티형 학습 프로그램입니다.
 ```
 docs/
 ├── dev-guide.md                  # 개발 가이드: Batch 0~6, 31 테이블, 병렬 실행 계획
-├── linear-issues.md              # 프로젝트 이슈 트래커 (Phase 1 완료, Phase 2~3 진행 중)
-├── context/
-│   ├── 방향성.md                 # 프로젝트 방향성, 해결할 4가지 문제
-│   ├── about-ai-study.md        # AI 스터디 철학/구조/운영 시스템
-│   ├── study-prep-checklist.md  # 기수 시작 전 준비 플레이북 (D-42~D-0)
-│   ├── study-runtime-checklist.md # 기수 진행 중 운영 플레이북 (4주)
-│   └── study-site-tasks.md      # 사이트에서 처리하는 작업만 추출 정리
-├── interview/                    # 운영진 인터뷰 (신연권, 소연, 재호, 다혜)
-├── analysis/                     # 크롤링/분석 원본 데이터
-├── report/
-│   ├── 00-문제-개선-정의서.md    # 25개 문제 + 13개 개선방향 (검토 완료)
-│   ├── 01~04                     # 사이트 구조, 벤치마킹, UX감사, 유저시나리오
-│   ├── 05-Information-Architecture.md  # IA: 6 GNB, URL 구조, 유저 플로우
-│   └── 06-와이어프레임.md         # 7개 화면 와이어프레임 (프로토타입 기반)
+├── linear-issues.md              # 프로젝트 이슈 트래커 (Phase 1 완료, Phase 2 진행 중)
+├── page-review.md                # 37개 페이지 리뷰 & 레퍼런스 추적
+├── context/                      # 프로젝트 방향성, AI 스터디 운영 체계, 체크리스트
+├── interview/                    # 운영진 인터뷰 4인 (신연권, 소연, 재호, 다혜)
+├── report/                       # 문제정의서, 벤치마킹, UX감사, IA, 와이어프레임
 └── prd/
     ├── 01-사이트-PRD.md           # 프론트엔드: 11개 기능, 7개 화면 스펙
-    ├── 02-어드민-PRD.md           # 어드민: 9개 기능, flat IA, 6개 화면
+    ├── 02-어드민-PRD.md           # 어드민: 17개 기능, flat IA, 6개 화면
     ├── 03-LMS-수강생대시보드-PRD.md  # LMS: 수강생/스터디장/운영자 3파트
-    └── 04-디자인-가이드.md        # 공통 컴포넌트 카탈로그, 토큰, 레이아웃, Reddit-inspired 방향
+    └── 04-디자인-가이드.md        # 컴포넌트 카탈로그, 토큰, 레이아웃, Reddit-inspired 방향
 ```
 
 ## PRD/기획 작성 가이드

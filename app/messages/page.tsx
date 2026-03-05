@@ -130,7 +130,7 @@ export default function MessagesPage() {
               preview={message.preview}
               time={message.time}
               unread={message.unread}
-              href={`/messages/${message.username}`}
+              href={`/profile/${message.username}`}
             />
           ))}
         </div>
@@ -162,7 +162,7 @@ export default function MessagesPage() {
           {sentMessages.map((message) => (
             <Link
               key={message.subject}
-              href="/messages/sent"
+              href={`/profile/${message.to.toLowerCase().replace(/\s/g, "")}`}
               className="flex items-center gap-3 p-4"
             >
               <Avatar size="sm" className="w-10 h-10" />

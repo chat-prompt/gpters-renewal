@@ -1,8 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Pencil, Trash2 } from "lucide-react";
-import { Input, Button, Badge, Pagination } from "@/components/ui";
+import { Pencil, Trash2 } from "lucide-react";
+import { Input, Button, Badge, Pagination, Checkbox } from "@/components/ui";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableHeader,
@@ -113,6 +120,8 @@ const statusVariant = (status: string) => {
 
 export default function AdminPostsPage() {
   const [selected, setSelected] = useState<number[]>([]);
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const toggleSelect = (id: number) => {
     setSelected((prev) =>
@@ -133,24 +142,33 @@ export default function AdminPostsPage() {
       {/* Filters */}
       <div className="flex gap-2">
         <Input
-          icon={<Search className="w-4 h-4" />}
           placeholder="제목, 작성자 검색..."
         />
-        <select className="border border-input rounded-md px-3 py-2 text-sm bg-background text-foreground whitespace-nowrap">
-          <option>카테고리: 전체</option>
-          <option>AI활용법</option>
-          <option>프롬프트</option>
-          <option>자동화/노코드</option>
-          <option>개발/코딩</option>
-          <option>비즈니스/마케팅</option>
-          <option>AI뉴스</option>
-        </select>
-        <select className="border border-input rounded-md px-3 py-2 text-sm bg-background text-foreground whitespace-nowrap">
-          <option>상태: 전체</option>
-          <option>공개</option>
-          <option>비공개</option>
-          <option>신고됨</option>
-        </select>
+        <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+          <SelectTrigger size="sm" className="w-auto">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">카테고리: 전체</SelectItem>
+            <SelectItem value="AI활용법">AI활용법</SelectItem>
+            <SelectItem value="프롬프트">프롬프트</SelectItem>
+            <SelectItem value="자동화/노코드">자동화/노코드</SelectItem>
+            <SelectItem value="개발/코딩">개발/코딩</SelectItem>
+            <SelectItem value="비즈니스/마케팅">비즈니스/마케팅</SelectItem>
+            <SelectItem value="AI뉴스">AI뉴스</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger size="sm" className="w-auto">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">상태: 전체</SelectItem>
+            <SelectItem value="공개">공개</SelectItem>
+            <SelectItem value="비공개">비공개</SelectItem>
+            <SelectItem value="신고됨">신고됨</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Table */}
@@ -159,11 +177,9 @@ export default function AdminPostsPage() {
           <TableHeader>
             <TableRow>
               <TableHead className="w-10">
-                <input
-                  type="checkbox"
+                <Checkbox
                   checked={selected.length === posts.length && posts.length > 0}
-                  onChange={toggleAll}
-                  className="w-4 h-4"
+                  onCheckedChange={toggleAll}
                 />
               </TableHead>
               <TableHead>제목</TableHead>
@@ -178,11 +194,9 @@ export default function AdminPostsPage() {
             {posts.map((post) => (
               <TableRow key={post.id}>
                 <TableCell>
-                  <input
-                    type="checkbox"
+                  <Checkbox
                     checked={selected.includes(post.id)}
-                    onChange={() => toggleSelect(post.id)}
-                    className="w-4 h-4"
+                    onCheckedChange={() => toggleSelect(post.id)}
                   />
                 </TableCell>
                 <TableCell>

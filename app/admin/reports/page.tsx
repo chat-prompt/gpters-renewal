@@ -9,6 +9,13 @@ import {
   CardTitle,
   CardContent,
 } from "@/components/ui";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface CohortReport {
   cohort: number;
@@ -41,8 +48,8 @@ const reportData: Record<number, CohortReport> = {
 const cohortOptions = [22, 21, 20];
 
 export default function AdminReportsPage() {
-  const [selectedCohort, setSelectedCohort] = useState(22);
-  const data = reportData[selectedCohort];
+  const [selectedCohort, setSelectedCohort] = useState("22");
+  const data = reportData[Number(selectedCohort)];
 
   return (
     <div className="space-y-6">
@@ -55,17 +62,18 @@ export default function AdminReportsPage() {
       </div>
 
       <div>
-        <select
-          value={selectedCohort}
-          onChange={(e) => setSelectedCohort(Number(e.target.value))}
-          className="border border-input rounded-md px-3 py-2 text-sm bg-background text-foreground"
-        >
-          {cohortOptions.map((c) => (
-            <option key={c} value={c}>
-              {c}기
-            </option>
-          ))}
-        </select>
+        <Select value={selectedCohort} onValueChange={setSelectedCohort}>
+          <SelectTrigger size="sm" className="w-auto">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {cohortOptions.map((c) => (
+              <SelectItem key={c} value={String(c)}>
+                {c}기
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* 콘텐츠 통계 */}

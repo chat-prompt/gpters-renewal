@@ -73,7 +73,7 @@ export function AttendanceMatrix({
               <TableRow key={member.name}>
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <Avatar size="xs" src={member.avatarUrl} alt={member.name} />
+                    <Avatar size="sm" />
                     <span className="text-sm text-foreground whitespace-nowrap">
                       {member.name}
                     </span>

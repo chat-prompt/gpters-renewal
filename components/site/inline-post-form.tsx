@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ImageIcon, LinkIcon, Hash } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 export function InlinePostForm() {
   const [open, setOpen] = useState(false);
@@ -23,11 +24,11 @@ export function InlinePostForm() {
         <div className="space-y-3">
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-full bg-muted shrink-0" />
-            <textarea
+            <Textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="무슨 AI 이야기를 나누고 싶으신가요?"
-              className="flex-1 min-h-[80px] resize-none border border-input rounded-md p-3 text-sm bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+              className="flex-1 min-h-[80px] resize-none"
               autoFocus
             />
           </div>

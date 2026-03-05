@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2 } from "lucide-react";
 import { Tabs } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -156,7 +156,6 @@ export default function AdminProductsPage() {
         <div className="space-y-4">
           <Input
             placeholder="상품명 검색..."
-            icon={<Search className="w-4 h-4" />}
             value={productSearch}
             onChange={(e) => setProductSearch(e.target.value)}
           />
@@ -235,7 +234,6 @@ export default function AdminProductsPage() {
         <div className="space-y-4">
           <Input
             placeholder="쿠폰 코드 검색..."
-            icon={<Search className="w-4 h-4" />}
             value={couponSearch}
             onChange={(e) => setCouponSearch(e.target.value)}
           />

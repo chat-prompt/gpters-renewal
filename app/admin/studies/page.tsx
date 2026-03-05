@@ -5,6 +5,13 @@ import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { Badge, Button, Toggle } from "@/components/ui";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Table,
   TableHeader,
   TableBody,
@@ -118,6 +125,8 @@ const statusOptions = ["작성중", "모집중", "진행중", "완료"];
 
 export default function AdminStudiesPage() {
   const [studyData, setStudyData] = useState(studies);
+  const [cohortFilter, setCohortFilter] = useState("21기");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const toggleSubmit = (id: number) => {
     setStudyData((prev) =>
@@ -137,17 +146,27 @@ export default function AdminStudiesPage() {
 
       {/* Filters */}
       <div className="flex gap-2">
-        <select className="border border-input rounded-md px-3 py-2 text-sm bg-background text-foreground whitespace-nowrap">
-          <option>기수: 21기</option>
-          <option>20기</option>
-          <option>19기</option>
-        </select>
-        <select className="border border-input rounded-md px-3 py-2 text-sm bg-background text-foreground whitespace-nowrap">
-          <option>상태: 전체</option>
-          {statusOptions.map((s) => (
-            <option key={s}>{s}</option>
-          ))}
-        </select>
+        <Select value={cohortFilter} onValueChange={setCohortFilter}>
+          <SelectTrigger size="sm" className="w-auto">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="21기">기수: 21기</SelectItem>
+            <SelectItem value="20기">20기</SelectItem>
+            <SelectItem value="19기">19기</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger size="sm" className="w-auto">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">상태: 전체</SelectItem>
+            {statusOptions.map((s) => (
+              <SelectItem key={s} value={s}>{s}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Table */}
@@ -177,17 +196,21 @@ export default function AdminStudiesPage() {
                   </span>
                 </TableCell>
                 <TableCell>
-                  <select
+                  <Select
                     value={study.status}
-                    onChange={(e) => changeStatus(study.id, e.target.value)}
-                    className="text-xs border border-input rounded-md px-2 py-1 bg-background text-foreground"
+                    onValueChange={(value) => changeStatus(study.id, value)}
                   >
-                    {statusOptions.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger size="sm" className="w-auto text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {statusOptions.map((s) => (
+                        <SelectItem key={s} value={s}>
+                          {s}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm text-muted-foreground whitespace-nowrap">

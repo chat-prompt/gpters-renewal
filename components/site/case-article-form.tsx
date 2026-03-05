@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ImageIcon, X } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 interface CaseArticleFormProps {
   categories: string[];
@@ -121,11 +122,11 @@ export function CaseArticleForm({
             </button>
           ))}
         </div>
-        <textarea
+        <Textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
           placeholder="AI 활용 경험을 자유롭게 작성해주세요..."
-          className="w-full min-h-[300px] resize-none border border-border rounded-b-lg p-4 text-sm bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring leading-relaxed"
+          className="min-h-[300px] resize-none rounded-t-none border-border p-4 leading-relaxed"
         />
       </div>
 

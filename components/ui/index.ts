@@ -11,3 +11,5 @@ export { Pagination } from "./pagination";
 export { Progress } from "./progress";
 export { Accordion } from "./accordion";
 export { Breadcrumb } from "./breadcrumb";
+export { Textarea } from "./textarea";
+export { Checkbox } from "./checkbox";

@@ -60,7 +60,7 @@ export function SidebarStudyList({ study }: SidebarStudyListProps) {
       <div className="px-4 py-3 border-t border-border flex items-center justify-between">
         <span className="text-sm font-bold text-primary">{study.price}</span>
         <Link
-          href={`/study/${study.slug}`}
+          href="/study"
           className="text-xs font-medium text-primary hover:underline"
         >
           자세히 보기

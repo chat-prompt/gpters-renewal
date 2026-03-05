@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 @theme {
   /* Background / Text */
@@ -24,6 +25,14 @@
   /* Destructive */
   --color-destructive: #ef4444;
   --color-destructive-foreground: #ffffff;
+
+  /* Card */
+  --color-card: #ffffff;
+  --color-card-foreground: #171717;
+
+  /* Popover */
+  --color-popover: #ffffff;
+  --color-popover-foreground: #171717;
 
   /* Border / Input / Ring */
   --color-border: #e5e5e5;

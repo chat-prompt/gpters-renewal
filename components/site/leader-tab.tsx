@@ -21,7 +21,7 @@ export function LeaderTab({
   return (
     <section className="border border-border rounded-lg p-6">
       <div className="flex items-start gap-4">
-        <Avatar size="md" />
+        <Avatar />
         <div className="space-y-2">
           <p className="font-bold text-foreground">{name}</p>
           <p className="text-sm text-muted-foreground">{title}</p>

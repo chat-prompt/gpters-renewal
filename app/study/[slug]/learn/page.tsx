@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Accordion } from "@/components/ui/accordion";
 import { Tabs } from "@/components/ui/tabs";
@@ -77,6 +78,7 @@ const progressSummary = {
 };
 
 export default function StudyLearnPage() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("progress");
 
   const tabItems = [
@@ -132,11 +134,11 @@ export default function StudyLearnPage() {
       {/* Tabs - navigate to sub-pages for VOD and Tasks */}
       <Tabs items={tabItems} activeKey={activeTab} onTabChange={(key) => {
         if (key === "vod") {
-          window.location.href = `/study/${studySlug}/learn/vod`;
+          router.push(`/study/${studySlug}/learn/vod`);
           return;
         }
         if (key === "tasks") {
-          window.location.href = `/study/${studySlug}/learn/tasks`;
+          router.push(`/study/${studySlug}/learn/tasks`);
           return;
         }
         setActiveTab(key);

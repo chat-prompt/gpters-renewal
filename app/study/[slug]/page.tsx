@@ -298,7 +298,7 @@ export default function StudyDetailPage() {
             </p>
           </div>
           <Link href="/checkout/ai-automation-21">
-            <Button size="md">스터디 신청하기</Button>
+            <Button>스터디 신청하기</Button>
           </Link>
         </div>
       </div>

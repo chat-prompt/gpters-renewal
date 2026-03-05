@@ -68,7 +68,7 @@ export function StudyCard({
           상세보기
         </Link>
         <Link
-          href={`/study/${slug}`}
+          href={`/checkout/${slug}`}
           className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md"
         >
           바로신청

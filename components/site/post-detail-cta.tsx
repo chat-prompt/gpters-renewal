@@ -18,10 +18,10 @@ export function PostDetailCTA({ className }: PostDetailCTAProps) {
         GPTers에 가입하면 매주 AI 활용 인사이트를 받을 수 있어요
       </p>
       <div className="flex justify-center gap-3">
-        <Button variant="primary" size="md">
+        <Button>
           무료 가입하기
         </Button>
-        <Button variant="secondary" size="md">
+        <Button variant="secondary">
           뉴스레터만 구독
         </Button>
       </div>

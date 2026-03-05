@@ -129,7 +129,7 @@ export default function MyStudyPage() {
               <div className="flex items-center gap-3">
                 <Badge variant="active">수료 완료</Badge>
                 <Link
-                  href="#"
+                  href="/study/my/certificates"
                   className="flex items-center text-xs text-primary font-medium hover:text-primary/80 transition-colors"
                 >
                   <ScrollText className="w-3.5 h-3.5 mr-1" />

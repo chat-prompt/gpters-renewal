@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   PenSquare,
@@ -9,7 +9,9 @@ import {
   Zap,
   Code,
   Briefcase,
-  Newspaper,
+  TrendingUp,
+  Palette,
+  Film,
 } from "lucide-react";
 import { PostCard } from "@/components/site/post-card";
 import { SortTabs } from "@/components/site/sort-tabs";
@@ -27,24 +29,31 @@ const categoryTabs = [
   { id: "프롬프트", name: "프롬프트" },
   { id: "자동화", name: "자동화" },
   { id: "개발/코딩", name: "개발/코딩" },
+  { id: "디자인", name: "디자인" },
+  { id: "미디어", name: "미디어" },
   { id: "비즈니스", name: "비즈니스" },
-  { id: "뉴스", name: "뉴스" },
+  { id: "트렌드", name: "트렌드" },
 ];
 
 const tagOptions = [
   { id: "ChatGPT", name: "ChatGPT" },
   { id: "Claude", name: "Claude" },
   { id: "Gemini", name: "Gemini" },
+  { id: "Cursor", name: "Cursor" },
+  { id: "Midjourney", name: "Midjourney" },
+  { id: "n8n", name: "n8n" },
+  { id: "Runway", name: "Runway" },
+  { id: "Suno", name: "Suno" },
 ];
 
 const allPosts = [
   {
     slug: "claude-marketing",
-    category: "AI 활용법",
+    category: "AI활용법",
     title: "Claude로 마케팅 자동화 구축기",
     author: "홍길동",
     time: "3시간 전",
-    tags: ["Claude", "마케팅", "자동화", "중급"],
+    tags: ["Claude", "자동화"],
     excerpt:
       "이번에 Claude를 활용해서 마케팅 이메일 자동화 파이프라인을 구축한 경험을 공유합니다. 매주 3시간 걸리던 작업이 30분으로 줄었어요.",
     votes: 142,
@@ -57,7 +66,7 @@ const allPosts = [
     title: "GPT-4o 프롬프트 작성법 완전 가이드",
     author: "이영희",
     time: "5시간 전",
-    tags: ["ChatGPT", "입문", "튜토리얼"],
+    tags: ["ChatGPT"],
     excerpt:
       "프롬프트 엔지니어링 기초부터 고급 기법까지 체계적으로 정리했습니다. 비개발자도 쉽게 따라할 수 있는 가이드.",
     votes: 98,
@@ -70,7 +79,7 @@ const allPosts = [
     title: "Cursor로 풀스택 앱 만들기 - Part 1",
     author: "박철수",
     time: "1일 전",
-    tags: ["Cursor", "중급", "튜토리얼"],
+    tags: ["Cursor"],
     excerpt:
       "바이브 코딩으로 실제 서비스를 만드는 과정을 처음부터 끝까지 공유합니다. React + Supabase 조합으로 진행.",
     votes: 87,
@@ -83,7 +92,7 @@ const allPosts = [
     title: "n8n으로 업무 자동화 워크플로우 구축하기",
     author: "김영호",
     time: "2일 전",
-    tags: ["n8n", "자동화", "노코드"],
+    tags: ["n8n"],
     excerpt:
       "반복적인 업무를 n8n 워크플로우로 자동화한 실전 사례를 소개합니다. Slack 알림부터 데이터 수집까지.",
     votes: 65,
@@ -96,7 +105,7 @@ const allPosts = [
     title: "AI로 사업계획서 작성하는 완벽 가이드",
     author: "김민지",
     time: "2일 전",
-    tags: ["ChatGPT", "비즈니스", "입문"],
+    tags: ["ChatGPT"],
     excerpt:
       "ChatGPT와 Claude를 활용하여 투자 유치용 사업계획서를 작성하는 방법을 단계별로 안내합니다.",
     votes: 76,
@@ -105,16 +114,42 @@ const allPosts = [
   },
   {
     slug: "midjourney-branding",
-    category: "AI 활용법",
+    category: "디자인",
     title: "Midjourney V6로 브랜드 이미지 제작하기",
     author: "이수현",
     time: "3일 전",
-    tags: ["Midjourney", "디자인", "중급"],
+    tags: ["Midjourney"],
     excerpt:
       "Midjourney V6의 새로운 기능을 활용하여 브랜드 로고와 마케팅 이미지를 직접 만드는 과정을 공유합니다.",
     votes: 65,
     comments: 8,
     thumbnail: true,
+  },
+  {
+    slug: "runway-short-film",
+    category: "미디어",
+    title: "Runway Gen-3로 단편 영상 제작기",
+    author: "정다은",
+    time: "4일 전",
+    tags: ["Runway"],
+    excerpt:
+      "AI 영상 생성 도구 Runway Gen-3를 활용해서 3분짜리 단편 영상을 만든 전체 과정과 팁을 공유합니다.",
+    votes: 54,
+    comments: 17,
+    thumbnail: true,
+  },
+  {
+    slug: "ai-trend-2025",
+    category: "트렌드",
+    title: "2025년 주목할 AI 트렌드 TOP 10",
+    author: "최준혁",
+    time: "5일 전",
+    tags: ["ChatGPT", "Claude", "Gemini"],
+    excerpt:
+      "올해 하반기부터 주목해야 할 AI 산업 트렌드를 정리했습니다. 에이전트, 멀티모달, 온디바이스 AI까지.",
+    votes: 112,
+    comments: 27,
+    thumbnail: false,
   },
 ];
 
@@ -123,8 +158,10 @@ const sidebarCategories = [
   { name: "프롬프트", slug: "prompt", count: 156, icon: Sparkles },
   { name: "자동화", slug: "automation", count: 89, icon: Zap },
   { name: "개발/코딩", slug: "dev", count: 121, icon: Code },
+  { name: "디자인", slug: "design", count: 67, icon: Palette },
+  { name: "미디어", slug: "media", count: 45, icon: Film },
   { name: "비즈니스", slug: "business", count: 78, icon: Briefcase },
-  { name: "AI 뉴스", slug: "news", count: 203, icon: Newspaper },
+  { name: "트렌드", slug: "trend", count: 203, icon: TrendingUp },
 ];
 
 const cohortStudy = {
@@ -149,7 +186,31 @@ const cohortStudy = {
 export default function FeedPage() {
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [sortBy, setSortBy] = useState("popular");
   const [currentPage, setCurrentPage] = useState(1);
+
+  const filteredPosts = useMemo(() => {
+    let posts = allPosts;
+
+    // 카테고리 필터
+    if (selectedCategory !== "전체") {
+      posts = posts.filter((p) => p.category === selectedCategory);
+    }
+
+    // 태그 필터 (선택된 태그 중 하나라도 포함)
+    if (selectedTags.length > 0) {
+      posts = posts.filter((p) =>
+        selectedTags.some((tag) => p.tags.includes(tag))
+      );
+    }
+
+    // 정렬
+    if (sortBy === "popular") {
+      posts = [...posts].sort((a, b) => b.votes - a.votes);
+    }
+
+    return posts;
+  }, [selectedCategory, selectedTags, sortBy]);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
@@ -167,29 +228,46 @@ export default function FeedPage() {
             </Link>
           </div>
 
-          {/* Category Tabs */}
-          <CategoryFilter
-            categories={categoryTabs}
-            selected={selectedCategory}
-            onChange={setSelectedCategory}
-          />
+          {/* Category Tabs + Sort Dropdown */}
+          <div className="flex items-end justify-between gap-4">
+            <CategoryFilter
+              categories={categoryTabs}
+              selected={selectedCategory}
+              onChange={(id) => {
+                setSelectedCategory(id);
+                setCurrentPage(1);
+              }}
+              className="flex-1 min-w-0"
+            />
+            <SortTabs
+              defaultValue={sortBy}
+              onChange={setSortBy}
+              className="shrink-0 mb-px"
+            />
+          </div>
 
           {/* Tag Filter */}
           <TagFilter
             tags={tagOptions}
             selected={selectedTags}
-            onChange={setSelectedTags}
+            onChange={(ids) => {
+              setSelectedTags(ids);
+              setCurrentPage(1);
+            }}
           />
 
-          {/* Sort */}
-          <SortTabs />
-
           {/* Post List */}
-          <div className="border border-border rounded-lg divide-y divide-border">
-            {allPosts.map((post) => (
-              <PostCard key={post.slug} {...post} />
-            ))}
-          </div>
+          {filteredPosts.length > 0 ? (
+            <div className="border border-border rounded-lg divide-y divide-border">
+              {filteredPosts.map((post) => (
+                <PostCard key={post.slug} {...post} />
+              ))}
+            </div>
+          ) : (
+            <div className="border border-border rounded-lg p-8 text-center text-sm text-muted-foreground">
+              해당 조건에 맞는 게시글이 없습니다.
+            </div>
+          )}
 
           {/* Pagination */}
           <Pagination

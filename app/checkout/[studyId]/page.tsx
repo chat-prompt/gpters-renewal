@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Calendar, Users, Tag, Check } from "lucide-react";
+import { ArrowLeft, Calendar, Users, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { PriceBreakdown } from "@/components/site/price-breakdown";
 
 export default function CheckoutPage() {
@@ -32,7 +33,7 @@ export default function CheckoutPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
       <Link
-        href="/study/ai-automation-21"
+        href="/study/ai-automation"
         className="flex items-center gap-1 text-sm text-muted-foreground mb-6"
       >
         <ArrowLeft className="w-4 h-4" />
@@ -73,14 +74,12 @@ export default function CheckoutPage() {
         <div className="flex gap-2">
           <Input
             placeholder="쿠폰 코드를 입력하세요"
-            icon={<Tag className="w-4 h-4" />}
             value={couponCode}
             onChange={(e) => setCouponCode(e.target.value)}
             disabled={couponApplied}
           />
           <Button
-            variant={couponApplied ? "secondary" : "primary"}
-            size="md"
+            variant={couponApplied ? "secondary" : "default"}
             onClick={handleApplyCoupon}
             disabled={couponApplied || !couponCode.trim()}
             className="shrink-0"
@@ -123,33 +122,27 @@ export default function CheckoutPage() {
       <section className="border border-border rounded-lg p-6 mb-6 space-y-3">
         <h2 className="font-bold text-foreground mb-2">약관 동의</h2>
         <label className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="checkbox"
+          <Checkbox
             checked={termsAgreed}
-            onChange={(e) => setTermsAgreed(e.target.checked)}
-            className="w-4 h-4 accent-primary"
+            onCheckedChange={(checked) => setTermsAgreed(checked as boolean)}
           />
           <span className="text-sm text-foreground">
             이용약관에 동의합니다 (필수)
           </span>
         </label>
         <label className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="checkbox"
+          <Checkbox
             checked={privacyAgreed}
-            onChange={(e) => setPrivacyAgreed(e.target.checked)}
-            className="w-4 h-4 accent-primary"
+            onCheckedChange={(checked) => setPrivacyAgreed(checked as boolean)}
           />
           <span className="text-sm text-foreground">
             개인정보 수집/이용에 동의합니다 (필수)
           </span>
         </label>
         <label className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="checkbox"
+          <Checkbox
             checked={refundAgreed}
-            onChange={(e) => setRefundAgreed(e.target.checked)}
-            className="w-4 h-4 accent-primary"
+            onCheckedChange={(checked) => setRefundAgreed(checked as boolean)}
           />
           <span className="text-sm text-foreground">
             환불 정책에 동의합니다 (필수)

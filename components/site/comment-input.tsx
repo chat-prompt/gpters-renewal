@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { Textarea } from "@/components/ui/textarea";
 
 interface CommentInputProps {
   placeholder?: string;
@@ -20,10 +21,10 @@ export function CommentInput({
       {helperText && (
         <p className="text-sm text-muted-foreground mb-2">{helperText}</p>
       )}
-      <textarea
-        className="w-full border border-input rounded-md p-3 text-sm bg-background text-foreground resize-none"
+      <Textarea
         rows={3}
         placeholder={placeholder}
+        className="resize-none"
       />
       <div className="flex justify-end mt-2">
         <button className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md">

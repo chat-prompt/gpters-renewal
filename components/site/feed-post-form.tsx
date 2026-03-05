@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ImageIcon } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 interface FeedPostFormProps {
   suggestedTags: string[];
@@ -20,11 +21,11 @@ export function FeedPostForm({ suggestedTags }: FeedPostFormProps) {
   return (
     <div className="space-y-4">
       <div className="border border-border rounded-lg p-4">
-        <textarea
+        <Textarea
           value={feedContent}
           onChange={(e) => setFeedContent(e.target.value)}
           placeholder="무슨 AI 이야기를 나누고 싶으신가요? (최대 500자)"
-          className="w-full min-h-[120px] resize-none text-sm bg-background text-foreground placeholder:text-muted-foreground focus:outline-none"
+          className="min-h-[120px] resize-none border-0 shadow-none focus-visible:ring-0 focus-visible:border-0"
           maxLength={500}
         />
         <div className="flex items-center justify-between border-t border-border pt-3 mt-3">

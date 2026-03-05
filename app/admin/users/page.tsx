@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Badge, Button, Input, Tabs } from "@/components/ui";
 import {
   Table,
@@ -75,7 +75,6 @@ export default function AdminUsersPage() {
 
       <Input
         placeholder="이름 또는 이메일로 검색"
-        icon={<Search className="w-4 h-4" />}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />

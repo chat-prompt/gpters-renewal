@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { MessageSquare, Bookmark } from "lucide-react";
-import { Vote } from "./vote";
+import { Heart, MessageSquare, Bookmark } from "lucide-react";
 
 interface PostCardProps {
   slug: string;
@@ -28,9 +27,8 @@ export function PostCard({
   thumbnail,
 }: PostCardProps) {
   return (
-    <div className="flex gap-3 px-4 py-3">
-      <Vote initialCount={votes} />
-      <div className="flex-1 min-w-0 space-y-1">
+    <div className="flex gap-4 px-4 py-4">
+      <div className="flex-1 min-w-0 flex flex-col gap-2">
         <p className="text-xs text-muted-foreground">
           <span className="text-primary font-medium">{category}</span>
           {" · "}
@@ -38,10 +36,21 @@ export function PostCard({
           {" · "}
           <span>{time}</span>
         </p>
-        <Link href={`/posts/${slug}`} className="text-sm text-foreground font-medium hover:underline line-clamp-1">
-          {title}
-        </Link>
-        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+        <div className="space-y-1">
+          <Link
+            href={`/posts/${slug}`}
+            className="text-foreground font-medium hover:underline line-clamp-1"
+          >
+            {title}
+          </Link>
+          <p className="text-sm text-muted-foreground line-clamp-2">
+            {excerpt}
+          </p>
+        </div>
+        <div className="flex items-center gap-4 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <Heart className="w-3.5 h-3.5" /> {votes}
+          </span>
           <span className="flex items-center gap-1">
             <MessageSquare className="w-3.5 h-3.5" /> {comments}
           </span>
@@ -51,7 +60,7 @@ export function PostCard({
         </div>
       </div>
       {thumbnail && (
-        <div className="hidden sm:block w-16 h-16 bg-muted rounded shrink-0" />
+        <div className="hidden sm:block w-20 h-20 bg-muted rounded shrink-0" />
       )}
     </div>
   );
