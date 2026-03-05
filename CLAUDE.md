@@ -24,7 +24,7 @@ GPTers 커뮤니티 사이트(gpters.org) 리뉴얼 프로젝트. Bettermode 기
 - **핵심 기능**: 콘텐츠 커뮤니티 + AI 스터디 + AI 이력서
 - **브랜드 컬러**: GPTers Orange (#EF6020)
 - **현재 단계**: 프로토타입 완성 (정적 목업 37페이지, 백엔드 미연결)
-- **GitHub**: `hskim-a11y/gpters-renewal` (push 시 `gh auth switch --user hskim-a11y` 필요)
+- **GitHub**: `chat-prompt/gpters-renewal` (push 시 `gh auth switch --user hskim-a11y` 필요)
 
 ## Commands
 
