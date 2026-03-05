@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { PenSquare } from "lucide-react";
 import { PostCard } from "@/components/site/post-card";
 import { SortTabs } from "@/components/site/sort-tabs";
 import { CategoryFilter } from "@/components/site/category-filter";
@@ -194,17 +193,6 @@ export default function FeedPage() {
       <div className="flex gap-6 items-start">
         {/* Main Feed */}
         <div className="flex-1 min-w-0 space-y-5">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <h1 className="text-lg font-bold text-foreground">탐색</h1>
-            <Link
-              href="/write?type=case"
-              className="flex items-center gap-2 px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md"
-            >
-              <PenSquare className="w-4 h-4" /> 글쓰기
-            </Link>
-          </div>
-
           {/* Category Filter */}
           <CategoryFilter
             categories={categoryTabs}

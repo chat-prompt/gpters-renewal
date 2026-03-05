@@ -15,6 +15,7 @@ import {
   MessageSquare,
   Heart,
   AtSign,
+  PenSquare,
 } from "lucide-react";
 import { IconButton } from "@/components/ui/icon-button";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuDivider } from "@/components/ui/dropdown-menu";
@@ -77,30 +78,47 @@ export function Navbar() {
 
   return (
     <header className="border-b border-border bg-background sticky top-0 z-50">
-      <div className="mx-auto max-w-6xl flex items-center justify-between px-4 h-14">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="text-foreground font-bold text-lg">
+      <div className="flex items-center justify-between px-6 h-14">
+        {/* Left: Logo + Search */}
+        <div className="flex items-center gap-4 flex-1">
+          <Link href="/" className="text-foreground font-bold text-lg shrink-0">
             GPTers
           </Link>
-          <nav className="hidden md:flex items-center gap-6">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`text-sm transition-colors ${
-                  pathname.startsWith(item.href)
-                    ? "text-foreground font-medium"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+          <Link
+            href="/search"
+            className="hidden sm:flex items-center gap-2 w-64 px-4 py-1.5 rounded-full bg-muted text-sm text-muted-foreground hover:bg-accent transition-colors"
+          >
+            <Search className="w-4 h-4 shrink-0" />
+            <span>GPTers 검색...</span>
+          </Link>
         </div>
 
-        <div className="flex items-center gap-4" ref={dropdownRef}>
-          <IconButton icon={Search} href="/search" />
+        {/* Center: Navigation */}
+        <nav className="hidden md:flex items-center gap-6">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`text-sm transition-colors ${
+                pathname.startsWith(item.href)
+                  ? "text-foreground font-medium"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Right: Write + DM + Profile */}
+        <div className="flex items-center gap-3 flex-1 justify-end" ref={dropdownRef}>
+          <Link
+            href="/write?type=case"
+            className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+          >
+            <PenSquare className="w-3.5 h-3.5" />
+            글쓰기
+          </Link>
 
           {/* Notifications */}
           <div className="relative">
