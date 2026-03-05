@@ -10,7 +10,7 @@
 | # | 페이지 | 로컬 URL | 레퍼런스 / 메모 |
 |---|--------|----------|----------------|
 | 1 | 홈 | http://localhost:3000/ | |
-| 2 | 탐색 피드 | http://localhost:3000/explore/feed | |
+| 2 | 탐색 피드 | http://localhost:3000/explore/feed | **[Medium](https://medium.com/)**: 넓은 게시글 영역, 큰 타이틀, 사이드바에 Recommended Topics + Staff Picks + Who to Follow / **[Reddit](https://www.reddit.com/)**: 미니멀 정렬 드롭다운(Best▾), 왼쪽 정렬, 보더 없는 ghost 스타일 / **[Substack](https://substack.com/)**: 깔끔한 리스트형, 미니멀 정렬 |
 | 3 | 커뮤니티 피드 | http://localhost:3000/community/feed | |
 | 4 | 게시글 상세 | http://localhost:3000/posts/claude-marketing | |
 | 5 | 글쓰기 | http://localhost:3000/write | |

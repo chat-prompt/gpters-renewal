@@ -2,23 +2,11 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  PenSquare,
-  Lightbulb,
-  Sparkles,
-  Zap,
-  Code,
-  Briefcase,
-  TrendingUp,
-  Palette,
-  Film,
-} from "lucide-react";
+import { PenSquare } from "lucide-react";
 import { PostCard } from "@/components/site/post-card";
 import { SortTabs } from "@/components/site/sort-tabs";
 import { CategoryFilter } from "@/components/site/category-filter";
 import { TagFilter } from "@/components/site/tag-filter";
-import { CategoryList } from "@/components/site/category-list";
-import { SidebarStudyList } from "@/components/site/sidebar-study-list";
 import { Pagination } from "@/components/ui/pagination";
 
 /* ─── Mock Data ─── */
@@ -153,33 +141,22 @@ const allPosts = [
   },
 ];
 
-const sidebarCategories = [
-  { name: "AI 활용법", slug: "ai-usage", count: 234, icon: Lightbulb },
-  { name: "프롬프트", slug: "prompt", count: 156, icon: Sparkles },
-  { name: "자동화", slug: "automation", count: 89, icon: Zap },
-  { name: "개발/코딩", slug: "dev", count: 121, icon: Code },
-  { name: "디자인", slug: "design", count: 67, icon: Palette },
-  { name: "미디어", slug: "media", count: 45, icon: Film },
-  { name: "비즈니스", slug: "business", count: 78, icon: Briefcase },
-  { name: "트렌드", slug: "trend", count: 203, icon: TrendingUp },
+const recommendedTopics = [
+  "ChatGPT", "Claude", "Cursor", "프롬프트", "자동화",
+  "n8n", "Midjourney", "바이브코딩", "AI 에이전트",
 ];
 
-const cohortStudy = {
-  slug: "ai-study-21",
-  cohort: "21기",
-  date: "3/15 ~ 4/12 (4주)",
-  enrolled: 47,
-  capacity: 120,
-  price: "150,000원",
-  programs: [
-    { slug: "ai-automation", title: "AI 자동화" },
-    { slug: "prompt-engineering", title: "프롬프트 엔지니어링" },
-    { slug: "vibe-coding", title: "바이브 코딩" },
-    { slug: "ai-business", title: "AI 비즈니스" },
-    { slug: "ai-design", title: "AI 디자인" },
-    { slug: "ai-data", title: "AI 데이터 분석" },
-  ],
-};
+const editorPicks = [
+  { slug: "ai-trend-2025", title: "2025년 주목할 AI 트렌드 TOP 10", author: "최준혁" },
+  { slug: "claude-marketing", title: "Claude로 마케팅 자동화 구축기", author: "홍길동" },
+  { slug: "cursor-fullstack", title: "Cursor로 풀스택 앱 만들기", author: "박철수" },
+];
+
+const whoToFollow = [
+  { username: "honggildong", name: "홍길동", bio: "AI 마케팅 자동화 전문가", posts: 42 },
+  { username: "leeyounghee", name: "이영희", bio: "프롬프트 엔지니어링 강사", posts: 38 },
+  { username: "parkchulsoo", name: "박철수", bio: "바이브 코딩으로 10개 서비스 런칭", posts: 27 },
+];
 
 /* ─── Page ─── */
 
@@ -228,23 +205,15 @@ export default function FeedPage() {
             </Link>
           </div>
 
-          {/* Category Tabs + Sort Dropdown */}
-          <div className="flex items-end justify-between gap-4">
-            <CategoryFilter
-              categories={categoryTabs}
-              selected={selectedCategory}
-              onChange={(id) => {
-                setSelectedCategory(id);
-                setCurrentPage(1);
-              }}
-              className="flex-1 min-w-0"
-            />
-            <SortTabs
-              defaultValue={sortBy}
-              onChange={setSortBy}
-              className="shrink-0 mb-px"
-            />
-          </div>
+          {/* Category Filter */}
+          <CategoryFilter
+            categories={categoryTabs}
+            selected={selectedCategory}
+            onChange={(id) => {
+              setSelectedCategory(id);
+              setCurrentPage(1);
+            }}
+          />
 
           {/* Tag Filter */}
           <TagFilter
@@ -256,18 +225,26 @@ export default function FeedPage() {
             }}
           />
 
-          {/* Post List */}
+          {/* Sort + Post List */}
+          <div>
+            <div className="mb-3">
+              <SortTabs
+                defaultValue={sortBy}
+                onChange={setSortBy}
+              />
+            </div>
           {filteredPosts.length > 0 ? (
-            <div className="border border-border rounded-lg divide-y divide-border">
+            <div className="divide-y divide-border">
               {filteredPosts.map((post) => (
                 <PostCard key={post.slug} {...post} />
               ))}
             </div>
           ) : (
-            <div className="border border-border rounded-lg p-8 text-center text-sm text-muted-foreground">
+            <div className="py-12 text-center text-sm text-muted-foreground">
               해당 조건에 맞는 게시글이 없습니다.
             </div>
           )}
+          </div>
 
           {/* Pagination */}
           <Pagination
@@ -278,9 +255,62 @@ export default function FeedPage() {
         </div>
 
         {/* Sidebar */}
-        <aside className="w-72 hidden lg:flex flex-col gap-5 shrink-0">
-          <SidebarStudyList study={cohortStudy} />
-          <CategoryList categories={sidebarCategories} />
+        <aside className="w-72 hidden lg:flex flex-col gap-8 shrink-0">
+          {/* Recommended Topics */}
+          <div>
+            <h3 className="text-sm font-bold text-foreground mb-3">추천 토픽</h3>
+            <div className="flex flex-wrap gap-2">
+              {recommendedTopics.map((topic) => (
+                <button
+                  key={topic}
+                  type="button"
+                  className="px-3 py-1.5 rounded-full text-xs bg-muted text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+                >
+                  {topic}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Editor Picks */}
+          <div>
+            <h3 className="text-sm font-bold text-foreground mb-3">에디터 픽</h3>
+            <div className="space-y-3">
+              {editorPicks.map((pick) => (
+                <Link
+                  key={pick.slug}
+                  href={`/posts/${pick.slug}`}
+                  className="block group"
+                >
+                  <p className="text-xs text-muted-foreground mb-0.5">@{pick.author}</p>
+                  <p className="text-sm font-medium text-foreground group-hover:underline line-clamp-2">
+                    {pick.title}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Who to Follow */}
+          <div>
+            <h3 className="text-sm font-bold text-foreground mb-3">추천 작성자</h3>
+            <div className="space-y-4">
+              {whoToFollow.map((user) => (
+                <div key={user.username} className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-muted shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <Link
+                      href={`/profile/${user.username}`}
+                      className="text-sm font-medium text-foreground hover:underline"
+                    >
+                      {user.name}
+                    </Link>
+                    <p className="text-xs text-muted-foreground line-clamp-1">{user.bio}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </aside>
       </div>
     </div>

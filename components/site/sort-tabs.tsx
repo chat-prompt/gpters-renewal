@@ -40,7 +40,13 @@ export function SortTabs({
       defaultValue={defaultValue ?? options[0].value}
       onValueChange={onChange}
     >
-      <SelectTrigger size="sm" className={cn("w-auto", className)}>
+      <SelectTrigger
+        size="sm"
+        className={cn(
+          "w-auto border-none shadow-none bg-transparent px-0 text-muted-foreground hover:text-foreground focus-visible:ring-0",
+          className
+        )}
+      >
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
