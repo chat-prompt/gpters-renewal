@@ -1,11 +1,16 @@
 import Link from "next/link";
-import { PenSquare, Video, Users, GraduationCap, ScrollText, ChevronRight } from "lucide-react";
+import {
+  PenSquare,
+  Video,
+  MessageCircle,
+  Trophy,
+  Calendar,
+  BookOpen,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ActionItemCard } from "@/components/lms/action-item-card";
-import { WeekProgress } from "@/components/lms/week-progress";
-import { EnrollmentCard } from "@/components/lms/enrollment-card";
 import { AssignmentGuide } from "@/components/lms/assignment-guide";
-import { VodCard } from "@/components/lms/vod-card";
 
 // -- Mock Data --
 
@@ -31,115 +36,190 @@ const actionItems = [
     href: "/study/21-ai-automation/learn/vod",
     ctaLabel: "시청하기",
   },
+  {
+    icon: <MessageCircle className="w-5 h-5" />,
+    title: "찐친챌린지 인증",
+    description: "2주차 카카오톡 인증하기",
+    href: "#",
+    ctaLabel: "인증하기",
+  },
 ];
 
-const weekData = [
-  { week: 1, status: "completed" as const, attendance: "done" as const, assignment: "done" as const, vod: "done" as const },
-  { week: 2, status: "in-progress" as const, attendance: "upcoming" as const, assignment: "not-done" as const, vod: "new" as const },
-  { week: 3, status: "upcoming" as const, attendance: "upcoming" as const, assignment: "upcoming" as const, vod: "upcoming" as const },
-  { week: 4, status: "upcoming" as const, attendance: "upcoming" as const, assignment: "upcoming" as const, vod: "upcoming" as const },
+const sessions = [
+  { title: "핵심강의", time: "월 9-11PM", status: "종료" as const },
+  { title: "Week 2: 사례 공유 + 스터디", time: "화 9-11PM", status: "오늘" as const },
+  { title: "베스트 발표회", time: "다음 주 월 9PM", status: "예정" as const },
 ];
 
-const auditVods = [
-  { title: "프롬프트 엔지니어링 실전", studyName: "프롬프트 ENG", week: 2, duration: "45분", watched: false },
-  { title: "바이브코딩 기초", studyName: "바이브코딩", week: 1, duration: "52분", watched: false },
-  { title: "콘텐츠 자동화 전략", studyName: "콘텐츠 제작", week: 2, duration: "38분", watched: false },
-];
+const challengeProgress = {
+  completed: 1,
+  total: 3,
+  dDay: 18,
+  totalParticipants: 142,
+};
 
-const historyItems = [
-  { title: "20기 프롬프트 엔지니어링", status: "completed" as const },
-  { title: "19기 AI 활용 기초", status: "completed" as const },
+const myStudyStat = {
+  title: "21기 AI 자동화 스터디",
+  assignment: { done: 0, total: 3 },
+  attendance: { done: 1, total: 4 },
+  bookmarks: 0,
+};
+
+const leaderboard = [
+  { rank: 1, name: "김민지", posts: 8 },
+  { rank: 2, name: "이준혁", posts: 7 },
+  { rank: 3, name: "박소연", posts: 6 },
+  { rank: 4, name: "최동현", posts: 5 },
+  { rank: 5, name: "정하윤", posts: 5 },
+  { rank: 6, name: "윤서진", posts: 4 },
+  { rank: 7, name: "강민호", posts: 4 },
+  { rank: 8, name: "홍길동", posts: 3, isMe: true },
+  { rank: 9, name: "임지수", posts: 3 },
+  { rank: 10, name: "배준영", posts: 2 },
 ];
 
 export default function MyStudyPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 space-y-8">
-      <h1 className="text-2xl font-bold text-foreground">내 스터디</h1>
+    <div className="space-y-6">
+      {/* 2x2 대시보드 그리드 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Card 1: 이번 주 세션 */}
+        <section className="rounded-lg border border-border">
+          <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
+            <Calendar className="w-4 h-4 text-primary" />
+            <h2 className="text-sm font-bold text-foreground">이번 주 세션</h2>
+          </div>
+          <div className="divide-y divide-border">
+            {sessions.map((session) => (
+              <div key={session.title} className="flex items-center justify-between px-4 py-3">
+                <div>
+                  <p className="text-sm font-medium text-foreground">{session.title}</p>
+                  <p className="text-xs text-muted-foreground">{session.time}</p>
+                </div>
+                <Badge variant={session.status === "오늘" ? "active" : "default"}>
+                  {session.status}
+                </Badge>
+              </div>
+            ))}
+          </div>
+        </section>
 
-      {/* Section: 이번 주 할 일 */}
+        {/* Card 2: 찐친챌린지 */}
+        <section className="rounded-lg border border-border p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <MessageCircle className="w-4 h-4 text-primary" />
+              <h2 className="text-sm font-bold text-foreground">찐친챌린지</h2>
+            </div>
+            <Badge variant="active">D-{challengeProgress.dDay}</Badge>
+          </div>
+          <div className="flex gap-2">
+            {Array.from({ length: challengeProgress.total }).map((_, i) => (
+              <div
+                key={i}
+                className={`flex-1 h-2 rounded-full ${
+                  i < challengeProgress.completed ? "bg-primary" : "bg-muted"
+                }`}
+              />
+            ))}
+          </div>
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>{challengeProgress.completed}/{challengeProgress.total}주 완료</span>
+            <span>총 {challengeProgress.totalParticipants}명 참여중</span>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            매주 카카오톡 스크린샷 인증으로 찐친이 됩니다!
+          </p>
+        </section>
+
+        {/* Card 3: 내 스터디 바로가기 */}
+        <section className="rounded-lg border border-border p-4 space-y-3">
+          <div className="flex items-center gap-2">
+            <BookOpen className="w-4 h-4 text-primary" />
+            <h2 className="text-sm font-bold text-foreground">내 스터디 바로가기</h2>
+          </div>
+          <p className="text-sm font-medium text-foreground">{myStudyStat.title}</p>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-lg bg-muted p-2">
+              <p className="text-xs text-muted-foreground">과제</p>
+              <p className="text-sm font-bold text-foreground">
+                {myStudyStat.assignment.done}/{myStudyStat.assignment.total}
+              </p>
+            </div>
+            <div className="rounded-lg bg-muted p-2">
+              <p className="text-xs text-muted-foreground">출석</p>
+              <p className="text-sm font-bold text-foreground">
+                {myStudyStat.attendance.done}/{myStudyStat.attendance.total}
+              </p>
+            </div>
+            <div className="rounded-lg bg-muted p-2">
+              <p className="text-xs text-muted-foreground">북마크</p>
+              <p className="text-sm font-bold text-foreground">{myStudyStat.bookmarks}개</p>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/study/21-ai-automation/learn/tasks">과제</Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/study/21-ai-automation/learn/vod">다시보기</Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/study/my/posts">게시글</Link>
+            </Button>
+          </div>
+        </section>
+
+        {/* Card 4: 활동왕 리더보드 */}
+        <section className="rounded-lg border border-border overflow-hidden">
+          <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
+            <Trophy className="w-4 h-4 text-primary" />
+            <h2 className="text-sm font-bold text-foreground">활동왕 TOP 10</h2>
+          </div>
+          <div className="divide-y divide-border">
+            {leaderboard.map((entry) => (
+              <div
+                key={entry.rank}
+                className={`flex items-center gap-3 px-4 py-2 ${entry.isMe ? "bg-accent" : ""}`}
+              >
+                <span
+                  className={`w-5 text-center text-xs font-bold ${
+                    entry.rank === 1
+                      ? "text-yellow-500"
+                      : entry.rank === 2
+                      ? "text-slate-400"
+                      : entry.rank === 3
+                      ? "text-amber-700"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  {entry.rank}
+                </span>
+                <span className={`flex-1 text-sm ${entry.isMe ? "font-medium text-foreground" : "text-foreground"}`}>
+                  {entry.name}
+                  {entry.isMe && (
+                    <span className="ml-1 text-xs text-primary font-normal">(나)</span>
+                  )}
+                </span>
+                <span className="text-xs text-muted-foreground">{entry.posts}개</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      {/* 이번 주 할 일 */}
       <section className="space-y-3">
         <h2 className="text-lg font-bold text-foreground">이번 주 할 일</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {actionItems.map((item) => (
             <ActionItemCard key={item.title} {...item} />
           ))}
         </div>
       </section>
 
-      {/* Section: 과제 연동 안내 */}
+      {/* 과제 연동 안내 */}
       <AssignmentGuide />
-
-      {/* Section: 진행 중 스터디 */}
-      <section className="space-y-3">
-        <h2 className="text-lg font-bold text-foreground">진행 중 스터디</h2>
-        <EnrollmentCard
-          title="21기 AI 자동화 스터디"
-          leaderName="김스터디"
-          period="3/16 ~ 4/12"
-          currentWeek={2}
-          progressValue={45}
-          href="/study/21-ai-automation/learn"
-        >
-          <div className="grid grid-cols-4 gap-2">
-            {weekData.map((w) => (
-              <WeekProgress key={w.week} {...w} />
-            ))}
-          </div>
-        </EnrollmentCard>
-      </section>
-
-      {/* Section: 청강 가능 VOD */}
-      <section className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-foreground">청강 가능 VOD</h2>
-          <Link
-            href="/study/my/audit"
-            className="flex items-center text-xs text-primary font-medium hover:text-primary/80 transition-colors"
-          >
-            전체보기
-            <ChevronRight className="w-3 h-3 ml-0.5" />
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {auditVods.map((vod) => (
-            <VodCard key={vod.title} {...vod} />
-          ))}
-        </div>
-      </section>
-
-      {/* Section: 수강 이력 */}
-      <section className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-foreground">수강 이력</h2>
-          <Link
-            href="/study/my/history"
-            className="flex items-center text-xs text-primary font-medium hover:text-primary/80 transition-colors"
-          >
-            전체보기
-            <ChevronRight className="w-3 h-3 ml-0.5" />
-          </Link>
-        </div>
-        <div className="rounded-lg border border-border divide-y divide-border">
-          {historyItems.map((item) => (
-            <div key={item.title} className="flex items-center justify-between p-4">
-              <div className="flex items-center gap-3">
-                <GraduationCap className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium text-foreground">{item.title}</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Badge variant="active">수료 완료</Badge>
-                <Link
-                  href="/study/my/certificates"
-                  className="flex items-center text-xs text-primary font-medium hover:text-primary/80 transition-colors"
-                >
-                  <ScrollText className="w-3.5 h-3.5 mr-1" />
-                  수료증 보기
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }

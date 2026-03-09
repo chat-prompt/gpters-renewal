@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
 import {
   Select,
   SelectContent,
@@ -53,14 +52,7 @@ export default function AuditVodPage() {
   });
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
-      <Breadcrumb
-        items={[
-          { label: "내 스터디", href: "/study/my" },
-          { label: "청강 VOD" },
-        ]}
-      />
-
+    <div className="space-y-6">
       <h1 className="text-2xl font-bold text-foreground">청강 VOD</h1>
 
       <AssignmentGuide />

@@ -9,6 +9,7 @@ import {
   Video,
   Megaphone,
   AlertCircle,
+  Trophy,
 } from "lucide-react";
 import { Badge, Button, Toggle, Progress, Avatar } from "@/components/ui";
 import {
@@ -17,6 +18,11 @@ import {
   CardTitle,
   CardContent,
 } from "@/components/ui/card";
+
+const studyMembers = [
+  "김민지", "이준혁", "박소연", "최동현", "정하윤",
+  "이영희", "정대호", "최수민", "한지원", "오세진",
+];
 
 const mockStudy = {
   title: "21기 AI 자동화 스터디",
@@ -61,9 +67,10 @@ export default function StudyManagePage({
   params: Promise<{ slug: string }>;
 }) {
   const [finalSubmit, setFinalSubmit] = useState(mockStudy.isFinalSubmitted);
+  const [bestPresenter, setBestPresenter] = useState<string | null>("김민지");
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
+    <div className="mx-auto max-w-[1080px] px-4 py-8 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -200,6 +207,43 @@ export default function StudyManagePage({
               );
             })}
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Best Presenter Selection */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Trophy className="w-4 h-4 text-primary" />
+            베스트 발표자 선정
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground mb-3">
+            {mockStudy.currentWeek}주차 베스트 발표자를 선정하세요
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 mb-3">
+            {studyMembers.map((name) => (
+              <button
+                key={name}
+                onClick={() => setBestPresenter(name)}
+                className={`flex items-center gap-2 rounded-lg border p-2.5 text-left transition-colors ${
+                  bestPresenter === name
+                    ? "border-primary bg-accent"
+                    : "border-border hover:border-primary/50"
+                }`}
+              >
+                <Avatar size="sm" />
+                <span className="text-xs text-foreground truncate">{name}</span>
+              </button>
+            ))}
+          </div>
+          {bestPresenter && (
+            <p className="text-sm text-primary flex items-center gap-1.5">
+              <Trophy className="w-3.5 h-3.5" />
+              <span className="font-medium">{bestPresenter}</span>님이 {mockStudy.currentWeek}주차 베스트 발표자로 선정되었습니다.
+            </p>
+          )}
         </CardContent>
       </Card>
 

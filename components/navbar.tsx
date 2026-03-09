@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Mail,
-  Search,
   User,
   Settings,
   LogOut,
@@ -19,6 +18,7 @@ import {
 } from "lucide-react";
 import { IconButton } from "@/components/ui/icon-button";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuDivider } from "@/components/ui/dropdown-menu";
+import { SearchInput } from "@/components/site/search-input";
 
 const navItems = [
   { label: "탐색", href: "/explore/feed" },
@@ -84,13 +84,7 @@ export function Navbar() {
           <Link href="/" className="text-foreground font-bold text-lg shrink-0">
             GPTers
           </Link>
-          <Link
-            href="/search"
-            className="hidden sm:flex items-center gap-2 w-64 px-4 py-1.5 rounded-full bg-muted text-sm text-muted-foreground hover:bg-accent transition-colors"
-          >
-            <Search className="w-4 h-4 shrink-0" />
-            <span>GPTers 검색...</span>
-          </Link>
+          <SearchInput />
         </div>
 
         {/* Center: Navigation */}
@@ -108,6 +102,16 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
+          <Link
+            href="/study/my"
+            className={`text-sm px-3 py-1 rounded-md transition-colors ${
+              pathname.startsWith("/study/my")
+                ? "bg-primary text-primary-foreground"
+                : "bg-primary/10 text-primary hover:bg-primary/20"
+            }`}
+          >
+            내 스터디
+          </Link>
         </nav>
 
         {/* Right: Write + DM + Profile */}

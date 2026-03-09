@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { GraduationCap, Calendar, ScrollText } from "lucide-react";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Badge } from "@/components/ui/badge";
 
 // -- Mock Data --
@@ -70,14 +69,7 @@ const statusVariant = (status: HistoryItem["status"]) => {
 
 export default function HistoryPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
-      <Breadcrumb
-        items={[
-          { label: "내 스터디", href: "/study/my" },
-          { label: "수강 이력" },
-        ]}
-      />
-
+    <div className="space-y-6">
       <h1 className="text-2xl font-bold text-foreground">수강 이력</h1>
 
       <div className="rounded-lg border border-border divide-y divide-border">
@@ -116,3 +108,4 @@ export default function HistoryPage() {
     </div>
   );
 }
+

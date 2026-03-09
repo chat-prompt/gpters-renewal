@@ -1,4 +1,3 @@
-import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { CertificateView } from "@/components/lms/certificate-view";
 
 // -- Mock Data --
@@ -35,14 +34,7 @@ const certificates = [
 
 export default function CertificatesPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
-      <Breadcrumb
-        items={[
-          { label: "내 스터디", href: "/study/my" },
-          { label: "수료증" },
-        ]}
-      />
-
+    <div className="space-y-6">
       <h1 className="text-2xl font-bold text-foreground">수료증</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
