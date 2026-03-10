@@ -5,7 +5,6 @@ import Link from "next/link";
 import { PostCard } from "@/components/site/post-card";
 import { SortTabs } from "@/components/site/sort-tabs";
 import { CategoryFilter } from "@/components/site/category-filter";
-import { TagFilter } from "@/components/site/tag-filter";
 import { Pagination } from "@/components/ui/pagination";
 
 /* ─── Mock Data ─── */
@@ -146,9 +145,27 @@ const recommendedTopics = [
 ];
 
 const editorPicks = [
-  { slug: "ai-trend-2025", title: "2025년 주목할 AI 트렌드 TOP 10", author: "최준혁" },
-  { slug: "claude-marketing", title: "Claude로 마케팅 자동화 구축기", author: "홍길동" },
-  { slug: "cursor-fullstack", title: "Cursor로 풀스택 앱 만들기", author: "박철수" },
+  {
+    slug: "ai-trend-2025",
+    title: "2025년 주목할 AI 트렌드 TOP 10",
+    author: "최준혁",
+    excerpt: "에이전트, 멀티모달, 온디바이스 AI까지 올해 하반기 주목할 트렌드를 정리했습니다.",
+    time: "5일 전",
+  },
+  {
+    slug: "claude-marketing",
+    title: "Claude로 마케팅 자동화 구축기",
+    author: "홍길동",
+    excerpt: "매주 3시간 걸리던 마케팅 이메일 작업을 30분으로 줄인 자동화 파이프라인 구축기.",
+    time: "3시간 전",
+  },
+  {
+    slug: "cursor-fullstack",
+    title: "Cursor로 풀스택 앱 만들기",
+    author: "박철수",
+    excerpt: "바이브 코딩으로 실제 서비스를 만드는 과정을 처음부터 끝까지 공유합니다.",
+    time: "1일 전",
+  },
 ];
 
 const whoToFollow = [
@@ -161,38 +178,28 @@ const whoToFollow = [
 
 export default function FeedPage() {
   const [selectedCategory, setSelectedCategory] = useState("전체");
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("popular");
   const [currentPage, setCurrentPage] = useState(1);
 
   const filteredPosts = useMemo(() => {
     let posts = allPosts;
 
-    // 카테고리 필터
     if (selectedCategory !== "전체") {
       posts = posts.filter((p) => p.category === selectedCategory);
     }
 
-    // 태그 필터 (선택된 태그 중 하나라도 포함)
-    if (selectedTags.length > 0) {
-      posts = posts.filter((p) =>
-        selectedTags.some((tag) => p.tags.includes(tag))
-      );
-    }
-
-    // 정렬
     if (sortBy === "popular") {
       posts = [...posts].sort((a, b) => b.votes - a.votes);
     }
 
     return posts;
-  }, [selectedCategory, selectedTags, sortBy]);
+  }, [selectedCategory, sortBy]);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6">
-      <div className="flex gap-6 items-start">
+    <div className="mx-auto max-w-[1080px] px-6 py-8">
+      <div className="flex gap-10 items-start">
         {/* Main Feed */}
-        <div className="flex-1 min-w-0 space-y-5">
+        <div className="flex-1 min-w-0">
           {/* Category Filter */}
           <CategoryFilter
             categories={categoryTabs}
@@ -203,24 +210,12 @@ export default function FeedPage() {
             }}
           />
 
-          {/* Tag Filter */}
-          <TagFilter
-            tags={tagOptions}
-            selected={selectedTags}
-            onChange={(ids) => {
-              setSelectedTags(ids);
-              setCurrentPage(1);
-            }}
-          />
+          {/* Sort */}
+          <div className="py-4">
+            <SortTabs defaultValue={sortBy} onChange={setSortBy} />
+          </div>
 
-          {/* Sort + Post List */}
-          <div>
-            <div className="mb-3">
-              <SortTabs
-                defaultValue={sortBy}
-                onChange={setSortBy}
-              />
-            </div>
+          {/* Post List */}
           {filteredPosts.length > 0 ? (
             <div className="divide-y divide-border">
               {filteredPosts.map((post) => (
@@ -232,47 +227,56 @@ export default function FeedPage() {
               해당 조건에 맞는 게시글이 없습니다.
             </div>
           )}
-          </div>
 
           {/* Pagination */}
-          <Pagination
-            currentPage={currentPage}
-            totalPages={5}
-            onPageChange={setCurrentPage}
-          />
+          <div className="pt-6">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={5}
+              onPageChange={setCurrentPage}
+            />
+          </div>
         </div>
 
         {/* Sidebar */}
-        <aside className="w-72 hidden lg:flex flex-col gap-8 shrink-0">
+        <aside className="w-80 hidden lg:flex flex-col shrink-0 sticky top-20">
           {/* Recommended Topics */}
-          <div>
-            <h3 className="text-sm font-bold text-foreground mb-3">추천 토픽</h3>
+          <div className="pb-8">
+            <h3 className="text-base font-bold text-foreground mb-3">추천 토픽</h3>
             <div className="flex flex-wrap gap-2">
               {recommendedTopics.map((topic) => (
-                <button
+                <Link
                   key={topic}
-                  type="button"
+                  href={`/tag/${encodeURIComponent(topic)}`}
                   className="px-3 py-1.5 rounded-full text-xs bg-muted text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
                 >
                   {topic}
-                </button>
+                </Link>
               ))}
             </div>
           </div>
 
           {/* Editor Picks */}
-          <div>
-            <h3 className="text-sm font-bold text-foreground mb-3">에디터 픽</h3>
-            <div className="space-y-3">
+          <div className="pb-8">
+            <h3 className="text-base font-bold text-foreground mb-4">에디터 픽</h3>
+            <div className="space-y-5">
               {editorPicks.map((pick) => (
                 <Link
                   key={pick.slug}
                   href={`/posts/${pick.slug}`}
                   className="block group"
                 >
-                  <p className="text-xs text-muted-foreground mb-0.5">@{pick.author}</p>
-                  <p className="text-sm font-medium text-foreground group-hover:underline line-clamp-2">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-5 h-5 rounded-full bg-muted shrink-0" />
+                    <span className="text-xs text-muted-foreground">
+                      <span className="font-medium text-foreground">{pick.author}</span>
+                    </span>
+                  </div>
+                  <p className="text-sm font-bold text-foreground group-hover:underline line-clamp-2 leading-snug">
                     {pick.title}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {pick.time}
                   </p>
                 </Link>
               ))}
@@ -280,20 +284,31 @@ export default function FeedPage() {
           </div>
 
           {/* Who to Follow */}
-          <div>
-            <h3 className="text-sm font-bold text-foreground mb-3">추천 작성자</h3>
+          <div className="pb-8">
+            <h3 className="text-base font-bold text-foreground mb-4">추천 작성자</h3>
             <div className="space-y-4">
               {whoToFollow.map((user) => (
                 <div key={user.username} className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-muted shrink-0" />
+                  <div className="w-10 h-10 rounded-full bg-muted shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <Link
-                      href={`/profile/${user.username}`}
-                      className="text-sm font-medium text-foreground hover:underline"
-                    >
-                      {user.name}
-                    </Link>
-                    <p className="text-xs text-muted-foreground line-clamp-1">{user.bio}</p>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Link
+                          href={`/profile/${user.username}`}
+                          className="text-sm font-medium text-foreground hover:underline"
+                        >
+                          {user.name}
+                        </Link>
+                        <p className="text-xs text-muted-foreground">@{user.username}</p>
+                      </div>
+                      <button
+                        type="button"
+                        className="px-3 py-1 text-xs font-medium border border-border rounded-full text-foreground hover:bg-muted transition-colors shrink-0"
+                      >
+                        팔로우
+                      </button>
+                    </div>
+                    <p className="text-xs text-muted-foreground line-clamp-1 mt-1">{user.bio}</p>
                   </div>
                 </div>
               ))}

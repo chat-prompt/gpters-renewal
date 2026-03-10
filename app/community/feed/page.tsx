@@ -146,7 +146,7 @@ export default function CommunityFeedPage() {
   const currentPosts = getPostsForTab();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6">
+    <div className="mx-auto max-w-[1080px] px-4 py-6">
       <div className="flex gap-6 items-start">
         {/* Main Feed */}
         <div className="flex-1 min-w-0 space-y-5">

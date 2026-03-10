@@ -57,7 +57,7 @@ export default function NoticesManagePage() {
   const currentNotices = notices[activeTab] || [];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
+    <div className="mx-auto max-w-[1080px] px-4 py-8 space-y-6">
       <Breadcrumb
         items={[
           { label: "스터디 관리", href: "/study/manage/21-ai-automation" },

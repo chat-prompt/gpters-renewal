@@ -3,6 +3,7 @@
 import { useState } from "react";
 import {
   Plus,
+  Trash2,
   Award,
   Flame,
   Star,
@@ -67,6 +68,9 @@ export default function AdminBadgesPage() {
     );
   };
 
+  const deleteBadge = (id: number) =>
+    setBadges((prev) => prev.filter((b) => b.id !== id));
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -95,10 +99,20 @@ export default function AdminBadgesPage() {
                       </Badge>
                     </div>
                   </div>
-                  <Toggle
-                    checked={badge.active}
-                    onChange={(checked) => handleToggle(badge.id, checked)}
-                  />
+                  <div className="flex items-center gap-1">
+                    <Toggle
+                      checked={badge.active}
+                      onChange={(checked) => handleToggle(badge.id, checked)}
+                    />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      title="삭제"
+                      onClick={() => deleteBadge(badge.id)}
+                    >
+                      <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                    </Button>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent>

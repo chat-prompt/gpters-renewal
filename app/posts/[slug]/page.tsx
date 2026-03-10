@@ -122,7 +122,7 @@ const relatedPosts = [
 
 export default function PostDetailPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="mx-auto max-w-[1080px] px-4 py-8">
       {/* Breadcrumb + Tags */}
       <div className="mb-6 space-y-2">
         <Breadcrumb

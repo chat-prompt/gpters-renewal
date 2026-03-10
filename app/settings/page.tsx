@@ -68,7 +68,7 @@ export default function SettingsPage() {
   const [marketingNoti, setMarketingNoti] = useState(false);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="mx-auto max-w-[1080px] px-4 py-8">
       <h1 className="text-xl font-bold text-foreground mb-6">계정 설정</h1>
 
       <Tabs

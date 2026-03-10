@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
-import { Badge, Button, Tabs } from "@/components/ui";
+import { Badge, Button, Input, Tabs } from "@/components/ui";
 import {
   Table,
   TableHeader,
@@ -28,7 +28,7 @@ interface Tag {
   usageCount: number;
 }
 
-const categories: Category[] = [
+const initialCategories: Category[] = [
   { id: 1, order: 1, name: "AI 활용 사례", slug: "ai-usecase", postCount: 312 },
   { id: 2, order: 2, name: "프롬프트 공유", slug: "prompt", postCount: 245 },
   { id: 3, order: 3, name: "도구 리뷰", slug: "tool-review", postCount: 178 },
@@ -37,7 +37,7 @@ const categories: Category[] = [
   { id: 6, order: 6, name: "자유 게시판", slug: "free", postCount: 156 },
 ];
 
-const tags: Tag[] = [
+const initialTags: Tag[] = [
   { id: 1, name: "ChatGPT", slug: "chatgpt", type: "tool", usageCount: 534 },
   { id: 2, name: "Claude", slug: "claude", type: "tool", usageCount: 312 },
   { id: 3, name: "Midjourney", slug: "midjourney", type: "tool", usageCount: 189 },
@@ -55,23 +55,17 @@ const tags: Tag[] = [
 
 const tagTypeVariant = (type: Tag["type"]) => {
   switch (type) {
-    case "tool":
-      return "active" as const;
-    case "difficulty":
-      return "pill" as const;
-    case "format":
-      return "default" as const;
+    case "tool": return "active" as const;
+    case "difficulty": return "pill" as const;
+    case "format": return "default" as const;
   }
 };
 
 const tagTypeLabel = (type: Tag["type"]) => {
   switch (type) {
-    case "tool":
-      return "도구";
-    case "difficulty":
-      return "난이도";
-    case "format":
-      return "포맷";
+    case "tool": return "도구";
+    case "difficulty": return "난이도";
+    case "format": return "포맷";
   }
 };
 
@@ -82,12 +76,45 @@ const sectionTabs = [
 
 export default function AdminTaxonomyPage() {
   const [activeTab, setActiveTab] = useState("categories");
+  const [categoryList, setCategoryList] = useState<Category[]>(initialCategories);
+  const [tagList, setTagList] = useState<Tag[]>(initialTags);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editName, setEditName] = useState("");
+
+  const startEdit = (id: number, name: string) => {
+    setEditingId(id);
+    setEditName(name);
+  };
+
+  const saveCategory = () => {
+    setCategoryList((prev) =>
+      prev.map((c) => c.id === editingId ? { ...c, name: editName } : c)
+    );
+    setEditingId(null);
+  };
+
+  const saveTag = () => {
+    setTagList((prev) =>
+      prev.map((t) => t.id === editingId ? { ...t, name: editName } : t)
+    );
+    setEditingId(null);
+  };
+
+  const deleteCategory = (id: number) =>
+    setCategoryList((prev) => prev.filter((c) => c.id !== id));
+
+  const deleteTag = (id: number) =>
+    setTagList((prev) => prev.filter((t) => t.id !== id));
 
   return (
     <div className="space-y-6">
       <h1 className="text-xl font-bold text-foreground">분류 관리</h1>
 
-      <Tabs items={sectionTabs} activeKey={activeTab} onTabChange={setActiveTab} />
+      <Tabs
+        items={sectionTabs}
+        activeKey={activeTab}
+        onTabChange={(key) => { setActiveTab(key); setEditingId(null); }}
+      />
 
       {activeTab === "categories" && (
         <div className="border border-border rounded-lg overflow-hidden">
@@ -98,40 +125,54 @@ export default function AdminTaxonomyPage() {
                 <TableHead>이름</TableHead>
                 <TableHead>Slug</TableHead>
                 <TableHead className="w-24 text-right">게시글 수</TableHead>
-                <TableHead className="w-24" />
+                <TableHead className="w-32" />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {categories.map((cat) => (
+              {categoryList.map((cat) => (
                 <TableRow key={cat.id}>
                   <TableCell>
-                    <span className="text-sm text-muted-foreground">
-                      {cat.order}
-                    </span>
+                    <span className="text-sm text-muted-foreground">{cat.order}</span>
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm font-medium text-foreground">
-                      {cat.name}
-                    </span>
+                    {editingId === cat.id ? (
+                      <Input
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        className="h-7 text-sm w-40"
+                        autoFocus
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") saveCategory();
+                          if (e.key === "Escape") setEditingId(null);
+                        }}
+                      />
+                    ) : (
+                      <span className="text-sm font-medium text-foreground">{cat.name}</span>
+                    )}
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm text-muted-foreground">
-                      {cat.slug}
-                    </span>
+                    <span className="text-sm text-muted-foreground">{cat.slug}</span>
                   </TableCell>
                   <TableCell className="text-right">
-                    <span className="text-sm text-foreground">
-                      {cat.postCount}
-                    </span>
+                    <span className="text-sm text-foreground">{cat.postCount}</span>
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-1 justify-end">
-                      <Button variant="ghost" size="sm" title="수정">
-                        <Pencil className="w-3.5 h-3.5" />
-                      </Button>
-                      <Button variant="ghost" size="sm" title="삭제">
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </Button>
+                      {editingId === cat.id ? (
+                        <>
+                          <Button size="sm" onClick={saveCategory}>저장</Button>
+                          <Button size="sm" variant="ghost" onClick={() => setEditingId(null)}>취소</Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button variant="ghost" size="sm" title="수정" onClick={() => startEdit(cat.id, cat.name)}>
+                            <Pencil className="w-3.5 h-3.5" />
+                          </Button>
+                          <Button variant="ghost" size="sm" title="삭제" onClick={() => deleteCategory(cat.id)}>
+                            <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                          </Button>
+                        </>
+                      )}
                     </div>
                   </TableCell>
                 </TableRow>
@@ -150,40 +191,54 @@ export default function AdminTaxonomyPage() {
                 <TableHead>Slug</TableHead>
                 <TableHead className="w-20">타입</TableHead>
                 <TableHead className="w-24 text-right">사용 횟수</TableHead>
-                <TableHead className="w-24" />
+                <TableHead className="w-32" />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {tags.map((tag) => (
+              {tagList.map((tag) => (
                 <TableRow key={tag.id}>
                   <TableCell>
-                    <span className="text-sm font-medium text-foreground">
-                      {tag.name}
-                    </span>
+                    {editingId === tag.id ? (
+                      <Input
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        className="h-7 text-sm w-32"
+                        autoFocus
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") saveTag();
+                          if (e.key === "Escape") setEditingId(null);
+                        }}
+                      />
+                    ) : (
+                      <span className="text-sm font-medium text-foreground">{tag.name}</span>
+                    )}
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm text-muted-foreground">
-                      {tag.slug}
-                    </span>
+                    <span className="text-sm text-muted-foreground">{tag.slug}</span>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={tagTypeVariant(tag.type)}>
-                      {tagTypeLabel(tag.type)}
-                    </Badge>
+                    <Badge variant={tagTypeVariant(tag.type)}>{tagTypeLabel(tag.type)}</Badge>
                   </TableCell>
                   <TableCell className="text-right">
-                    <span className="text-sm text-foreground">
-                      {tag.usageCount}
-                    </span>
+                    <span className="text-sm text-foreground">{tag.usageCount}</span>
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-1 justify-end">
-                      <Button variant="ghost" size="sm" title="수정">
-                        <Pencil className="w-3.5 h-3.5" />
-                      </Button>
-                      <Button variant="ghost" size="sm" title="삭제">
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </Button>
+                      {editingId === tag.id ? (
+                        <>
+                          <Button size="sm" onClick={saveTag}>저장</Button>
+                          <Button size="sm" variant="ghost" onClick={() => setEditingId(null)}>취소</Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button variant="ghost" size="sm" title="수정" onClick={() => startEdit(tag.id, tag.name)}>
+                            <Pencil className="w-3.5 h-3.5" />
+                          </Button>
+<Button variant="ghost" size="sm" title="삭제" onClick={() => deleteTag(tag.id)}>
+                            <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                          </Button>
+                        </>
+                      )}
                     </div>
                   </TableCell>
                 </TableRow>

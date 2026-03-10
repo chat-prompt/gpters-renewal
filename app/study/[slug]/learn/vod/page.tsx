@@ -88,7 +88,7 @@ export default function VodPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
+    <div className="mx-auto max-w-[1080px] px-4 py-8 space-y-6">
       <Breadcrumb
         items={[
           { label: "내 스터디", href: "/study/my" },

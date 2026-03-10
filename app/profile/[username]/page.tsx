@@ -163,7 +163,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="mx-auto max-w-[1080px] px-4 py-8">
       {/* Profile Header */}
       <ProfileHeader
         user={{

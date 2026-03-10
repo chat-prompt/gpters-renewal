@@ -86,8 +86,46 @@ export default function AdminCompletionPage() {
   const [selectedCohort, setSelectedCohort] = useState("21");
   const [minAttendance, setMinAttendance] = useState("3");
   const [minAssignments, setMinAssignments] = useState("3");
+  const [studentsData, setStudentsData] = useState<Record<number, Student[]>>(studentsMap);
 
-  const students = studentsMap[Number(selectedCohort)] ?? [];
+  const students = studentsData[Number(selectedCohort)] ?? [];
+
+  const runVerdict = () => {
+    const minAtt = Number(minAttendance);
+    const minAss = Number(minAssignments);
+    setStudentsData((prev) => ({
+      ...prev,
+      [Number(selectedCohort)]: (prev[Number(selectedCohort)] ?? []).map((s) => ({
+        ...s,
+        verdict:
+          s.attendance >= minAtt && s.assignments >= minAss
+            ? s.attendance === 4 && s.assignments === 4
+              ? "우수"
+              : "수료"
+            : "미수료",
+      })),
+    }));
+  };
+
+  const issueCertificates = () => {
+    setStudentsData((prev) => ({
+      ...prev,
+      [Number(selectedCohort)]: (prev[Number(selectedCohort)] ?? []).map((s) => ({
+        ...s,
+        certificateIssued: s.verdict !== "미수료" ? true : s.certificateIssued,
+      })),
+    }));
+  };
+
+  const processRefunds = () => {
+    setStudentsData((prev) => ({
+      ...prev,
+      [Number(selectedCohort)]: (prev[Number(selectedCohort)] ?? []).map((s) => ({
+        ...s,
+        refundStatus: s.refundStatus === "미처리" ? "처리완료" : s.refundStatus,
+      })),
+    }));
+  };
 
   const completedCount = students.filter(
     (s) => s.verdict === "수료" || s.verdict === "우수"
@@ -150,7 +188,7 @@ export default function AdminCompletionPage() {
                 max={4}
               />
             </div>
-            <Button size="sm">
+            <Button size="sm" onClick={runVerdict}>
               <RefreshCw className="w-3.5 h-3.5" />
               판정 실행
             </Button>
@@ -179,11 +217,11 @@ export default function AdminCompletionPage() {
 
       {/* 일괄 액션 */}
       <div className="flex flex-wrap gap-2">
-        <Button variant="secondary" size="sm">
+        <Button variant="secondary" size="sm" onClick={issueCertificates}>
           <FileText className="w-3.5 h-3.5" />
           수료증 일괄 발급
         </Button>
-        <Button variant="secondary" size="sm">
+        <Button variant="secondary" size="sm" onClick={processRefunds}>
           <CheckCircle className="w-3.5 h-3.5" />
           환급 처리
         </Button>

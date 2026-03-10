@@ -140,6 +140,10 @@ export default function AdminStudiesPage() {
     );
   };
 
+  const filteredStudies = studyData.filter((s) =>
+    statusFilter === "all" || s.status === statusFilter
+  );
+
   return (
     <div className="space-y-6">
       <h1 className="text-xl font-bold text-foreground">스터디 관리</h1>
@@ -183,7 +187,7 @@ export default function AdminStudiesPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {studyData.map((study) => (
+            {filteredStudies.map((study) => (
               <TableRow key={study.id}>
                 <TableCell>
                   <span className="text-sm text-foreground font-medium">

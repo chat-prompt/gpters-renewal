@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>GPTers User Flow</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'Inter', sans-serif; background: #f8f8f8; overflow: auto; }
+  #canvas { position: relative; width: 1750px; height: 2050px; margin: 40px auto; }
+
+  /* Section labels */
+  .section-label {
+    position: absolute; font-size: 15px; font-weight: 800; color: #EF6020;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  /* Screen cards */
+  .card {
+    position: absolute; width: 180px; background: #fff; border: 1px solid #e0e0e0;
+    border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+  .card img { width: 180px; height: 110px; object-fit: cover; object-position: top; display: block; background: #f0f0f0; }
+  .card-info { padding: 6px 8px; }
+  .card-name { font-size: 11px; font-weight: 700; color: #171717; }
+  .card-path { font-size: 9px; color: #a3a3a3; font-family: 'SF Mono', 'Menlo', monospace; }
+
+  /* SVG arrows */
+  svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+  .arrow-line { fill: none; stroke-width: 1.5; }
+  .arrow-label {
+    font-size: 9px; font-family: -apple-system, 'Inter', sans-serif; font-weight: 500;
+    paint-order: stroke; stroke: #f8f8f8; stroke-width: 3px;
+  }
+
+  /* Modal */
+  .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:100; cursor:zoom-out; overflow-y:auto; padding:40px; justify-content:center; align-items:flex-start; }
+  .modal.active { display:flex; }
+  .modal img { max-width:90vw; border-radius:8px; }
+  .modal-label { position:fixed; top:16px; left:50%; transform:translateX(-50%); background:#fff; padding:6px 16px; border-radius:16px; font-size:13px; font-weight:600; z-index:101; white-space:nowrap; }
+</style>
+</head>
+<body>
+
+<div id="canvas">
+  <svg id="arrows" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="ah-gray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <path d="M0,0 L8,3 L0,6 Z" fill="#b0b0b0"/>
+      </marker>
+      <marker id="ah-orange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <path d="M0,0 L8,3 L0,6 Z" fill="#EF6020"/>
+      </marker>
+      <marker id="ah-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <path d="M0,0 L8,3 L0,6 Z" fill="#3b82f6"/>
+      </marker>
+    </defs>
+  </svg>
+</div>
+
+<div class="modal" id="modal" onclick="this.classList.remove('active')">
+  <div class="modal-label" id="mLabel"></div>
+  <img id="mImg" src="">
+</div>
+
+<script>
+/* ── Screen definitions ── */
+const screens = [
+  // Section A: Content Discovery
+  { id:"홈",        img:"01-홈",          path:"/",                   x:20,   y:190, section:"A" },
+  { id:"탐색",      img:"02-탐색",        path:"/explore/feed",       x:300,  y:50,  section:"A" },
+  { id:"커뮤니티",   img:"03-커뮤니티",     path:"/community/feed",     x:300,  y:230, section:"A" },
+  { id:"글쓰기",    img:"05-글쓰기",       path:"/write",              x:300,  y:410, section:"A" },
+  { id:"게시글",    img:"04-게시글상세",    path:"/posts/[slug]",       x:600,  y:50,  section:"A" },
+  { id:"태그",      img:"08-태그",         path:"/tag/[slug]",         x:600,  y:230, section:"A" },
+  { id:"검색",      img:"06-검색",         path:"/search",             x:600,  y:410, section:"A" },
+  { id:"프로필",    img:"22-프로필",       path:"/profile/[user]",     x:900,  y:50,  section:"A" },
+  { id:"메시지",    img:"07-메시지",       path:"/messages",           x:900,  y:230, section:"A" },
+  { id:"설정",      img:"23-설정",         path:"/settings",           x:900,  y:410, section:"A" },
+
+  // Section B: Study Journey
+  { id:"스터디상세", img:"09-스터디상세",   path:"/study/[slug]",       x:20,   y:690, section:"B" },
+  { id:"체크아웃",   img:"10-체크아웃",     path:"/checkout/[id]",      x:300,  y:690, section:"B" },
+  { id:"내스터디",   img:"11-내스터디",     path:"/study/my",           x:600,  y:690, section:"B" },
+  { id:"학습",      img:"12-학습",         path:"/study/.../learn",    x:900,  y:690, section:"B" },
+  { id:"과제",      img:"13-과제",         path:"/study/.../tasks",    x:1200, y:690, section:"B" },
+  { id:"VOD",       img:"14-VOD",          path:"/study/.../vod",      x:1200, y:870, section:"B" },
+  { id:"청강",      img:"16-청강",         path:"/study/my/audit",     x:600,  y:870, section:"B" },
+  { id:"수강이력",   img:"15-수강이력",     path:"/study/my/history",   x:900,  y:870, section:"B" },
+  { id:"수료증",    img:"17-수료증",       path:"/study/my/certs",     x:900,  y:1050, section:"B" },
+
+  // Section C: Study Management
+  { id:"스터디관리", img:"18-스터디관리",   path:"/study/manage/[s]",   x:20,   y:1230, section:"C" },
+  { id:"수강생현황", img:"19-수강생현황",   path:"/.../members",        x:300,  y:1230, section:"C" },
+  { id:"공지관리",   img:"20-공지관리",     path:"/.../notices",        x:600,  y:1230, section:"C" },
+  { id:"VOD관리",   img:"21-VOD관리",     path:"/.../vod",            x:900,  y:1230, section:"C" },
+
+  // Section D: Admin
+  { id:"어드민",     img:"24-어드민대시보드", path:"/admin",            x:20,   y:1530, section:"D" },
+  { id:"A게시글",   img:"25-어드민게시글",   path:"/admin/posts",      x:300,  y:1530, section:"D" },
+  { id:"A스터디",   img:"26-어드민스터디",   path:"/admin/studies",    x:600,  y:1530, section:"D" },
+  { id:"A배너",     img:"27-어드민배너",     path:"/admin/banners",   x:900,  y:1530, section:"D" },
+  { id:"A텍스트",   img:"28-어드민텍스트",   path:"/admin/texts",     x:1200, y:1530, section:"D" },
+  { id:"A회원",     img:"29-어드민회원",     path:"/admin/users",     x:1500, y:1530, section:"D" },
+  { id:"A기수",     img:"30-어드민기수",     path:"/admin/cohorts",   x:300,  y:1710, section:"D" },
+  { id:"A세션",     img:"31-어드민세션",     path:"/admin/sessions",  x:600,  y:1710, section:"D" },
+  { id:"A수료",     img:"32-어드민수료환급", path:"/admin/completion", x:900,  y:1710, section:"D" },
+  { id:"A분류",     img:"33-어드민분류",     path:"/admin/taxonomy",  x:1200, y:1710, section:"D" },
+  { id:"A신고",     img:"34-어드민신고",     path:"/admin/moderation", x:1500, y:1710, section:"D" },
+];
+
+/* ── Flow arrows ── */
+const arrows = [
+  // Content Discovery (orange = key user journey)
+  { from:"홈", to:"탐색",      label:"메뉴 '탐색'",    color:"orange" },
+  { from:"홈", to:"커뮤니티",   label:"메뉴 '커뮤니티'", color:"orange" },
+  { from:"홈", to:"글쓰기",    label:"글쓰기 버튼",     color:"gray" },
+  { from:"탐색", to:"게시글",   label:"포스트 클릭",    color:"orange" },
+  { from:"탐색", to:"태그",     label:"태그 클릭",       color:"gray" },
+  { from:"커뮤니티", to:"게시글", label:"포스트 클릭",   color:"gray" },
+  { from:"게시글", to:"프로필",  label:"작성자 클릭",    color:"gray" },
+  { from:"태그", to:"게시글",   label:"포스트 클릭",    color:"gray", curve:true },
+  { from:"검색", to:"게시글",   label:"결과 클릭",      color:"gray", curve:true },
+  { from:"검색", to:"태그",     label:"태그 클릭",      color:"gray" },
+  { from:"프로필", to:"설정",   label:"설정 버튼",      color:"gray" },
+  { from:"홈", to:"메시지",     label:"메시지 아이콘",   color:"gray", curve:true },
+
+  // Study Journey (orange = key journey)
+  { from:"홈", to:"스터디상세",  label:"스터디 카드",    color:"orange" },
+  { from:"스터디상세", to:"체크아웃", label:"신청하기",   color:"orange" },
+  { from:"체크아웃", to:"내스터디",   label:"결제 완료",  color:"orange" },
+  { from:"내스터디", to:"학습",      label:"스터디 선택", color:"orange" },
+  { from:"학습", to:"과제",         label:"과제 탭",     color:"orange" },
+  { from:"학습", to:"VOD",          label:"VOD 탭",     color:"gray" },
+  { from:"내스터디", to:"청강",      label:"청강 탭",    color:"gray" },
+  { from:"내스터디", to:"수강이력",   label:"이력 탭",    color:"gray", curve:true },
+  { from:"수강이력", to:"수료증",    label:"수료증 보기", color:"gray" },
+
+  // Management (blue)
+  { from:"내스터디", to:"스터디관리", label:"스터디장 전환", color:"blue" },
+  { from:"스터디관리", to:"수강생현황", label:"수강생 탭",  color:"blue" },
+  { from:"스터디관리", to:"공지관리",   label:"공지 탭",   color:"blue" },
+  { from:"스터디관리", to:"VOD관리",   label:"VOD 탭",    color:"blue" },
+
+  // Admin (gray)
+  { from:"어드민", to:"A게시글",  label:"",  color:"gray" },
+  { from:"어드민", to:"A스터디",  label:"",  color:"gray", curve:true },
+  { from:"어드민", to:"A배너",   label:"",  color:"gray", curve:true },
+  { from:"어드민", to:"A텍스트",  label:"",  color:"gray", curve:true },
+  { from:"어드민", to:"A회원",   label:"",  color:"gray", curve:true },
+  { from:"어드민", to:"A기수",   label:"",  color:"gray" },
+  { from:"어드민", to:"A세션",   label:"",  color:"gray", curve:true },
+  { from:"어드민", to:"A수료",   label:"",  color:"gray", curve:true },
+  { from:"어드민", to:"A분류",   label:"",  color:"gray", curve:true },
+  { from:"어드민", to:"A신고",   label:"",  color:"gray", curve:true },
+];
+
+const sectionLabels = [
+  { text:"A. 콘텐츠 탐색", x:20, y:20 },
+  { text:"B. 스터디 수강", x:20, y:660 },
+  { text:"C. 스터디장 관리", x:20, y:1200 },
+  { text:"D. 어드민", x:20, y:1500 },
+];
+
+const CARD_W = 180, CARD_H = 140;
+const screenMap = {};
+
+/* ── Render ── */
+const canvas = document.getElementById("canvas");
+const svg = document.getElementById("arrows");
+
+// Section labels
+sectionLabels.forEach(s => {
+  const el = document.createElement("div");
+  el.className = "section-label";
+  el.style.left = s.x + "px";
+  el.style.top = s.y + "px";
+  el.textContent = s.text;
+  canvas.appendChild(el);
+});
+
+// Screen cards
+screens.forEach(s => {
+  screenMap[s.id] = s;
+  const card = document.createElement("div");
+  card.className = "card";
+  card.style.left = s.x + "px";
+  card.style.top = s.y + "px";
+  card.onclick = () => {
+    document.getElementById("mImg").src = "screenshots/" + s.img + ".png";
+    document.getElementById("mLabel").textContent = s.id + "  " + s.path;
+    document.getElementById("modal").classList.add("active");
+  };
+  card.innerHTML = `
+    <img src="screenshots/${s.img}.png" loading="lazy" alt="${s.id}">
+    <div class="card-info">
+      <div class="card-name">${s.id.replace(/^A/, "")}</div>
+      <div class="card-path">${s.path}</div>
+    </div>`;
+  canvas.appendChild(card);
+});
+
+// Arrows
+arrows.forEach(a => {
+  const from = screenMap[a.from];
+  const to = screenMap[a.to];
+  if (!from || !to) return;
+
+  const fx = from.x + CARD_W;
+  const fy = from.y + CARD_H / 2;
+  const tx = to.x;
+  const ty = to.y + CARD_H / 2;
+
+  // Determine if we need a vertical or horizontal arrow
+  const dx = tx - fx;
+  const dy = ty - fy;
+  const isVertical = Math.abs(dy) > Math.abs(dx) * 1.5;
+
+  let path;
+  if (isVertical) {
+    // Vertical: go from bottom-center to top-center
+    const sx = from.x + CARD_W / 2;
+    const sy = from.y + CARD_H;
+    const ex = to.x + CARD_W / 2;
+    const ey = to.y;
+    const midY = (sy + ey) / 2;
+    path = `M${sx},${sy} C${sx},${midY} ${ex},${midY} ${ex},${ey}`;
+  } else if (a.curve && dy !== 0) {
+    // Curved horizontal
+    const cpx = fx + dx * 0.5;
+    path = `M${fx},${fy} C${cpx},${fy} ${cpx},${ty} ${tx},${ty}`;
+  } else {
+    // Straight or gentle curve
+    const cpx1 = fx + Math.min(40, dx * 0.3);
+    const cpx2 = tx - Math.min(40, dx * 0.3);
+    path = `M${fx},${fy} C${cpx1},${fy} ${cpx2},${ty} ${tx},${ty}`;
+  }
+
+  const colorMap = { orange: "#EF6020", gray: "#b0b0b0", blue: "#3b82f6" };
+  const markerMap = { orange: "ah-orange", gray: "ah-gray", blue: "ah-blue" };
+  const c = colorMap[a.color] || "#b0b0b0";
+  const m = markerMap[a.color] || "ah-gray";
+
+  const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  pathEl.setAttribute("d", path);
+  pathEl.setAttribute("class", "arrow-line");
+  pathEl.setAttribute("stroke", c);
+  pathEl.setAttribute("marker-end", `url(#${m})`);
+  svg.appendChild(pathEl);
+
+  // Label
+  if (a.label) {
+    const mx = (fx + tx) / 2 + (isVertical ? 10 : 0);
+    const my = (fy + ty) / 2 + (isVertical ? 0 : -8);
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x", mx);
+    text.setAttribute("y", my);
+    text.setAttribute("class", "arrow-label");
+    text.setAttribute("fill", c);
+    text.setAttribute("text-anchor", "middle");
+    text.textContent = a.label;
+    svg.appendChild(text);
+  }
+});
+
+// Escape to close modal
+document.addEventListener("keydown", e => { if (e.key === "Escape") document.getElementById("modal").classList.remove("active"); });
+</script>
+
+</body>
+</html>

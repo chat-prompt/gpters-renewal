@@ -18,8 +18,8 @@ export default function CheckoutPage() {
   const [privacyAgreed, setPrivacyAgreed] = useState(false);
   const [refundAgreed, setRefundAgreed] = useState(false);
 
-  const regularPrice = 200000;
-  const earlyBirdDiscount = 50000;
+  const regularPrice = 299000;
+  const earlyBirdDiscount = 30000;
   const couponDiscount = couponApplied ? 10000 : 0;
   const finalPrice = regularPrice - earlyBirdDiscount - couponDiscount;
   const allAgreed = termsAgreed && privacyAgreed && refundAgreed;
@@ -61,7 +61,7 @@ export default function CheckoutPage() {
         <h2 className="font-bold text-foreground mb-4">가격 정보</h2>
         <PriceBreakdown
           originalPrice={regularPrice}
-          discountLabel="얼리버드 할인"
+          discountLabel="슈퍼얼리버드 할인 (10%)"
           discountAmount={earlyBirdDiscount}
           couponDiscount={couponDiscount}
           finalPrice={finalPrice}

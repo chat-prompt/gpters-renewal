@@ -1,8 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { ExternalLink } from "lucide-react";
-import { Badge, Button, Input, Tabs } from "@/components/ui";
+import { UserX, UserCheck, Trash2 } from "lucide-react";
+import { Button, Input, Tabs } from "@/components/ui";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableHeader,
@@ -20,9 +27,10 @@ interface User {
   joinedAt: string;
   studyCount: number;
   postCount: number;
+  suspended?: boolean;
 }
 
-const users: User[] = [
+const initialUsers: User[] = [
   { id: 1, name: "김민수", email: "minsu@example.com", role: "운영자", joinedAt: "2024-01-15", studyCount: 8, postCount: 42 },
   { id: 2, name: "이지영", email: "jiyoung@example.com", role: "스터디장", joinedAt: "2024-02-20", studyCount: 5, postCount: 28 },
   { id: 3, name: "박도현", email: "dohyun@example.com", role: "스터디장", joinedAt: "2024-03-05", studyCount: 4, postCount: 31 },
@@ -38,17 +46,6 @@ const users: User[] = [
   { id: 13, name: "오승민", email: "seungmin@example.com", role: "일반", joinedAt: "2025-01-05", studyCount: 1, postCount: 1 },
 ];
 
-const roleVariant = (role: User["role"]) => {
-  switch (role) {
-    case "운영자":
-      return "active" as const;
-    case "스터디장":
-      return "pill" as const;
-    default:
-      return "default" as const;
-  }
-};
-
 const roleTabs = [
   { key: "all", label: "전체" },
   { key: "일반", label: "일반" },
@@ -59,6 +56,7 @@ const roleTabs = [
 export default function AdminUsersPage() {
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");
+  const [users, setUsers] = useState<User[]>(initialUsers);
 
   const filtered = users.filter((u) => {
     const matchesSearch =
@@ -68,6 +66,17 @@ export default function AdminUsersPage() {
     const matchesRole = roleFilter === "all" || u.role === roleFilter;
     return matchesSearch && matchesRole;
   });
+
+  const updateRole = (id: number, role: User["role"]) =>
+    setUsers((prev) => prev.map((u) => u.id === id ? { ...u, role } : u));
+
+  const toggleSuspend = (id: number) =>
+    setUsers((prev) =>
+      prev.map((u) => u.id === id ? { ...u, suspended: !u.suspended } : u)
+    );
+
+  const deleteUser = (id: number) =>
+    setUsers((prev) => prev.filter((u) => u.id !== id));
 
   return (
     <div className="space-y-6">
@@ -87,19 +96,22 @@ export default function AdminUsersPage() {
             <TableRow>
               <TableHead>이름</TableHead>
               <TableHead>이메일</TableHead>
-              <TableHead className="w-20">역할</TableHead>
+              <TableHead className="w-32">역할</TableHead>
               <TableHead className="w-24">가입일</TableHead>
               <TableHead className="w-20 text-right">스터디</TableHead>
               <TableHead className="w-20 text-right">게시글</TableHead>
-              <TableHead className="w-16" />
+              <TableHead className="w-20" />
             </TableRow>
           </TableHeader>
           <TableBody>
             {filtered.map((user) => (
-              <TableRow key={user.id}>
+              <TableRow key={user.id} className={user.suspended ? "opacity-60" : ""}>
                 <TableCell>
                   <span className="text-sm font-medium text-foreground">
                     {user.name}
+                    {user.suspended && (
+                      <span className="ml-1 text-xs text-muted-foreground">(정지)</span>
+                    )}
                   </span>
                 </TableCell>
                 <TableCell>
@@ -108,7 +120,19 @@ export default function AdminUsersPage() {
                   </span>
                 </TableCell>
                 <TableCell>
-                  <Badge variant={roleVariant(user.role)}>{user.role}</Badge>
+                  <Select
+                    value={user.role}
+                    onValueChange={(val) => updateRole(user.id, val as User["role"])}
+                  >
+                    <SelectTrigger size="sm" className="w-24">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="일반">일반</SelectItem>
+                      <SelectItem value="스터디장">스터디장</SelectItem>
+                      <SelectItem value="운영자">운영자</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm text-muted-foreground whitespace-nowrap">
@@ -116,20 +140,34 @@ export default function AdminUsersPage() {
                   </span>
                 </TableCell>
                 <TableCell className="text-right">
-                  <span className="text-sm text-foreground">
-                    {user.studyCount}
-                  </span>
+                  <span className="text-sm text-foreground">{user.studyCount}</span>
                 </TableCell>
                 <TableCell className="text-right">
-                  <span className="text-sm text-foreground">
-                    {user.postCount}
-                  </span>
+                  <span className="text-sm text-foreground">{user.postCount}</span>
                 </TableCell>
                 <TableCell>
-                  <Button variant="ghost" size="sm">
-                    <ExternalLink className="w-3.5 h-3.5" />
-                    상세
-                  </Button>
+                  <div className="flex gap-1 justify-end">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      title={user.suspended ? "정지 해제" : "계정 정지"}
+                      onClick={() => toggleSuspend(user.id)}
+                    >
+                      {user.suspended ? (
+                        <UserCheck className="w-3.5 h-3.5 text-primary" />
+                      ) : (
+                        <UserX className="w-3.5 h-3.5" />
+                      )}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      title="삭제"
+                      onClick={() => deleteUser(user.id)}
+                    >
+                      <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

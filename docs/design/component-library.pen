@@ -76,6 +76,7 @@
                   "type": "frame",
                   "id": "hEOTg",
                   "width": "fill_container",
+                  "height": "fit_content(0)",
                   "gap": 32,
                   "children": [
                     {
@@ -168,6 +169,7 @@
                   "type": "frame",
                   "id": "8LsEw",
                   "width": "fill_container",
+                  "height": "fit_content(0)",
                   "gap": 32,
                   "children": [
                     {
@@ -783,6 +785,7 @@
                       "type": "frame",
                       "id": "JHHzv",
                       "width": "fill_container",
+                      "height": "fit_content(0)",
                       "gap": 12,
                       "children": [
                         {
@@ -1267,6 +1270,7 @@
                           "type": "frame",
                           "id": "8BD2Z",
                           "width": "fill_container",
+                          "height": "fit_content(0)",
                           "children": [
                             {
                               "type": "frame",

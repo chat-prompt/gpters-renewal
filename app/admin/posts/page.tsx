@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { Input, Button, Badge, Pagination, Checkbox } from "@/components/ui";
 import {
   Select,
@@ -29,88 +29,20 @@ interface Post {
   status: string;
 }
 
-const posts: Post[] = [
-  {
-    id: 1,
-    title: "Claude로 마케팅 자동화 구축기",
-    category: "AI활용법",
-    author: "홍길동",
-    date: "2026-02-26",
-    status: "공개",
-  },
-  {
-    id: 2,
-    title: "GPT-4o 프롬프트 작성법 완전 가이드",
-    category: "프롬프트",
-    author: "이영희",
-    date: "2026-02-25",
-    status: "공개",
-  },
-  {
-    id: 3,
-    title: "Cursor로 풀스택 앱 만들기",
-    category: "개발/코딩",
-    author: "박철수",
-    date: "2026-02-25",
-    status: "공개",
-  },
-  {
-    id: 4,
-    title: "n8n 자동화 워크플로우 가이드",
-    category: "자동화/노코드",
-    author: "김영호",
-    date: "2026-02-24",
-    status: "비공개",
-  },
-  {
-    id: 5,
-    title: "AI 비즈니스 모델 5가지 분석",
-    category: "비즈니스/마케팅",
-    author: "이수진",
-    date: "2026-02-24",
-    status: "공개",
-  },
-  {
-    id: 6,
-    title: "GPT-5 전망과 활용법 총정리",
-    category: "AI뉴스",
-    author: "최지원",
-    date: "2026-02-23",
-    status: "공개",
-  },
-  {
-    id: 7,
-    title: "AI 에이전트 만들기 실전 가이드",
-    category: "개발/코딩",
-    author: "한서연",
-    date: "2026-02-23",
-    status: "신고됨",
-  },
-  {
-    id: 8,
-    title: "노코드로 SaaS 런칭하기",
-    category: "자동화/노코드",
-    author: "정우성",
-    date: "2026-02-22",
-    status: "공개",
-  },
-  {
-    id: 9,
-    title: "프롬프트 엔지니어링 심화 과정 후기",
-    category: "프롬프트",
-    author: "송다혜",
-    date: "2026-02-22",
-    status: "공개",
-  },
-  {
-    id: 10,
-    title: "AI 뉴스레터 자동 발행 시스템 구축",
-    category: "AI활용법",
-    author: "김민준",
-    date: "2026-02-21",
-    status: "비공개",
-  },
+const initialPosts: Post[] = [
+  { id: 1, title: "Claude로 마케팅 자동화 구축기", category: "AI활용법", author: "홍길동", date: "2026-02-26", status: "공개" },
+  { id: 2, title: "GPT-4o 프롬프트 작성법 완전 가이드", category: "프롬프트", author: "이영희", date: "2026-02-25", status: "공개" },
+  { id: 3, title: "Cursor로 풀스택 앱 만들기", category: "개발/코딩", author: "박철수", date: "2026-02-25", status: "공개" },
+  { id: 4, title: "n8n 자동화 워크플로우 가이드", category: "자동화/노코드", author: "김영호", date: "2026-02-24", status: "비공개" },
+  { id: 5, title: "AI 비즈니스 모델 5가지 분석", category: "비즈니스/마케팅", author: "이수진", date: "2026-02-24", status: "공개" },
+  { id: 6, title: "GPT-5 전망과 활용법 총정리", category: "AI뉴스", author: "최지원", date: "2026-02-23", status: "공개" },
+  { id: 7, title: "AI 에이전트 만들기 실전 가이드", category: "개발/코딩", author: "한서연", date: "2026-02-23", status: "신고됨" },
+  { id: 8, title: "노코드로 SaaS 런칭하기", category: "자동화/노코드", author: "정우성", date: "2026-02-22", status: "공개" },
+  { id: 9, title: "프롬프트 엔지니어링 심화 과정 후기", category: "프롬프트", author: "송다혜", date: "2026-02-22", status: "공개" },
+  { id: 10, title: "AI 뉴스레터 자동 발행 시스템 구축", category: "AI활용법", author: "김민준", date: "2026-02-21", status: "비공개" },
 ];
+
+const categories = ["AI활용법", "프롬프트", "자동화/노코드", "개발/코딩", "비즈니스/마케팅", "AI뉴스"];
 
 const statusVariant = (status: string) => {
   if (status === "신고됨") return "active" as const;
@@ -119,9 +51,20 @@ const statusVariant = (status: string) => {
 };
 
 export default function AdminPostsPage() {
+  const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [selected, setSelected] = useState<number[]>([]);
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showMoveSelect, setShowMoveSelect] = useState(false);
+  const [moveCategory, setMoveCategory] = useState("");
+
+  const filteredPosts = posts.filter((p) => {
+    if (categoryFilter !== "all" && p.category !== categoryFilter) return false;
+    if (statusFilter !== "all" && p.status !== statusFilter) return false;
+    if (searchQuery && !p.title.includes(searchQuery) && !p.author.includes(searchQuery)) return false;
+    return true;
+  });
 
   const toggleSelect = (id: number) => {
     setSelected((prev) =>
@@ -130,10 +73,27 @@ export default function AdminPostsPage() {
   };
 
   const toggleAll = () => {
-    setSelected(
-      selected.length === posts.length ? [] : posts.map((p) => p.id)
-    );
+    const ids = filteredPosts.map((p) => p.id);
+    setSelected(selected.length === ids.length ? [] : ids);
   };
+
+  const handleBulkDelete = () => {
+    setPosts((prev) => prev.filter((p) => !selected.includes(p.id)));
+    setSelected([]);
+  };
+
+  const handleBulkMove = () => {
+    if (!moveCategory) return;
+    setPosts((prev) =>
+      prev.map((p) => selected.includes(p.id) ? { ...p, category: moveCategory } : p)
+    );
+    setSelected([]);
+    setShowMoveSelect(false);
+    setMoveCategory("");
+  };
+
+  const handleDelete = (id: number) =>
+    setPosts((prev) => prev.filter((p) => p.id !== id));
 
   return (
     <div className="space-y-6">
@@ -143,6 +103,8 @@ export default function AdminPostsPage() {
       <div className="flex gap-2">
         <Input
           placeholder="제목, 작성자 검색..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
         <Select value={categoryFilter} onValueChange={setCategoryFilter}>
           <SelectTrigger size="sm" className="w-auto">
@@ -150,12 +112,9 @@ export default function AdminPostsPage() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">카테고리: 전체</SelectItem>
-            <SelectItem value="AI활용법">AI활용법</SelectItem>
-            <SelectItem value="프롬프트">프롬프트</SelectItem>
-            <SelectItem value="자동화/노코드">자동화/노코드</SelectItem>
-            <SelectItem value="개발/코딩">개발/코딩</SelectItem>
-            <SelectItem value="비즈니스/마케팅">비즈니스/마케팅</SelectItem>
-            <SelectItem value="AI뉴스">AI뉴스</SelectItem>
+            {categories.map((c) => (
+              <SelectItem key={c} value={c}>{c}</SelectItem>
+            ))}
           </SelectContent>
         </Select>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
@@ -178,7 +137,7 @@ export default function AdminPostsPage() {
             <TableRow>
               <TableHead className="w-10">
                 <Checkbox
-                  checked={selected.length === posts.length && posts.length > 0}
+                  checked={filteredPosts.length > 0 && selected.length === filteredPosts.length}
                   onCheckedChange={toggleAll}
                 />
               </TableHead>
@@ -187,11 +146,11 @@ export default function AdminPostsPage() {
               <TableHead className="w-20">작성자</TableHead>
               <TableHead className="w-28">날짜</TableHead>
               <TableHead className="w-20">상태</TableHead>
-              <TableHead className="w-24">작업</TableHead>
+              <TableHead className="w-16">작업</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {posts.map((post) => (
+            {filteredPosts.map((post) => (
               <TableRow key={post.id}>
                 <TableCell>
                   <Checkbox
@@ -218,34 +177,73 @@ export default function AdminPostsPage() {
                   </span>
                 </TableCell>
                 <TableCell>
-                  <Badge variant={statusVariant(post.status)}>
-                    {post.status}
-                  </Badge>
+                  <Badge variant={statusVariant(post.status)}>{post.status}</Badge>
                 </TableCell>
                 <TableCell>
-                  <div className="flex gap-1">
-                    <Button variant="ghost" size="icon">
-                      <Pencil className="w-3.5 h-3.5" />
-                    </Button>
-                    <Button variant="ghost" size="icon">
-                      <Trash2 className="w-3.5 h-3.5 text-destructive" />
-                    </Button>
-                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    title="삭제"
+                    onClick={() => handleDelete(post.id)}
+                  >
+                    <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
+            {filteredPosts.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center text-sm text-muted-foreground py-8">
+                  게시글이 없습니다.
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
+
+      {/* Bulk Move UI */}
+      {showMoveSelect && (
+        <div className="flex items-center gap-2 px-4 py-3 rounded-lg border border-border bg-muted/50">
+          <span className="text-sm text-foreground">{selected.length}개 게시글을 이동:</span>
+          <Select value={moveCategory} onValueChange={setMoveCategory}>
+            <SelectTrigger size="sm" className="w-40">
+              <SelectValue placeholder="카테고리 선택" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((c) => (
+                <SelectItem key={c} value={c}>{c}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button size="sm" onClick={handleBulkMove} disabled={!moveCategory}>
+            이동하기
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => { setShowMoveSelect(false); setMoveCategory(""); }}
+          >
+            취소
+          </Button>
+        </div>
+      )}
 
       {/* Bulk Actions */}
       <BulkActionBar
         selectedCount={selected.length}
         actions={[
-          { label: "이동", onClick: () => {} },
-          { label: "삭제", onClick: () => {}, variant: "destructive" },
+          {
+            label: "이동",
+            onClick: () => setShowMoveSelect((prev) => !prev),
+          },
+          {
+            label: "삭제",
+            onClick: handleBulkDelete,
+            variant: "destructive",
+          },
         ]}
-        onClear={() => setSelected([])}
+        onClear={() => { setSelected([]); setShowMoveSelect(false); }}
       />
 
       {/* Pagination */}

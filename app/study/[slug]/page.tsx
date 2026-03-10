@@ -163,7 +163,7 @@ export default function StudyDetailPage() {
   const deadline = "2026.03.10";
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="mx-auto max-w-[1080px] px-4 py-8">
       <StudyHero
         cohort="21기"
         title="21기 AI 자동화 스터디"
@@ -173,7 +173,7 @@ export default function StudyDetailPage() {
         enrolled={enrolled}
         capacity={capacity}
         location="온라인 (Zoom)"
-        price="150,000원"
+        price="299,000원"
         deadline={deadline}
       />
 
@@ -262,11 +262,11 @@ export default function StudyDetailPage() {
           <div className="sticky top-8 border border-border rounded-lg p-6 bg-background space-y-4">
             <div>
               <p className="text-xs text-muted-foreground line-through">
-                200,000원
+                299,000원
               </p>
-              <p className="text-xl font-bold text-foreground">150,000원</p>
+              <p className="text-xl font-bold text-foreground">269,000원</p>
               <Badge variant="active" className="mt-1">
-                얼리버드 25% 할인
+                슈퍼얼리버드 10% 할인
               </Badge>
             </div>
             <div className="space-y-1">
@@ -290,9 +290,9 @@ export default function StudyDetailPage() {
 
       {/* Mobile Sticky CTA */}
       <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-background p-4 lg:hidden z-50">
-        <div className="flex items-center justify-between max-w-6xl mx-auto">
+        <div className="flex items-center justify-between max-w-[1080px] mx-auto">
           <div>
-            <p className="text-foreground font-bold">150,000원</p>
+            <p className="text-foreground font-bold">269,000원</p>
             <p className="text-xs text-muted-foreground">
               잔여 {capacity - enrolled}석 / 마감 {deadline}
             </p>

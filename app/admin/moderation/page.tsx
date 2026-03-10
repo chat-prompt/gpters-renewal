@@ -22,7 +22,7 @@ interface Report {
   status: "대기" | "처리완료" | "무시";
 }
 
-const reports: Report[] = [
+const initialReports: Report[] = [
   { id: 1, reportedAt: "2026-02-25", targetType: "게시글", targetTitle: "ChatGPT로 돈 벌기 꿀팁", reason: "스팸/광고성 콘텐츠", reporter: "이지영", status: "대기" },
   { id: 2, reportedAt: "2026-02-24", targetType: "댓글", targetTitle: "무의미한 댓글 반복", reason: "도배", reporter: "박도현", status: "대기" },
   { id: 3, reportedAt: "2026-02-23", targetType: "사용자", targetTitle: "spam_user_01", reason: "프로필 사칭", reporter: "최서연", status: "대기" },
@@ -34,39 +34,49 @@ const reports: Report[] = [
 
 const statusVariant = (status: Report["status"]) => {
   switch (status) {
-    case "대기":
-      return "active" as const;
-    case "처리완료":
-      return "completed" as const;
-    case "무시":
-      return "default" as const;
+    case "대기": return "active" as const;
+    case "처리완료": return "completed" as const;
+    case "무시": return "default" as const;
   }
 };
 
 const targetVariant = (type: Report["targetType"]) => {
   switch (type) {
-    case "게시글":
-      return "default" as const;
-    case "댓글":
-      return "pill" as const;
-    case "사용자":
-      return "active" as const;
+    case "게시글": return "default" as const;
+    case "댓글": return "pill" as const;
+    case "사용자": return "active" as const;
   }
 };
 
-const statusTabs = [
-  { key: "all", label: "전체" },
-  { key: "대기", label: "대기" },
-  { key: "처리완료", label: "처리완료" },
-  { key: "무시", label: "무시" },
-];
-
 export default function AdminModerationPage() {
   const [statusFilter, setStatusFilter] = useState("all");
+  const [reports, setReports] = useState<Report[]>(initialReports);
+
+  const pendingCount = reports.filter((r) => r.status === "대기").length;
+
+  const statusTabs = [
+    { key: "all", label: "전체" },
+    { key: "대기", label: pendingCount > 0 ? `대기 ${pendingCount}` : "대기" },
+    { key: "처리완료", label: "처리완료" },
+    { key: "무시", label: "무시" },
+  ];
 
   const filtered = reports.filter(
     (r) => statusFilter === "all" || r.status === statusFilter
   );
+
+  const handleConfirm = (id: number) =>
+    setReports((prev) =>
+      prev.map((r) => r.id === id ? { ...r, status: "처리완료" } : r)
+    );
+
+  const handleIgnore = (id: number) =>
+    setReports((prev) =>
+      prev.map((r) => r.id === id ? { ...r, status: "무시" } : r)
+    );
+
+  const handleDelete = (id: number) =>
+    setReports((prev) => prev.filter((r) => r.id !== id));
 
   return (
     <div className="space-y-6">
@@ -126,19 +136,41 @@ export default function AdminModerationPage() {
                 </TableCell>
                 <TableCell>
                   <div className="flex gap-1">
-                    <Button variant="ghost" size="sm" title="확인">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      title="처리완료"
+                      onClick={() => handleConfirm(report.id)}
+                    >
                       <Check className="w-3.5 h-3.5" />
                     </Button>
-                    <Button variant="ghost" size="sm" title="무시">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      title="무시"
+                      onClick={() => handleIgnore(report.id)}
+                    >
                       <X className="w-3.5 h-3.5" />
                     </Button>
-                    <Button variant="destructive" size="sm" title="삭제">
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      title="삭제"
+                      onClick={() => handleDelete(report.id)}
+                    >
                       <Trash2 className="w-3.5 h-3.5" />
                     </Button>
                   </div>
                 </TableCell>
               </TableRow>
             ))}
+            {filtered.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center text-sm text-muted-foreground py-8">
+                  신고 내역이 없습니다.
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
