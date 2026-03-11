@@ -240,22 +240,6 @@ export default function FeedPage() {
 
         {/* Sidebar */}
         <aside className="w-80 hidden lg:flex flex-col shrink-0 sticky top-20">
-          {/* Recommended Topics */}
-          <div className="pb-8">
-            <h3 className="text-base font-bold text-foreground mb-3">추천 토픽</h3>
-            <div className="flex flex-wrap gap-2">
-              {recommendedTopics.map((topic) => (
-                <Link
-                  key={topic}
-                  href={`/tag/${encodeURIComponent(topic)}`}
-                  className="px-3 py-1.5 rounded-full text-xs bg-muted text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
-                >
-                  {topic}
-                </Link>
-              ))}
-            </div>
-          </div>
-
           {/* Editor Picks */}
           <div className="pb-8">
             <h3 className="text-base font-bold text-foreground mb-4">에디터 픽</h3>
@@ -278,6 +262,22 @@ export default function FeedPage() {
                   <p className="text-xs text-muted-foreground mt-1">
                     {pick.time}
                   </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Recommended Topics */}
+          <div className="pb-8">
+            <h3 className="text-base font-bold text-foreground mb-3">추천 토픽</h3>
+            <div className="flex flex-wrap gap-2">
+              {recommendedTopics.map((topic) => (
+                <Link
+                  key={topic}
+                  href={`/tag/${encodeURIComponent(topic)}`}
+                  className="px-3 py-1.5 rounded-full text-xs bg-muted text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+                >
+                  {topic}
                 </Link>
               ))}
             </div>

@@ -3,16 +3,12 @@
 import { useState } from "react";
 import { InlinePostForm } from "@/components/site/inline-post-form";
 import { FeedPost } from "@/components/site/feed-post";
-import { CommunityInfoCard } from "@/components/site/community-info-card";
-import { CommunityRules } from "@/components/site/community-rules";
 
 /* ─── Mock Data ─── */
 
 const tabs = [
   { key: "feed", label: "피드" },
-  { key: "free", label: "자유게시판" },
   { key: "qna", label: "Q&A" },
-  { key: "events", label: "이벤트" },
 ];
 
 const feedPosts = [
@@ -52,9 +48,6 @@ const feedPosts = [
     votes: 67,
     comments: 18,
   },
-];
-
-const freePosts = [
   {
     id: "f1",
     author: "소연",
@@ -108,91 +101,68 @@ const qnaPosts = [
   },
 ];
 
-const eventPosts = [
-  {
-    id: "e1",
-    author: "GPTers 운영팀",
-    username: "gpters",
-    time: "3일 전",
-    content:
-      "3월 오프라인 모각AI 안내: 3/20(토) 14:00, 강남역 위워크. AI 도구 자유 실습 + 네트워킹 시간입니다.",
-    hasImage: true,
-    tags: ["모각AI", "오프라인"],
-    votes: 42,
-    comments: 15,
-  },
-];
-
-type PostItem = (typeof feedPosts)[number];
-
 /* ─── Page ─── */
 
 export default function CommunityFeedPage() {
   const [activeTab, setActiveTab] = useState("feed");
+  const [sort, setSort] = useState<"latest" | "popular">("latest");
 
-  const getPostsForTab = (): PostItem[] => {
-    switch (activeTab) {
-      case "free":
-        return freePosts;
-      case "qna":
-        return qnaPosts;
-      case "events":
-        return eventPosts;
-      default:
-        return feedPosts;
-    }
-  };
-
-  const currentPosts = getPostsForTab();
+  const currentPosts = activeTab === "qna" ? qnaPosts : feedPosts;
+  const placeholderText =
+    activeTab === "qna"
+      ? "질문이 있으신가요?"
+      : "무슨 AI 이야기를 나누고 싶으신가요?";
 
   return (
-    <div className="mx-auto max-w-[1080px] px-4 py-6">
-      <div className="flex gap-6 items-start">
-        {/* Main Feed */}
-        <div className="flex-1 min-w-0 space-y-5">
-          {/* Tab Navigation */}
-          <div className="flex gap-1 border-b border-border overflow-x-auto">
-            {tabs.map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
-                className={`px-4 py-2.5 text-sm whitespace-nowrap border-b-2 ${
-                  activeTab === tab.key
-                    ? "border-primary text-primary font-medium"
-                    : "border-transparent text-muted-foreground"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Inline Post Form */}
-          {activeTab === "feed" && <InlinePostForm />}
-
-          {/* Posts */}
-          <div className="border border-border rounded-lg divide-y divide-border">
-            {currentPosts.map((post) => (
-              <FeedPost key={post.id} {...post} />
-            ))}
-          </div>
-
-          {/* Load More */}
-          <button className="w-full py-3 text-sm text-muted-foreground border border-border rounded-lg">
-            더 불러오기
+    <div className="mx-auto max-w-[680px] px-4 py-6 space-y-5">
+      {/* Tab Navigation */}
+      <div className="flex gap-1 border-b border-border overflow-x-auto">
+        {tabs.map((tab) => (
+          <button
+            key={tab.key}
+            onClick={() => setActiveTab(tab.key)}
+            className={`px-4 py-2.5 text-sm whitespace-nowrap border-b-2 ${
+              activeTab === tab.key
+                ? "border-primary text-primary font-medium"
+                : "border-transparent text-muted-foreground"
+            }`}
+          >
+            {tab.label}
           </button>
-        </div>
-
-        {/* Sidebar */}
-        <aside className="w-72 hidden lg:flex flex-col gap-5 shrink-0">
-          <CommunityInfoCard
-            members="12.4k"
-            online="342"
-            postsPerWeek="1.2k"
-          />
-          <CommunityRules />
-        </aside>
+        ))}
       </div>
+
+      {/* Inline Post Form */}
+      <InlinePostForm placeholder={placeholderText} />
+
+      {/* Sort Toggle */}
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() => setSort("latest")}
+          className={`text-sm ${sort === "latest" ? "font-medium text-foreground" : "text-muted-foreground"}`}
+        >
+          최신
+        </button>
+        <span className="text-border">|</span>
+        <button
+          onClick={() => setSort("popular")}
+          className={`text-sm ${sort === "popular" ? "font-medium text-foreground" : "text-muted-foreground"}`}
+        >
+          인기
+        </button>
+      </div>
+
+      {/* Posts */}
+      <div className="divide-y divide-border">
+        {currentPosts.map((post) => (
+          <FeedPost key={post.id} {...post} />
+        ))}
+      </div>
+
+      {/* Load More */}
+      <button className="w-full py-3 text-sm text-muted-foreground border border-border rounded-lg">
+        더 불러오기
+      </button>
     </div>
   );
 }

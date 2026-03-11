@@ -16,16 +16,16 @@ export function CategoryFilter({
   className,
 }: CategoryFilterProps) {
   return (
-    <div className={cn("flex gap-1 border-b border-border overflow-x-auto", className)}>
+    <div className={cn("flex flex-wrap gap-2", className)}>
       {categories.map((cat) => (
         <button
           key={cat.id}
           onClick={() => onChange(cat.id)}
           className={cn(
-            "px-4 py-2.5 text-sm whitespace-nowrap border-b-2",
+            "px-3 py-1.5 text-sm rounded-full transition-colors",
             selected === cat.id
-              ? "border-primary text-primary font-medium"
-              : "border-transparent text-muted-foreground"
+              ? "bg-foreground text-background font-medium"
+              : "bg-muted text-muted-foreground hover:bg-accent hover:text-foreground"
           )}
         >
           {cat.name}

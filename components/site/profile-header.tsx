@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ExternalLink, Trophy, Share2 } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
@@ -62,10 +64,20 @@ export function ProfileHeader({ user, className }: ProfileHeaderProps) {
           </div>
         </div>
         <div className="flex flex-col gap-2 shrink-0">
-          <Button variant="secondary">
-            프로필 수정
-          </Button>
-          <Button>
+          <Link href="/settings">
+            <Button variant="secondary">
+              프로필 수정
+            </Button>
+          </Link>
+          <Button
+            onClick={() => {
+              const url = encodeURIComponent(window.location.href);
+              window.open(
+                `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+                "_blank"
+              );
+            }}
+          >
             <Share2 className="w-3.5 h-3.5" />
             이 프로필을 LinkedIn에 공유
           </Button>

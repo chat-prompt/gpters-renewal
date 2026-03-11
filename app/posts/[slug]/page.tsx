@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { BookOpen, ChevronRight } from "lucide-react";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { CommentTree, type CommentData } from "@/components/site/comment";
 import { TagList } from "@/components/site/tag-list";
@@ -100,6 +102,16 @@ const readerStats = [
   { label: "기타", percentage: 17 },
 ];
 
+// Series info for this post (the mock post "Claude로 마케팅 자동화 구축기" is part of series "맘스만 개발기")
+const seriesInfo = {
+  id: "1",
+  title: "맘스만 개발기",
+  currentPosition: 2,
+  totalPosts: 3,
+  prevPost: { slug: "moms-dev-1", title: "아이디어 구상기 — AI로 육아 도우미 만들기" },
+  nextPost: { slug: "moms-dev-3", title: "런칭 후기 — 첫 사용자 100명 달성" },
+};
+
 const relatedPosts = [
   {
     slug: "claude-api-cases",
@@ -134,6 +146,18 @@ export default function PostDetailPage() {
         />
         <TagList tags={post.tags} />
       </div>
+
+      {/* Series Banner */}
+      <Link
+        href={`/series/${seriesInfo.id}`}
+        className="flex items-center gap-2 px-4 py-2.5 mb-6 rounded-lg border border-border bg-accent text-sm hover:bg-accent/80 transition-colors"
+      >
+        <BookOpen className="w-4 h-4 text-primary shrink-0" />
+        <span className="font-medium text-foreground">{seriesInfo.title}</span>
+        <span className="text-muted-foreground">·</span>
+        <span className="text-muted-foreground">{seriesInfo.currentPosition}/{seriesInfo.totalPosts}화</span>
+        <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto" />
+      </Link>
 
       <div className="flex gap-8">
         {/* Main Content */}
@@ -217,6 +241,26 @@ const response = await anthropic.messages.create({
             }}
             className="mb-8"
           />
+
+          {/* Series Navigation */}
+          <nav className="flex items-stretch gap-4 my-8 py-4 border-y border-border">
+            {seriesInfo.prevPost ? (
+              <Link href={`/posts/${seriesInfo.prevPost.slug}`} className="flex-1 group">
+                <p className="text-xs text-muted-foreground mb-1">이전 화</p>
+                <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                  {seriesInfo.prevPost.title}
+                </p>
+              </Link>
+            ) : <div className="flex-1" />}
+            {seriesInfo.nextPost ? (
+              <Link href={`/posts/${seriesInfo.nextPost.slug}`} className="flex-1 text-right group">
+                <p className="text-xs text-muted-foreground mb-1">다음 화</p>
+                <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                  {seriesInfo.nextPost.title}
+                </p>
+              </Link>
+            ) : <div className="flex-1" />}
+          </nav>
 
           {/* Comments */}
           <section>

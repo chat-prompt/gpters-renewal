@@ -1,9 +1,5 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
 import {
-  X,
   Heart,
   MessageSquare,
   Users,
@@ -12,9 +8,47 @@ import {
 } from "lucide-react";
 import { PostCard } from "@/components/site/post-card";
 import { SortTabs } from "@/components/site/sort-tabs";
-import { SidebarStudyList } from "@/components/site/sidebar-study-list";
+import { HeroCarousel } from "@/components/site/hero-carousel";
 
 /* ─── Mock Data ─── */
+
+const heroSlides = [
+  {
+    tag: "스터디 모집",
+    title: "21기 AI 스터디 — 얼리버드 할인 중",
+    description:
+      "AI 자동화, 프롬프트 엔지니어링, 바이브 코딩 등 6개 프로그램. 4주간 실전 학습.",
+    href: "/study/ai-study-21",
+    cta: "자세히 보기",
+    bg: "bg-primary",
+  },
+  {
+    tag: "Editor's Pick",
+    title: "2025년 주목할 AI 트렌드 TOP 10",
+    description:
+      "에이전트, 멀티모달, 온디바이스까지 핵심 흐름을 짚어봅니다.",
+    href: "/posts/ai-trend-2025",
+    cta: "읽어보기",
+    bg: "bg-foreground",
+  },
+  {
+    tag: "이벤트",
+    title: "무료 AI 토크: Claude Code 활용법",
+    description:
+      "3월 15일 온라인. AI 코드 에디터 실전 활용법을 알려드립니다.",
+    href: "/events",
+    cta: "신청하기",
+    bg: "bg-primary/80",
+  },
+];
+
+const whiteboard = {
+  imageUrl: "",
+  title: "AI로 일하는 법, GPTers에서 시작하세요",
+  body: "12,000명의 AI 실무자 커뮤니티에서 최신 AI 활용법을 배우고, 함께 성장하세요. 초보자도 환영합니다.",
+  ctaText: "커뮤니티 둘러보기",
+  ctaHref: "/explore/feed",
+};
 
 const featuredPost = {
   slug: "ai-trend-2025",
@@ -107,23 +141,6 @@ const posts = [
   },
 ];
 
-const cohortStudy = {
-  slug: "ai-study-21",
-  cohort: "21기",
-  date: "3/15 ~ 4/12 (4주)",
-  enrolled: 47,
-  capacity: 120,
-  price: "150,000원",
-  programs: [
-    { slug: "ai-automation", title: "AI 자동화" },
-    { slug: "prompt-engineering", title: "프롬프트 엔지니어링" },
-    { slug: "vibe-coding", title: "바이브 코딩" },
-    { slug: "ai-business", title: "AI 비즈니스" },
-    { slug: "ai-design", title: "AI 디자인" },
-    { slug: "ai-data", title: "AI 데이터 분석" },
-  ],
-};
-
 const whoToFollow = [
   {
     username: "honggildong",
@@ -145,74 +162,37 @@ const whoToFollow = [
 /* ─── Page ─── */
 
 export default function Home() {
-  const [showBanner, setShowBanner] = useState(true);
-
   return (
     <div className="mx-auto max-w-[1080px] px-6 py-8">
-      {/* Study Recruitment Banner */}
-      {showBanner && (
-        <div className="flex items-center justify-between px-4 py-3 mb-6 rounded-lg bg-primary text-primary-foreground">
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium">
-              21기 AI 스터디 모집 중 — 얼리버드 할인 D-7
-            </span>
+      {/* Hero Carousel */}
+      <div className="mb-8">
+        <HeroCarousel slides={heroSlides} />
+      </div>
+
+      {/* Whiteboard */}
+      <div className="mb-8 p-6 border border-border rounded-lg">
+        <div className="flex gap-6 items-center">
+          <div className="w-48 h-32 bg-muted rounded-lg shrink-0" />
+          <div className="flex-1">
+            <h2 className="text-lg font-bold text-foreground mb-2">
+              {whiteboard.title}
+            </h2>
+            <p className="text-sm text-muted-foreground mb-4">
+              {whiteboard.body}
+            </p>
             <Link
-              href="/study/ai-study-21"
-              className="text-xs font-medium px-3 py-1 rounded-full bg-primary-foreground text-primary hover:opacity-90 transition-opacity"
+              href={whiteboard.ctaHref}
+              className="inline-block px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
             >
-              보러가기
+              {whiteboard.ctaText}
             </Link>
           </div>
-          <button
-            onClick={() => setShowBanner(false)}
-            className="shrink-0 p-1 hover:opacity-70"
-          >
-            <X className="w-4 h-4" />
-          </button>
         </div>
-      )}
-
-      {/* Editor's Pick */}
-      <div className="mb-8 pb-8 border-b border-border">
-        <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-4">
-          Editor's Pick
-        </p>
-        <Link href={`/posts/${featuredPost.slug}`} className="group block">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-6 h-6 rounded-full bg-muted shrink-0" />
-            <span className="text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">
-                {featuredPost.author}
-              </span>
-              {" in "}
-              <span className="font-medium text-foreground">
-                {featuredPost.category}
-              </span>
-            </span>
-          </div>
-          <h2 className="text-2xl font-extrabold text-foreground group-hover:underline leading-snug mb-2">
-            {featuredPost.title}
-          </h2>
-          <p className="text-base text-muted-foreground line-clamp-3 leading-relaxed mb-3">
-            {featuredPost.excerpt}
-          </p>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <span>{featuredPost.time}</span>
-            <span className="flex items-center gap-1">
-              <Heart className="w-3.5 h-3.5" /> {featuredPost.votes}
-            </span>
-            <span className="flex items-center gap-1">
-              <MessageSquare className="w-3.5 h-3.5" /> {featuredPost.comments}
-            </span>
-          </div>
-        </Link>
       </div>
 
       {/* Trending Topics */}
       <div className="mb-8">
-        <h3 className="text-sm font-bold text-foreground mb-3">
-          트렌딩 토픽
-        </h3>
+        <h3 className="text-sm font-bold text-foreground mb-3">트렌딩 토픽</h3>
         <div className="flex flex-wrap gap-2">
           {trendingTopics.map((topic) => (
             <Link
@@ -229,6 +209,43 @@ export default function Home() {
       <div className="flex gap-10 items-start">
         {/* Main Feed */}
         <div className="flex-1 min-w-0">
+          {/* Editor's Pick */}
+          <div className="mb-8 pb-8 border-b border-border">
+            <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-4">
+              Editor&apos;s Pick
+            </p>
+            <Link href={`/posts/${featuredPost.slug}`} className="group block">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-6 h-6 rounded-full bg-muted shrink-0" />
+                <span className="text-sm text-muted-foreground">
+                  <span className="font-medium text-foreground">
+                    {featuredPost.author}
+                  </span>
+                  {" in "}
+                  <span className="font-medium text-foreground">
+                    {featuredPost.category}
+                  </span>
+                </span>
+              </div>
+              <h2 className="text-2xl font-extrabold text-foreground group-hover:underline leading-snug mb-2">
+                {featuredPost.title}
+              </h2>
+              <p className="text-base text-muted-foreground line-clamp-3 leading-relaxed mb-3">
+                {featuredPost.excerpt}
+              </p>
+              <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                <span>{featuredPost.time}</span>
+                <span className="flex items-center gap-1">
+                  <Heart className="w-3.5 h-3.5" /> {featuredPost.votes}
+                </span>
+                <span className="flex items-center gap-1">
+                  <MessageSquare className="w-3.5 h-3.5" />{" "}
+                  {featuredPost.comments}
+                </span>
+              </div>
+            </Link>
+          </div>
+
           <div className="pb-4">
             <SortTabs />
           </div>
@@ -275,9 +292,23 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Study Recruitment */}
+          {/* Upcoming Event */}
           <div className="pb-8">
-            <SidebarStudyList study={cohortStudy} />
+            <h3 className="text-base font-bold text-foreground mb-4">
+              다가오는 이벤트
+            </h3>
+            <Link
+              href="/events"
+              className="block p-4 border border-border rounded-lg hover:bg-muted transition-colors"
+            >
+              <p className="text-sm font-medium text-foreground mb-1">
+                무료 AI 토크: Claude Code 활용법
+              </p>
+              <p className="text-xs text-muted-foreground mb-2">
+                3월 15일 (토) 19:00 · 온라인
+              </p>
+              <p className="text-xs text-primary font-medium">신청하기 →</p>
+            </Link>
           </div>
 
           {/* Who to Follow */}

@@ -24,7 +24,7 @@ const navItems = [
   { label: "탐색", href: "/explore/feed" },
   { label: "스터디", href: "/study" },
   { label: "커뮤니티", href: "/community/feed" },
-  { label: "AI이력서", href: "/profile/honggildong" },
+  { label: "이벤트", href: "/events" },
 ];
 
 const notifications = [
@@ -102,16 +102,6 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
-          <Link
-            href="/study/my"
-            className={`text-sm px-3 py-1 rounded-md transition-colors ${
-              pathname.startsWith("/study/my")
-                ? "bg-primary text-primary-foreground"
-                : "bg-primary/10 text-primary hover:bg-primary/20"
-            }`}
-          >
-            내 스터디
-          </Link>
         </nav>
 
         {/* Right: Write + DM + Profile */}

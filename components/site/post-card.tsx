@@ -12,6 +12,9 @@ interface PostCardProps {
   votes: number;
   comments: number;
   thumbnail?: boolean;
+  seriesId?: string;
+  seriesTitle?: string;
+  positionInSeries?: number;
 }
 
 export function PostCard({
@@ -25,6 +28,9 @@ export function PostCard({
   votes,
   comments,
   thumbnail,
+  seriesId,
+  seriesTitle,
+  positionInSeries,
 }: PostCardProps) {
   return (
     <article className="flex gap-8 py-8">
@@ -36,6 +42,14 @@ export function PostCard({
             <span className="font-medium text-foreground">{author}</span>
             {" in "}
             <span className="font-medium text-foreground">{category}</span>
+            {seriesTitle && seriesId && (
+              <>
+                {" · "}
+                <Link href={`/series/${seriesId}`} className="text-primary hover:underline">
+                  {seriesTitle} {positionInSeries}화
+                </Link>
+              </>
+            )}
           </span>
         </div>
 

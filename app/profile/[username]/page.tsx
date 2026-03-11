@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Award, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { Award, BookOpen, Sparkles } from "lucide-react";
 import { Tabs } from "@/components/ui/tabs";
 import { StatGrid } from "@/components/site/stat-grid";
 import { SkillBarList, type SkillItem } from "@/components/site/skill-bar";
@@ -152,6 +153,33 @@ const allBadges = [
   },
 ];
 
+const userSeries = [
+  {
+    id: "1",
+    title: "맘스만 개발기",
+    description: "육아와 개발을 병행하는 엄마 개발자의 AI 활용 여정",
+    category: "AI활용법",
+    status: "진행중" as const,
+    postCount: 3,
+    totalVotes: 89,
+  },
+  {
+    id: "2",
+    title: "자동화 마스터 클래스",
+    description: "업무 자동화의 A to Z",
+    category: "자동화",
+    status: "완결" as const,
+    postCount: 4,
+    totalVotes: 156,
+  },
+];
+
+const standalonePosts = [
+  { slug: "ai-tools-review", title: "2026년 AI 도구 비교 리뷰", category: "AI활용법", time: "2026.03.05" },
+  { slug: "prompt-tips", title: "프롬프트 엔지니어링 실전 팁 10가지", category: "프롬프트", time: "2026.02.28" },
+  { slug: "no-code-automation", title: "비개발자를 위한 노코드 자동화 입문", category: "자동화", time: "2026.02.20" },
+];
+
 const tabItems = [
   { key: "overview", label: "개요" },
   { key: "study", label: "스터디 이력" },
@@ -267,9 +295,63 @@ export default function ProfilePage() {
       )}
 
       {activeTab === "posts" && (
-        <p className="text-sm text-muted-foreground">
-          작성글 목록이 여기에 표시됩니다.
-        </p>
+        <div className="space-y-8">
+          {/* Series */}
+          <section>
+            <div className="flex items-center gap-2 mb-4">
+              <BookOpen className="w-4 h-4 text-muted-foreground" />
+              <h3 className="font-bold text-foreground">내 시리즈</h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {userSeries.map((series) => (
+                <Link
+                  key={series.id}
+                  href={`/series/${series.id}`}
+                  className="block border border-border rounded-lg p-4 hover:bg-accent transition"
+                >
+                  <h4 className="font-bold text-foreground mb-1">
+                    {series.title}
+                  </h4>
+                  <p className="text-sm text-muted-foreground line-clamp-1 mb-3">
+                    {series.description}
+                  </p>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <span>{series.postCount}편</span>
+                    <span
+                      className={`px-2 py-0.5 rounded ${
+                        series.status === "완결"
+                          ? "bg-primary/10 text-primary"
+                          : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {series.status}
+                    </span>
+                    <span>{series.category}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          {/* Standalone Posts */}
+          <section>
+            <h3 className="font-bold text-foreground mb-4">단독 글</h3>
+            <div className="divide-y divide-border">
+              {standalonePosts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/posts/${post.slug}`}
+                  className="flex items-center justify-between py-3 hover:bg-accent transition px-2 -mx-2 rounded"
+                >
+                  <span className="text-sm text-foreground">{post.title}</span>
+                  <span className="text-xs text-muted-foreground whitespace-nowrap ml-4">
+                    {post.category} · {post.time}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        </div>
       )}
 
       {/* Badges Tab */}

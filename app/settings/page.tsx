@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { Check } from "lucide-react";
 import { Tabs } from "@/components/ui/tabs";
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -67,6 +68,27 @@ export default function SettingsPage() {
   const [commentNoti, setCommentNoti] = useState(true);
   const [marketingNoti, setMarketingNoti] = useState(false);
 
+  const [profileForm, setProfileForm] = useState({
+    name: "김철수",
+    bio: "AI를 활용한 업무 자동화에 관심이 많은 마케터입니다.",
+    link: "https://linkedin.com/in/chulsu",
+  });
+  const [saved, setSaved] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSave = () => {
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setAvatarUrl(URL.createObjectURL(file));
+    }
+  };
+
   return (
     <div className="mx-auto max-w-[1080px] px-4 py-8">
       <h1 className="text-xl font-bold text-foreground mb-6">계정 설정</h1>
@@ -82,9 +104,22 @@ export default function SettingsPage() {
       {activeTab === "profile" && (
         <section className="space-y-6 max-w-xl">
           <div className="flex items-center gap-4">
-            <Avatar size="lg" />
+            <Avatar size="lg">
+              {avatarUrl && <AvatarImage src={avatarUrl} />}
+            </Avatar>
             <div>
-              <Button variant="secondary" size="sm">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleAvatarChange}
+              />
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => fileInputRef.current?.click()}
+              >
                 사진 변경
               </Button>
             </div>
@@ -95,16 +130,18 @@ export default function SettingsPage() {
               <label className="block text-sm font-medium text-foreground mb-1">
                 이름
               </label>
-              <Input defaultValue="김철수" />
+              <Input
+                value={profileForm.name}
+                onChange={(e) =>
+                  setProfileForm({ ...profileForm, name: e.target.value })
+                }
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-foreground mb-1">
                 이메일
               </label>
-              <Input
-                defaultValue="chulsu@example.com"
-                disabled
-              />
+              <Input defaultValue="chulsu@example.com" disabled />
             </div>
             <div>
               <label className="block text-sm font-medium text-foreground mb-1">
@@ -113,7 +150,10 @@ export default function SettingsPage() {
               <textarea
                 className="w-full border border-input rounded-md px-4 py-2 text-sm bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                 rows={3}
-                defaultValue="AI를 활용한 업무 자동화에 관심이 많은 마케터입니다."
+                value={profileForm.bio}
+                onChange={(e) =>
+                  setProfileForm({ ...profileForm, bio: e.target.value })
+                }
               />
             </div>
             <div>
@@ -133,12 +173,24 @@ export default function SettingsPage() {
                 외부 링크
               </label>
               <Input
-                defaultValue="https://linkedin.com/in/chulsu"
+                value={profileForm.link}
+                onChange={(e) =>
+                  setProfileForm({ ...profileForm, link: e.target.value })
+                }
               />
             </div>
           </div>
 
-          <Button>저장</Button>
+          <Button onClick={handleSave}>
+            {saved ? (
+              <>
+                <Check className="w-3.5 h-3.5" />
+                저장됨
+              </>
+            ) : (
+              "저장"
+            )}
+          </Button>
         </section>
       )}
 

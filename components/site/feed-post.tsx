@@ -1,5 +1,5 @@
-import { MessageSquare, Share2 } from "lucide-react";
-import { Vote } from "./vote";
+import Link from "next/link";
+import { Heart, MessageSquare, Share2 } from "lucide-react";
 import { UserMeta } from "./user-meta";
 
 interface FeedPostProps {
@@ -15,6 +15,7 @@ interface FeedPostProps {
 }
 
 export function FeedPost({
+  id,
   author,
   username,
   time,
@@ -25,9 +26,8 @@ export function FeedPost({
   comments,
 }: FeedPostProps) {
   return (
-    <div className="flex gap-3 px-4 py-3">
-      <Vote initialCount={votes} />
-      <div className="flex-1 min-w-0 space-y-1.5">
+    <Link href={`/community/${id}`} className="block px-4 py-3 hover:bg-muted/50 transition-colors">
+      <div className="space-y-1.5">
         <UserMeta name={author} username={username} date={time} size="sm" />
         <p className="text-sm text-foreground leading-relaxed line-clamp-3">{content}</p>
         {hasImage && <div className="h-40 bg-muted rounded" />}
@@ -38,6 +38,9 @@ export function FeedPost({
             </span>
           )}
           <span className="flex items-center gap-1">
+            <Heart className="w-3.5 h-3.5" /> {votes}
+          </span>
+          <span className="flex items-center gap-1">
             <MessageSquare className="w-3.5 h-3.5" /> {comments}
           </span>
           <span className="flex items-center gap-1">
@@ -45,6 +48,6 @@ export function FeedPost({
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

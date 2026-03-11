@@ -2,22 +2,28 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ImageIcon, X } from "lucide-react";
+import { ImageIcon, Plus, X } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 
 interface CaseArticleFormProps {
   categories: string[];
   suggestedTags: string[];
+  existingSeries?: { id: string; title: string }[];
 }
 
 export function CaseArticleForm({
   categories,
   suggestedTags,
+  existingSeries = [],
 }: CaseArticleFormProps) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [category, setCategory] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedSeries, setSelectedSeries] = useState<string | null>(null);
+  const [isNewSeries, setIsNewSeries] = useState(false);
+  const [newSeriesTitle, setNewSeriesTitle] = useState("");
+  const [newSeriesDesc, setNewSeriesDesc] = useState("");
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
@@ -73,6 +79,69 @@ export function CaseArticleForm({
             </button>
           ))}
         </div>
+      </div>
+
+      {/* Series */}
+      <div>
+        <p className="text-sm font-medium text-foreground mb-2">
+          시리즈 (선택)
+        </p>
+        <div className="flex gap-2 flex-wrap">
+          {existingSeries.map((series) => (
+            <button
+              key={series.id}
+              onClick={() => {
+                if (selectedSeries === series.id) {
+                  setSelectedSeries(null);
+                } else {
+                  setSelectedSeries(series.id);
+                  setIsNewSeries(false);
+                }
+              }}
+              className={`px-3 py-1.5 text-sm rounded-md border ${
+                selectedSeries === series.id
+                  ? "border-primary bg-primary/10 text-primary font-medium"
+                  : "border-border text-muted-foreground"
+              }`}
+            >
+              {series.title}
+            </button>
+          ))}
+          <button
+            onClick={() => {
+              if (isNewSeries) {
+                setIsNewSeries(false);
+              } else {
+                setIsNewSeries(true);
+                setSelectedSeries(null);
+              }
+            }}
+            className={`inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded-md border ${
+              isNewSeries
+                ? "border-primary bg-primary/10 text-primary font-medium"
+                : "border-dashed border-border text-muted-foreground"
+            }`}
+          >
+            <Plus className="w-3.5 h-3.5" />
+            새 시리즈
+          </button>
+        </div>
+        {isNewSeries && (
+          <div className="mt-3 space-y-2">
+            <input
+              value={newSeriesTitle}
+              onChange={(e) => setNewSeriesTitle(e.target.value)}
+              placeholder="시리즈 제목"
+              className="w-full px-3 py-2 text-sm border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+            <input
+              value={newSeriesDesc}
+              onChange={(e) => setNewSeriesDesc(e.target.value)}
+              placeholder="시리즈 설명 (선택)"
+              className="w-full px-3 py-2 text-sm border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+          </div>
+        )}
       </div>
 
       {/* Tags */}

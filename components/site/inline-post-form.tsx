@@ -4,7 +4,11 @@ import { useState } from "react";
 import { ImageIcon, LinkIcon, Hash } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 
-export function InlinePostForm() {
+interface InlinePostFormProps {
+  placeholder?: string;
+}
+
+export function InlinePostForm({ placeholder = "무슨 AI 이야기를 나누고 싶으신가요?" }: InlinePostFormProps) {
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState("");
 
@@ -17,7 +21,7 @@ export function InlinePostForm() {
         >
           <div className="w-10 h-10 rounded-full bg-muted shrink-0" />
           <span className="text-sm text-muted-foreground">
-            무슨 AI 이야기를 나누고 싶으신가요?
+            {placeholder}
           </span>
         </div>
       ) : (
@@ -27,7 +31,7 @@ export function InlinePostForm() {
             <Textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="무슨 AI 이야기를 나누고 싶으신가요?"
+              placeholder={placeholder}
               className="flex-1 min-h-[80px] resize-none"
               autoFocus
             />
