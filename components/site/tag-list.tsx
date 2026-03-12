@@ -15,9 +15,9 @@ export function TagList({ tags, variant = "hash", linked = true, className }: Ta
     <div className={cn("flex gap-1 flex-wrap", className)}>
       {tags.map((tag) => {
         const baseClasses = cn(
-          "text-xs",
+          "text-sm",
           variant === "hash"
-            ? "bg-muted text-muted-foreground px-2 py-0.5 rounded-sm hover:bg-accent hover:text-primary transition-colors"
+            ? "bg-muted text-sub-foreground px-2 py-0.5 rounded-sm hover:bg-accent hover:text-primary transition-colors"
             : "px-2.5 py-0.5 rounded-full bg-accent text-primary border border-border hover:bg-primary hover:text-primary-foreground transition-colors"
         );
 

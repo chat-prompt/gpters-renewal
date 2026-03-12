@@ -96,9 +96,9 @@ export default function AdminProductsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-foreground">상품/쿠폰 관리</h1>
+        <h1 className="text-xl font-semibold text-foreground">상품/쿠폰 관리</h1>
         <Button size="sm">
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4" strokeWidth={1.5} />
           {activeTab === "products" ? "새 상품" : "새 쿠폰"}
         </Button>
       </div>
@@ -137,10 +137,10 @@ export default function AdminProductsPage() {
                     <TableCell>
                       <span className="text-foreground font-medium">{product.name}</span>
                     </TableCell>
-                    <TableCell className="whitespace-nowrap text-muted-foreground">{product.regular}</TableCell>
-                    <TableCell className="whitespace-nowrap text-muted-foreground">{product.earlyBird}</TableCell>
-                    <TableCell className="whitespace-nowrap text-muted-foreground hidden sm:table-cell">{product.superEarlyBird}</TableCell>
-                    <TableCell className="whitespace-nowrap text-muted-foreground hidden md:table-cell">{product.deadline}</TableCell>
+                    <TableCell className="whitespace-nowrap text-sub-foreground">{product.regular}</TableCell>
+                    <TableCell className="whitespace-nowrap text-sub-foreground">{product.earlyBird}</TableCell>
+                    <TableCell className="whitespace-nowrap text-sub-foreground hidden sm:table-cell">{product.superEarlyBird}</TableCell>
+                    <TableCell className="whitespace-nowrap text-sub-foreground hidden md:table-cell">{product.deadline}</TableCell>
                     <TableCell>
                       {editingProductId === product.id ? (
                         <Select
@@ -176,7 +176,7 @@ export default function AdminProductsPage() {
                           title="상태 수정"
                           onClick={() => setEditingProductId(editingProductId === product.id ? null : product.id)}
                         >
-                          <Pencil className="w-3.5 h-3.5" />
+                          <Pencil className="w-3.5 h-3.5" strokeWidth={1.5} />
                         </Button>
                         <Button
                           variant="ghost"
@@ -184,7 +184,7 @@ export default function AdminProductsPage() {
                           title="삭제"
                           onClick={() => deleteProduct(product.id)}
                         >
-                          <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                          <Trash2 className="w-3.5 h-3.5 text-destructive" strokeWidth={1.5} />
                         </Button>
                       </div>
                     </TableCell>
@@ -195,7 +195,7 @@ export default function AdminProductsPage() {
           </div>
 
           {filteredProducts.length === 0 && (
-            <p className="text-center text-muted-foreground py-8">검색 결과가 없습니다.</p>
+            <p className="text-center text-sub-foreground py-8">검색 결과가 없습니다.</p>
           )}
         </div>
       )}
@@ -228,10 +228,10 @@ export default function AdminProductsPage() {
                     <TableCell>
                       <span className="font-mono text-foreground font-medium">{coupon.code}</span>
                     </TableCell>
-                    <TableCell className="whitespace-nowrap text-muted-foreground">{coupon.type}</TableCell>
-                    <TableCell className="whitespace-nowrap text-muted-foreground">{coupon.discount}</TableCell>
-                    <TableCell className="whitespace-nowrap text-muted-foreground">{coupon.used}/{coupon.limit}</TableCell>
-                    <TableCell className="whitespace-nowrap text-muted-foreground hidden sm:table-cell">~{coupon.expiry}</TableCell>
+                    <TableCell className="whitespace-nowrap text-sub-foreground">{coupon.type}</TableCell>
+                    <TableCell className="whitespace-nowrap text-sub-foreground">{coupon.discount}</TableCell>
+                    <TableCell className="whitespace-nowrap text-sub-foreground">{coupon.used}/{coupon.limit}</TableCell>
+                    <TableCell className="whitespace-nowrap text-sub-foreground hidden sm:table-cell">~{coupon.expiry}</TableCell>
                     <TableCell>
                       <Badge variant={coupon.status === "활성" ? "active" : "default"}>
                         {coupon.status}
@@ -244,7 +244,7 @@ export default function AdminProductsPage() {
                         title="삭제"
                         onClick={() => deleteCoupon(coupon.id)}
                       >
-                        <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                        <Trash2 className="w-3.5 h-3.5 text-destructive" strokeWidth={1.5} />
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -254,7 +254,7 @@ export default function AdminProductsPage() {
           </div>
 
           {filteredCoupons.length === 0 && (
-            <p className="text-center text-muted-foreground py-8">검색 결과가 없습니다.</p>
+            <p className="text-center text-sub-foreground py-8">검색 결과가 없습니다.</p>
           )}
         </div>
       )}

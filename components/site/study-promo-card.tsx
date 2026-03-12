@@ -31,17 +31,17 @@ export function StudyPromoCard({ study, className }: StudyPromoCardProps) {
         </div>
         <div className="space-y-1">
           <p className="font-medium text-foreground">{study.title}</p>
-          <p className="text-xs text-muted-foreground flex items-center gap-3">
+          <p className="text-sm text-sub-foreground flex items-center gap-3">
             <span className="flex items-center gap-1">
-              <Calendar className="w-3 h-3" /> {study.date}
+              <Calendar className="w-4 h-4" strokeWidth={1.5} /> {study.date}
             </span>
             <span className="flex items-center gap-1">
-              <Coins className="w-3 h-3" /> {study.price}
+              <Coins className="w-4 h-4" strokeWidth={1.5} /> {study.price}
             </span>
           </p>
           <Link
             href={study.href}
-            className="text-xs text-primary font-medium"
+            className="text-sm text-primary font-medium"
           >
             상세보기
           </Link>

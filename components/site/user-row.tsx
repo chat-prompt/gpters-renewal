@@ -1,5 +1,9 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface UserRowProps {
@@ -8,6 +12,8 @@ interface UserRowProps {
   description?: string;
   href?: string;
   avatarSrc?: string;
+  showFollowButton?: boolean;
+  initialFollowing?: boolean;
   className?: string;
 }
 
@@ -17,26 +23,46 @@ export function UserRow({
   description,
   href,
   avatarSrc,
+  showFollowButton = false,
+  initialFollowing = false,
   className,
 }: UserRowProps) {
-  const content = (
-    <div className={cn("flex items-center gap-3 p-4", className)}>
-      <Avatar size="sm" className="w-10 h-10" />
-      <div>
-        <p className="text-sm font-medium text-foreground">
+  const [following, setFollowing] = useState(initialFollowing);
+
+  const info = (
+    <>
+      <Avatar className="w-8 h-8 shrink-0" />
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-medium text-secondary-foreground truncate">
           {name}{" "}
-          <span className="text-muted-foreground">@{username}</span>
+          <span className="text-sub-foreground">@{username}</span>
         </p>
         {description && (
-          <p className="text-xs text-muted-foreground">{description}</p>
+          <p className="text-sm text-sub-foreground truncate">{description}</p>
         )}
       </div>
-    </div>
+    </>
   );
 
-  if (href) {
-    return <Link href={href}>{content}</Link>;
-  }
-
-  return content;
+  return (
+    <div className={cn("flex items-center gap-2 py-2", className)}>
+      {href ? (
+        <Link href={href} className="flex items-center gap-2 flex-1 min-w-0">
+          {info}
+        </Link>
+      ) : (
+        <div className="flex items-center gap-2 flex-1 min-w-0">{info}</div>
+      )}
+      {showFollowButton && (
+        <Button
+          variant={following ? "secondary" : "soft"}
+          size="xs"
+          className="shrink-0"
+          onClick={() => setFollowing((f) => !f)}
+        >
+          {following ? "팔로잉" : "팔로우"}
+        </Button>
+      )}
+    </div>
+  );
 }

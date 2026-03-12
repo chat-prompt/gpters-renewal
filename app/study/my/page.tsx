@@ -94,7 +94,7 @@ export default function MyStudyPage() {
               <div key={session.title} className="flex items-center justify-between px-4 py-3">
                 <div>
                   <p className="text-sm font-medium text-foreground">{session.title}</p>
-                  <p className="text-xs text-muted-foreground">{session.time}</p>
+                  <p className="text-xs text-sub-foreground">{session.time}</p>
                 </div>
                 <Badge variant={session.status === "오늘" ? "active" : "default"}>
                   {session.status}
@@ -123,11 +123,11 @@ export default function MyStudyPage() {
               />
             ))}
           </div>
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center justify-between text-xs text-sub-foreground">
             <span>{challengeProgress.completed}/{challengeProgress.total}주 완료</span>
             <span>총 {challengeProgress.totalParticipants}명 참여중</span>
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-sub-foreground">
             매주 카카오톡 스크린샷 인증으로 찐친이 됩니다!
           </p>
         </section>
@@ -141,19 +141,19 @@ export default function MyStudyPage() {
           <p className="text-sm font-medium text-foreground">{myStudyStat.title}</p>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="rounded-lg bg-muted p-2">
-              <p className="text-xs text-muted-foreground">과제</p>
+              <p className="text-xs text-sub-foreground">과제</p>
               <p className="text-sm font-bold text-foreground">
                 {myStudyStat.assignment.done}/{myStudyStat.assignment.total}
               </p>
             </div>
             <div className="rounded-lg bg-muted p-2">
-              <p className="text-xs text-muted-foreground">출석</p>
+              <p className="text-xs text-sub-foreground">출석</p>
               <p className="text-sm font-bold text-foreground">
                 {myStudyStat.attendance.done}/{myStudyStat.attendance.total}
               </p>
             </div>
             <div className="rounded-lg bg-muted p-2">
-              <p className="text-xs text-muted-foreground">북마크</p>
+              <p className="text-xs text-sub-foreground">북마크</p>
               <p className="text-sm font-bold text-foreground">{myStudyStat.bookmarks}개</p>
             </div>
           </div>
@@ -190,7 +190,7 @@ export default function MyStudyPage() {
                       ? "text-slate-400"
                       : entry.rank === 3
                       ? "text-amber-700"
-                      : "text-muted-foreground"
+                      : "text-sub-foreground"
                   }`}
                 >
                   {entry.rank}
@@ -201,7 +201,7 @@ export default function MyStudyPage() {
                     <span className="ml-1 text-xs text-primary font-normal">(나)</span>
                   )}
                 </span>
-                <span className="text-xs text-muted-foreground">{entry.posts}개</span>
+                <span className="text-xs text-sub-foreground">{entry.posts}개</span>
               </div>
             ))}
           </div>

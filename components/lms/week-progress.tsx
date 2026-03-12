@@ -21,7 +21,7 @@ function StatusIcon({ value }: { value: StatusValue }) {
     case "new":
       return <Circle className="w-3.5 h-3.5 text-primary fill-primary" />;
     case "upcoming":
-      return <Minus className="w-3.5 h-3.5 text-muted-foreground" />;
+      return <Minus className="w-3.5 h-3.5 text-sub-foreground" />;
   }
 }
 
@@ -57,15 +57,15 @@ export function WeekProgress({
       <p className="text-xs font-medium text-foreground mb-2">{week}주차</p>
       <div className="space-y-1.5">
         <div className="flex items-center justify-center gap-1">
-          <span className="text-xs text-muted-foreground">출석</span>
+          <span className="text-xs text-sub-foreground">출석</span>
           <StatusIcon value={attendance} />
         </div>
         <div className="flex items-center justify-center gap-1">
-          <span className="text-xs text-muted-foreground">과제</span>
+          <span className="text-xs text-sub-foreground">과제</span>
           <StatusIcon value={assignment} />
         </div>
         <div className="flex items-center justify-center gap-1">
-          <span className="text-xs text-muted-foreground">VOD</span>
+          <span className="text-xs text-sub-foreground">VOD</span>
           <StatusIcon value={vod} />
         </div>
       </div>

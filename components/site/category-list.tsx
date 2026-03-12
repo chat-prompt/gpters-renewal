@@ -24,12 +24,12 @@ export function CategoryList({
   return (
     <div className="border border-border rounded-lg">
       <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-        <h3 className="text-sm font-bold text-foreground">카테고리</h3>
+        <h3 className="text-sm font-semibold text-foreground">카테고리</h3>
         {selected && selected !== "전체" && (
           <button
             type="button"
             onClick={() => onChange?.("전체")}
-            className="text-xs text-primary"
+            className="text-sm text-primary"
           >
             전체보기
           </button>
@@ -65,11 +65,12 @@ export function CategoryList({
               <cat.icon
                 className={cn(
                   "w-4 h-4 shrink-0",
-                  isSelected ? "text-primary" : "text-muted-foreground"
+                  isSelected ? "text-primary" : "text-sub-foreground"
                 )}
+                strokeWidth={1.5}
               />
               <span className="flex-1">{cat.name}</span>
-              <span className="text-xs text-muted-foreground">{cat.count}</span>
+              <span className="text-sm text-sub-foreground">{cat.count}</span>
             </button>
           );
         })}

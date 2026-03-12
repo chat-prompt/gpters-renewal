@@ -4,7 +4,7 @@
 @theme {
   /* Background / Text */
   --color-background: #ffffff;
-  --color-foreground: #171717;
+  --color-foreground: #262626;
 
   /* Primary (GPTers Orange #EF6020) */
   --color-primary: #EF6020;
@@ -12,11 +12,12 @@
 
   /* Secondary */
   --color-secondary: #f5f5f4;
-  --color-secondary-foreground: #1c1917;
+  --color-secondary-foreground: #404040;
 
   /* Muted (배경용 연한 회색) */
   --color-muted: #f5f5f5;
-  --color-muted-foreground: #525252;
+  --color-muted-foreground: #a3a3a3;
+  --color-sub-foreground: #737373;
 
   /* Accent (연한 오렌지 — hover/강조 배경) */
   --color-accent: #fff5ed;
@@ -41,11 +42,17 @@
 
   /* Radius */
   --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 6px;
-  --radius-xl: 8px;
-  --radius-2xl: 12px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 9999px;
+
+  /* Spacing — 의미 기반 간격 토큰 (Tailwind 4px 스케일 대응) */
+  --spacing-inline: 0.5rem;      /* 8px / p-2: 요소 내부 — 아이콘+텍스트, 아바타+이름 */
+  --spacing-component: 1rem;     /* 16px / p-4: 컴포넌트 내부 — 제목→excerpt→메타 */
+  --spacing-block: 1.5rem;       /* 24px / p-6: 컴포넌트 간 — 정렬→게시글리스트 */
+  --spacing-section: 3.5rem;     /* 56px / p-14: 섹션 간 — 카테고리섹션↔게시글섹션 */
+  --spacing-page: 3rem;          /* 48px / p-12: 페이지 상하 여백 */
 
   /* Font */
   --font-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;

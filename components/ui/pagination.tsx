@@ -21,9 +21,9 @@ export function Pagination({
       <button
         onClick={() => onPageChange?.(currentPage - 1)}
         disabled={currentPage <= 1}
-        className="w-8 h-8 flex items-center justify-center rounded-md text-muted-foreground disabled:opacity-50"
+        className="w-8 h-8 flex items-center justify-center rounded-md text-sub-foreground disabled:opacity-50"
       >
-        <ChevronLeft className="w-4 h-4" />
+        <ChevronLeft className="w-4 h-4" strokeWidth={1.5} />
       </button>
       {pages.map((page) => (
         <button
@@ -33,7 +33,7 @@ export function Pagination({
             "w-8 h-8 text-sm rounded-md transition-colors",
             page === currentPage
               ? "bg-foreground text-background"
-              : "text-muted-foreground hover:bg-muted"
+              : "text-sub-foreground hover:bg-muted"
           )}
         >
           {page}
@@ -42,9 +42,9 @@ export function Pagination({
       <button
         onClick={() => onPageChange?.(currentPage + 1)}
         disabled={currentPage >= totalPages}
-        className="w-8 h-8 flex items-center justify-center rounded-md text-muted-foreground disabled:opacity-50"
+        className="w-8 h-8 flex items-center justify-center rounded-md text-sub-foreground disabled:opacity-50"
       >
-        <ChevronRight className="w-4 h-4" />
+        <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
       </button>
     </div>
   );

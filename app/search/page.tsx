@@ -135,19 +135,19 @@ function SearchPageInner() {
 
   if (!query) {
     return (
-      <div className="mx-auto max-w-3xl px-6 py-16 text-center text-sm text-muted-foreground">
+      <div className="mx-auto max-w-3xl px-6 py-16 text-center text-sm text-sub-foreground">
         검색어를 입력하세요.
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-8">
+    <div className="mx-auto max-w-3xl px-6 py-page">
       {/* Query + Count */}
-      <h1 className="text-xl font-extrabold text-foreground mb-1">
+      <h1 className="text-xl font-semibold text-foreground mb-1">
         &ldquo;{query}&rdquo; 검색 결과
       </h1>
-      <p className="text-sm text-muted-foreground mb-6">
+      <p className="text-sm text-sub-foreground mb-6">
         {counts[selectedType]}건
       </p>
 
@@ -163,7 +163,7 @@ function SearchPageInner() {
             className={`px-3 py-1 text-sm rounded-full transition-colors ${
               selectedType === type
                 ? "bg-foreground text-background"
-                : "text-muted-foreground hover:bg-muted"
+                : "text-sub-foreground hover:bg-muted"
             }`}
           >
             {type} {counts[type]}
@@ -206,22 +206,22 @@ function SearchPageInner() {
                     <span className="text-sm font-medium text-foreground">
                       {post.author}
                     </span>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-sm text-sub-foreground">
                       @{post.username}
                     </span>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-sm text-sub-foreground">
                       · {post.time}
                     </span>
                   </div>
-                  <p className="text-sm text-foreground leading-relaxed line-clamp-3 mb-2">
+                  <p className="text-sm text-secondary-foreground leading-relaxed line-clamp-3 mb-2">
                     {post.content}
                   </p>
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-4 text-sm text-sub-foreground">
                     <span className="flex items-center gap-1">
-                      <Heart className="w-3.5 h-3.5" /> {post.likes}
+                      <Heart className="w-5 h-5" strokeWidth={1.5} /> {post.likes}
                     </span>
                     <span className="flex items-center gap-1">
-                      <MessageSquare className="w-3.5 h-3.5" /> {post.comments}
+                      <MessageSquare className="w-5 h-5" strokeWidth={1.5} /> {post.comments}
                     </span>
                   </div>
                 </div>
@@ -245,15 +245,15 @@ function SearchPageInner() {
                   <p className="text-sm font-medium text-foreground group-hover:underline">
                     {study.title}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
+                  <p className="text-sm text-sub-foreground mt-0.5">
                     {study.desc}
                   </p>
                 </div>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full shrink-0 ml-4 ${
+                  className={`text-sm px-2 py-0.5 rounded-full shrink-0 ml-4 ${
                     study.status === "모집중"
                       ? "bg-primary/10 text-primary"
-                      : "bg-muted text-muted-foreground"
+                      : "bg-muted text-sub-foreground"
                   }`}
                 >
                   {study.status}

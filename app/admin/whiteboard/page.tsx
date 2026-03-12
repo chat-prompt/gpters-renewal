@@ -41,7 +41,7 @@ export default function AdminWhiteboardPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-foreground">화이트보드 관리</h1>
+        <h1 className="text-xl font-semibold text-foreground">화이트보드 관리</h1>
         {!editing && (
           <Button variant="secondary" onClick={startEdit}>
             수정
@@ -51,7 +51,7 @@ export default function AdminWhiteboardPage() {
 
       {/* Preview */}
       <div>
-        <p className="text-sm font-medium text-muted-foreground mb-3">미리보기</p>
+        <p className="text-sm font-medium text-sub-foreground mb-3">미리보기</p>
         <div className="border border-border rounded-lg overflow-hidden">
           {data.imageUrl ? (
             <img
@@ -61,17 +61,17 @@ export default function AdminWhiteboardPage() {
             />
           ) : (
             <div className="w-full h-48 bg-muted flex items-center justify-center">
-              <span className="text-sm text-muted-foreground">이미지 없음</span>
+              <span className="text-sm text-sub-foreground">이미지 없음</span>
             </div>
           )}
           <div className="p-6 space-y-3">
-            <p className="text-lg font-bold text-foreground">{data.title}</p>
-            <p className="text-sm text-muted-foreground leading-relaxed">{data.body}</p>
+            <p className="text-lg font-semibold text-foreground">{data.title}</p>
+            <p className="text-sm text-sub-foreground leading-relaxed">{data.body}</p>
             <div>
               <span className="inline-block px-4 py-2 text-sm font-medium text-primary border border-primary rounded-md">
                 {data.ctaText}
               </span>
-              <p className="text-xs text-muted-foreground mt-1">{data.ctaHref}</p>
+              <p className="text-sm text-sub-foreground mt-1">{data.ctaHref}</p>
             </div>
           </div>
         </div>
@@ -83,7 +83,7 @@ export default function AdminWhiteboardPage() {
           <p className="text-sm font-medium text-foreground">편집</p>
 
           <div className="space-y-1.5">
-            <label className="text-sm text-muted-foreground">이미지 URL</label>
+            <label className="text-sm text-sub-foreground">이미지 URL</label>
             <Input
               value={form.imageUrl}
               onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
@@ -92,7 +92,7 @@ export default function AdminWhiteboardPage() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm text-muted-foreground">제목</label>
+            <label className="text-sm text-sub-foreground">제목</label>
             <Input
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
@@ -101,7 +101,7 @@ export default function AdminWhiteboardPage() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm text-muted-foreground">본문</label>
+            <label className="text-sm text-sub-foreground">본문</label>
             <Textarea
               value={form.body}
               onChange={(e) => setForm({ ...form, body: e.target.value })}
@@ -111,7 +111,7 @@ export default function AdminWhiteboardPage() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm text-muted-foreground">CTA 텍스트</label>
+            <label className="text-sm text-sub-foreground">CTA 텍스트</label>
             <Input
               value={form.ctaText}
               onChange={(e) => setForm({ ...form, ctaText: e.target.value })}
@@ -120,7 +120,7 @@ export default function AdminWhiteboardPage() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm text-muted-foreground">CTA 링크</label>
+            <label className="text-sm text-sub-foreground">CTA 링크</label>
             <Input
               value={form.ctaHref}
               onChange={(e) => setForm({ ...form, ctaHref: e.target.value })}

@@ -36,13 +36,13 @@ export function ActivityList({
         const Icon = iconMap[activity.type];
         return (
           <div key={activity.text} className="flex items-center gap-3 p-4">
-            <span className="text-muted-foreground">
-              {Icon && <Icon className="w-4 h-4" />}
+            <span className="text-sub-foreground">
+              {Icon && <Icon className="w-4 h-4" strokeWidth={1.5} />}
             </span>
             <span className="text-sm text-foreground flex-1">
               {activity.text}
             </span>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-sm text-sub-foreground">
               {activity.time}
             </span>
           </div>

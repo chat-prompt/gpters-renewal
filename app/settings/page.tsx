@@ -90,8 +90,8 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="mx-auto max-w-[1080px] px-4 py-8">
-      <h1 className="text-xl font-bold text-foreground mb-6">계정 설정</h1>
+    <div className="mx-auto max-w-[1080px] px-4 py-page">
+      <h1 className="text-xl font-semibold text-foreground mb-6">계정 설정</h1>
 
       <Tabs
         items={tabItems}
@@ -148,7 +148,7 @@ export default function SettingsPage() {
                 소개
               </label>
               <textarea
-                className="w-full border border-input rounded-md px-4 py-2 text-sm bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full border border-input rounded-md px-4 py-2 text-sm bg-background text-foreground placeholder:text-sub-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                 rows={3}
                 value={profileForm.bio}
                 onChange={(e) =>
@@ -184,7 +184,7 @@ export default function SettingsPage() {
           <Button onClick={handleSave}>
             {saved ? (
               <>
-                <Check className="w-3.5 h-3.5" />
+                <Check className="w-4 h-4" strokeWidth={1.5} />
                 저장됨
               </>
             ) : (
@@ -207,7 +207,7 @@ export default function SettingsPage() {
                   <p className="text-sm font-medium text-foreground">
                     {purchase.name}
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-sub-foreground">
                     {purchase.date}
                   </p>
                 </div>
@@ -239,12 +239,12 @@ export default function SettingsPage() {
                   <p className="text-sm font-mono font-medium text-foreground">
                     {coupon.code}
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-sub-foreground">
                     {coupon.discount}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-xs text-muted-foreground whitespace-nowrap">
+                  <span className="text-sm text-sub-foreground whitespace-nowrap">
                     ~{coupon.expiry}
                   </span>
                   <Badge variant={coupon.used ? "completed" : "active"}>
@@ -255,7 +255,7 @@ export default function SettingsPage() {
             ))}
           </List>
           {coupons.length === 0 && (
-            <p className="text-center text-muted-foreground py-12">
+            <p className="text-center text-sub-foreground py-12">
               보유한 쿠폰이 없습니다.
             </p>
           )}
@@ -271,7 +271,7 @@ export default function SettingsPage() {
                 <p className="text-sm font-medium text-foreground">
                   이메일 알림
                 </p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-sm text-sub-foreground">
                   주요 공지사항을 이메일로 받습니다
                 </p>
               </div>
@@ -282,7 +282,7 @@ export default function SettingsPage() {
                 <p className="text-sm font-medium text-foreground">
                   스터디 알림
                 </p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-sm text-sub-foreground">
                   스터디 일정, 과제 마감 등 알림을 받습니다
                 </p>
               </div>
@@ -293,7 +293,7 @@ export default function SettingsPage() {
                 <p className="text-sm font-medium text-foreground">
                   댓글/답글 알림
                 </p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-sm text-sub-foreground">
                   내 글에 댓글이나 답글이 달리면 알림을 받습니다
                 </p>
               </div>
@@ -304,7 +304,7 @@ export default function SettingsPage() {
                 <p className="text-sm font-medium text-foreground">
                   마케팅 알림
                 </p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-sm text-sub-foreground">
                   새 스터디, 프로모션 등 마케팅 정보를 받습니다
                 </p>
               </div>

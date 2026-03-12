@@ -164,18 +164,18 @@ export default function AdminTextsPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-xl font-bold text-foreground">텍스트 관리</h1>
+      <h1 className="text-xl font-semibold text-foreground">텍스트 관리</h1>
 
       {groups.map((group, gi) => (
         <section key={group.label} className="space-y-3">
-          <h3 className="text-sm font-bold text-foreground">{group.label}</h3>
+          <h3 className="text-sm font-semibold text-foreground">{group.label}</h3>
           <div className="border border-border rounded-lg divide-y divide-border">
             {group.items.map((item) => (
               <div
                 key={item.id}
                 className="flex items-center gap-4 px-4 py-3"
               >
-                <code className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-sm whitespace-nowrap shrink-0 w-44 truncate">
+                <code className="text-sm text-sub-foreground bg-muted px-2 py-0.5 rounded-sm whitespace-nowrap shrink-0 w-44 truncate">
                   {item.key}
                 </code>
                 <div className="flex-1 min-w-0">
@@ -195,7 +195,7 @@ export default function AdminTextsPage() {
                     </span>
                   )}
                 </div>
-                <span className="text-xs text-muted-foreground whitespace-nowrap shrink-0">
+                <span className="text-sm text-sub-foreground whitespace-nowrap shrink-0">
                   {item.updatedAt}
                 </span>
                 {editingId === item.id ? (
@@ -203,7 +203,7 @@ export default function AdminTextsPage() {
                     size="sm"
                     onClick={() => saveEdit(gi, item.id)}
                   >
-                    <Check className="w-3.5 h-3.5" />
+                    <Check className="w-3.5 h-3.5" strokeWidth={1.5} />
                     저장
                   </Button>
                 ) : (
@@ -212,7 +212,7 @@ export default function AdminTextsPage() {
                     size="sm"
                     onClick={() => startEdit(item)}
                   >
-                    <Pencil className="w-3.5 h-3.5" />
+                    <Pencil className="w-3.5 h-3.5" strokeWidth={1.5} />
                     수정
                   </Button>
                 )}

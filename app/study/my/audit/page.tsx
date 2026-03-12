@@ -100,7 +100,7 @@ export default function AuditVodPage() {
       {/* VOD Grid */}
       {filteredVods.length === 0 ? (
         <div className="rounded-lg border border-border bg-muted/50 p-8 text-center">
-          <p className="text-sm text-muted-foreground">조건에 맞는 VOD가 없습니다.</p>
+          <p className="text-sm text-sub-foreground">조건에 맞는 VOD가 없습니다.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

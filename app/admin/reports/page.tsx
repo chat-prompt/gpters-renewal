@@ -54,9 +54,9 @@ export default function AdminReportsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-foreground">리포트</h1>
+        <h1 className="text-xl font-semibold text-foreground">리포트</h1>
         <Button variant="secondary" size="sm">
-          <Download className="w-3.5 h-3.5" />
+          <Download className="w-3.5 h-3.5" strokeWidth={1.5} />
           CSV 다운로드
         </Button>
       </div>
@@ -84,20 +84,20 @@ export default function AdminReportsPage() {
         <CardContent>
           <div className="grid grid-cols-3 gap-6">
             <div>
-              <p className="text-sm text-muted-foreground">게시글 수</p>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-sm text-sub-foreground">게시글 수</p>
+              <p className="text-2xl font-semibold text-foreground">
                 {data.content.posts.toLocaleString()}
               </p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">댓글 수</p>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-sm text-sub-foreground">댓글 수</p>
+              <p className="text-2xl font-semibold text-foreground">
                 {data.content.comments.toLocaleString()}
               </p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">투표 수</p>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-sm text-sub-foreground">투표 수</p>
+              <p className="text-2xl font-semibold text-foreground">
                 {data.content.votes.toLocaleString()}
               </p>
             </div>
@@ -113,20 +113,20 @@ export default function AdminReportsPage() {
         <CardContent>
           <div className="grid grid-cols-3 gap-6">
             <div>
-              <p className="text-sm text-muted-foreground">수강생 수</p>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-sm text-sub-foreground">수강생 수</p>
+              <p className="text-2xl font-semibold text-foreground">
                 {data.study.students.toLocaleString()}
               </p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">수료율</p>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-sm text-sub-foreground">수료율</p>
+              <p className="text-2xl font-semibold text-foreground">
                 {data.study.completionRate}%
               </p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">환급률</p>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-sm text-sub-foreground">환급률</p>
+              <p className="text-2xl font-semibold text-foreground">
                 {data.study.refundRate}%
               </p>
             </div>
@@ -142,29 +142,29 @@ export default function AdminReportsPage() {
         <CardContent>
           <div className="flex items-center justify-between">
             <div className="text-center flex-1">
-              <p className="text-sm text-muted-foreground">방문</p>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-sm text-sub-foreground">방문</p>
+              <p className="text-2xl font-semibold text-foreground">
                 {data.funnel.visits.toLocaleString()}
               </p>
             </div>
-            <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0" />
+            <ArrowRight className="w-4 h-4 text-sub-foreground shrink-0" strokeWidth={1.5} />
             <div className="text-center flex-1">
-              <p className="text-sm text-muted-foreground">가입</p>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-sm text-sub-foreground">가입</p>
+              <p className="text-2xl font-semibold text-foreground">
                 {data.funnel.signups.toLocaleString()}
               </p>
             </div>
-            <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0" />
+            <ArrowRight className="w-4 h-4 text-sub-foreground shrink-0" strokeWidth={1.5} />
             <div className="text-center flex-1">
-              <p className="text-sm text-muted-foreground">수강</p>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-sm text-sub-foreground">수강</p>
+              <p className="text-2xl font-semibold text-foreground">
                 {data.funnel.enrollments.toLocaleString()}
               </p>
             </div>
-            <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0" />
+            <ArrowRight className="w-4 h-4 text-sub-foreground shrink-0" strokeWidth={1.5} />
             <div className="text-center flex-1">
-              <p className="text-sm text-muted-foreground">수료</p>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-sm text-sub-foreground">수료</p>
+              <p className="text-2xl font-semibold text-foreground">
                 {data.funnel.completions.toLocaleString()}
               </p>
             </div>

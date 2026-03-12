@@ -166,7 +166,7 @@ export default async function EventDetailPage({
   if (!event) {
     return (
       <div className="max-w-[1080px] mx-auto px-6 py-16 text-center">
-        <p className="text-muted-foreground">이벤트를 찾을 수 없습니다.</p>
+        <p className="text-sub-foreground">이벤트를 찾을 수 없습니다.</p>
         <Link href="/events" className="text-sm text-primary mt-4 inline-block">
           이벤트 목록으로 돌아가기
         </Link>
@@ -178,13 +178,13 @@ export default async function EventDetailPage({
   const fillPercent = Math.round((event.attendees / event.capacity) * 100);
 
   return (
-    <div className="max-w-[1080px] mx-auto px-6 py-8">
+    <div className="max-w-[1080px] mx-auto px-6 py-page">
       {/* Back */}
       <Link
         href="/events"
-        className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+        className="inline-flex items-center gap-1 text-sm text-sub-foreground hover:text-foreground transition-colors mb-6"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
         이벤트 목록
       </Link>
 
@@ -196,14 +196,14 @@ export default async function EventDetailPage({
         <div className="flex-1 min-w-0">
           {/* Category + Type Badge */}
           <div className="flex items-center gap-2 mb-3">
-            <span className="text-xs font-medium text-primary">
+            <span className="text-sm font-medium text-primary">
               {event.category}
             </span>
             <span
-              className={`text-[10px] font-medium px-1.5 py-0.5 rounded ${
+              className={`text-xs font-medium px-1.5 py-0.5 rounded ${
                 event.type === "online"
-                  ? "bg-blue-50 text-blue-600"
-                  : "bg-green-50 text-green-600"
+                  ? "bg-accent text-primary"
+                  : "bg-muted text-sub-foreground"
               }`}
             >
               {event.type === "online" ? "온라인" : "오프라인"}
@@ -211,25 +211,25 @@ export default async function EventDetailPage({
           </div>
 
           {/* Title */}
-          <h1 className="text-2xl font-bold text-foreground mb-4">
+          <h1 className="text-2xl font-semibold text-foreground mb-4">
             {event.title}
           </h1>
 
           {/* Meta */}
-          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-6">
+          <div className="flex flex-wrap gap-4 text-sm text-sub-foreground mb-6">
             <span className="flex items-center gap-1.5">
-              <Calendar className="w-4 h-4" />
+              <Calendar className="w-4 h-4" strokeWidth={1.5} />
               {event.date}
             </span>
             <span className="flex items-center gap-1.5">
-              <Clock className="w-4 h-4" />
+              <Clock className="w-4 h-4" strokeWidth={1.5} />
               {event.time}
             </span>
             <span className="flex items-center gap-1.5">
               {event.type === "online" ? (
-                <Monitor className="w-4 h-4" />
+                <Monitor className="w-4 h-4" strokeWidth={1.5} />
               ) : (
-                <MapPin className="w-4 h-4" />
+                <MapPin className="w-4 h-4" strokeWidth={1.5} />
               )}
               {event.location}
             </span>
@@ -239,7 +239,7 @@ export default async function EventDetailPage({
           <div className="flex items-center gap-3 pb-6 mb-6 border-b border-border">
             <div className="w-10 h-10 rounded-full bg-muted" />
             <div>
-              <p className="text-xs text-muted-foreground">주최</p>
+              <p className="text-sm text-sub-foreground">주최</p>
               <p className="text-sm font-medium text-foreground">
                 {event.host.name}
               </p>
@@ -248,8 +248,8 @@ export default async function EventDetailPage({
 
           {/* Description */}
           <div className="mb-8">
-            <h2 className="text-base font-bold text-foreground mb-3">소개</h2>
-            <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+            <h2 className="text-base font-semibold text-foreground mb-3">소개</h2>
+            <div className="text-sm text-sub-foreground leading-relaxed whitespace-pre-line">
               {event.longDescription}
             </div>
           </div>
@@ -257,13 +257,13 @@ export default async function EventDetailPage({
           {/* Agenda */}
           {event.agenda.length > 0 && (
             <div className="mb-8">
-              <h2 className="text-base font-bold text-foreground mb-3">
+              <h2 className="text-base font-semibold text-foreground mb-3">
                 프로그램
               </h2>
               <div className="space-y-3">
                 {event.agenda.map((item, i) => (
                   <div key={i} className="flex gap-4">
-                    <span className="text-sm font-medium text-muted-foreground w-14 shrink-0">
+                    <span className="text-sm font-medium text-sub-foreground w-14 shrink-0">
                       {item.time}
                     </span>
                     <span className="text-sm text-foreground">{item.title}</span>
@@ -276,7 +276,7 @@ export default async function EventDetailPage({
           {/* Speakers */}
           {event.speakers.length > 0 && (
             <div className="mb-8">
-              <h2 className="text-base font-bold text-foreground mb-3">
+              <h2 className="text-base font-semibold text-foreground mb-3">
                 연사
               </h2>
               <div className="flex flex-wrap gap-4">
@@ -290,7 +290,7 @@ export default async function EventDetailPage({
                       <p className="text-sm font-medium text-foreground">
                         {speaker.name}
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-sm text-sub-foreground">
                         {speaker.role}
                       </p>
                     </div>
@@ -306,16 +306,16 @@ export default async function EventDetailPage({
           <div className="border border-border rounded-xl p-5 space-y-4">
             {/* Price */}
             <div className="text-center pb-4 border-b border-border">
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-2xl font-semibold text-foreground">
                 {event.free ? "무료" : event.price}
               </p>
             </div>
 
             {/* Capacity Bar */}
             <div>
-              <div className="flex justify-between text-xs text-muted-foreground mb-1.5">
+              <div className="flex justify-between text-sm text-sub-foreground mb-1.5">
                 <span className="flex items-center gap-1">
-                  <Users className="w-3 h-3" />
+                  <Users className="w-4 h-4" strokeWidth={1.5} />
                   {event.attendees}명 참여
                 </span>
                 <span>{spotsLeft}자리 남음</span>
@@ -339,7 +339,7 @@ export default async function EventDetailPage({
                 ))}
               </div>
               {event.attendees > 5 && (
-                <span className="text-xs text-muted-foreground">
+                <span className="text-sm text-sub-foreground">
                   +{event.attendees - 5}
                 </span>
               )}
@@ -351,9 +351,9 @@ export default async function EventDetailPage({
             {/* Share */}
             <button
               type="button"
-              className="flex items-center justify-center gap-1.5 w-full py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="flex items-center justify-center gap-1.5 w-full py-2 text-sm text-sub-foreground hover:text-foreground transition-colors"
             >
-              <Share2 className="w-4 h-4" />
+              <Share2 className="w-5 h-5" strokeWidth={1.5} />
               공유하기
             </button>
           </div>
@@ -364,10 +364,10 @@ export default async function EventDetailPage({
       <div className="fixed bottom-0 left-0 right-0 lg:hidden border-t border-border bg-background px-4 py-3">
         <div className="flex items-center justify-between max-w-[1080px] mx-auto">
           <div>
-            <p className="text-base font-bold text-foreground">
+            <p className="text-base font-semibold text-foreground">
               {event.free ? "무료" : event.price}
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-sub-foreground">
               {spotsLeft}자리 남음
             </p>
           </div>

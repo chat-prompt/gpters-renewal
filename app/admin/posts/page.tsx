@@ -97,7 +97,7 @@ export default function AdminPostsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-bold text-foreground">게시글 관리</h1>
+      <h1 className="text-xl font-semibold text-foreground">게시글 관리</h1>
 
       {/* Filters */}
       <div className="flex gap-2">
@@ -167,12 +167,12 @@ export default function AdminPostsPage() {
                   <Badge>{post.category}</Badge>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-muted-foreground whitespace-nowrap">
+                  <span className="text-sm text-sub-foreground whitespace-nowrap">
                     {post.author}
                   </span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-muted-foreground whitespace-nowrap">
+                  <span className="text-sm text-sub-foreground whitespace-nowrap">
                     {post.date}
                   </span>
                 </TableCell>
@@ -186,14 +186,14 @@ export default function AdminPostsPage() {
                     title="삭제"
                     onClick={() => handleDelete(post.id)}
                   >
-                    <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                    <Trash2 className="w-3.5 h-3.5 text-destructive" strokeWidth={1.5} />
                   </Button>
                 </TableCell>
               </TableRow>
             ))}
             {filteredPosts.length === 0 && (
               <TableRow>
-                <TableCell colSpan={7} className="text-center text-sm text-muted-foreground py-8">
+                <TableCell colSpan={7} className="text-center text-sm text-sub-foreground py-8">
                   게시글이 없습니다.
                 </TableCell>
               </TableRow>

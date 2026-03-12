@@ -12,7 +12,7 @@ interface IconButtonProps {
 
 export function IconButton({ icon: Icon, href, onClick, badge, className }: IconButtonProps) {
   const classes = cn(
-    "relative flex items-center justify-center w-9 h-9 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer",
+    "relative flex items-center justify-center w-9 h-9 rounded-md text-sub-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer",
     className
   );
 

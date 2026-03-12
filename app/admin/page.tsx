@@ -99,10 +99,10 @@ const recentActivities = [
 export default function AdminPage() {
   return (
     <div className="space-y-8">
-      <h1 className="text-xl font-bold text-foreground">대시보드</h1>
+      <h1 className="text-xl font-semibold text-foreground">대시보드</h1>
 
       <section>
-        <h3 className="text-sm font-bold text-foreground mb-3">오늘의 요약</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-3">오늘의 요약</h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {todayStats.map((stat) => (
             <StatCard
@@ -116,12 +116,12 @@ export default function AdminPage() {
       </section>
 
       <section>
-        <h3 className="text-sm font-bold text-foreground mb-3">빠른 작업</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-3">빠른 작업</h3>
         <QuickAction items={quickActions} />
       </section>
 
       <section>
-        <h3 className="text-sm font-bold text-foreground mb-3">최근 활동</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-3">최근 활동</h3>
         <ActivityFeed items={recentActivities} />
       </section>
     </div>

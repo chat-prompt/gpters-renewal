@@ -20,20 +20,20 @@ export function StatCard({ label, value, change, className }: StatCardProps) {
         className
       )}
     >
-      <p className="text-2xl font-bold text-foreground">{value}</p>
-      <p className="text-xs text-muted-foreground mt-1">{label}</p>
+      <p className="text-2xl font-semibold text-foreground">{value}</p>
+      <p className="text-sm text-sub-foreground mt-1">{label}</p>
       {change !== undefined && (
         <div
           className={cn(
-            "flex items-center gap-1 mt-2 text-xs",
+            "flex items-center gap-1 mt-2 text-sm",
             isPositive && "text-primary",
             isNegative && "text-destructive",
-            isNeutral && "text-muted-foreground"
+            isNeutral && "text-sub-foreground"
           )}
         >
-          {isPositive && <TrendingUp className="w-3 h-3" />}
-          {isNegative && <TrendingDown className="w-3 h-3" />}
-          {isNeutral && <Minus className="w-3 h-3" />}
+          {isPositive && <TrendingUp className="w-3 h-3" strokeWidth={1.5} />}
+          {isNegative && <TrendingDown className="w-3 h-3" strokeWidth={1.5} />}
+          {isNeutral && <Minus className="w-3 h-3" strokeWidth={1.5} />}
           <span>
             {isPositive && "+"}
             {change} 전일 대비

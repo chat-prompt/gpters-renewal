@@ -78,11 +78,11 @@ export default function MembersPage() {
       {/* Summary Stats */}
       <div className="grid grid-cols-2 gap-4">
         <div className="rounded-lg border border-border p-4">
-          <p className="text-xs text-muted-foreground mb-1">출석률 (1~2주차)</p>
+          <p className="text-xs text-sub-foreground mb-1">출석률 (1~2주차)</p>
           <p className="text-2xl font-bold text-foreground">{attendanceRate}%</p>
         </div>
         <div className="rounded-lg border border-border p-4">
-          <p className="text-xs text-muted-foreground mb-1">과제 제출률 (1~2주차)</p>
+          <p className="text-xs text-sub-foreground mb-1">과제 제출률 (1~2주차)</p>
           <p className="text-2xl font-bold text-foreground">{assignmentRate}%</p>
         </div>
       </div>

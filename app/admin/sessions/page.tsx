@@ -87,9 +87,9 @@ export default function AdminSessionsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-foreground">세션 관리</h1>
+        <h1 className="text-xl font-semibold text-foreground">세션 관리</h1>
         <Button size="sm" onClick={() => setShowAddForm(true)}>
-          <Plus className="w-3.5 h-3.5" />
+          <Plus className="w-3.5 h-3.5" strokeWidth={1.5} />
           세션 추가
         </Button>
       </div>
@@ -130,13 +130,13 @@ export default function AdminSessionsPage() {
                   <Badge variant={typeVariant(session.type)}>{session.type}</Badge>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-muted-foreground whitespace-nowrap">{session.date}</span>
+                  <span className="text-sm text-sub-foreground whitespace-nowrap">{session.date}</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-muted-foreground">{session.time}</span>
+                  <span className="text-sm text-sub-foreground">{session.time}</span>
                 </TableCell>
                 <TableCell className="text-center">
-                  <span className="text-sm text-muted-foreground">{session.isRecurring ? "O" : "-"}</span>
+                  <span className="text-sm text-sub-foreground">{session.isRecurring ? "O" : "-"}</span>
                 </TableCell>
                 <TableCell>
                   {session.zoomUrl ? (
@@ -146,10 +146,10 @@ export default function AdminSessionsPage() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center text-primary hover:text-primary/80 transition-colors"
                     >
-                      <LinkIcon className="w-3.5 h-3.5" />
+                      <LinkIcon className="w-3.5 h-3.5" strokeWidth={1.5} />
                     </a>
                   ) : (
-                    <span className="text-xs text-muted-foreground">-</span>
+                    <span className="text-sm text-sub-foreground">-</span>
                   )}
                 </TableCell>
                 <TableCell>
@@ -159,14 +159,14 @@ export default function AdminSessionsPage() {
                     title="삭제"
                     onClick={() => deleteSession(session.id)}
                   >
-                    <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                    <Trash2 className="w-3.5 h-3.5 text-destructive" strokeWidth={1.5} />
                   </Button>
                 </TableCell>
               </TableRow>
             ))}
             {filtered.length === 0 && !showAddForm && (
               <TableRow>
-                <TableCell colSpan={7} className="text-center text-sm text-muted-foreground py-8">
+                <TableCell colSpan={7} className="text-center text-sm text-sub-foreground py-8">
                   세션이 없습니다.
                 </TableCell>
               </TableRow>

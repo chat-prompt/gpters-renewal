@@ -140,7 +140,7 @@ export default function AdminCompletionPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-foreground">수료/환급 관리</h1>
+        <h1 className="text-xl font-semibold text-foreground">수료/환급 관리</h1>
         <Select value={selectedCohort} onValueChange={setSelectedCohort}>
           <SelectTrigger size="sm" className="w-auto">
             <SelectValue />
@@ -163,7 +163,7 @@ export default function AdminCompletionPage() {
         <CardContent>
           <div className="flex flex-wrap items-end gap-4">
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">
+              <label className="text-sm text-sub-foreground">
                 최소 출석 (회)
               </label>
               <Input
@@ -176,7 +176,7 @@ export default function AdminCompletionPage() {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">
+              <label className="text-sm text-sub-foreground">
                 최소 과제 (주)
               </label>
               <Input
@@ -189,7 +189,7 @@ export default function AdminCompletionPage() {
               />
             </div>
             <Button size="sm" onClick={runVerdict}>
-              <RefreshCw className="w-3.5 h-3.5" />
+              <RefreshCw className="w-3.5 h-3.5" strokeWidth={1.5} />
               판정 실행
             </Button>
           </div>
@@ -199,30 +199,30 @@ export default function AdminCompletionPage() {
       {/* 수료 현황 요약 */}
       <div className="flex flex-wrap gap-4 text-sm">
         <div className="flex items-center gap-1.5">
-          <CheckCircle className="w-4 h-4 text-primary" />
-          <span className="text-muted-foreground">수료</span>
-          <span className="font-bold text-foreground">{completedCount}명</span>
+          <CheckCircle className="w-4 h-4 text-primary" strokeWidth={1.5} />
+          <span className="text-sub-foreground">수료</span>
+          <span className="font-semibold text-foreground">{completedCount}명</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <Award className="w-4 h-4 text-primary" />
-          <span className="text-muted-foreground">우수</span>
-          <span className="font-bold text-foreground">{outstandingCount}명</span>
+          <Award className="w-4 h-4 text-primary" strokeWidth={1.5} />
+          <span className="text-sub-foreground">우수</span>
+          <span className="font-semibold text-foreground">{outstandingCount}명</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <XCircle className="w-4 h-4 text-destructive" />
-          <span className="text-muted-foreground">미수료</span>
-          <span className="font-bold text-foreground">{notCompletedCount}명</span>
+          <XCircle className="w-4 h-4 text-destructive" strokeWidth={1.5} />
+          <span className="text-sub-foreground">미수료</span>
+          <span className="font-semibold text-foreground">{notCompletedCount}명</span>
         </div>
       </div>
 
       {/* 일괄 액션 */}
       <div className="flex flex-wrap gap-2">
         <Button variant="secondary" size="sm" onClick={issueCertificates}>
-          <FileText className="w-3.5 h-3.5" />
+          <FileText className="w-3.5 h-3.5" strokeWidth={1.5} />
           수료증 일괄 발급
         </Button>
         <Button variant="secondary" size="sm" onClick={processRefunds}>
-          <CheckCircle className="w-3.5 h-3.5" />
+          <CheckCircle className="w-3.5 h-3.5" strokeWidth={1.5} />
           환급 처리
         </Button>
       </div>
@@ -267,7 +267,7 @@ export default function AdminCompletionPage() {
                   {student.certificateIssued ? (
                     <Badge variant="active">발급완료</Badge>
                   ) : (
-                    <span className="text-xs text-muted-foreground">미발급</span>
+                    <span className="text-sm text-sub-foreground">미발급</span>
                   )}
                 </TableCell>
                 <TableCell className="text-center">

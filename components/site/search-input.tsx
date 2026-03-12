@@ -74,7 +74,7 @@ export function SearchInput() {
   return (
     <div className="hidden sm:block relative" ref={containerRef}>
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sub-foreground" strokeWidth={1.5} />
         <input
           ref={inputRef}
           type="text"
@@ -83,7 +83,7 @@ export function SearchInput() {
           onFocus={() => setOpen(true)}
           onKeyDown={handleKeyDown}
           placeholder="GPTers 검색..."
-          className={`w-64 pl-9 pr-4 py-1.5 rounded-full text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-border transition-colors ${open ? "bg-background" : "bg-muted"}`}
+          className={`w-64 pl-9 pr-4 py-1.5 rounded-full text-sm text-foreground placeholder:text-sub-foreground focus:outline-none focus:ring-1 focus:ring-border transition-colors ${open ? "bg-background" : "bg-muted"}`}
         />
       </div>
 
@@ -93,8 +93,8 @@ export function SearchInput() {
           {filteredTags.length > 0 && (
             <div className="px-4 py-3">
               <div className="flex items-center gap-1.5 mb-2">
-                <Hash className="w-3.5 h-3.5 text-muted-foreground" />
-                <span className="text-xs font-medium text-muted-foreground">
+                <Hash className="w-4 h-4 text-sub-foreground" strokeWidth={1.5} />
+                <span className="text-sm font-medium text-sub-foreground">
                   인기 태그
                 </span>
               </div>
@@ -104,7 +104,7 @@ export function SearchInput() {
                     key={tag}
                     href={`/tag/${tag}`}
                     onClick={() => setOpen(false)}
-                    className="px-2.5 py-1 rounded-full text-xs bg-muted text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+                    className="px-2.5 py-1 rounded-full text-sm bg-muted text-sub-foreground hover:bg-accent hover:text-foreground transition-colors"
                   >
                     {tag}
                   </Link>
@@ -122,8 +122,8 @@ export function SearchInput() {
           {filteredSearches.length > 0 && (
             <div className="py-2">
               <div className="flex items-center gap-1.5 px-4 py-1 mb-1">
-                <TrendingUp className="w-3.5 h-3.5 text-muted-foreground" />
-                <span className="text-xs font-medium text-muted-foreground">
+                <TrendingUp className="w-4 h-4 text-sub-foreground" strokeWidth={1.5} />
+                <span className="text-sm font-medium text-sub-foreground">
                   인기 검색어
                 </span>
               </div>
@@ -133,9 +133,9 @@ export function SearchInput() {
                   onClick={() => navigate(term)}
                   className="flex items-center gap-3 w-full px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
                 >
-                  <Search className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                  <Search className="w-4 h-4 text-sub-foreground shrink-0" strokeWidth={1.5} />
                   <span className="flex-1 text-left">{term}</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                  <ArrowRight className="w-4 h-4 text-sub-foreground shrink-0" strokeWidth={1.5} />
                 </button>
               ))}
             </div>
@@ -149,7 +149,7 @@ export function SearchInput() {
                 onClick={() => navigate(query.trim())}
                 className="flex items-center gap-2 w-full px-4 py-3 text-sm text-primary hover:bg-muted transition-colors"
               >
-                <Search className="w-3.5 h-3.5 shrink-0" />
+                <Search className="w-4 h-4 shrink-0" strokeWidth={1.5} />
                 <span>
                   &ldquo;{query.trim()}&rdquo; 검색하기
                 </span>

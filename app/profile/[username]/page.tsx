@@ -1,14 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Award, BookOpen, Sparkles } from "lucide-react";
-import { Accordion } from "@/components/ui/accordion";
-import { StatGrid } from "@/components/site/stat-grid";
-import { SkillBarList, type SkillItem } from "@/components/site/skill-bar";
-import { ProfileHeader } from "@/components/site/profile-header";
-import { StudyHistoryList } from "@/components/site/study-history-card";
-import { BadgeDetailCard } from "@/components/site/badge-detail-card";
+import { Award, GraduationCap as GradCap } from "lucide-react";
+import { ProfileHeader, BADGE_COLORS } from "@/components/site/profile-header";
 import { PostCard } from "@/components/site/post-card";
+import { UserRow } from "@/components/site/user-row";
 import {
   Medal,
   GraduationCap,
@@ -30,7 +27,7 @@ const stats = [
   { label: "포인트", value: "2,450" },
 ];
 
-const skills: SkillItem[] = [
+const skills = [
   { name: "자동화/노코드", level: 100, note: "스터디 2회 수료" },
   { name: "프롬프트", level: 80, note: "스터디 1회 수료" },
   { name: "마케팅 AI", level: 60, note: "게시글 12건" },
@@ -150,6 +147,20 @@ const userSeries = [
   },
 ];
 
+const followers = [
+  { username: "leeyounghee", name: "이영희", bio: "프롬프트 엔지니어링 강사" },
+  { username: "parkchulsoo", name: "박철수", bio: "바이브 코딩으로 10개 서비스 런칭" },
+  { username: "kimyoungho", name: "김영호", bio: "n8n 자동화 전문가" },
+  { username: "jungdaeun", name: "정다은", bio: "AI 영상 크리에이터" },
+  { username: "choijunhyuk", name: "최준혁", bio: "AI 트렌드 분석가" },
+];
+
+const followings = [
+  { username: "kimminji", name: "김민지", bio: "AI 비즈니스 컨설턴트" },
+  { username: "leesuhyun", name: "이수현", bio: "Midjourney 디자인 전문가" },
+  { username: "parkminsu", name: "박민수", bio: "n8n + Claude 자동화" },
+];
+
 const userPosts = [
   {
     slug: "moms-dev-3",
@@ -253,17 +264,17 @@ const userPosts = [
 /* ─── Page ─── */
 
 export default function ProfilePage() {
+  const [activeTab, setActiveTab] = useState<"posts" | "series" | "followers" | "following">("posts");
+
   return (
-    <div className="mx-auto max-w-[1080px] px-4 py-8 space-y-8">
-      {/* Profile Header + Featured Badges */}
+    <div className="mx-auto max-w-[1080px] px-4 py-page">
+      {/* ProfileHeader - full width */}
       <ProfileHeader
         user={{
           name: "홍길동",
           username: "honggildong",
           bio: "AI 자동화 전문가 · 마케터",
           joinDate: "2025.03",
-          quote: "AI로 반복 업무를 자동화하는 것에 관심이 많습니다.",
-          points: "2,450",
           interestTags,
           links: [
             { label: "GitHub", href: "#" },
@@ -272,139 +283,166 @@ export default function ProfilePage() {
           ],
         }}
         featuredBadges={featuredBadges}
+        followerCount={followers.length}
+        followingCount={followings.length}
+        isOwn
       />
 
-      {/* Stats */}
-      <StatGrid items={stats} columns={5} />
+      {/* 2-column layout */}
+      <div className="mt-8 flex gap-12 items-start">
 
-      {/* AI Usage Auto-Summary */}
-      <section className="border border-border rounded-lg bg-accent p-5 space-y-2">
-        <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-primary" />
-          <h3 className="font-bold text-foreground">
-            AI 활용 요약 (자동 생성)
-          </h3>
-        </div>
-        <p className="text-sm text-foreground italic leading-relaxed">
-          &ldquo;이 사용자는 주로 Claude와 n8n을 활용하여 마케팅 자동화
-          분야에서 활동합니다. 19기~21기까지 3개 스터디를 수료했으며, AI 활용
-          사례 게시글 27건을 작성했습니다.&rdquo;
-        </p>
-        <p className="text-xs text-muted-foreground flex items-center gap-1">
-          <Sparkles className="w-3 h-3" />
-          AI가 자동 생성한 요약입니다
-        </p>
-      </section>
+        {/* ── Left: main content ── */}
+        <div className="flex-1 min-w-0">
 
-      {/* Series */}
-      <section>
-        <div className="flex items-center gap-2 mb-4">
-          <BookOpen className="w-4 h-4 text-muted-foreground" />
-          <h3 className="font-bold text-foreground">시리즈</h3>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {userSeries.map((series) => (
-            <Link
-              key={series.id}
-              href={`/series/${series.id}`}
-              className="block border border-border rounded-lg p-4 hover:bg-accent transition"
-            >
-              <h4 className="font-bold text-foreground mb-1">
-                {series.title}
-              </h4>
-              <p className="text-sm text-muted-foreground line-clamp-1 mb-3">
-                {series.description}
-              </p>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span>{series.postCount}편</span>
-                <span
-                  className={`px-2 py-0.5 rounded ${
-                    series.status === "완결"
-                      ? "bg-primary/10 text-primary"
-                      : "bg-muted text-muted-foreground"
-                  }`}
-                >
-                  {series.status}
-                </span>
-                <span>{series.category}</span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+          {/* 탭 */}
+          <div className="flex gap-1 border-b border-border mb-6">
+            {([
+              { key: "posts", label: `작성글 ${userPosts.length}` },
+              { key: "series", label: `시리즈 ${userSeries.length}` },
+              { key: "followers", label: `팔로워 ${followers.length}` },
+              { key: "following", label: `팔로잉 ${followings.length}` },
+            ] as const).map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px ${
+                  activeTab === tab.key
+                    ? "border-foreground text-foreground"
+                    : "border-transparent text-sub-foreground hover:text-foreground"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
 
-      {/* Post Feed (Main Content) */}
-      <section>
-        <h3 className="font-bold text-foreground mb-2">작성글</h3>
-        <div className="divide-y divide-border">
-          {userPosts.map((post) => (
-            <PostCard
-              key={post.slug}
-              slug={post.slug}
-              category={post.category}
-              title={post.title}
-              author="홍길동"
-              time={post.time}
-              tags={post.tags}
-              excerpt={post.excerpt}
-              votes={post.votes}
-              comments={post.comments}
-              showAuthor={false}
-              seriesId={post.seriesId}
-              seriesTitle={post.seriesTitle}
-              positionInSeries={post.positionInSeries}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* Collapsible Sections */}
-      <Accordion
-        items={[
-          {
-            key: "study-history",
-            title: `스터디 이력 (${studyHistory.length})`,
-            children: (
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-accent border border-border">
-                  <Award className="w-5 h-5 text-primary" />
-                  <span className="text-sm font-semibold text-foreground">
-                    3기 연속 수료
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    — 꾸준한 학습 의지를 보여주는 뱃지입니다
-                  </span>
-                </div>
-                <StudyHistoryList
-                  studies={studyHistory}
-                  className="border-0 rounded-none"
+          {/* 작성글 탭 */}
+          {activeTab === "posts" && (
+            <div className="divide-y divide-border">
+              {userPosts.map((post) => (
+                <PostCard
+                  key={post.slug}
+                  slug={post.slug}
+                  category={post.category}
+                  title={post.title}
+                  author="홍길동"
+                  time={post.time}
+                  tags={post.tags}
+                  excerpt={post.excerpt}
+                  votes={post.votes}
+                  comments={post.comments}
+                  showAuthor={false}
+                  seriesId={post.seriesId}
+                  seriesTitle={post.seriesTitle}
+                  positionInSeries={post.positionInSeries}
                 />
-              </div>
-            ),
-          },
-          {
-            key: "skill-map",
-            title: "AI 스킬 맵",
-            children: (
-              <SkillBarList
-                skills={skills}
-                className="border-0 rounded-none"
-              />
-            ),
-          },
-          {
-            key: "all-badges",
-            title: `뱃지 전체 (${allBadges.length})`,
-            children: (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {allBadges.map((badge) => (
-                  <BadgeDetailCard key={badge.name} badge={badge} />
-                ))}
-              </div>
-            ),
-          },
-        ]}
-      />
+              ))}
+            </div>
+          )}
+
+          {/* 시리즈 탭 */}
+          {activeTab === "series" && (
+            <div className="space-y-3">
+              {userSeries.map((series) => (
+                <Link
+                  key={series.id}
+                  href={`/series/${series.id}`}
+                  className="flex items-center gap-4 p-4 rounded-lg border border-border hover:bg-accent transition-colors group"
+                >
+                  {/* 내용 */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5 mb-1.5">
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                        series.status === "완결"
+                          ? "bg-primary/10 text-primary"
+                          : "bg-muted text-sub-foreground"
+                      }`}>
+                        {series.status}
+                      </span>
+                      <span className="text-xs text-sub-foreground">{series.category}</span>
+                    </div>
+                    <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-1">
+                      {series.title}
+                    </h4>
+                    <p className="text-sm text-sub-foreground line-clamp-2">{series.description}</p>
+                  </div>
+                  {/* 편수 — 우측 한 줄 */}
+                  <div className="shrink-0">
+                    <span className="text-base font-semibold text-sub-foreground">{series.postCount}</span>
+                    <span className="text-sm text-sub-foreground ml-0.5">편</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {/* 팔로워/팔로잉 탭 */}
+          {(activeTab === "followers" || activeTab === "following") && (
+            <div className="space-y-1">
+              {(activeTab === "followers" ? followers : followings).map((user) => (
+                <UserRow
+                  key={user.username}
+                  name={user.name}
+                  username={user.username}
+                  description={user.bio}
+                  href={`/profile/${user.username}`}
+                  showFollowButton
+                  initialFollowing={activeTab === "following"}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* ── Right: sidebar ── */}
+        <aside className="w-64 shrink-0 sticky top-20 space-y-6">
+
+          {/* 스터디 이력 */}
+          <section>
+            <div className="flex items-center gap-1.5 mb-3">
+              <GradCap className="w-3.5 h-3.5 text-primary" strokeWidth={1.5} />
+              <h4 className="text-sm font-semibold text-foreground">스터디 이력</h4>
+            </div>
+            <div className="divide-y divide-border">
+              {studyHistory.map((study) => (
+                <div key={study.title} className="py-3 space-y-0.5">
+                  <p className="text-sm font-medium text-foreground line-clamp-1">{study.title}</p>
+                  <p className="text-sm text-sub-foreground">{study.period}</p>
+                  <p className="text-sm text-sub-foreground flex items-center gap-1">
+                    <Award className="w-3 h-3 text-primary shrink-0" strokeWidth={1.5} />
+                    {study.badge}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* 뱃지 */}
+          <section>
+            <div className="flex items-center gap-1.5 mb-3">
+              <Medal className="w-3.5 h-3.5 text-primary" strokeWidth={1.5} />
+              <h4 className="text-sm font-semibold text-foreground">
+                뱃지 <span className="font-normal text-sub-foreground">{allBadges.length}</span>
+              </h4>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {allBadges.map((badge, i) => {
+                const Icon = badge.icon;
+                return (
+                  <span
+                    key={badge.name}
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 text-sm rounded-full font-medium ${BADGE_COLORS[i % BADGE_COLORS.length]}`}
+                  >
+                    <Icon className="w-3.5 h-3.5" strokeWidth={1.5} />
+                    {badge.name}
+                  </span>
+                );
+              })}
+            </div>
+          </section>
+
+        </aside>
+      </div>
     </div>
   );
 }

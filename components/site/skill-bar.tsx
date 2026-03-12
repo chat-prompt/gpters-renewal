@@ -26,7 +26,7 @@ export function SkillBarList({ skills, className }: SkillBarListProps) {
             />
           </div>
           {skill.note && (
-            <span className="text-xs text-muted-foreground w-28 shrink-0 text-right">
+            <span className="text-sm text-sub-foreground w-28 shrink-0 text-right">
               ({skill.note})
             </span>
           )}

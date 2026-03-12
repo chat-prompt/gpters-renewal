@@ -47,10 +47,10 @@ export default function AdminLayout({
   const pathname = usePathname();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="mx-auto max-w-6xl px-4 py-page">
       <div className="flex gap-8">
         <aside className="w-48 shrink-0 hidden md:block">
-          <h2 className="text-sm font-bold text-foreground mb-4">관리자</h2>
+          <h2 className="text-sm font-semibold text-foreground mb-4">관리자</h2>
           <nav className="space-y-1">
             {sidebarItems.map((item) => {
               const isActive =
@@ -65,10 +65,10 @@ export default function AdminLayout({
                     "flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors",
                     isActive
                       ? "bg-accent text-foreground font-medium"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                      : "text-sub-foreground hover:text-foreground hover:bg-muted"
                   )}
                 >
-                  <item.icon className="w-4 h-4" />
+                  <item.icon className="w-4 h-4" strokeWidth={1.5} />
                   {item.label}
                 </Link>
               );

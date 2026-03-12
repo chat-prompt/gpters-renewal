@@ -10,9 +10,9 @@ export function CommunityRules() {
   return (
     <div className="border border-border rounded-lg">
       <div className="px-4 py-3 border-b border-border">
-        <h3 className="text-sm font-bold text-foreground">커뮤니티 규칙</h3>
+        <h3 className="text-sm font-semibold text-foreground">커뮤니티 규칙</h3>
       </div>
-      <div className="p-4 space-y-2 text-xs text-muted-foreground">
+      <div className="p-4 space-y-2 text-sm text-sub-foreground">
         {rules.map((rule, i) => (
           <p key={i}>
             {i + 1}. {rule}

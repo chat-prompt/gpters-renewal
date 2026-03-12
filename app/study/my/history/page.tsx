@@ -84,7 +84,7 @@ export default function HistoryPage() {
                 <p className="text-sm font-medium text-foreground">
                   {item.generation}기 {item.studyTitle}
                 </p>
-                <p className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
+                <p className="flex items-center gap-1 text-xs text-sub-foreground mt-0.5">
                   <Calendar className="w-3 h-3" />
                   {item.period}
                 </p>

@@ -214,7 +214,7 @@ const postsMap: Record<string, Post> = {
 
 function AvatarPlaceholder({ name }: { name: string }) {
   return (
-    <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-sm font-medium text-muted-foreground shrink-0">
+    <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-sm font-medium text-sub-foreground shrink-0">
       {name[0]}
     </div>
   );
@@ -222,7 +222,7 @@ function AvatarPlaceholder({ name }: { name: string }) {
 
 function SmallAvatarPlaceholder({ name }: { name: string }) {
   return (
-    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-xs font-medium text-muted-foreground shrink-0">
+    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-sm font-medium text-sub-foreground shrink-0">
       {name[0]}
     </div>
   );
@@ -236,17 +236,17 @@ function CommentItem({ comment, isReply = false }: { comment: Comment; isReply?:
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-sm font-medium text-foreground">{comment.author}</span>
-            <span className="text-xs text-muted-foreground">@{comment.username}</span>
-            <span className="text-xs text-muted-foreground">·</span>
-            <span className="text-xs text-muted-foreground">{comment.time}</span>
+            <span className="text-sm text-sub-foreground">@{comment.username}</span>
+            <span className="text-sm text-sub-foreground">·</span>
+            <span className="text-sm text-sub-foreground">{comment.time}</span>
           </div>
-          <p className="text-sm text-foreground leading-relaxed">{comment.content}</p>
+          <p className="text-sm text-secondary-foreground leading-relaxed">{comment.content}</p>
           <div className="flex items-center gap-4 mt-2">
-            <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors">
-              <Heart className="w-3.5 h-3.5" />
+            <button className="flex items-center gap-1 text-sm text-sub-foreground hover:text-primary transition-colors">
+              <Heart className="w-5 h-5" strokeWidth={1.5} />
               <span>{comment.likes}</span>
             </button>
-            <button className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <button className="text-sm text-sub-foreground hover:text-foreground transition-colors">
               답글
             </button>
           </div>
@@ -269,7 +269,7 @@ export default async function CommunityDetailPage({
 
   if (!post) {
     return (
-      <div className="max-w-[680px] mx-auto px-6 py-8">
+      <div className="max-w-[680px] mx-auto px-6 py-page">
         <p className="text-foreground mb-4">게시글을 찾을 수 없습니다.</p>
         <Link href="/community/feed" className="text-primary text-sm hover:underline">
           커뮤니티로 돌아가기
@@ -284,13 +284,13 @@ export default async function CommunityDetailPage({
   );
 
   return (
-    <div className="max-w-[680px] mx-auto px-6 py-8">
+    <div className="max-w-[680px] mx-auto px-6 py-page">
       {/* Back link */}
       <Link
         href="/community/feed"
-        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+        className="inline-flex items-center gap-1.5 text-sm text-sub-foreground hover:text-foreground transition-colors mb-6"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
         <span>커뮤니티</span>
       </Link>
 
@@ -302,15 +302,15 @@ export default async function CommunityDetailPage({
           <div>
             <span className="text-sm font-medium text-foreground">{post.author}</span>
             <div className="flex items-center gap-1.5">
-              <span className="text-xs text-muted-foreground">@{post.username}</span>
-              <span className="text-xs text-muted-foreground">·</span>
-              <span className="text-xs text-muted-foreground">{post.time}</span>
+              <span className="text-sm text-sub-foreground">@{post.username}</span>
+              <span className="text-sm text-sub-foreground">·</span>
+              <span className="text-sm text-sub-foreground">{post.time}</span>
             </div>
           </div>
         </div>
 
         {/* Content */}
-        <div className="text-[15px] text-foreground leading-relaxed whitespace-pre-line mb-4">
+        <div className="text-[15px] text-secondary-foreground leading-relaxed whitespace-pre-line mb-4">
           {post.content}
         </div>
 
@@ -325,7 +325,7 @@ export default async function CommunityDetailPage({
             {post.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-xs text-primary bg-accent px-2.5 py-1 rounded-full"
+                className="text-sm text-primary bg-accent px-2.5 py-1 rounded-full"
               >
                 #{tag}
               </span>
@@ -335,16 +335,16 @@ export default async function CommunityDetailPage({
 
         {/* Actions */}
         <div className="flex items-center gap-5 pt-3 border-t border-border">
-          <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors">
-            <Heart className="w-4 h-4" />
+          <button className="flex items-center gap-1.5 text-sm text-sub-foreground hover:text-primary transition-colors">
+            <Heart className="w-5 h-5" strokeWidth={1.5} />
             <span>{post.likes}</span>
           </button>
-          <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
-            <MessageSquare className="w-4 h-4" />
+          <button className="flex items-center gap-1.5 text-sm text-sub-foreground hover:text-foreground transition-colors">
+            <MessageSquare className="w-5 h-5" strokeWidth={1.5} />
             <span>{totalComments}</span>
           </button>
-          <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors ml-auto">
-            <Share2 className="w-4 h-4" />
+          <button className="flex items-center gap-1.5 text-sm text-sub-foreground hover:text-foreground transition-colors ml-auto">
+            <Share2 className="w-5 h-5" strokeWidth={1.5} />
             <span>공유</span>
           </button>
         </div>
@@ -352,14 +352,14 @@ export default async function CommunityDetailPage({
 
       {/* Comments section */}
       <div>
-        <h2 className="text-sm font-medium text-muted-foreground mb-4">
+        <h2 className="text-sm font-medium text-sub-foreground mb-4">
           댓글 {totalComments}개
         </h2>
 
         {/* Comment input */}
         <div className="flex gap-3 mb-2 pb-4 border-b border-border">
           <div className="w-8 h-8 rounded-full bg-muted shrink-0" />
-          <div className="flex-1 border border-border rounded-lg px-3 py-2 text-sm text-muted-foreground cursor-text">
+          <div className="flex-1 border border-border rounded-lg px-3 py-2 text-sm text-sub-foreground cursor-text">
             댓글을 남겨주세요...
           </div>
         </div>

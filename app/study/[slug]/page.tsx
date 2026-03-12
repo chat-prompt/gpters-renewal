@@ -18,7 +18,7 @@ const curriculum = [
     key: "week-1",
     title: "1주차: AI 자동화 개요와 도구 선택",
     children: (
-      <ul className="space-y-1 text-sm text-muted-foreground">
+      <ul className="space-y-1 text-sm text-sub-foreground">
         <li>- 자동화가 필요한 업무 분석 프레임워크</li>
         <li>- n8n vs Make vs Zapier 비교</li>
         <li>- 실습: 첫 번째 워크플로우 만들기</li>
@@ -29,7 +29,7 @@ const curriculum = [
     key: "week-2",
     title: "2주차: Claude API 기초와 연동",
     children: (
-      <ul className="space-y-1 text-sm text-muted-foreground">
+      <ul className="space-y-1 text-sm text-sub-foreground">
         <li>- Claude API 키 발급 및 기본 호출</li>
         <li>- 프롬프트 최적화 기법</li>
         <li>- 실습: 텍스트 요약 자동화</li>
@@ -40,7 +40,7 @@ const curriculum = [
     key: "week-3",
     title: "3주차: 이메일/문서 자동화",
     children: (
-      <ul className="space-y-1 text-sm text-muted-foreground">
+      <ul className="space-y-1 text-sm text-sub-foreground">
         <li>- Gmail API 연동</li>
         <li>- 문서 자동 생성 파이프라인</li>
         <li>- 실습: 주간 리포트 자동 발송</li>
@@ -51,7 +51,7 @@ const curriculum = [
     key: "week-4",
     title: "4주차: 최종 프로젝트 및 발표",
     children: (
-      <ul className="space-y-1 text-sm text-muted-foreground">
+      <ul className="space-y-1 text-sm text-sub-foreground">
         <li>- 개인 자동화 프로젝트 완성</li>
         <li>- 동료 피드백 및 개선</li>
         <li>- 최종 발표 및 수료</li>
@@ -98,7 +98,7 @@ const faqs = [
     key: "faq-1",
     title: "코딩 경험이 없어도 참여할 수 있나요?",
     children: (
-      <p className="text-sm text-muted-foreground">
+      <p className="text-sm text-sub-foreground">
         네, 이 스터디는 비개발자를 위해 설계되었습니다. n8n과 같은 노코드 도구를
         중심으로 진행하며, 코딩 경험이 전혀 없어도 참여 가능합니다.
       </p>
@@ -108,7 +108,7 @@ const faqs = [
     key: "faq-2",
     title: "스터디 일정에 빠지면 어떻게 되나요?",
     children: (
-      <p className="text-sm text-muted-foreground">
+      <p className="text-sm text-sub-foreground">
         모든 세션은 녹화되어 다시보기를 제공합니다. 다만 과제 제출 기한은
         유지되며, 주차별 과제를 제출해야 다시보기 권한이 부여됩니다.
       </p>
@@ -118,7 +118,7 @@ const faqs = [
     key: "faq-3",
     title: "수료 기준은 무엇인가요?",
     children: (
-      <p className="text-sm text-muted-foreground">
+      <p className="text-sm text-sub-foreground">
         4주 중 3주 이상 출석하고, 사례 게시글(과제)을 3개 이상 작성하면
         수료됩니다. 수료 시 수료증이 자동 발급됩니다.
       </p>
@@ -128,7 +128,7 @@ const faqs = [
     key: "faq-4",
     title: "환불 정책은 어떻게 되나요?",
     children: (
-      <p className="text-sm text-muted-foreground">
+      <p className="text-sm text-sub-foreground">
         스터디 시작 7일 전까지 100% 환불 가능합니다. 시작 후 1주 이내 50% 환불,
         2주 이후에는 환불이 불가합니다.
       </p>
@@ -138,7 +138,7 @@ const faqs = [
     key: "faq-5",
     title: "버디 제도는 무엇인가요?",
     children: (
-      <p className="text-sm text-muted-foreground">
+      <p className="text-sm text-sub-foreground">
         함께 신청하는 친구/동료를 버디로 등록하면 두 분 모두 추가 할인을
         받으실 수 있습니다. 체크아웃 시 버디 정보를 입력해주세요.
       </p>
@@ -192,7 +192,7 @@ export default function StudyDetailPage() {
             <section className="space-y-8">
               <div>
                 <h3 className="font-bold text-foreground mb-2">스터디 소개</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-sm text-sub-foreground leading-relaxed">
                   AI 자동화 스터디는 반복적인 업무를 AI와 노코드 도구를 활용해
                   자동화하는 방법을 배우는 4주 과정입니다. n8n, Claude API,
                   Gmail API 등을 활용하여 실제 업무에 적용 가능한 자동화
@@ -204,7 +204,7 @@ export default function StudyDetailPage() {
                 <h3 className="font-bold text-foreground mb-3">
                   이런 분께 추천합니다
                 </h3>
-                <ul className="space-y-2 text-sm text-muted-foreground">
+                <ul className="space-y-2 text-sm text-sub-foreground">
                   <li className="flex items-start gap-2">
                     <span className="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs shrink-0 mt-0.5">
                       1
@@ -228,7 +228,7 @@ export default function StudyDetailPage() {
 
               <div>
                 <h3 className="font-bold text-foreground mb-3">기대 효과</h3>
-                <ul className="space-y-2 text-sm text-muted-foreground">
+                <ul className="space-y-2 text-sm text-sub-foreground">
                   <li>- 실제 업무에 적용 가능한 자동화 파이프라인 3개 이상</li>
                   <li>- Claude API를 활용한 텍스트 처리 자동화 역량</li>
                   <li>- 동료들과의 피어 러닝을 통한 실전 노하우</li>
@@ -261,7 +261,7 @@ export default function StudyDetailPage() {
         <aside className="hidden lg:block w-72 shrink-0">
           <div className="sticky top-8 border border-border rounded-lg p-6 bg-background space-y-4">
             <div>
-              <p className="text-xs text-muted-foreground line-through">
+              <p className="text-xs text-sub-foreground line-through">
                 299,000원
               </p>
               <p className="text-xl font-bold text-foreground">269,000원</p>
@@ -271,12 +271,12 @@ export default function StudyDetailPage() {
             </div>
             <div className="space-y-1">
               <Progress value={progress} />
-              <div className="flex justify-between text-xs text-muted-foreground">
+              <div className="flex justify-between text-xs text-sub-foreground">
                 <span>{enrolled}/{capacity}명</span>
                 <span>{progress}% 모집</span>
               </div>
             </div>
-            <p className="text-xs text-muted-foreground flex items-center gap-1">
+            <p className="text-xs text-sub-foreground flex items-center gap-1">
               <Clock className="w-3 h-3" /> 모집 마감: {deadline}
             </p>
             <Link href="/checkout/ai-automation-21">
@@ -293,7 +293,7 @@ export default function StudyDetailPage() {
         <div className="flex items-center justify-between max-w-[1080px] mx-auto">
           <div>
             <p className="text-foreground font-bold">269,000원</p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-sub-foreground">
               잔여 {capacity - enrolled}석 / 마감 {deadline}
             </p>
           </div>

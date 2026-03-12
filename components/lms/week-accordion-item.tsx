@@ -57,23 +57,23 @@ export function WeekAccordionItem({
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-xs text-muted-foreground">{period}</p>
+        <p className="text-xs text-sub-foreground">{period}</p>
         <StatusBadge status={status} />
       </div>
-      <p className="text-sm text-muted-foreground">
+      <p className="text-sm text-sub-foreground">
         <span className="text-xs font-medium text-foreground">커리큘럼:</span>{" "}
         {curriculum}
       </p>
 
       {attendance && (
         <div className="flex items-center gap-2 text-sm">
-          <span className="text-xs text-muted-foreground w-10">출석</span>
+          <span className="text-xs text-sub-foreground w-10">출석</span>
           {attendance.done ? (
             <Check className="w-3.5 h-3.5 text-primary" />
           ) : (
             <X className="w-3.5 h-3.5 text-destructive" />
           )}
-          <span className="text-xs text-muted-foreground">
+          <span className="text-xs text-sub-foreground">
             {attendance.label}
           </span>
         </div>
@@ -81,11 +81,11 @@ export function WeekAccordionItem({
 
       {assignment && (
         <div className="flex items-center gap-2 text-sm">
-          <span className="text-xs text-muted-foreground w-10">과제</span>
+          <span className="text-xs text-sub-foreground w-10">과제</span>
           {assignment.done ? (
             <>
               <Check className="w-3.5 h-3.5 text-primary" />
-              <span className="text-xs text-muted-foreground">
+              <span className="text-xs text-sub-foreground">
                 {assignment.label}
               </span>
               {assignment.postSlug && (
@@ -100,7 +100,7 @@ export function WeekAccordionItem({
           ) : (
             <>
               <X className="w-3.5 h-3.5 text-destructive" />
-              <span className="text-xs text-muted-foreground">
+              <span className="text-xs text-sub-foreground">
                 {assignment.label}
               </span>
               <Link
@@ -122,10 +122,10 @@ export function WeekAccordionItem({
 
       {vods.length > 0 && (
         <div className="space-y-1">
-          <span className="text-xs text-muted-foreground">VOD</span>
+          <span className="text-xs text-sub-foreground">VOD</span>
           {vods.map((vod) => (
             <div key={vod.title} className="flex items-center gap-2 ml-2">
-              <Play className="w-3 h-3 text-muted-foreground" />
+              <Play className="w-3 h-3 text-sub-foreground" />
               <span className="text-xs text-foreground">{vod.title}</span>
               {vod.watched ? (
                 <Badge variant="completed">시청 완료</Badge>
@@ -138,7 +138,7 @@ export function WeekAccordionItem({
       )}
 
       {status === "upcoming" && (
-        <p className="text-xs text-muted-foreground">({period})</p>
+        <p className="text-xs text-sub-foreground">({period})</p>
       )}
     </div>
   );

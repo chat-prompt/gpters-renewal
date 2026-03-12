@@ -77,7 +77,7 @@ export default function StudyManagePage({
           <h1 className="text-xl font-bold text-foreground">
             스터디 관리: {mockStudy.title}
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-sub-foreground mt-1">
             {mockStudy.period} &middot; {mockStudy.currentWeek}주차 진행 중
           </p>
         </div>
@@ -109,7 +109,7 @@ export default function StudyManagePage({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-foreground font-medium">최종제출</p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-sub-foreground">
                   ON이면 수강신청 페이지에 노출됩니다
                 </p>
               </div>
@@ -142,25 +142,25 @@ export default function StudyManagePage({
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
             <div>
-              <p className="text-xs text-muted-foreground">수강생</p>
+              <p className="text-xs text-sub-foreground">수강생</p>
               <p className="text-lg font-bold text-foreground">
                 {mockStudy.enrolled}/{mockStudy.capacity}명
               </p>
             </div>
             <div>
-              <p className="text-xs text-muted-foreground">현재 주차</p>
+              <p className="text-xs text-sub-foreground">현재 주차</p>
               <p className="text-lg font-bold text-foreground">
                 {mockStudy.currentWeek}/{mockStudy.totalWeeks}주차
               </p>
             </div>
             <div>
-              <p className="text-xs text-muted-foreground">누적 출석률</p>
+              <p className="text-xs text-sub-foreground">누적 출석률</p>
               <p className="text-lg font-bold text-foreground">
                 {mockStudy.cumulativeAttendance}%
               </p>
             </div>
             <div>
-              <p className="text-xs text-muted-foreground">수료 예측</p>
+              <p className="text-xs text-sub-foreground">수료 예측</p>
               <p className="text-sm text-foreground">
                 <span className="text-primary font-bold">{mockStudy.prediction.good}명</span> 순조
                 &middot; <span className="font-bold">{mockStudy.prediction.risk}명</span> 위험
@@ -172,8 +172,8 @@ export default function StudyManagePage({
           {/* Recruitment Progress */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <p className="text-xs text-muted-foreground">모집률</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-sub-foreground">모집률</p>
+              <p className="text-xs text-sub-foreground">
                 {mockStudy.enrolled}/{mockStudy.capacity}명 ({Math.round((mockStudy.enrolled / mockStudy.capacity) * 100)}%)
               </p>
             </div>
@@ -193,7 +193,7 @@ export default function StudyManagePage({
               const pct = bar.total > 0 ? (bar.submitted / bar.total) * 100 : 0;
               return (
                 <div key={bar.week} className="flex-1 flex flex-col items-center gap-1">
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-xs text-sub-foreground">
                     {bar.submitted}/{bar.total}
                   </span>
                   <div className="w-full bg-muted rounded-t-sm relative" style={{ height: "100px" }}>
@@ -219,7 +219,7 @@ export default function StudyManagePage({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground mb-3">
+          <p className="text-sm text-sub-foreground mb-3">
             {mockStudy.currentWeek}주차 베스트 발표자를 선정하세요
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 mb-3">

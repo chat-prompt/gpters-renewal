@@ -146,7 +146,7 @@ export default function AdminStudiesPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-bold text-foreground">스터디 관리</h1>
+      <h1 className="text-xl font-semibold text-foreground">스터디 관리</h1>
 
       {/* Filters */}
       <div className="flex gap-2">
@@ -195,7 +195,7 @@ export default function AdminStudiesPage() {
                   </span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-muted-foreground whitespace-nowrap">
+                  <span className="text-sm text-sub-foreground whitespace-nowrap">
                     {study.leader}
                   </span>
                 </TableCell>
@@ -204,7 +204,7 @@ export default function AdminStudiesPage() {
                     value={study.status}
                     onValueChange={(value) => changeStatus(study.id, value)}
                   >
-                    <SelectTrigger size="sm" className="w-auto text-xs">
+                    <SelectTrigger size="sm" className="w-auto text-sm">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -217,7 +217,7 @@ export default function AdminStudiesPage() {
                   </Select>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-muted-foreground whitespace-nowrap">
+                  <span className="text-sm text-sub-foreground whitespace-nowrap">
                     {study.enrolled}/{study.capacity}명
                   </span>
                 </TableCell>
@@ -234,7 +234,7 @@ export default function AdminStudiesPage() {
                     </Button>
                     <Link href={`/study/${study.slug}`}>
                       <Button variant="ghost" size="icon">
-                        <ExternalLink className="w-3.5 h-3.5" />
+                        <ExternalLink className="w-3.5 h-3.5" strokeWidth={1.5} />
                       </Button>
                     </Link>
                   </div>

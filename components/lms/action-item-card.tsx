@@ -30,7 +30,7 @@ export function ActionItemCard({
         <span className="text-primary shrink-0">{icon}</span>
         <div className="min-w-0">
           <p className="text-sm font-medium text-foreground">{title}</p>
-          <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
+          <p className="text-xs text-sub-foreground mt-0.5">{description}</p>
         </div>
       </div>
       <Link

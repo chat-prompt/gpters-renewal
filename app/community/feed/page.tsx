@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { InlinePostForm } from "@/components/site/inline-post-form";
 import { FeedPost } from "@/components/site/feed-post";
+import { SortTabs } from "@/components/site/sort-tabs";
 
 /* ─── Mock Data ─── */
 
@@ -124,7 +125,7 @@ export default function CommunityFeedPage() {
             className={`px-4 py-2.5 text-sm whitespace-nowrap border-b-2 ${
               activeTab === tab.key
                 ? "border-primary text-primary font-medium"
-                : "border-transparent text-muted-foreground"
+                : "border-transparent text-sub-foreground"
             }`}
           >
             {tab.label}
@@ -136,21 +137,14 @@ export default function CommunityFeedPage() {
       <InlinePostForm placeholder={placeholderText} />
 
       {/* Sort Toggle */}
-      <div className="flex items-center gap-2">
-        <button
-          onClick={() => setSort("latest")}
-          className={`text-sm ${sort === "latest" ? "font-medium text-foreground" : "text-muted-foreground"}`}
-        >
-          최신
-        </button>
-        <span className="text-border">|</span>
-        <button
-          onClick={() => setSort("popular")}
-          className={`text-sm ${sort === "popular" ? "font-medium text-foreground" : "text-muted-foreground"}`}
-        >
-          인기
-        </button>
-      </div>
+      <SortTabs
+        options={[
+          { label: "최신", value: "latest" },
+          { label: "인기", value: "popular" },
+        ]}
+        value={sort}
+        onChange={(v) => setSort(v as "latest" | "popular")}
+      />
 
       {/* Posts */}
       <div className="divide-y divide-border">
@@ -160,7 +154,7 @@ export default function CommunityFeedPage() {
       </div>
 
       {/* Load More */}
-      <button className="w-full py-3 text-sm text-muted-foreground border border-border rounded-lg">
+      <button className="w-full py-3 text-sm text-sub-foreground border border-border rounded-lg">
         더 불러오기
       </button>
     </div>

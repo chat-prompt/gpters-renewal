@@ -158,19 +158,19 @@ export default function TagPage() {
     `"${tag}" 태그가 붙은 게시글을 모아봅니다.`;
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-8">
+    <div className="mx-auto max-w-3xl px-6 py-page">
       {/* Tag Header */}
       <div className="pb-6 border-b border-border">
-        <h1 className="text-2xl font-extrabold text-foreground">{tag}</h1>
-        <p className="text-sm text-muted-foreground mt-1">{description}</p>
-        <p className="text-xs text-muted-foreground mt-2">
+        <h1 className="text-2xl font-semibold text-foreground">{tag}</h1>
+        <p className="text-sm text-sub-foreground mt-1">{description}</p>
+        <p className="text-sm text-sub-foreground mt-2">
           게시글 {filteredPosts.length}개 · 이번 주 3개
         </p>
       </div>
 
       {/* Sort */}
       <div className="py-4">
-        <SortTabs defaultValue={sortBy} onChange={setSortBy} />
+        <SortTabs value={sortBy} onChange={setSortBy} />
       </div>
 
       {/* Post List */}
@@ -181,7 +181,7 @@ export default function TagPage() {
           ))}
         </div>
       ) : (
-        <div className="py-12 text-center text-sm text-muted-foreground">
+        <div className="py-12 text-center text-sm text-sub-foreground">
           해당 태그에 맞는 게시글이 없습니다.
         </div>
       )}

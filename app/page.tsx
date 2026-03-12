@@ -163,7 +163,7 @@ const whoToFollow = [
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-[1080px] px-6 py-8">
+    <div className="mx-auto max-w-[1080px] px-6 py-page">
       {/* Hero Carousel */}
       <div className="mb-8">
         <HeroCarousel slides={heroSlides} />
@@ -174,10 +174,10 @@ export default function Home() {
         <div className="flex gap-6 items-center">
           <div className="w-48 h-32 bg-muted rounded-lg shrink-0" />
           <div className="flex-1">
-            <h2 className="text-lg font-bold text-foreground mb-2">
+            <h2 className="text-lg font-semibold text-foreground mb-2">
               {whiteboard.title}
             </h2>
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-secondary-foreground mb-4">
               {whiteboard.body}
             </p>
             <Link
@@ -192,13 +192,13 @@ export default function Home() {
 
       {/* Trending Topics */}
       <div className="mb-8">
-        <h3 className="text-sm font-bold text-foreground mb-3">트렌딩 토픽</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-3">트렌딩 토픽</h3>
         <div className="flex flex-wrap gap-2">
           {trendingTopics.map((topic) => (
             <Link
               key={topic}
               href={`/tag/${encodeURIComponent(topic)}`}
-              className="px-3 py-1.5 rounded-full text-xs bg-muted text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+              className="px-3 py-1.5 rounded-full text-sm bg-muted text-sub-foreground hover:bg-accent hover:text-foreground transition-colors"
             >
               {topic}
             </Link>
@@ -211,13 +211,13 @@ export default function Home() {
         <div className="flex-1 min-w-0">
           {/* Editor's Pick */}
           <div className="mb-8 pb-8 border-b border-border">
-            <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-4">
+            <p className="text-sm font-semibold text-sub-foreground uppercase tracking-wider mb-4">
               Editor&apos;s Pick
             </p>
             <Link href={`/posts/${featuredPost.slug}`} className="group block">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-6 h-6 rounded-full bg-muted shrink-0" />
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-sub-foreground">
                   <span className="font-medium text-foreground">
                     {featuredPost.author}
                   </span>
@@ -227,19 +227,19 @@ export default function Home() {
                   </span>
                 </span>
               </div>
-              <h2 className="text-2xl font-extrabold text-foreground group-hover:underline leading-snug mb-2">
+              <h2 className="text-2xl font-semibold text-foreground group-hover:underline leading-snug mb-2">
                 {featuredPost.title}
               </h2>
-              <p className="text-base text-muted-foreground line-clamp-3 leading-relaxed mb-3">
+              <p className="text-base text-secondary-foreground line-clamp-3 leading-relaxed mb-3">
                 {featuredPost.excerpt}
               </p>
-              <div className="flex items-center gap-4 text-xs text-muted-foreground">
+              <div className="flex items-center gap-4 text-sm text-sub-foreground">
                 <span>{featuredPost.time}</span>
                 <span className="flex items-center gap-1">
-                  <Heart className="w-3.5 h-3.5" /> {featuredPost.votes}
+                  <Heart className="w-5 h-5" strokeWidth={1.5} /> {featuredPost.votes}
                 </span>
                 <span className="flex items-center gap-1">
-                  <MessageSquare className="w-3.5 h-3.5" />{" "}
+                  <MessageSquare className="w-5 h-5" strokeWidth={1.5} />{" "}
                   {featuredPost.comments}
                 </span>
               </div>
@@ -270,31 +270,31 @@ export default function Home() {
         <aside className="w-80 hidden lg:flex flex-col shrink-0 sticky top-20">
           {/* Community Snapshot */}
           <div className="pb-8">
-            <h3 className="text-base font-bold text-foreground mb-4">
+            <h3 className="text-base font-semibold text-foreground mb-4">
               커뮤니티
             </h3>
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center">
-                <Users className="w-4 h-4 text-muted-foreground mx-auto mb-1" />
-                <p className="text-lg font-bold text-foreground">12,400</p>
-                <p className="text-xs text-muted-foreground">회원</p>
+                <Users className="w-4 h-4 text-sub-foreground mx-auto mb-1" strokeWidth={1.5} />
+                <p className="text-lg font-semibold text-foreground">12,400</p>
+                <p className="text-sm text-sub-foreground">회원</p>
               </div>
               <div className="text-center">
-                <FileText className="w-4 h-4 text-muted-foreground mx-auto mb-1" />
-                <p className="text-lg font-bold text-foreground">3,200</p>
-                <p className="text-xs text-muted-foreground">게시글</p>
+                <FileText className="w-4 h-4 text-sub-foreground mx-auto mb-1" strokeWidth={1.5} />
+                <p className="text-lg font-semibold text-foreground">3,200</p>
+                <p className="text-sm text-sub-foreground">게시글</p>
               </div>
               <div className="text-center">
-                <GraduationCap className="w-4 h-4 text-muted-foreground mx-auto mb-1" />
-                <p className="text-lg font-bold text-foreground">2,100</p>
-                <p className="text-xs text-muted-foreground">수료</p>
+                <GraduationCap className="w-4 h-4 text-sub-foreground mx-auto mb-1" strokeWidth={1.5} />
+                <p className="text-lg font-semibold text-foreground">2,100</p>
+                <p className="text-sm text-sub-foreground">수료</p>
               </div>
             </div>
           </div>
 
           {/* Upcoming Event */}
           <div className="pb-8">
-            <h3 className="text-base font-bold text-foreground mb-4">
+            <h3 className="text-base font-semibold text-foreground mb-4">
               다가오는 이벤트
             </h3>
             <Link
@@ -304,16 +304,16 @@ export default function Home() {
               <p className="text-sm font-medium text-foreground mb-1">
                 무료 AI 토크: Claude Code 활용법
               </p>
-              <p className="text-xs text-muted-foreground mb-2">
+              <p className="text-sm text-sub-foreground mb-2">
                 3월 15일 (토) 19:00 · 온라인
               </p>
-              <p className="text-xs text-primary font-medium">신청하기 →</p>
+              <p className="text-sm text-primary font-medium">신청하기 →</p>
             </Link>
           </div>
 
           {/* Who to Follow */}
           <div className="pb-8">
-            <h3 className="text-base font-bold text-foreground mb-4">
+            <h3 className="text-base font-semibold text-foreground mb-4">
               추천 작성자
             </h3>
             <div className="space-y-4">
@@ -329,18 +329,18 @@ export default function Home() {
                         >
                           {user.name}
                         </Link>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-sm text-sub-foreground">
                           @{user.username}
                         </p>
                       </div>
                       <button
                         type="button"
-                        className="px-3 py-1 text-xs font-medium border border-border rounded-full text-foreground hover:bg-muted transition-colors shrink-0"
+                        className="px-3 py-1 text-sm font-medium border border-border rounded-full text-foreground hover:bg-muted transition-colors shrink-0"
                       >
                         팔로우
                       </button>
                     </div>
-                    <p className="text-xs text-muted-foreground line-clamp-1 mt-1">
+                    <p className="text-sm text-sub-foreground line-clamp-1 mt-1">
                       {user.bio}
                     </p>
                   </div>

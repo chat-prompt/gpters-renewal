@@ -20,7 +20,7 @@ export function QuickAction({ items }: QuickActionProps) {
           href={item.href}
           className="inline-flex items-center gap-2 px-4 py-2 text-sm border border-border rounded-md text-foreground hover:bg-muted transition-colors whitespace-nowrap"
         >
-          <item.icon className="w-4 h-4" />
+          <item.icon className="w-4 h-4" strokeWidth={1.5} />
           {item.label}
         </Link>
       ))}

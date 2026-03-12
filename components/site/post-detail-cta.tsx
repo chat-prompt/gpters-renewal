@@ -14,7 +14,7 @@ export function PostDetailCTA({ className }: PostDetailCTAProps) {
       )}
     >
       <p className="text-foreground font-medium">이 글이 도움이 되셨나요?</p>
-      <p className="text-sm text-muted-foreground">
+      <p className="text-sm text-sub-foreground">
         GPTers에 가입하면 매주 AI 활용 인사이트를 받을 수 있어요
       </p>
       <div className="flex justify-center gap-3">

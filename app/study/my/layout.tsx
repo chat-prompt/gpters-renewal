@@ -45,7 +45,7 @@ export default function MyStudyLayout({
               "flex items-center gap-1.5 px-3 py-1.5 text-sm whitespace-nowrap rounded-md shrink-0 transition-colors",
               isActive(item.href)
                 ? "bg-accent text-foreground font-medium"
-                : "text-muted-foreground hover:text-foreground"
+                : "text-sub-foreground hover:text-foreground"
             )}
           >
             <item.icon className="w-3.5 h-3.5" />
@@ -67,7 +67,7 @@ export default function MyStudyLayout({
                   "flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors",
                   isActive(item.href)
                     ? "bg-accent text-foreground font-medium"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    : "text-sub-foreground hover:text-foreground hover:bg-muted"
                 )}
               >
                 <item.icon className="w-4 h-4" />
@@ -77,7 +77,7 @@ export default function MyStudyLayout({
             <div className="border-t border-border my-2" />
             <Link
               href="/study/21-ai-automation/learn"
-              className="flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors"
+              className="flex items-center gap-2 px-3 py-2 text-sm text-sub-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors"
             >
               <BookOpen className="w-4 h-4" />
               나의 학습
@@ -86,7 +86,7 @@ export default function MyStudyLayout({
           </nav>
           <div className="mt-6 px-3 py-3 rounded-lg bg-muted">
             <p className="text-sm font-medium text-foreground">홍길동</p>
-            <p className="text-xs text-muted-foreground">21기 옵시디언</p>
+            <p className="text-xs text-sub-foreground">21기 옵시디언</p>
           </div>
         </aside>
 

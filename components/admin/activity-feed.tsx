@@ -38,11 +38,11 @@ export function ActivityFeed({ items }: ActivityFeedProps) {
             key={item.id}
             className="flex items-center gap-3 px-4 py-3 hover:bg-muted/50 transition-colors"
           >
-            <Icon className="w-4 h-4 text-muted-foreground shrink-0" />
+            <Icon className="w-4 h-4 text-sub-foreground shrink-0" strokeWidth={1.5} />
             <span className="text-sm text-foreground flex-1 truncate">
               {item.text}
             </span>
-            <span className="text-xs text-muted-foreground font-mono whitespace-nowrap shrink-0">
+            <span className="text-sm text-sub-foreground font-mono whitespace-nowrap shrink-0">
               {item.time}
             </span>
           </div>

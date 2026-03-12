@@ -129,8 +129,8 @@ export default function SeriesDetailPage({
 
   if (!series) {
     return (
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        <p className="text-sm text-muted-foreground">
+      <div className="max-w-3xl mx-auto px-4 py-page">
+        <p className="text-sm text-sub-foreground">
           존재하지 않는 시리즈입니다.
         </p>
       </div>
@@ -138,7 +138,7 @@ export default function SeriesDetailPage({
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto px-4 py-page">
       {/* Breadcrumb */}
       <Breadcrumb
         items={[
@@ -156,14 +156,14 @@ export default function SeriesDetailPage({
       <div className="mb-8">
         {/* Badges */}
         <div className="flex items-center gap-2 mb-3">
-          <span className="px-2 py-0.5 text-xs rounded bg-muted text-muted-foreground">
+          <span className="px-2 py-0.5 text-sm rounded bg-muted text-sub-foreground">
             {series.category}
           </span>
           <span
             className={
               series.status === "완결"
-                ? "px-2 py-0.5 text-xs rounded bg-primary/10 text-primary"
-                : "px-2 py-0.5 text-xs rounded bg-muted text-muted-foreground"
+                ? "px-2 py-0.5 text-sm rounded bg-primary/10 text-primary"
+                : "px-2 py-0.5 text-sm rounded bg-muted text-sub-foreground"
             }
           >
             {series.status}
@@ -171,17 +171,17 @@ export default function SeriesDetailPage({
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl font-bold text-foreground mb-2">
+        <h1 className="text-2xl font-semibold text-foreground mb-2">
           {series.title}
         </h1>
 
         {/* Description */}
-        <p className="text-sm text-muted-foreground mb-4">
+        <p className="text-sm text-sub-foreground mb-4">
           {series.description}
         </p>
 
         {/* Author Meta */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <div className="flex items-center gap-2 text-sm text-sub-foreground">
           <div className="w-6 h-6 rounded-full bg-muted shrink-0" />
           <Link
             href={`/profile/${series.username}`}
@@ -190,10 +190,10 @@ export default function SeriesDetailPage({
             {series.author}
           </Link>
           <span className="text-border">|</span>
-          <BookOpen className="w-3.5 h-3.5" />
+          <BookOpen className="w-4 h-4" strokeWidth={1.5} />
           <span>{series.postCount}편</span>
           <span className="text-border">|</span>
-          <Heart className="w-3.5 h-3.5" />
+          <Heart className="w-5 h-5" strokeWidth={1.5} />
           <span>{series.totalVotes}</span>
         </div>
       </div>
@@ -204,7 +204,7 @@ export default function SeriesDetailPage({
           <div key={post.slug} className="py-5 first:pt-0">
             <div className="flex items-start gap-4">
               {/* Number */}
-              <span className="text-lg font-bold text-muted-foreground shrink-0 w-6 text-right">
+              <span className="text-lg font-semibold text-sub-foreground shrink-0 w-6 text-right">
                 {post.number}
               </span>
 
@@ -217,11 +217,11 @@ export default function SeriesDetailPage({
                   >
                     {post.title}
                   </Link>
-                  <span className="text-xs text-muted-foreground shrink-0 pt-0.5">
+                  <span className="text-sm text-sub-foreground shrink-0 pt-0.5">
                     {post.date}
                   </span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                <p className="text-sm text-sub-foreground mt-1 line-clamp-2">
                   {post.excerpt}
                 </p>
               </div>
@@ -229,10 +229,10 @@ export default function SeriesDetailPage({
               {/* Chevron */}
               <Link
                 href={`/posts/${post.slug}`}
-                className="shrink-0 pt-1 text-muted-foreground hover:text-foreground transition-colors"
+                className="shrink-0 pt-1 text-sub-foreground hover:text-foreground transition-colors"
                 aria-label={`${post.title} 읽기`}
               >
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
               </Link>
             </div>
           </div>

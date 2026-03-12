@@ -81,15 +81,15 @@ export default function NoticesManagePage() {
             key={notice.id}
             className="rounded-lg border border-border p-4 flex items-start gap-3"
           >
-            <GripVertical className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5 cursor-grab" />
-            <span className="text-xs text-muted-foreground w-6 text-center shrink-0 mt-0.5">
+            <GripVertical className="w-4 h-4 text-sub-foreground shrink-0 mt-0.5 cursor-grab" />
+            <span className="text-xs text-sub-foreground w-6 text-center shrink-0 mt-0.5">
               {notice.order}
             </span>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-foreground">
                 {notice.title}
               </p>
-              <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+              <p className="text-xs text-sub-foreground mt-1 line-clamp-2">
                 {notice.preview}
               </p>
             </div>

@@ -34,10 +34,10 @@ export function TagFilter({
             type="button"
             onClick={() => handleToggle(tag.id)}
             className={cn(
-              "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs transition-colors",
+              "inline-flex items-center px-2.5 py-0.5 rounded-full text-sm transition-colors",
               isSelected
                 ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground"
+                : "bg-muted text-sub-foreground"
             )}
           >
             {tag.name}

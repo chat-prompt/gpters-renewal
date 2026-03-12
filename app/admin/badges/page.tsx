@@ -74,9 +74,9 @@ export default function AdminBadgesPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-foreground">뱃지 관리</h1>
+        <h1 className="text-xl font-semibold text-foreground">뱃지 관리</h1>
         <Button size="sm">
-          <Plus className="w-3.5 h-3.5" />
+          <Plus className="w-3.5 h-3.5" strokeWidth={1.5} />
           뱃지 추가
         </Button>
       </div>
@@ -90,7 +90,7 @@ export default function AdminBadgesPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-md bg-muted flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-primary" />
+                      <Icon className="w-5 h-5 text-primary" strokeWidth={1.5} />
                     </div>
                     <div>
                       <CardTitle className="text-sm">{badge.name}</CardTitle>
@@ -110,7 +110,7 @@ export default function AdminBadgesPage() {
                       title="삭제"
                       onClick={() => deleteBadge(badge.id)}
                     >
-                      <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                      <Trash2 className="w-3.5 h-3.5 text-destructive" strokeWidth={1.5} />
                     </Button>
                   </div>
                 </div>

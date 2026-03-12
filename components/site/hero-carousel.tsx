@@ -38,10 +38,10 @@ export function HeroCarousel({ slides, interval = 5000 }: HeroCarouselProps) {
   return (
     <div className={`relative rounded-xl overflow-hidden h-52 md:h-56 ${slide.bg}`}>
       <div className="px-8 py-8 md:py-10 md:px-12">
-        <span className="inline-block text-xs font-medium text-primary-foreground/80 bg-white/20 px-3 py-1 rounded-full mb-3">
+        <span className="inline-block text-sm font-medium text-primary-foreground/80 bg-white/20 px-3 py-1 rounded-full mb-3">
           {slide.tag}
         </span>
-        <h2 className="text-xl md:text-2xl font-bold text-white mb-2">
+        <h2 className="text-xl md:text-2xl font-semibold text-white mb-2">
           {slide.title}
         </h2>
         <p className="text-sm text-white/80 mb-5 max-w-lg">
@@ -62,13 +62,13 @@ export function HeroCarousel({ slides, interval = 5000 }: HeroCarouselProps) {
             onClick={prev}
             className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-black/20 text-white"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-4 h-4" strokeWidth={1.5} />
           </button>
           <button
             onClick={next}
             className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-black/20 text-white"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
           </button>
         </>
       )}

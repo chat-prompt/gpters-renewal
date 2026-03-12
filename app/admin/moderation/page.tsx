@@ -80,7 +80,7 @@ export default function AdminModerationPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-bold text-foreground">신고/모더레이션</h1>
+      <h1 className="text-xl font-semibold text-foreground">신고/모더레이션</h1>
 
       <Tabs
         items={statusTabs}
@@ -105,7 +105,7 @@ export default function AdminModerationPage() {
             {filtered.map((report) => (
               <TableRow key={report.id}>
                 <TableCell>
-                  <span className="text-sm text-muted-foreground whitespace-nowrap">
+                  <span className="text-sm text-sub-foreground whitespace-nowrap">
                     {report.reportedAt}
                   </span>
                 </TableCell>
@@ -120,12 +120,12 @@ export default function AdminModerationPage() {
                   </span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm text-sub-foreground">
                     {report.reason}
                   </span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm text-sub-foreground">
                     {report.reporter}
                   </span>
                 </TableCell>
@@ -142,7 +142,7 @@ export default function AdminModerationPage() {
                       title="처리완료"
                       onClick={() => handleConfirm(report.id)}
                     >
-                      <Check className="w-3.5 h-3.5" />
+                      <Check className="w-3.5 h-3.5" strokeWidth={1.5} />
                     </Button>
                     <Button
                       variant="ghost"
@@ -150,7 +150,7 @@ export default function AdminModerationPage() {
                       title="무시"
                       onClick={() => handleIgnore(report.id)}
                     >
-                      <X className="w-3.5 h-3.5" />
+                      <X className="w-3.5 h-3.5" strokeWidth={1.5} />
                     </Button>
                     <Button
                       variant="destructive"
@@ -158,7 +158,7 @@ export default function AdminModerationPage() {
                       title="삭제"
                       onClick={() => handleDelete(report.id)}
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="w-3.5 h-3.5" strokeWidth={1.5} />
                     </Button>
                   </div>
                 </TableCell>
@@ -166,7 +166,7 @@ export default function AdminModerationPage() {
             ))}
             {filtered.length === 0 && (
               <TableRow>
-                <TableCell colSpan={7} className="text-center text-sm text-muted-foreground py-8">
+                <TableCell colSpan={7} className="text-center text-sm text-sub-foreground py-8">
                   신고 내역이 없습니다.
                 </TableCell>
               </TableRow>

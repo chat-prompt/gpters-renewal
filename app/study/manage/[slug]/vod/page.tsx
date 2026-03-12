@@ -79,10 +79,10 @@ export default function VodManagePage() {
             key={vod.id}
             className="flex items-center gap-3 rounded-lg border border-border p-3"
           >
-            <span className="text-xs text-muted-foreground w-6 text-center shrink-0">
+            <span className="text-xs text-sub-foreground w-6 text-center shrink-0">
               {vod.order}
             </span>
-            <Video className="w-4 h-4 text-muted-foreground shrink-0" />
+            <Video className="w-4 h-4 text-sub-foreground shrink-0" />
             <div className="flex-1 min-w-0 grid grid-cols-1 md:grid-cols-2 gap-2">
               <Input
                 defaultValue={vod.title}
@@ -126,7 +126,7 @@ export default function VodManagePage() {
 
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-foreground">VOD 관리</h1>
-        <span className="text-sm text-muted-foreground">
+        <span className="text-sm text-sub-foreground">
           총 {totalVods}개
         </span>
       </div>

@@ -27,8 +27,8 @@ export function StatGrid({ items, columns = 5, className }: StatGridProps) {
           key={stat.label}
           className="border border-border rounded-lg p-4 text-center"
         >
-          <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-          <p className="text-xs text-muted-foreground">{stat.label}</p>
+          <p className="text-2xl font-semibold text-foreground">{stat.value}</p>
+          <p className="text-sm text-sub-foreground">{stat.label}</p>
         </div>
       ))}
     </div>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ImageIcon, LinkIcon, Hash } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 interface InlinePostFormProps {
   placeholder?: string;
@@ -12,6 +13,8 @@ export function InlinePostForm({ placeholder = "무슨 AI 이야기를 나누고
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState("");
 
+  const isEmpty = content.trim().length === 0;
+
   return (
     <div className="border border-border rounded-lg p-4">
       {!open ? (
@@ -20,7 +23,7 @@ export function InlinePostForm({ placeholder = "무슨 AI 이야기를 나누고
           onClick={() => setOpen(true)}
         >
           <div className="w-10 h-10 rounded-full bg-muted shrink-0" />
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm text-sub-foreground">
             {placeholder}
           </span>
         </div>
@@ -36,31 +39,35 @@ export function InlinePostForm({ placeholder = "무슨 AI 이야기를 나누고
               autoFocus
             />
           </div>
-          <div className="flex items-center justify-between ml-13">
-            <div className="flex items-center gap-2">
-              <button className="p-2 text-muted-foreground rounded-md">
-                <ImageIcon className="w-4 h-4" />
-              </button>
-              <button className="p-2 text-muted-foreground rounded-md">
-                <LinkIcon className="w-4 h-4" />
-              </button>
-              <button className="p-2 text-muted-foreground rounded-md">
-                <Hash className="w-4 h-4" />
-              </button>
+          <div className="flex items-center justify-between ml-[52px]">
+            <div className="flex items-center gap-1">
+              <Button variant="ghost" size="icon-sm" className="text-sub-foreground">
+                <ImageIcon className="w-4 h-4" strokeWidth={1.5} />
+              </Button>
+              <Button variant="ghost" size="icon-sm" className="text-sub-foreground">
+                <LinkIcon className="w-4 h-4" strokeWidth={1.5} />
+              </Button>
+              <Button variant="ghost" size="icon-sm" className="text-sub-foreground">
+                <Hash className="w-4 h-4" strokeWidth={1.5} />
+              </Button>
             </div>
             <div className="flex items-center gap-2">
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => {
                   setOpen(false);
                   setContent("");
                 }}
-                className="px-3 py-1.5 text-sm text-muted-foreground"
               >
                 취소
-              </button>
-              <button className="px-4 py-1.5 text-sm bg-primary text-primary-foreground rounded-md">
+              </Button>
+              <Button
+                size="sm"
+                disabled={isEmpty}
+              >
                 포스트 게시
-              </button>
+              </Button>
             </div>
           </div>
         </div>

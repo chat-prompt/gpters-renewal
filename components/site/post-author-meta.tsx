@@ -22,7 +22,7 @@ export function PostAuthorMeta({
   return (
     <div
       className={cn(
-        "flex items-center gap-3 text-sm text-muted-foreground",
+        "flex items-center gap-3 text-sm text-sub-foreground",
         className
       )}
     >

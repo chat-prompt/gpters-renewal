@@ -51,13 +51,13 @@ export function BadgeDetailCard({ badge, className }: BadgeDetailCardProps) {
       )}
     >
       <div className="flex items-center gap-3">
-        <Icon className="w-8 h-8 text-primary" />
+        <Icon className="w-8 h-8 text-primary" strokeWidth={1.5} />
         <div>
           <p className="font-semibold text-foreground">{badge.name}</p>
-          <p className="text-xs text-muted-foreground">{badge.earnedDate}</p>
+          <p className="text-sm text-sub-foreground">{badge.earnedDate}</p>
         </div>
       </div>
-      <p className="text-sm text-muted-foreground">{badge.description}</p>
+      <p className="text-sm text-sub-foreground">{badge.description}</p>
     </div>
   );
 }

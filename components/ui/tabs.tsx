@@ -31,12 +31,12 @@ export function Tabs({ items, activeKey, onTabChange, className }: TabsProps) {
             "px-4 py-2 text-sm whitespace-nowrap border-b-2 transition-colors",
             activeKey === item.key
               ? "border-primary text-foreground font-medium"
-              : "border-transparent text-muted-foreground hover:text-foreground"
+              : "border-transparent text-sub-foreground hover:text-foreground"
           )}
         >
           {item.label}
           {item.count !== undefined && (
-            <span className="ml-1 text-xs text-muted-foreground">
+            <span className="ml-1 text-sm text-sub-foreground">
               ({item.count})
             </span>
           )}

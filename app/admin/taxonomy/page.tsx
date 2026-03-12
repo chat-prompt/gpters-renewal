@@ -108,7 +108,7 @@ export default function AdminTaxonomyPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-bold text-foreground">분류 관리</h1>
+      <h1 className="text-xl font-semibold text-foreground">분류 관리</h1>
 
       <Tabs
         items={sectionTabs}
@@ -132,7 +132,7 @@ export default function AdminTaxonomyPage() {
               {categoryList.map((cat) => (
                 <TableRow key={cat.id}>
                   <TableCell>
-                    <span className="text-sm text-muted-foreground">{cat.order}</span>
+                    <span className="text-sm text-sub-foreground">{cat.order}</span>
                   </TableCell>
                   <TableCell>
                     {editingId === cat.id ? (
@@ -151,7 +151,7 @@ export default function AdminTaxonomyPage() {
                     )}
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm text-muted-foreground">{cat.slug}</span>
+                    <span className="text-sm text-sub-foreground">{cat.slug}</span>
                   </TableCell>
                   <TableCell className="text-right">
                     <span className="text-sm text-foreground">{cat.postCount}</span>
@@ -166,10 +166,10 @@ export default function AdminTaxonomyPage() {
                       ) : (
                         <>
                           <Button variant="ghost" size="sm" title="수정" onClick={() => startEdit(cat.id, cat.name)}>
-                            <Pencil className="w-3.5 h-3.5" />
+                            <Pencil className="w-3.5 h-3.5" strokeWidth={1.5} />
                           </Button>
                           <Button variant="ghost" size="sm" title="삭제" onClick={() => deleteCategory(cat.id)}>
-                            <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                            <Trash2 className="w-3.5 h-3.5 text-destructive" strokeWidth={1.5} />
                           </Button>
                         </>
                       )}
@@ -214,7 +214,7 @@ export default function AdminTaxonomyPage() {
                     )}
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm text-muted-foreground">{tag.slug}</span>
+                    <span className="text-sm text-sub-foreground">{tag.slug}</span>
                   </TableCell>
                   <TableCell>
                     <Badge variant={tagTypeVariant(tag.type)}>{tagTypeLabel(tag.type)}</Badge>
@@ -232,10 +232,10 @@ export default function AdminTaxonomyPage() {
                       ) : (
                         <>
                           <Button variant="ghost" size="sm" title="수정" onClick={() => startEdit(tag.id, tag.name)}>
-                            <Pencil className="w-3.5 h-3.5" />
+                            <Pencil className="w-3.5 h-3.5" strokeWidth={1.5} />
                           </Button>
 <Button variant="ghost" size="sm" title="삭제" onClick={() => deleteTag(tag.id)}>
-                            <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                            <Trash2 className="w-3.5 h-3.5 text-destructive" strokeWidth={1.5} />
                           </Button>
                         </>
                       )}

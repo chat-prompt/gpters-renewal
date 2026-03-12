@@ -35,7 +35,7 @@ export function CertificateView({
       {/* Header */}
       <div className="text-center space-y-2">
         <GraduationCap className="w-8 h-8 text-primary mx-auto" />
-        <p className="text-xs tracking-widest text-muted-foreground uppercase">
+        <p className="text-xs tracking-widest text-sub-foreground uppercase">
           수료증
         </p>
         {isOutstanding && (
@@ -49,17 +49,17 @@ export function CertificateView({
       {/* Body */}
       <div className="text-center space-y-3 py-2">
         <p className="text-lg font-bold text-foreground">{studentName}</p>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-sub-foreground">
           {generation}기 {studyTitle}
         </p>
-        <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
+        <div className="flex items-center justify-center gap-4 text-xs text-sub-foreground">
           <span>출석 {attendanceCount}회</span>
           <span>과제 {assignmentCount}주</span>
         </div>
       </div>
 
       {/* Date */}
-      <p className="text-center text-xs text-muted-foreground">{completedAt}</p>
+      <p className="text-center text-xs text-sub-foreground">{completedAt}</p>
 
       {/* Actions */}
       <div className="flex items-center justify-center gap-2 pt-2">

@@ -20,28 +20,28 @@ export function StudyHistoryCard({ study, className }: StudyHistoryCardProps) {
     <div className={cn("p-4 space-y-2", className)}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <GraduationCap className="w-4 h-4 text-primary" />
+          <GraduationCap className="w-4 h-4 text-primary" strokeWidth={1.5} />
           <span className="font-medium text-foreground">{study.title}</span>
         </div>
-        <span className="text-xs text-primary bg-accent px-2 py-0.5 rounded-sm">
+        <span className="text-sm text-primary bg-accent px-2 py-0.5 rounded-sm">
           수료 완료
         </span>
       </div>
-      <div className="text-sm text-muted-foreground space-y-1 pl-6">
+      <div className="text-sm text-sub-foreground space-y-1 pl-6">
         <p>{study.period}</p>
         <p>스터디장: {study.leader}</p>
         <p>사례글: {study.posts}건 작성</p>
         <p>최종 프로젝트: {study.project}</p>
         <p className="flex items-center gap-1.5 text-foreground">
-          <Award className="w-3.5 h-3.5 text-primary" />
+          <Award className="w-3.5 h-3.5 text-primary" strokeWidth={1.5} />
           획득 뱃지: {study.badge}
         </p>
       </div>
       <div className="pl-6 flex gap-2">
-        <button className="text-xs text-primary">사례글 보기</button>
-        <button className="text-xs text-primary">프로젝트 보기</button>
-        <button className="text-xs text-primary flex items-center gap-1">
-          <ScrollText className="w-3 h-3" />
+        <button className="text-sm text-primary">사례글 보기</button>
+        <button className="text-sm text-primary">프로젝트 보기</button>
+        <button className="text-sm text-primary flex items-center gap-1">
+          <ScrollText className="w-3 h-3" strokeWidth={1.5} />
           수료증 보기
         </button>
       </div>

@@ -23,6 +23,7 @@ export function ReviewTab({ reviews }: ReviewTabProps) {
           {Array.from({ length: 5 }).map((_, i) => (
             <Star
               key={i}
+              strokeWidth={1.5}
               className={`w-5 h-5 ${
                 i < Math.round(avgRating)
                   ? "text-primary fill-primary"
@@ -31,7 +32,7 @@ export function ReviewTab({ reviews }: ReviewTabProps) {
             />
           ))}
         </div>
-        <span className="text-sm text-muted-foreground">
+        <span className="text-sm text-sub-foreground">
           {avgRating.toFixed(1)} ({reviews.length}개 후기)
         </span>
       </div>
@@ -48,12 +49,13 @@ export function ReviewTab({ reviews }: ReviewTabProps) {
                 <p className="text-sm font-medium text-foreground">
                   {review.name}
                 </p>
-                <p className="text-xs text-muted-foreground">{review.cohort}</p>
+                <p className="text-sm text-sub-foreground">{review.cohort}</p>
               </div>
               <div className="flex gap-0.5 ml-auto">
                 {Array.from({ length: 5 }).map((_, j) => (
                   <Star
                     key={j}
+                    strokeWidth={1.5}
                     className={`w-3 h-3 ${
                       j < review.rating
                         ? "text-primary fill-primary"

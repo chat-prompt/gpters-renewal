@@ -173,7 +173,7 @@ export default function MyPostsPage() {
             ))}
           </SelectContent>
         </Select>
-        <label className="flex items-center gap-1.5 text-sm text-muted-foreground cursor-pointer select-none">
+        <label className="flex items-center gap-1.5 text-sm text-sub-foreground cursor-pointer select-none">
           <input
             type="checkbox"
             checked={myPostsOnly}
@@ -182,7 +182,7 @@ export default function MyPostsPage() {
           />
           내 글만
         </label>
-        <span className="text-xs text-muted-foreground ml-auto">
+        <span className="text-xs text-sub-foreground ml-auto">
           {filteredPosts.length}개
         </span>
       </div>
@@ -192,7 +192,7 @@ export default function MyPostsPage() {
         {/* Left: post list */}
         <div className="w-full md:w-[45%] rounded-lg border border-border divide-y divide-border overflow-y-auto">
           {filteredPosts.length === 0 ? (
-            <div className="p-8 text-center text-sm text-muted-foreground">
+            <div className="p-8 text-center text-sm text-sub-foreground">
               게시글이 없습니다.
             </div>
           ) : (
@@ -212,8 +212,8 @@ export default function MyPostsPage() {
                   <Badge variant="default" className="text-xs">
                     {post.study} {post.week}주차
                   </Badge>
-                  <span className="text-xs text-muted-foreground">{post.author}</span>
-                  <span className="text-xs text-muted-foreground ml-auto">{post.date}</span>
+                  <span className="text-xs text-sub-foreground">{post.author}</span>
+                  <span className="text-xs text-sub-foreground ml-auto">{post.date}</span>
                 </div>
               </button>
             ))
@@ -228,8 +228,8 @@ export default function MyPostsPage() {
                 <h2 className="text-lg font-bold text-foreground">{selectedPost.title}</h2>
                 <div className="flex items-center gap-2">
                   <Badge variant="default">{selectedPost.study} {selectedPost.week}주차</Badge>
-                  <span className="text-xs text-muted-foreground">{selectedPost.author}</span>
-                  <span className="text-xs text-muted-foreground">{selectedPost.date}</span>
+                  <span className="text-xs text-sub-foreground">{selectedPost.author}</span>
+                  <span className="text-xs text-sub-foreground">{selectedPost.date}</span>
                 </div>
               </div>
               <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
@@ -237,7 +237,7 @@ export default function MyPostsPage() {
               </p>
             </div>
           ) : (
-            <div className="flex items-center justify-center w-full text-sm text-muted-foreground">
+            <div className="flex items-center justify-center w-full text-sm text-sub-foreground">
               게시글을 선택하세요
             </div>
           )}

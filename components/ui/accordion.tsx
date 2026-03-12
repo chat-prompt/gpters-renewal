@@ -46,9 +46,10 @@ export function Accordion({ items, className, defaultOpen = [] }: AccordionProps
               <span className="font-medium text-left">{item.title}</span>
               <ChevronDown
                 className={cn(
-                  "w-4 h-4 text-muted-foreground shrink-0 transition-transform",
+                  "w-4 h-4 text-sub-foreground shrink-0 transition-transform",
                   isOpen && "rotate-180"
                 )}
+                strokeWidth={1.5}
               />
             </button>
             {isOpen && (

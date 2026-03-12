@@ -80,7 +80,7 @@ export default function AdminUsersPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-bold text-foreground">회원 관리</h1>
+      <h1 className="text-xl font-semibold text-foreground">회원 관리</h1>
 
       <Input
         placeholder="이름 또는 이메일로 검색"
@@ -110,12 +110,12 @@ export default function AdminUsersPage() {
                   <span className="text-sm font-medium text-foreground">
                     {user.name}
                     {user.suspended && (
-                      <span className="ml-1 text-xs text-muted-foreground">(정지)</span>
+                      <span className="ml-1 text-sm text-sub-foreground">(정지)</span>
                     )}
                   </span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm text-sub-foreground">
                     {user.email}
                   </span>
                 </TableCell>
@@ -135,7 +135,7 @@ export default function AdminUsersPage() {
                   </Select>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-muted-foreground whitespace-nowrap">
+                  <span className="text-sm text-sub-foreground whitespace-nowrap">
                     {user.joinedAt}
                   </span>
                 </TableCell>
@@ -154,9 +154,9 @@ export default function AdminUsersPage() {
                       onClick={() => toggleSuspend(user.id)}
                     >
                       {user.suspended ? (
-                        <UserCheck className="w-3.5 h-3.5 text-primary" />
+                        <UserCheck className="w-3.5 h-3.5 text-primary" strokeWidth={1.5} />
                       ) : (
-                        <UserX className="w-3.5 h-3.5" />
+                        <UserX className="w-3.5 h-3.5" strokeWidth={1.5} />
                       )}
                     </Button>
                     <Button
@@ -165,7 +165,7 @@ export default function AdminUsersPage() {
                       title="삭제"
                       onClick={() => deleteUser(user.id)}
                     >
-                      <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                      <Trash2 className="w-3.5 h-3.5 text-destructive" strokeWidth={1.5} />
                     </Button>
                   </div>
                 </TableCell>

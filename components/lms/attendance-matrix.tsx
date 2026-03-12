@@ -33,7 +33,7 @@ function StatusCell({ value }: { value: CellStatus }) {
     case "not-done":
       return <X className="w-3.5 h-3.5 text-destructive mx-auto" />;
     case "upcoming":
-      return <Minus className="w-3.5 h-3.5 text-muted-foreground mx-auto" />;
+      return <Minus className="w-3.5 h-3.5 text-sub-foreground mx-auto" />;
   }
 }
 

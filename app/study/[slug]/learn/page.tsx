@@ -105,26 +105,26 @@ export default function StudyLearnPage() {
             <p className="text-xs font-medium text-primary">공지 (스터디장)</p>
             <p className="text-sm text-foreground mt-1">{notice.content}</p>
           </div>
-          <span className="text-xs text-muted-foreground shrink-0">{notice.date} 등록</span>
+          <span className="text-xs text-sub-foreground shrink-0">{notice.date} 등록</span>
         </div>
       </div>
 
       {/* Progress Summary */}
       <div className="grid grid-cols-3 gap-4">
         <div className="rounded-lg border border-border p-4 text-center">
-          <p className="text-xs text-muted-foreground">출석</p>
+          <p className="text-xs text-sub-foreground">출석</p>
           <p className="text-lg font-bold text-foreground mt-1">
             {progressSummary.attendance.done}/{progressSummary.attendance.total}
           </p>
         </div>
         <div className="rounded-lg border border-border p-4 text-center">
-          <p className="text-xs text-muted-foreground">과제</p>
+          <p className="text-xs text-sub-foreground">과제</p>
           <p className="text-lg font-bold text-foreground mt-1">
             {progressSummary.assignment.done}/{progressSummary.assignment.total}
           </p>
         </div>
         <div className="rounded-lg border border-border p-4 text-center">
-          <p className="text-xs text-muted-foreground">VOD</p>
+          <p className="text-xs text-sub-foreground">VOD</p>
           <p className="text-lg font-bold text-foreground mt-1">
             {progressSummary.vod.done}/{progressSummary.vod.total}
           </p>

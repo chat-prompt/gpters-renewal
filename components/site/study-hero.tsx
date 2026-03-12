@@ -38,26 +38,26 @@ export function StudyHero({
     <section className="border border-border rounded-lg p-8 mb-8">
       <div className="flex items-center gap-2 mb-3">
         <Badge variant={config.variant}>{config.label}</Badge>
-        <span className="text-sm text-muted-foreground">{cohort}</span>
+        <span className="text-sm text-sub-foreground">{cohort}</span>
       </div>
-      <h1 className="text-2xl font-bold text-foreground mb-2">{title}</h1>
-      <p className="text-muted-foreground mb-6">{description}</p>
+      <h1 className="text-2xl font-semibold text-foreground mb-2">{title}</h1>
+      <p className="text-sub-foreground mb-6">{description}</p>
 
-      <div className="flex flex-wrap gap-6 text-sm text-muted-foreground">
+      <div className="flex flex-wrap gap-6 text-sm text-sub-foreground">
         <span className="flex items-center gap-1">
-          <Calendar className="w-4 h-4" /> {dateRange}
+          <Calendar className="w-4 h-4" strokeWidth={1.5} /> {dateRange}
         </span>
         <span className="flex items-center gap-1">
-          <Users className="w-4 h-4" /> {enrolled}/{capacity}명
+          <Users className="w-4 h-4" strokeWidth={1.5} /> {enrolled}/{capacity}명
         </span>
         <span className="flex items-center gap-1">
-          <MapPin className="w-4 h-4" /> {location}
+          <MapPin className="w-4 h-4" strokeWidth={1.5} /> {location}
         </span>
         <span className="flex items-center gap-1">
-          <Coins className="w-4 h-4" /> {price}
+          <Coins className="w-4 h-4" strokeWidth={1.5} /> {price}
         </span>
         <span className="flex items-center gap-1">
-          <Clock className="w-4 h-4" /> 마감 {deadline}
+          <Clock className="w-4 h-4" strokeWidth={1.5} /> 마감 {deadline}
         </span>
       </div>
     </section>

@@ -21,7 +21,7 @@ import { DropdownMenu, DropdownMenuItem, DropdownMenuDivider } from "@/component
 import { SearchInput } from "@/components/site/search-input";
 
 const navItems = [
-  { label: "탐색", href: "/explore/feed" },
+  { label: "인사이트", href: "/explore/feed" },
   { label: "스터디", href: "/study" },
   { label: "커뮤니티", href: "/community/feed" },
   { label: "이벤트", href: "/events" },
@@ -96,7 +96,7 @@ export function Navbar() {
               className={`text-sm transition-colors ${
                 pathname.startsWith(item.href)
                   ? "text-foreground font-medium"
-                  : "text-muted-foreground hover:text-foreground"
+                  : "text-sub-foreground hover:text-foreground"
               }`}
             >
               {item.label}
@@ -110,7 +110,7 @@ export function Navbar() {
             href="/write?type=case"
             className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
           >
-            <PenSquare className="w-3.5 h-3.5" />
+            <PenSquare className="w-4 h-4" strokeWidth={1.5} />
             글쓰기
           </Link>
 
@@ -124,8 +124,8 @@ export function Navbar() {
             {openDropdown === "notifications" && (
               <DropdownMenu className="w-80">
                 <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-                  <p className="text-sm font-bold text-foreground">알림</p>
-                  <button className="text-xs text-primary hover:underline">모두 읽음</button>
+                  <p className="text-sm font-semibold text-foreground">알림</p>
+                  <button className="text-sm text-primary hover:underline">모두 읽음</button>
                 </div>
                 <div className="divide-y divide-border">
                   {notifications.map((n, i) => (
@@ -135,10 +135,10 @@ export function Navbar() {
                       onClick={close}
                       className="flex items-start gap-3 px-4 py-3 hover:bg-muted transition-colors"
                     >
-                      <n.icon className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      <n.icon className="w-4 h-4 text-primary shrink-0 mt-0.5" strokeWidth={1.5} />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm text-foreground">{n.text}</p>
-                        <p className="text-xs text-muted-foreground">{n.time}</p>
+                        <p className="text-sm text-sub-foreground">{n.time}</p>
                       </div>
                     </Link>
                   ))}
@@ -161,7 +161,7 @@ export function Navbar() {
               <DropdownMenu className="w-56">
                 <div className="px-4 py-3 border-b border-border">
                   <p className="text-sm font-medium text-foreground">홍길동</p>
-                  <p className="text-xs text-muted-foreground">@honggildong</p>
+                  <p className="text-sm text-sub-foreground">@honggildong</p>
                 </div>
                 <div className="py-1">
                   <DropdownMenuItem icon={User} label="내 프로필" href="/profile/honggildong" onClick={close} />

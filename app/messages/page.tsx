@@ -92,20 +92,20 @@ export default function MessagesPage() {
   const unreadCount = receivedMessages.filter((m) => m.unread).length;
 
   return (
-    <div className="mx-auto max-w-[1080px] px-4 py-8">
+    <div className="mx-auto max-w-[1080px] px-4 py-page">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <Mail className="w-6 h-6 text-foreground" />
-          <h1 className="text-xl font-bold text-foreground">메시지</h1>
+          <Mail className="w-6 h-6 text-foreground" strokeWidth={1.5} />
+          <h1 className="text-xl font-semibold text-foreground">메시지</h1>
           {unreadCount > 0 && (
-            <span className="inline-flex items-center justify-center px-2 py-0.5 text-xs font-medium rounded-full bg-primary text-primary-foreground">
+            <span className="inline-flex items-center justify-center px-2 py-0.5 text-sm font-medium rounded-full bg-primary text-primary-foreground">
               {unreadCount}
             </span>
           )}
         </div>
         <button className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-md bg-primary text-primary-foreground">
-          <PenSquare className="w-4 h-4" />
+          <PenSquare className="w-4 h-4" strokeWidth={1.5} />
           새 메시지
         </button>
       </div>
@@ -139,7 +139,7 @@ export default function MessagesPage() {
       {/* "자동 알림" Tab Content */}
       {activeTab === "notifications" && (
         <div className="space-y-3">
-          <p className="text-xs text-muted-foreground mb-4">
+          <p className="text-sm text-sub-foreground mb-4">
             자동으로 발송된 알림 메시지입니다. 실제 사용자 메시지는 &ldquo;받은
             메시지&rdquo; 탭에서 확인하세요.
           </p>
@@ -172,16 +172,16 @@ export default function MessagesPage() {
                     To: {message.to}
                   </span>
                 </div>
-                <p className="text-sm text-foreground">{message.subject}</p>
+                <p className="text-sm text-secondary-foreground">{message.subject}</p>
               </div>
-              <span className="text-xs text-muted-foreground shrink-0">
+              <span className="text-sm text-sub-foreground shrink-0">
                 {message.time}
               </span>
             </Link>
           ))}
 
           {sentMessages.length === 0 && (
-            <div className="p-8 text-center text-sm text-muted-foreground">
+            <div className="p-8 text-center text-sm text-sub-foreground">
               보낸 메시지가 없습니다.
             </div>
           )}

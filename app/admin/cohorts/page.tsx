@@ -50,9 +50,9 @@ export default function AdminCohortsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-foreground">기수 관리</h1>
+        <h1 className="text-xl font-semibold text-foreground">기수 관리</h1>
         <Button size="sm">
-          <Plus className="w-3.5 h-3.5" />
+          <Plus className="w-3.5 h-3.5" strokeWidth={1.5} />
           기수 추가
         </Button>
       </div>
@@ -91,10 +91,10 @@ export default function AdminCohortsPage() {
                   </Select>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-muted-foreground">{cohort.recruitmentPeriod}</span>
+                  <span className="text-sm text-sub-foreground">{cohort.recruitmentPeriod}</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-muted-foreground">{cohort.studyPeriod}</span>
+                  <span className="text-sm text-sub-foreground">{cohort.studyPeriod}</span>
                 </TableCell>
                 <TableCell className="text-right">
                   <span className="text-sm text-foreground">{cohort.studyCount}개</span>
@@ -106,7 +106,7 @@ export default function AdminCohortsPage() {
                     title="삭제"
                     onClick={() => deleteCohort(cohort.id)}
                   >
-                    <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                    <Trash2 className="w-3.5 h-3.5 text-destructive" strokeWidth={1.5} />
                   </Button>
                 </TableCell>
               </TableRow>

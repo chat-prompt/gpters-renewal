@@ -39,17 +39,17 @@ export default function WritePage() {
   const [type, setType] = useState<"feed" | "case">("case");
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
+    <div className="mx-auto max-w-3xl px-4 py-page">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <Link
             href="/explore/feed"
-            className="text-muted-foreground"
+            className="text-sub-foreground"
           >
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
           </Link>
-          <h1 className="text-xl font-bold text-foreground">글쓰기</h1>
+          <h1 className="text-xl font-semibold text-foreground">글쓰기</h1>
         </div>
         <button className="px-6 py-2 text-sm bg-primary text-primary-foreground rounded-md font-medium">
           {type === "feed" ? "포스트 게시" : "게시글 발행"}
@@ -63,7 +63,7 @@ export default function WritePage() {
           className={`px-4 py-2 text-sm whitespace-nowrap border-b-2 ${
             type === "feed"
               ? "border-primary text-foreground font-medium"
-              : "border-transparent text-muted-foreground"
+              : "border-transparent text-sub-foreground"
           }`}
         >
           피드 포스트
@@ -73,7 +73,7 @@ export default function WritePage() {
           className={`px-4 py-2 text-sm whitespace-nowrap border-b-2 ${
             type === "case"
               ? "border-primary text-foreground font-medium"
-              : "border-transparent text-muted-foreground"
+              : "border-transparent text-sub-foreground"
           }`}
         >
           사례 게시글

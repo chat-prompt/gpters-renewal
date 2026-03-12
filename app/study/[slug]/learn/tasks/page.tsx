@@ -83,7 +83,7 @@ export default function TasksPage() {
       {/* Overall Progress */}
       <div className="rounded-lg border border-border p-4 space-y-2">
         <div className="flex items-center justify-between text-sm">
-          <span className="text-muted-foreground">전체 과제 제출률</span>
+          <span className="text-sub-foreground">전체 과제 제출률</span>
           <span className="font-medium text-foreground">
             {submittedCount}/{totalCount} ({progressValue}%)
           </span>
@@ -100,7 +100,7 @@ export default function TasksPage() {
               <StatusBadge status={a.status} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-muted-foreground">{a.description}</p>
+              <p className="text-sm text-sub-foreground">{a.description}</p>
               {a.postTitle && a.postSlug && (
                 <Link
                   href={a.postSlug}

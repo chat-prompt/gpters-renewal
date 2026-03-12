@@ -99,9 +99,9 @@ export default function AdminBannersPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-foreground">배너 관리</h1>
+        <h1 className="text-xl font-semibold text-foreground">배너 관리</h1>
         <Button onClick={() => { setShowAddForm(true); setEditingId(null); }}>
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4" strokeWidth={1.5} />
           새 배너
         </Button>
       </div>
@@ -114,8 +114,8 @@ export default function AdminBannersPage() {
             key={banner.id}
             className={`flex items-center gap-4 p-4 ${!banner.active ? "opacity-50" : ""}`}
           >
-            <GripVertical className="w-4 h-4 text-muted-foreground cursor-grab shrink-0" />
-            <span className="text-sm text-muted-foreground w-6 shrink-0">{i + 1}.</span>
+            <GripVertical className="w-4 h-4 text-sub-foreground cursor-grab shrink-0" strokeWidth={1.5} />
+            <span className="text-sm text-sub-foreground w-6 shrink-0">{i + 1}.</span>
             <div className="w-20 h-12 rounded-md bg-muted border border-border shrink-0" />
 
             {editingId === banner.id ? (
@@ -139,7 +139,7 @@ export default function AdminBannersPage() {
               <>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm text-foreground truncate">{banner.title}</p>
-                  <p className="text-xs text-muted-foreground truncate">{banner.link}</p>
+                  <p className="text-sm text-sub-foreground truncate">{banner.link}</p>
                 </div>
                 <Toggle
                   checked={banner.active}
@@ -155,7 +155,7 @@ export default function AdminBannersPage() {
                   title="삭제"
                   onClick={() => deleteBanner(banner.id)}
                 >
-                  <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                  <Trash2 className="w-3.5 h-3.5 text-destructive" strokeWidth={1.5} />
                 </Button>
               </>
             )}
@@ -163,7 +163,7 @@ export default function AdminBannersPage() {
         ))}
 
         {currentBanners.length === 0 && !showAddForm && (
-          <div className="p-8 text-center text-sm text-muted-foreground">
+          <div className="p-8 text-center text-sm text-sub-foreground">
             배너가 없습니다.
           </div>
         )}
@@ -171,8 +171,8 @@ export default function AdminBannersPage() {
         {/* Add Form */}
         {showAddForm && (
           <div className="flex items-center gap-4 p-4">
-            <GripVertical className="w-4 h-4 text-muted-foreground shrink-0" />
-            <span className="text-sm text-muted-foreground w-6 shrink-0">
+            <GripVertical className="w-4 h-4 text-sub-foreground shrink-0" strokeWidth={1.5} />
+            <span className="text-sm text-sub-foreground w-6 shrink-0">
               {currentBanners.length + 1}.
             </span>
             <div className="w-20 h-12 rounded-md bg-muted border border-border shrink-0" />

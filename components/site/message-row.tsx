@@ -36,13 +36,13 @@ export function MessageRow({
             className={cn(
               "text-sm",
               unread
-                ? "font-bold text-foreground"
+                ? "font-semibold text-foreground"
                 : "font-medium text-foreground"
             )}
           >
             {from}
           </span>
-          <span className="text-xs text-muted-foreground">@{username}</span>
+          <span className="text-sm text-sub-foreground">@{username}</span>
         </div>
         <p
           className={cn(
@@ -53,12 +53,12 @@ export function MessageRow({
           {subject}
         </p>
         {preview && (
-          <p className="text-sm text-muted-foreground truncate">{preview}</p>
+          <p className="text-sm text-sub-foreground truncate">{preview}</p>
         )}
       </div>
 
       <div className="flex items-center gap-2 shrink-0">
-        <span className="text-xs text-muted-foreground">{time}</span>
+        <span className="text-sm text-sub-foreground">{time}</span>
         {unread && (
           <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
         )}

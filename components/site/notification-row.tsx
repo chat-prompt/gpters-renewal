@@ -33,11 +33,11 @@ export function NotificationRow({
 
   return (
     <div className="flex items-center gap-3 p-4">
-      <span className="text-muted-foreground">
-        <Icon className="w-4 h-4" />
+      <span className="text-sub-foreground">
+        <Icon className="w-4 h-4" strokeWidth={1.5} />
       </span>
-      <span className="flex-1 text-sm text-muted-foreground">{text}</span>
-      <span className="text-xs text-muted-foreground shrink-0">{time}</span>
+      <span className="flex-1 text-sm text-sub-foreground">{text}</span>
+      <span className="text-sm text-sub-foreground shrink-0">{time}</span>
     </div>
   );
 }

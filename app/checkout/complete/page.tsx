@@ -28,30 +28,30 @@ export default function CheckoutCompletePage() {
     <div className="mx-auto max-w-lg px-4 py-16 space-y-8">
       {/* Success */}
       <div className="text-center space-y-3">
-        <CheckCircle className="w-14 h-14 text-primary mx-auto" />
-        <h1 className="text-2xl font-bold text-foreground">신청이 완료되었습니다!</h1>
-        <p className="text-muted-foreground">{studyInfo.title}에 합류하셨습니다.</p>
+        <CheckCircle className="w-14 h-14 text-primary mx-auto" strokeWidth={1.5} />
+        <h1 className="text-2xl font-semibold text-foreground">신청이 완료되었습니다!</h1>
+        <p className="text-sub-foreground">{studyInfo.title}에 합류하셨습니다.</p>
       </div>
 
       {/* Study Start Info */}
       <div className="rounded-lg border border-border p-5 space-y-3">
-        <h2 className="font-bold text-foreground text-sm">스터디 시작 정보</h2>
+        <h2 className="font-semibold text-foreground text-sm">스터디 시작 정보</h2>
         <div className="space-y-2">
           <div className="flex items-center gap-3 text-sm">
-            <Calendar className="w-4 h-4 text-primary shrink-0" />
+            <Calendar className="w-4 h-4 text-primary shrink-0" strokeWidth={1.5} />
             <span className="text-foreground">
               시작일: <span className="font-medium">{studyInfo.startDate}</span>
             </span>
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <BookOpen className="w-4 h-4 text-primary shrink-0" />
+            <BookOpen className="w-4 h-4 text-primary shrink-0" strokeWidth={1.5} />
             <span className="text-foreground">
               첫 세션: <span className="font-medium">{studyInfo.firstSession}</span>
             </span>
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <MessageCircle className="w-4 h-4 text-primary shrink-0" />
-            <span className="text-muted-foreground">
+            <MessageCircle className="w-4 h-4 text-primary shrink-0" strokeWidth={1.5} />
+            <span className="text-sub-foreground">
               카카오 오픈채팅 링크는 이메일로 발송됩니다
             </span>
           </div>
@@ -60,7 +60,7 @@ export default function CheckoutCompletePage() {
 
       {/* Next Steps */}
       <div className="rounded-lg border border-border overflow-hidden">
-        <p className="px-4 py-3 text-sm font-bold text-foreground border-b border-border">
+        <p className="px-4 py-3 text-sm font-semibold text-foreground border-b border-border">
           지금 할 수 있는 것
         </p>
         <div className="divide-y divide-border">
@@ -71,13 +71,13 @@ export default function CheckoutCompletePage() {
               className="flex items-center justify-between px-4 py-3.5 hover:bg-muted transition-colors group"
             >
               <div className="flex items-center gap-3">
-                <step.icon className="w-4 h-4 text-primary shrink-0" />
+                <step.icon className="w-4 h-4 text-primary shrink-0" strokeWidth={1.5} />
                 <div>
                   <p className="text-sm font-medium text-foreground">{step.title}</p>
-                  <p className="text-xs text-muted-foreground">{step.description}</p>
+                  <p className="text-sm text-sub-foreground">{step.description}</p>
                 </div>
               </div>
-              <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+              <ChevronRight className="w-4 h-4 text-sub-foreground group-hover:text-foreground transition-colors" strokeWidth={1.5} />
             </Link>
           ))}
         </div>

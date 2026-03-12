@@ -38,7 +38,7 @@ export function EnrollmentCard({
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <h3 className="text-lg font-bold text-foreground">{title}</h3>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-sub-foreground">
             <span className="flex items-center gap-1">
               <Avatar size="sm" />
               {leaderName}
@@ -53,7 +53,7 @@ export function EnrollmentCard({
       </div>
 
       <div className="space-y-1">
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
+        <div className="flex items-center justify-between text-xs text-sub-foreground">
           <span>진도</span>
           <span>{progressValue}%</span>
         </div>

@@ -19,7 +19,7 @@ export function CommentInput({
   return (
     <div className={cn("border border-border rounded-lg p-4", className)}>
       {helperText && (
-        <p className="text-sm text-muted-foreground mb-2">{helperText}</p>
+        <p className="text-sm text-sub-foreground mb-2">{helperText}</p>
       )}
       <Textarea
         rows={3}

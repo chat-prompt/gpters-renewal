@@ -28,7 +28,7 @@ export function DropdownMenuItem({ icon: Icon, label, href, onClick }: DropdownM
   if (href) {
     return (
       <Link href={href} onClick={onClick} className={classes}>
-        {Icon && <Icon className="w-4 h-4 text-muted-foreground" />}
+        {Icon && <Icon className="w-4 h-4 text-sub-foreground" />}
         {label}
       </Link>
     );
@@ -36,7 +36,7 @@ export function DropdownMenuItem({ icon: Icon, label, href, onClick }: DropdownM
 
   return (
     <button onClick={onClick} className={classes}>
-      {Icon && <Icon className="w-4 h-4 text-muted-foreground" />}
+      {Icon && <Icon className="w-4 h-4 text-sub-foreground" />}
       {label}
     </button>
   );
