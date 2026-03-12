@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ExternalLink, Trophy, Share2 } from "lucide-react";
+import { ExternalLink, Trophy, Share2, type LucideIcon } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { TagList } from "@/components/site/tag-list";
@@ -10,6 +10,11 @@ import { cn } from "@/lib/utils";
 interface ExternalLinkItem {
   label: string;
   href: string;
+}
+
+interface FeaturedBadge {
+  icon: LucideIcon;
+  label: string;
 }
 
 interface ProfileHeaderProps {
@@ -24,10 +29,11 @@ interface ProfileHeaderProps {
     interestTags: string[];
     links: ExternalLinkItem[];
   };
+  featuredBadges?: FeaturedBadge[];
   className?: string;
 }
 
-export function ProfileHeader({ user, className }: ProfileHeaderProps) {
+export function ProfileHeader({ user, featuredBadges, className }: ProfileHeaderProps) {
   return (
     <section className={cn("border border-border rounded-lg p-6", className)}>
       <div className="flex items-start gap-4">
@@ -43,6 +49,22 @@ export function ProfileHeader({ user, className }: ProfileHeaderProps) {
               기여 포인트: {user.points} P
             </span>
           </div>
+          {featuredBadges && featuredBadges.length > 0 && (
+            <div className="flex items-center gap-2">
+              {featuredBadges.map((badge) => {
+                const Icon = badge.icon;
+                return (
+                  <span
+                    key={badge.label}
+                    className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs rounded-full bg-accent text-foreground border border-border"
+                  >
+                    <Icon className="w-3.5 h-3.5 text-primary" />
+                    {badge.label}
+                  </span>
+                );
+              })}
+            </div>
+          )}
           <p className="text-sm text-muted-foreground">{user.bio}</p>
           <p className="text-xs text-muted-foreground">
             GPTers 활동 시작: {user.joinDate}

@@ -12,6 +12,7 @@ interface PostCardProps {
   votes: number;
   comments: number;
   thumbnail?: boolean;
+  showAuthor?: boolean;
   seriesId?: string;
   seriesTitle?: string;
   positionInSeries?: number;
@@ -28,6 +29,7 @@ export function PostCard({
   votes,
   comments,
   thumbnail,
+  showAuthor = true,
   seriesId,
   seriesTitle,
   positionInSeries,
@@ -36,22 +38,24 @@ export function PostCard({
     <article className="flex gap-8 py-8">
       <div className="flex-1 min-w-0 flex flex-col gap-3">
         {/* Author */}
-        <div className="flex items-center gap-2">
-          <div className="w-5 h-5 rounded-full bg-muted shrink-0" />
-          <span className="text-xs text-muted-foreground">
-            <span className="font-medium text-foreground">{author}</span>
-            {" in "}
-            <span className="font-medium text-foreground">{category}</span>
-            {seriesTitle && seriesId && (
-              <>
-                {" · "}
-                <Link href={`/series/${seriesId}`} className="text-primary hover:underline">
-                  {seriesTitle} {positionInSeries}화
-                </Link>
-              </>
-            )}
-          </span>
-        </div>
+        {showAuthor && (
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 rounded-full bg-muted shrink-0" />
+            <span className="text-xs text-muted-foreground">
+              <span className="font-medium text-foreground">{author}</span>
+              {" in "}
+              <span className="font-medium text-foreground">{category}</span>
+              {seriesTitle && seriesId && (
+                <>
+                  {" · "}
+                  <Link href={`/series/${seriesId}`} className="text-primary hover:underline">
+                    {seriesTitle} {positionInSeries}화
+                  </Link>
+                </>
+              )}
+            </span>
+          </div>
+        )}
 
         {/* Title + Excerpt */}
         <Link href={`/posts/${slug}`} className="group space-y-2">
