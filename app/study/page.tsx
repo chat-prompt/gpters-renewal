@@ -110,14 +110,14 @@ export default function StudyLandingPage() {
       {/* ── Section 1: Hero ── */}
       <section className="bg-gradient-to-b from-primary/10 via-primary/5 to-transparent py-20">
         <div className="mx-auto max-w-[1080px] px-6 text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+          <span className="block w-fit mx-auto px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
             {cohort.waitlistCount}명이 스터디를 기다리고 있어요!
           </span>
           <h1 className="text-3xl md:text-5xl font-bold text-foreground leading-tight whitespace-pre-line mb-6">
             {cohort.tagline}
           </h1>
-          <div className="inline-block rounded-2xl bg-background/60 backdrop-blur-sm border border-border/50 px-8 py-6 mb-8">
-            <p className="text-sm md:text-base text-muted-foreground leading-relaxed whitespace-pre-line">
+          <div className="w-fit mx-auto rounded-xl bg-background/60 backdrop-blur-sm border border-border/50 px-8 py-6 mb-8">
+            <p className="text-sm md:text-base text-sub-foreground leading-relaxed whitespace-pre-line">
               {cohort.description}
             </p>
           </div>
@@ -135,7 +135,7 @@ export default function StudyLandingPage() {
               </Button>
             )}
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-sub-foreground">
             {cohort.startDate} 시작 | {cohort.duration} | {cohort.format}
           </p>
         </div>
@@ -148,7 +148,7 @@ export default function StudyLandingPage() {
           <h2 className="text-2xl font-bold text-foreground mb-2">
             {cohort.number}기 AI 스터디 프로그램
           </h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-sub-foreground">
             3개 카테고리, 총 {programs.length}개 스터디에서 나에게 맞는 주제를
             찾아보세요
           </p>
@@ -166,14 +166,14 @@ export default function StudyLandingPage() {
                 >
                   <ChevronDown
                     className={cn(
-                      "w-4 h-4 text-muted-foreground transition-transform",
+                      "w-4 h-4 text-sub-foreground transition-transform",
                       !isOpen && "-rotate-90"
                     )}
                   />
                   <span className="text-sm font-bold text-foreground">
                     {cat}
                   </span>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-xs text-sub-foreground">
                     {catPrograms.length}
                   </span>
                 </button>
@@ -203,15 +203,15 @@ export default function StudyLandingPage() {
                           <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
                             {p.title}
                           </p>
-                          <p className="text-xs text-muted-foreground mt-0.5">
+                          <p className="text-xs text-sub-foreground mt-0.5">
                             {p.instructor}
                           </p>
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
-                          <span className="text-xs text-muted-foreground font-medium">
+                          <span className="text-xs text-sub-foreground font-medium">
                             {p.day}
                           </span>
-                          <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                          <ChevronRight className="w-4 h-4 text-sub-foreground" />
                         </div>
                       </Link>
                     ))}
@@ -222,7 +222,7 @@ export default function StudyLandingPage() {
           })}
         </div>
 
-        <p className="text-center text-sm text-muted-foreground mt-6">
+        <p className="text-center text-sm text-sub-foreground mt-6">
           {cohort.number}기에는 총{" "}
           <strong className="text-foreground">{programs.length}개</strong>{" "}
           스터디가 진행됩니다
@@ -255,7 +255,7 @@ export default function StudyLandingPage() {
                       : "border-border"
                   )}
                 >
-                  <p className="text-xs text-muted-foreground mb-2">
+                  <p className="text-xs text-sub-foreground mb-2">
                     {tier.period}
                   </p>
                   {tier.discount > 0 && (
@@ -267,7 +267,7 @@ export default function StudyLandingPage() {
                     {tier.tier}
                   </p>
                   {tier.discount > 0 && (
-                    <p className="text-xs text-muted-foreground line-through">
+                    <p className="text-xs text-sub-foreground line-through">
                       {tier.original.toLocaleString()}원
                     </p>
                   )}
@@ -279,7 +279,7 @@ export default function StudyLandingPage() {
             </div>
 
             <div className="rounded-xl border border-border p-6 text-center space-y-3">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-sub-foreground">
                 사전판매 구매 시 수강신청 오픈 리마인드 제공 · 주제별 정원 30명
                 선착순
               </p>
@@ -330,10 +330,10 @@ export default function StudyLandingPage() {
                   {review.name}
                 </span>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed line-clamp-4">
+              <p className="text-sm text-sub-foreground leading-relaxed line-clamp-4">
                 {review.text}
               </p>
-              <span className="inline-block text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+              <span className="inline-block text-xs text-sub-foreground bg-muted px-2 py-0.5 rounded-full">
                 {review.cohort}
               </span>
             </div>
@@ -347,7 +347,7 @@ export default function StudyLandingPage() {
           <h2 className="text-2xl font-bold text-foreground text-center mb-2">
             자주 묻는 질문
           </h2>
-          <p className="text-sm text-muted-foreground text-center mb-10">
+          <p className="text-sm text-sub-foreground text-center mb-10">
             궁금한 점이 있으신가요? 아래에서 답을 찾아보세요
           </p>
 
@@ -363,14 +363,14 @@ export default function StudyLandingPage() {
                     <span className="font-medium text-left">{faq.q}</span>
                     <ChevronDown
                       className={cn(
-                        "w-4 h-4 text-muted-foreground shrink-0 ml-4 transition-transform",
+                        "w-4 h-4 text-sub-foreground shrink-0 ml-4 transition-transform",
                         isOpen && "rotate-180"
                       )}
                     />
                   </button>
                   {isOpen && (
                     <div className="px-4 pb-4">
-                      <p className="text-sm text-muted-foreground leading-relaxed">
+                      <p className="text-sm text-sub-foreground leading-relaxed">
                         {faq.a}
                       </p>
                     </div>
@@ -390,7 +390,7 @@ export default function StudyLandingPage() {
             <br />
             필요한 것은 기술이 아니라 첫 걸음입니다.
           </h2>
-          <p className="text-sm text-muted-foreground mb-8">
+          <p className="text-sm text-sub-foreground mb-8">
             {isRecruiting
               ? `스터디 시작: ${cohort.startDate} | ${cohort.duration}`
               : "다음 기수 오픈 알림을 받아보세요"}

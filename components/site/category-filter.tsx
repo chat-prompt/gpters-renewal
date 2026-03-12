@@ -16,16 +16,16 @@ export function CategoryFilter({
   className,
 }: CategoryFilterProps) {
   return (
-    <div className={cn("flex flex-wrap gap-2", className)}>
+    <div className={cn("flex gap-2 overflow-x-auto scrollbar-hide", className)}>
       {categories.map((cat) => (
         <button
           key={cat.id}
           onClick={() => onChange(cat.id)}
           className={cn(
-            "px-3 py-1.5 text-sm rounded-full transition-colors",
+            "whitespace-nowrap shrink-0 px-3.5 py-2 text-sm rounded-lg transition-colors",
             selected === cat.id
               ? "bg-foreground text-background font-medium"
-              : "bg-muted text-muted-foreground hover:bg-accent hover:text-foreground"
+              : "bg-muted text-sub-foreground hover:bg-accent hover:text-foreground"
           )}
         >
           {cat.name}
