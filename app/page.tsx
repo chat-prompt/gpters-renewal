@@ -2,14 +2,14 @@ import Link from "next/link";
 import {
   Heart,
   MessageSquare,
-  Users,
-  FileText,
-  GraduationCap,
 } from "lucide-react";
 import { PostCard } from "@/components/site/post-card";
 import { SortTabs } from "@/components/site/sort-tabs";
 import { HeroCarousel } from "@/components/site/hero-carousel";
 import { UserRow } from "@/components/site/user-row";
+import { Avatar } from "@/components/ui/avatar";
+import { TagList } from "@/components/site/tag-list";
+import { StatGrid } from "@/components/site/stat-grid";
 
 /* ─── Mock Data ─── */
 
@@ -192,17 +192,7 @@ export default function Home() {
       {/* Trending Topics */}
       <div className="mb-8">
         <h3 className="text-sm font-semibold text-foreground mb-3">트렌딩 토픽</h3>
-        <div className="flex flex-wrap gap-2">
-          {trendingTopics.map((topic) => (
-            <Link
-              key={topic}
-              href={`/tag/${encodeURIComponent(topic)}`}
-              className="px-3 py-1.5 rounded-full text-sm bg-muted text-sub-foreground hover:bg-accent hover:text-foreground transition-colors"
-            >
-              {topic}
-            </Link>
-          ))}
-        </div>
+        <TagList tags={trendingTopics} variant="pill" />
       </div>
 
       <div className="flex gap-10 items-start">
@@ -215,7 +205,7 @@ export default function Home() {
             </p>
             <Link href={`/posts/${featuredPost.slug}`} className="group block">
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-6 h-6 rounded-full bg-muted shrink-0" />
+                <Avatar size="sm" />
                 <span className="text-sm text-sub-foreground">
                   <span className="font-medium text-foreground">
                     {featuredPost.author}
@@ -271,23 +261,14 @@ export default function Home() {
             <h3 className="text-base font-semibold text-foreground mb-4">
               커뮤니티
             </h3>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center">
-                <Users className="w-4 h-4 text-sub-foreground mx-auto mb-1" strokeWidth={1.5} />
-                <p className="text-lg font-semibold text-foreground">12,400</p>
-                <p className="text-sm text-sub-foreground">회원</p>
-              </div>
-              <div className="text-center">
-                <FileText className="w-4 h-4 text-sub-foreground mx-auto mb-1" strokeWidth={1.5} />
-                <p className="text-lg font-semibold text-foreground">3,200</p>
-                <p className="text-sm text-sub-foreground">게시글</p>
-              </div>
-              <div className="text-center">
-                <GraduationCap className="w-4 h-4 text-sub-foreground mx-auto mb-1" strokeWidth={1.5} />
-                <p className="text-lg font-semibold text-foreground">2,100</p>
-                <p className="text-sm text-sub-foreground">수료</p>
-              </div>
-            </div>
+            <StatGrid
+              columns={3}
+              items={[
+                { label: "회원", value: "12,400" },
+                { label: "게시글", value: "3,200" },
+                { label: "수료", value: "2,100" },
+              ]}
+            />
           </div>
 
           {/* Upcoming Event */}

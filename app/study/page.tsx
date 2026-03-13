@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, ChevronRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 /* ── Mock Data ── */
@@ -56,13 +57,13 @@ const pricing = [
 ];
 
 const reviews = [
-  { name: "펙트형", color: "bg-amber-400", cohort: "16기 Canva", text: "내가 이것도 가능하지 않을까? 머리속으로 생각에만 머물렀던 것들을 실제로 구현하는 분들, 생각하지도 못했던 것들을 시도하는 분들을 보면서 AI 가능성에 확신을 갖게 되었습니다." },
-  { name: "흥곰이", color: "bg-orange-400", cohort: "16기 GPT업무도우미", text: "처음 AI를 시작해서 긴장도 되고 걱정도 많았는데, 천천히 하나씩 따라가다보니 즐겁게 배울 수 있었습니다. 어느순간 직접 사례게시글도 작성해보고 발표도 하는 자신을 발견해서 신기하기도 했고요." },
-  { name: "글로우제이", color: "bg-pink-400", cohort: "16기 UXer", text: "내가 배우고자 하는걸 같이 즐겁게 배울 수 있는 사람들이 모인 곳이라서 가장 좋아요!" },
-  { name: "안성국", color: "bg-blue-400", cohort: "16기 전자책", text: "누구나 갖고 있는 스토리를 쉽게 풀어내고, 본인이 좋아하는 주제를 찾을 뿐 아니라 초안까지 쉽게 작성할 수 있었어요." },
-  { name: "조용준", color: "bg-green-400", cohort: "15기 옵시디언", text: "지피터스에 배움과 공유를 즐기시는 분들이 정말 많다는 것을 느꼈습니다. 다양한 분야의 분들을 만나게 되었어요. 서로가 가진 지식의 깊이가 놀라웠고, 스터디 활동을 통해 여러 분야의 전문 지식을 경험할 수 있어서 매우 뜻깊었습니다." },
-  { name: "푸르공", color: "bg-purple-400", cohort: "14기 노션자동화", text: "현장의 생생한 피드백과 경험들을 제 서비스에 바로 반영할 수 있었고, 덕분에 서비스가 한 단계 더 성장할 수 있는 좋은 계기가 되었습니다!" },
-];
+  { name: "펙트형", cohort: "16기 Canva", text: "내가 이것도 가능하지 않을까? 머리속으로 생각에만 머물렀던 것들을 실제로 구현하는 분들, 생각하지도 못했던 것들을 시도하는 분들을 보면서 AI 가능성에 확신을 갖게 되었습니다." },
+  { name: "흥곰이", cohort: "16기 GPT업무도우미", text: "처음 AI를 시작해서 긴장도 되고 걱정도 많았는데, 천천히 하나씩 따라가다보니 즐겁게 배울 수 있었습니다. 어느순간 직접 사례게시글도 작성해보고 발표도 하는 자신을 발견해서 신기하기도 했고요." },
+  { name: "글로우제이", cohort: "16기 UXer", text: "내가 배우고자 하는걸 같이 즐겁게 배울 수 있는 사람들이 모인 곳이라서 가장 좋아요!" },
+  { name: "안성국", cohort: "16기 전자책", text: "누구나 갖고 있는 스토리를 쉽게 풀어내고, 본인이 좋아하는 주제를 찾을 뿐 아니라 초안까지 쉽게 작성할 수 있었어요." },
+  { name: "조용준", cohort: "15기 옵시디언", text: "지피터스에 배움과 공유를 즐기시는 분들이 정말 많다는 것을 느꼈습니다. 다양한 분야의 분들을 만나게 되었어요. 서로가 가진 지식의 깊이가 놀라웠고, 스터디 활동을 통해 여러 분야의 전문 지식을 경험할 수 있어서 매우 뜻깊었습니다." },
+  { name: "푸르공", cohort: "14기 노션자동화", text: "현장의 생생한 피드백과 경험들을 제 서비스에 바로 반영할 수 있었고, 덕분에 서비스가 한 단계 더 성장할 수 있는 좋은 계기가 되었습니다!" },
+]; // color 필드 제거됨 — 아바타는 bg-muted로 통일
 
 const faqs = [
   { q: "지피터스 AI스터디는 무엇이며, 다른 강의와는 어떤 차이점이 있나요?", a: "지피터스 AI스터디는 강사 없이 멤버들이 각자 AI를 써보고 공유하며 학습하는 방식으로 진행됩니다. 멤버들이 AI 사례게시글을 사전에 업로드하고, 서로 공유하는 피어러닝 방식입니다." },
@@ -189,16 +190,9 @@ export default function StudyLandingPage() {
                         <div className="w-12 h-12 rounded-lg bg-muted shrink-0" />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
-                            <span
-                              className={cn(
-                                "text-xs px-1.5 py-0.5 rounded font-medium",
-                                p.level === "입문"
-                                  ? "bg-green-50 text-green-700"
-                                  : "bg-blue-50 text-blue-700"
-                              )}
-                            >
+                            <Badge variant={p.level === "입문" ? "default" : "active"}>
                               {p.level}
-                            </span>
+                            </Badge>
                           </div>
                           <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
                             {p.title}
@@ -259,9 +253,9 @@ export default function StudyLandingPage() {
                     {tier.period}
                   </p>
                   {tier.discount > 0 && (
-                    <span className="inline-block px-2 py-0.5 rounded-full bg-primary text-white text-xs font-bold mb-2">
+                    <Badge variant="active" className="mb-2">
                       {tier.discount}%
-                    </span>
+                    </Badge>
                   )}
                   <p className="text-sm font-bold text-foreground mb-1">
                     {tier.tier}
@@ -318,12 +312,7 @@ export default function StudyLandingPage() {
               className="rounded-xl border border-border p-5 space-y-3"
             >
               <div className="flex items-center gap-3">
-                <div
-                  className={cn(
-                    "w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold",
-                    review.color
-                  )}
-                >
+                <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center text-sub-foreground text-sm font-bold">
                   {review.name[0]}
                 </div>
                 <span className="text-sm font-medium text-foreground">

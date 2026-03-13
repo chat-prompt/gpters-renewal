@@ -7,6 +7,8 @@ import { SortTabs } from "@/components/site/sort-tabs";
 import { CategoryFilter } from "@/components/site/category-filter";
 import { Pagination } from "@/components/ui/pagination";
 import { UserRow } from "@/components/site/user-row";
+import { Avatar } from "@/components/ui/avatar";
+import { TagList } from "@/components/site/tag-list";
 
 /* ─── Mock Data ─── */
 
@@ -240,7 +242,7 @@ export default function FeedPage() {
                     className="block group"
                   >
                     <div className="flex items-center gap-2 mb-2">
-                      <div className="w-5 h-5 rounded-full bg-muted shrink-0" />
+                      <Avatar size="sm" />
                       <span className="text-sm text-secondary-foreground font-medium">
                         {pick.author}
                       </span>
@@ -259,17 +261,7 @@ export default function FeedPage() {
             {/* Recommended Topics */}
             <div>
               <h3 className="text-base font-semibold text-sub-foreground mb-3">추천 토픽</h3>
-              <div className="flex flex-wrap gap-2">
-                {recommendedTopics.map((topic) => (
-                  <Link
-                    key={topic}
-                    href={`/tag/${encodeURIComponent(topic)}`}
-                    className="px-4 py-2 rounded-full text-sm bg-muted text-secondary-foreground hover:bg-accent hover:text-foreground transition-colors"
-                  >
-                    {topic}
-                  </Link>
-                ))}
-              </div>
+              <TagList tags={recommendedTopics} variant="pill" />
             </div>
 
             {/* Who to Follow */}

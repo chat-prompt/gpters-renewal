@@ -2,6 +2,7 @@ import { use } from "react";
 import Link from "next/link";
 import { BookOpen, Heart, ChevronRight } from "lucide-react";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { Avatar } from "@/components/ui/avatar";
 
 /* ─── Types ─── */
 
@@ -182,7 +183,7 @@ export default function SeriesDetailPage({
 
         {/* Author Meta */}
         <div className="flex items-center gap-2 text-sm text-sub-foreground">
-          <div className="w-6 h-6 rounded-full bg-muted shrink-0" />
+          <Avatar size="sm" />
           <Link
             href={`/profile/${series.username}`}
             className="font-medium text-foreground hover:underline"

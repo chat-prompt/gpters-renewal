@@ -7,6 +7,8 @@ import { Heart, MessageSquare } from "lucide-react";
 import { PostCard } from "@/components/site/post-card";
 import { UserRow } from "@/components/site/user-row";
 import { Pagination } from "@/components/ui/pagination";
+import { Avatar } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 
 /* ── Mock Data ── */
 
@@ -193,7 +195,7 @@ function SearchPageInner() {
               >
                 {/* Avatar + thread line */}
                 <div className="flex flex-col items-center shrink-0">
-                  <div className="w-9 h-9 rounded-full bg-muted" />
+                  <Avatar />
                   {post.comments > 0 && (
                     <div className="w-0.5 flex-1 bg-border mt-2" />
                   )}
@@ -245,15 +247,9 @@ function SearchPageInner() {
                     {study.desc}
                   </p>
                 </div>
-                <span
-                  className={`text-sm px-2 py-0.5 rounded-full shrink-0 ml-4 ${
-                    study.status === "모집중"
-                      ? "bg-primary/10 text-primary"
-                      : "bg-muted text-sub-foreground"
-                  }`}
-                >
+                <Badge variant={study.status === "모집중" ? "active" : "default"} className="shrink-0 ml-4">
                   {study.status}
-                </span>
+                </Badge>
               </Link>
             ))}
           </div>

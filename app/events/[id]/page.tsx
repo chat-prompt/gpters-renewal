@@ -9,6 +9,7 @@ import {
   Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarGroup } from "@/components/ui/avatar";
 
 /* ─── Mock Data ─── */
 
@@ -265,7 +266,7 @@ export default async function EventDetailPage({
 
           {/* Host */}
           <div className="flex items-center gap-3 pb-6 mb-6 border-b border-border">
-            <div className="w-10 h-10 rounded-full bg-muted" />
+            <Avatar size="lg" />
             <div>
               <p className="text-sm text-sub-foreground">주최</p>
               <p className="text-sm font-medium text-foreground flex items-center gap-1.5">
@@ -318,7 +319,7 @@ export default async function EventDetailPage({
                     key={speaker.name}
                     className="flex items-center gap-3 p-3 border border-border rounded-lg"
                   >
-                    <div className="w-10 h-10 rounded-full bg-muted shrink-0" />
+                    <Avatar size="lg" fallback={speaker.name[0]} />
                     <div>
                       <p className="text-sm font-medium text-foreground">
                         {speaker.name}
@@ -363,14 +364,11 @@ export default async function EventDetailPage({
 
             {/* Attendee Avatars */}
             <div className="flex items-center gap-2">
-              <div className="flex -space-x-2">
+              <AvatarGroup>
                 {[...Array(Math.min(5, event.attendees))].map((_, i) => (
-                  <div
-                    key={i}
-                    className="w-7 h-7 rounded-full bg-muted border-2 border-background"
-                  />
+                  <Avatar key={i} />
                 ))}
-              </div>
+              </AvatarGroup>
               {event.attendees > 5 && (
                 <span className="text-sm text-sub-foreground">
                   +{event.attendees - 5}

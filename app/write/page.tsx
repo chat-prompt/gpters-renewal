@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { FeedPostForm } from "@/components/site/feed-post-form";
 import { CaseArticleForm } from "@/components/site/case-article-form";
 
@@ -51,9 +52,9 @@ export default function WritePage() {
           </Link>
           <h1 className="text-xl font-semibold text-foreground">글쓰기</h1>
         </div>
-        <button className="px-6 py-2 text-sm bg-primary text-primary-foreground rounded-md font-medium">
+        <Button>
           {type === "feed" ? "포스트 게시" : "게시글 발행"}
-        </button>
+        </Button>
       </div>
 
       {/* Type Selection */}

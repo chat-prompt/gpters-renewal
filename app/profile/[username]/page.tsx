@@ -8,6 +8,7 @@ import { PostCard } from "@/components/site/post-card";
 import { EventCard } from "@/components/site/event-card";
 import { UserRow } from "@/components/site/user-row";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   Medal,
   GraduationCap,
@@ -470,13 +471,9 @@ export default function ProfilePage() {
                   {/* 내용 */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5 mb-1.5">
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                        series.status === "완결"
-                          ? "bg-primary/10 text-primary"
-                          : "bg-muted text-sub-foreground"
-                      }`}>
+                      <Badge variant={series.status === "완결" ? "active" : "default"}>
                         {series.status}
-                      </span>
+                      </Badge>
                       <span className="text-xs text-sub-foreground">{series.category}</span>
                     </div>
                     <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-1">

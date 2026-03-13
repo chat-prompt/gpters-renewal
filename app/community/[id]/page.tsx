@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, Heart, MessageSquare, Share2 } from "lucide-react";
-import { notFound } from "next/navigation";
+import { Avatar } from "@/components/ui/avatar";
+import { TagList } from "@/components/site/tag-list";
 
 interface Comment {
   id: string;
@@ -211,27 +212,11 @@ const postsMap: Record<string, Post> = {
   },
 };
 
-function AvatarPlaceholder({ name }: { name: string }) {
-  return (
-    <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-sm font-medium text-sub-foreground shrink-0">
-      {name[0]}
-    </div>
-  );
-}
-
-function SmallAvatarPlaceholder({ name }: { name: string }) {
-  return (
-    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-sm font-medium text-sub-foreground shrink-0">
-      {name[0]}
-    </div>
-  );
-}
-
 function CommentItem({ comment, isReply = false }: { comment: Comment; isReply?: boolean }) {
   return (
     <div className={isReply ? "ml-10" : ""}>
       <div className="flex gap-3 py-4">
-        <SmallAvatarPlaceholder name={comment.author} />
+        <Avatar fallback={comment.author[0]} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-sm font-medium text-foreground">{comment.author}</span>
@@ -295,7 +280,7 @@ export default async function CommunityDetailPage({
       <div className="mb-6">
         {/* Author */}
         <div className="flex items-center gap-3 mb-4">
-          <AvatarPlaceholder name={post.author} />
+          <Avatar size="lg" fallback={post.author[0]} />
           <div>
             <span className="text-sm font-medium text-foreground">{post.author}</span>
             <span className="text-sm text-sub-foreground">{post.time}</span>
@@ -314,18 +299,7 @@ export default async function CommunityDetailPage({
         )}
 
         {/* Tags */}
-        {post.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-sm text-primary bg-accent px-2.5 py-1 rounded-full"
-              >
-                #{tag}
-              </span>
-            ))}
-          </div>
-        )}
+        <TagList tags={post.tags} className="mb-4" />
 
         {/* Actions */}
         <div className="flex items-center gap-5 pt-3 border-t border-border">
