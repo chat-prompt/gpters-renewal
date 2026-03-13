@@ -30,11 +30,8 @@ export function UserMeta({
       {showAvatar && <Avatar size={avatarSize} />}
       <span className={cn(showAvatar && (size === "sm" ? "text-sm text-foreground" : "text-base text-foreground"))}>
         {name && <span className="font-medium">{name}</span>}
-        {(username || date) && (
-          <span className="text-sub-foreground font-normal">
-            {username && <>{name ? " " : ""}@{username}</>}
-            {date && <> · {date}</>}
-          </span>
+        {date && (
+          <span className="text-sub-foreground font-normal"> · {date}</span>
         )}
       </span>
     </span>

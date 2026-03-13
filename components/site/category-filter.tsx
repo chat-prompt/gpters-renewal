@@ -24,7 +24,7 @@ export function CategoryFilter({
           className={cn(
             "whitespace-nowrap shrink-0 px-3.5 py-2 text-sm rounded-lg transition-colors",
             selected === cat.id
-              ? "bg-foreground text-background font-medium"
+              ? "bg-primary text-primary-foreground font-medium"
               : "bg-muted text-sub-foreground hover:bg-accent hover:text-foreground"
           )}
         >

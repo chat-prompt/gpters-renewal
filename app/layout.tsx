@@ -15,6 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
+      <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+      </head>
       <body className="bg-background text-foreground min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1">{children}</main>

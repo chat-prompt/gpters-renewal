@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Heart, MessageSquare, Bookmark } from "lucide-react";
+import { TagList } from "@/components/site/tag-list";
 
 interface PostCardProps {
   slug: string;
@@ -11,7 +12,7 @@ interface PostCardProps {
   excerpt: string;
   votes: number;
   comments: number;
-  thumbnail?: boolean;
+  thumbnailUrl?: string;
   showAuthor?: boolean;
   seriesId?: string;
   seriesTitle?: string;
@@ -28,7 +29,7 @@ export function PostCard({
   excerpt,
   votes,
   comments,
-  thumbnail,
+  thumbnailUrl,
   showAuthor = true,
   seriesId,
   seriesTitle,
@@ -40,7 +41,7 @@ export function PostCard({
       {showAuthor && (
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full bg-muted shrink-0" />
-          <span className="text-sm text-sub-foreground">
+          <span className="text-sm font-regular text-sub-foreground">
             <Link href={`/profile/${encodeURIComponent(author)}`} className="font-medium text-foreground hover:underline">{author}</Link>
             {seriesTitle && seriesId ? (
               <>
@@ -62,7 +63,7 @@ export function PostCard({
 
       {/* Category · time (when no author) */}
       {!showAuthor && (
-        <div className="text-sm text-sub-foreground">
+        <div className="text-sm font-regular text-sub-foreground">
           <span className="font-medium text-foreground">{category}</span>
           {seriesTitle && seriesId && (
             <>
@@ -82,32 +83,23 @@ export function PostCard({
           <h3 className="text-xl font-semibold text-foreground group-hover:underline line-clamp-2 leading-snug">
             {title}
           </h3>
-          <p className="text-base text-secondary-foreground line-clamp-2 leading-relaxed mt-component">
+          <p className="text-base font-regular text-secondary-foreground line-clamp-2 leading-relaxed mt-component">
             {excerpt}
           </p>
         </Link>
 
-        {thumbnail && (
+        {thumbnailUrl && (
           <Link href={`/posts/${slug}`} className="hidden sm:block shrink-0 self-center">
-            <div className="w-[120px] h-[80px] bg-muted rounded-md" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={thumbnailUrl} alt="" className="w-[120px] h-[80px] object-cover rounded-md" />
           </Link>
         )}
       </div>
 
       {/* Meta — 태그 + 아이콘 */}
-      <div className="flex items-center gap-3 text-sm text-sub-foreground">
+      <div className="flex items-center gap-3 text-sm font-regular text-sub-foreground">
         {tags.length > 0 && (
-          <div className="flex items-center gap-1.5">
-            {tags.slice(0, 2).map((tag) => (
-              <Link
-                key={tag}
-                href={`/tag/${encodeURIComponent(tag)}`}
-                className="px-1.5 py-0.5 rounded bg-muted hover:bg-accent transition-colors"
-              >
-                {tag}
-              </Link>
-            ))}
-          </div>
+          <TagList tags={tags.slice(0, 2)} />
         )}
         <span className="ml-auto flex items-center gap-3">
           <span className="flex items-center gap-1">

@@ -5,7 +5,9 @@ import Link from "next/link";
 import { Award, GraduationCap as GradCap } from "lucide-react";
 import { ProfileHeader, BADGE_COLORS } from "@/components/site/profile-header";
 import { PostCard } from "@/components/site/post-card";
+import { EventCard } from "@/components/site/event-card";
 import { UserRow } from "@/components/site/user-row";
+import { Button } from "@/components/ui/button";
 import {
   Medal,
   GraduationCap,
@@ -161,6 +163,119 @@ const followings = [
   { username: "parkminsu", name: "박민수", bio: "n8n + Claude 자동화" },
 ];
 
+const bookmarkedPosts = [
+  {
+    slug: "cursor-fullstack",
+    title: "Cursor로 풀스택 앱 3일 만에 만들기",
+    excerpt:
+      "프론트엔드부터 백엔드, 배포까지 Cursor AI를 활용해 혼자서 3일 만에 완성한 실전 후기입니다.",
+    author: "박철수",
+    category: "바이브코딩",
+    time: "2026.03.10",
+    votes: 234,
+    comments: 45,
+    tags: ["Cursor", "바이브코딩"],
+  },
+  {
+    slug: "n8n-slack-automation",
+    title: "n8n으로 슬랙 알림 자동화 구축하기",
+    excerpt:
+      "매일 반복되는 슬랙 알림을 n8n 웹훅으로 자동화한 과정. 트리거 설정부터 에러 핸들링까지 정리했습니다.",
+    author: "김영호",
+    category: "자동화",
+    time: "2026.03.08",
+    votes: 156,
+    comments: 28,
+    tags: ["n8n", "자동화", "Slack"],
+  },
+  {
+    slug: "claude-api-tips",
+    title: "Claude API 실전 활용 팁 모음",
+    excerpt:
+      "Claude API를 프로덕션에서 6개월간 사용하며 얻은 실전 노하우. 토큰 최적화, 에러 핸들링, 프롬프트 캐싱 전략을 공유합니다.",
+    author: "이수현",
+    category: "AI활용법",
+    time: "2026.03.03",
+    votes: 198,
+    comments: 34,
+    tags: ["Claude", "API"],
+  },
+  {
+    slug: "midjourney-brand",
+    title: "Midjourney로 브랜드 아이덴티티 만들기",
+    excerpt:
+      "AI 이미지 생성 도구를 활용해 스타트업 브랜드 로고, 컬러팔레트, 소셜 미디어 에셋을 제작한 경험을 공유합니다.",
+    author: "정다은",
+    category: "AI디자인",
+    time: "2026.02.25",
+    votes: 112,
+    comments: 19,
+    tags: ["Midjourney", "디자인"],
+  },
+];
+
+const userEvents = [
+  {
+    id: 5,
+    title: "AI 프롬프트 워크숍",
+    category: "워크숍",
+    type: "online" as const,
+    date: "4월 12일 (토)",
+    time: "14:00",
+    location: "온라인 (Zoom)",
+    description: "실전에서 바로 쓸 수 있는 프롬프트 작성법을 배우는 핸즈온 워크숍입니다.",
+    host: "홍길동",
+    hostType: "user" as const,
+    status: "published" as const,
+    attendees: 24,
+    capacity: 50,
+    free: true,
+  },
+  {
+    id: 6,
+    title: "Claude API 활용 세미나",
+    category: "웨비나",
+    type: "online" as const,
+    date: "3월 8일 (토)",
+    time: "20:00",
+    location: "온라인 (Zoom)",
+    description: "Claude API를 활용한 프로덕션 서비스 구축 경험을 공유합니다.",
+    host: "홍길동",
+    hostType: "user" as const,
+    status: "completed" as const,
+    attendees: 87,
+    capacity: 100,
+    free: true,
+  },
+  {
+    id: 7,
+    title: "AI 마케팅 모임",
+    category: "모임",
+    type: "offline" as const,
+    date: "3월 25일 (화)",
+    time: "19:00",
+    location: "강남역 스타벅스",
+    description: "AI를 활용한 마케팅 전략을 공유하는 소규모 모임입니다.",
+    host: "홍길동",
+    hostType: "user" as const,
+    status: "rejected" as const,
+    attendees: 0,
+    capacity: 20,
+    free: true,
+    reviewNote: "이벤트 장소가 불명확합니다. 정확한 주소를 기재해주세요.",
+  },
+];
+
+const EVENT_STATUS_LABELS: Record<string, { label: string; className: string }> = {
+  draft: { label: "임시저장", className: "bg-muted text-sub-foreground" },
+  pending_review: { label: "심사대기", className: "bg-accent text-primary" },
+  rejected: { label: "반려", className: "bg-destructive/10 text-destructive" },
+  published: { label: "공개", className: "bg-muted text-sub-foreground" },
+  closed: { label: "마감", className: "bg-muted text-sub-foreground" },
+  completed: { label: "완료", className: "bg-muted text-sub-foreground" },
+  cancelled: { label: "취소", className: "bg-muted text-sub-foreground" },
+};
+
 const userPosts = [
   {
     slug: "moms-dev-3",
@@ -264,7 +379,8 @@ const userPosts = [
 /* ─── Page ─── */
 
 export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState<"posts" | "series" | "followers" | "following">("posts");
+  const isOwn = true;
+  const [activeTab, setActiveTab] = useState<"posts" | "series" | "events" | "bookmarks" | "followers" | "following">("posts");
 
   return (
     <div className="mx-auto max-w-[1080px] px-4 py-page">
@@ -299,6 +415,8 @@ export default function ProfilePage() {
             {([
               { key: "posts", label: `작성글 ${userPosts.length}` },
               { key: "series", label: `시리즈 ${userSeries.length}` },
+              { key: "events", label: `이벤트 ${userEvents.length}` },
+              { key: "bookmarks", label: `북마크 ${bookmarkedPosts.length}` },
               { key: "followers", label: `팔로워 ${followers.length}` },
               { key: "following", label: `팔로잉 ${followings.length}` },
             ] as const).map((tab) => (
@@ -372,6 +490,78 @@ export default function ProfilePage() {
                     <span className="text-sm text-sub-foreground ml-0.5">편</span>
                   </div>
                 </Link>
+              ))}
+            </div>
+          )}
+
+          {/* 이벤트 탭 */}
+          {activeTab === "events" && (
+            <div className="space-y-4">
+              {userEvents.map((event) => {
+                const statusInfo = EVENT_STATUS_LABELS[event.status];
+                return (
+                  <div key={event.id}>
+                    <div className="relative">
+                      {/* Status badge */}
+                      {statusInfo && (
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className={`text-sm font-medium px-2 py-0.5 rounded ${statusInfo.className}`}>
+                            {statusInfo.label}
+                          </span>
+                        </div>
+                      )}
+                      <EventCard {...event} />
+                    </div>
+                    {/* Rejection note */}
+                    {event.status === "rejected" && "reviewNote" in event && event.reviewNote && (
+                      <div className="mt-2 p-3 rounded-lg border border-destructive/30 bg-destructive/5 text-sm text-destructive">
+                        <p className="font-medium mb-1">반려 사유</p>
+                        <p>{event.reviewNote}</p>
+                      </div>
+                    )}
+                    {/* Owner actions */}
+                    {isOwn && (
+                      <div className="flex gap-2 mt-2">
+                        {event.status === "published" && (
+                          <>
+                            <Link href={`/events/${event.id}/edit`}>
+                              <Button variant="outline" size="sm">수정</Button>
+                            </Link>
+                            <Button variant="outline" size="sm">마감</Button>
+                          </>
+                        )}
+                        {event.status === "rejected" && (
+                          <Link href={`/events/${event.id}/edit`}>
+                            <Button variant="outline" size="sm">수정</Button>
+                          </Link>
+                        )}
+                        {(event.status === "published" || event.status === "rejected") && (
+                          <Button variant="ghost" size="sm" className="text-destructive">취소</Button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* 북마크 탭 */}
+          {activeTab === "bookmarks" && (
+            <div className="divide-y divide-border">
+              {bookmarkedPosts.map((post) => (
+                <PostCard
+                  key={post.slug}
+                  slug={post.slug}
+                  category={post.category}
+                  title={post.title}
+                  author={post.author}
+                  time={post.time}
+                  tags={post.tags}
+                  excerpt={post.excerpt}
+                  votes={post.votes}
+                  comments={post.comments}
+                />
               ))}
             </div>
           )}

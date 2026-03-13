@@ -156,14 +156,14 @@ export default function SeriesDetailPage({
       <div className="mb-8">
         {/* Badges */}
         <div className="flex items-center gap-2 mb-3">
-          <span className="px-2 py-0.5 text-sm rounded bg-muted text-sub-foreground">
+          <span className="px-2 py-0.5 text-sm rounded bg-muted text-secondary-foreground">
             {series.category}
           </span>
           <span
             className={
               series.status === "완결"
                 ? "px-2 py-0.5 text-sm rounded bg-primary/10 text-primary"
-                : "px-2 py-0.5 text-sm rounded bg-muted text-sub-foreground"
+                : "px-2 py-0.5 text-sm rounded bg-muted text-secondary-foreground"
             }
           >
             {series.status}

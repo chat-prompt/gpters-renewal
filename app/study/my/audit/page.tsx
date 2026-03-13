@@ -26,14 +26,14 @@ const studies = [
 const weekOptions = ["전체", "1주차", "2주차", "3주차", "4주차"];
 
 const allVods = [
-  { id: "1", title: "프롬프트 엔지니어링 실전", studyName: "프롬프트 ENG", week: 2, duration: "45분", locked: true, generation: "21기" },
-  { id: "2", title: "바이브코딩 기초", studyName: "바이브코딩", week: 1, duration: "52분", locked: true, generation: "21기" },
-  { id: "3", title: "콘텐츠 자동화 전략", studyName: "콘텐츠 제작", week: 2, duration: "38분", locked: false, generation: "21기" },
-  { id: "4", title: "AI 마케팅 자동화", studyName: "AI 마케팅", week: 1, duration: "41분", locked: true, generation: "21기" },
-  { id: "5", title: "GPT-4 활용법", studyName: "프롬프트 ENG", week: 1, duration: "55분", locked: false, generation: "21기" },
-  { id: "6", title: "n8n 기초 워크플로우", studyName: "AI 자동화", week: 1, duration: "48분", locked: false, generation: "21기" },
-  { id: "7", title: "20기 프롬프트 마스터", studyName: "프롬프트 ENG", week: 2, duration: "50분", locked: false, generation: "20기" },
-  { id: "8", title: "20기 AI 활용 기초", studyName: "AI 자동화", week: 1, duration: "44분", locked: false, generation: "20기" },
+  { id: "1", title: "프롬프트 엔지니어링 실전", studyName: "프롬프트 ENG", week: 2, duration: "45분", locked: true, generation: "21기", thumbnailUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=640&h=360&fit=crop" },
+  { id: "2", title: "바이브코딩 기초", studyName: "바이브코딩", week: 1, duration: "52분", locked: true, generation: "21기", thumbnailUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=640&h=360&fit=crop" },
+  { id: "3", title: "콘텐츠 자동화 전략", studyName: "콘텐츠 제작", week: 2, duration: "38분", locked: false, generation: "21기", thumbnailUrl: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=640&h=360&fit=crop" },
+  { id: "4", title: "AI 마케팅 자동화", studyName: "AI 마케팅", week: 1, duration: "41분", locked: true, generation: "21기", thumbnailUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=640&h=360&fit=crop" },
+  { id: "5", title: "GPT-4 활용법", studyName: "프롬프트 ENG", week: 1, duration: "55분", locked: false, generation: "21기", thumbnailUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=640&h=360&fit=crop" },
+  { id: "6", title: "n8n 기초 워크플로우", studyName: "AI 자동화", week: 1, duration: "48분", locked: false, generation: "21기", thumbnailUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=640&h=360&fit=crop" },
+  { id: "7", title: "20기 프롬프트 마스터", studyName: "프롬프트 ENG", week: 2, duration: "50분", locked: false, generation: "20기", thumbnailUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=640&h=360&fit=crop" },
+  { id: "8", title: "20기 AI 활용 기초", studyName: "AI 자동화", week: 1, duration: "44분", locked: false, generation: "20기", thumbnailUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=640&h=360&fit=crop" },
 ];
 
 export default function AuditVodPage() {

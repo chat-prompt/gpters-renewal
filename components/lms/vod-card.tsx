@@ -8,6 +8,7 @@ interface VodCardProps {
   week: number;
   duration: string;
   watched: boolean;
+  thumbnailUrl?: string;
   className?: string;
 }
 
@@ -17,6 +18,7 @@ export function VodCard({
   week,
   duration,
   watched,
+  thumbnailUrl,
   className,
 }: VodCardProps) {
   return (
@@ -26,8 +28,12 @@ export function VodCard({
         className
       )}
     >
-      <div className="aspect-video bg-muted flex items-center justify-center relative">
-        <Play className="w-8 h-8 text-sub-foreground" />
+      <div className="aspect-video bg-muted flex items-center justify-center relative overflow-hidden">
+        {thumbnailUrl && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={thumbnailUrl} alt="" className="absolute inset-0 w-full h-full object-cover" />
+        )}
+        <Play className="w-8 h-8 text-white drop-shadow relative z-10" />
         {watched && (
           <Badge variant="active" className="absolute top-2 right-2">
             시청 완료
@@ -36,7 +42,7 @@ export function VodCard({
       </div>
       <div className="p-3 space-y-1">
         <p className="text-sm font-medium text-foreground line-clamp-1">{title}</p>
-        <p className="text-xs text-sub-foreground">
+        <p className="text-xs font-regular text-sub-foreground">
           {studyName} &middot; {week}주차 &middot; {duration}
         </p>
       </div>

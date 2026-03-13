@@ -17,6 +17,7 @@ const myVods = [
     week: 2,
     duration: "45분",
     watched: false,
+    thumbnailUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=640&h=360&fit=crop",
   },
   {
     id: "2",
@@ -25,6 +26,7 @@ const myVods = [
     week: 1,
     duration: "52분",
     watched: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=640&h=360&fit=crop",
   },
   {
     id: "3",
@@ -33,6 +35,7 @@ const myVods = [
     week: 1,
     duration: "1시간 20분",
     watched: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=640&h=360&fit=crop",
   },
   {
     id: "4",
@@ -41,6 +44,7 @@ const myVods = [
     week: 2,
     duration: "48분",
     watched: false,
+    thumbnailUrl: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=640&h=360&fit=crop",
   },
 ];
 
@@ -52,6 +56,7 @@ const otherVods = [
     week: 2,
     duration: "45분",
     locked: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=640&h=360&fit=crop",
   },
   {
     id: "6",
@@ -60,6 +65,7 @@ const otherVods = [
     week: 1,
     duration: "52분",
     locked: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=640&h=360&fit=crop",
   },
   {
     id: "7",
@@ -68,6 +74,7 @@ const otherVods = [
     week: 2,
     duration: "38분",
     locked: false,
+    thumbnailUrl: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=640&h=360&fit=crop",
   },
   {
     id: "8",
@@ -76,6 +83,7 @@ const otherVods = [
     week: 1,
     duration: "41분",
     locked: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=640&h=360&fit=crop",
   },
 ];
 

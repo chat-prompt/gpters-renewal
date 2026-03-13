@@ -50,15 +50,25 @@
   /* Spacing — 의미 기반 간격 토큰 (Tailwind 4px 스케일 대응) */
   --spacing-inline: 0.5rem;      /* 8px / p-2: 요소 내부 — 아이콘+텍스트, 아바타+이름 */
   --spacing-component: 1rem;     /* 16px / p-4: 컴포넌트 내부 — 제목→excerpt→메타 */
-  --spacing-block: 1.5rem;       /* 24px / p-6: 컴포넌트 간 — 정렬→게시글리스트 */
+  --spacing-group: 1.5rem;       /* 24px / p-6: 컴포넌트 간 — 정렬→게시글리스트 */
   --spacing-section: 3.5rem;     /* 56px / p-14: 섹션 간 — 카테고리섹션↔게시글섹션 */
   --spacing-page: 3rem;          /* 48px / p-12: 페이지 상하 여백 */
 
   /* Font */
   --font-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
   --font-mono: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+
+  /* Font Weight */
+  --font-weight-regular: 300;   /* font-regular: 얇은 본문, 캡션 */
+  --font-weight-medium: 400;    /* font-medium: 기본 본문 */
+  --font-weight-semibold: 500;  /* font-semibold: 레이블, 작성자명 */
+  --font-weight-bold: 600;      /* font-bold: 제목, 헤더 */
 }
 
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+.font-regular {
+  font-weight: 300;
 }

@@ -32,7 +32,7 @@ export function VodLockCard({
       </div>
       <div className="p-3 space-y-1">
         <p className="text-sm font-medium text-foreground line-clamp-1">{title}</p>
-        <p className="text-xs text-sub-foreground">
+        <p className="text-xs font-regular text-sub-foreground">
           {studyName} &middot; {week}주차 &middot; {duration}
         </p>
         <Link

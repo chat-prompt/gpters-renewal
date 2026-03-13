@@ -72,7 +72,6 @@ export function ProfileHeader({ user, featuredBadges, followerCount, followingCo
         <div className="flex items-start justify-between mb-1">
           <div>
             <h1 className="text-xl font-semibold text-foreground">{user.name}</h1>
-            <p className="text-sm text-sub-foreground">@{user.username}</p>
           </div>
           <div className="flex items-center gap-2 mt-1">
             {isOwn ? (

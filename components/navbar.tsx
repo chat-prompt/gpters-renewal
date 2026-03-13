@@ -161,7 +161,7 @@ export function Navbar() {
               <DropdownMenu className="w-56">
                 <div className="px-4 py-3 border-b border-border">
                   <p className="text-sm font-medium text-foreground">홍길동</p>
-                  <p className="text-sm text-sub-foreground">@honggildong</p>
+                  <p className="text-sm text-sub-foreground">honggildong</p>
                 </div>
                 <div className="py-1">
                   <DropdownMenuItem icon={User} label="내 프로필" href="/profile/honggildong" onClick={close} />

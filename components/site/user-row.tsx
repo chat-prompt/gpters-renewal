@@ -33,9 +33,8 @@ export function UserRow({
     <>
       <Avatar className="w-8 h-8 shrink-0" />
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-secondary-foreground truncate">
-          {name}{" "}
-          <span className="text-sub-foreground">@{username}</span>
+        <p className="text-sm font-medium text-foreground truncate">
+          {name}
         </p>
         {description && (
           <p className="text-sm text-sub-foreground truncate">{description}</p>

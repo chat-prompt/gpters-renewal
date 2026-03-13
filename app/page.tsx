@@ -9,6 +9,7 @@ import {
 import { PostCard } from "@/components/site/post-card";
 import { SortTabs } from "@/components/site/sort-tabs";
 import { HeroCarousel } from "@/components/site/hero-carousel";
+import { UserRow } from "@/components/site/user-row";
 
 /* ─── Mock Data ─── */
 
@@ -43,7 +44,7 @@ const heroSlides = [
 ];
 
 const whiteboard = {
-  imageUrl: "",
+  imageUrl: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=384&h=256&fit=crop",
   title: "AI로 일하는 법, GPTers에서 시작하세요",
   body: "12,000명의 AI 실무자 커뮤니티에서 최신 AI 활용법을 배우고, 함께 성장하세요. 초보자도 환영합니다.",
   ctaText: "커뮤니티 둘러보기",
@@ -85,7 +86,7 @@ const posts = [
       "이번에 Claude를 활용해서 마케팅 이메일 자동화 파이프라인을 구축한 경험을 공유합니다. 매주 3시간 걸리던 작업이 30분으로 줄었어요.",
     votes: 142,
     comments: 23,
-    thumbnail: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=240&h=160&fit=crop",
   },
   {
     slug: "gpt4o-prompt",
@@ -98,7 +99,6 @@ const posts = [
       "프롬프트 엔지니어링 기초부터 고급 기법까지 체계적으로 정리했습니다. 비개발자도 쉽게 따라할 수 있는 가이드.",
     votes: 98,
     comments: 15,
-    thumbnail: false,
   },
   {
     slug: "cursor-fullstack",
@@ -111,7 +111,7 @@ const posts = [
       "바이브 코딩으로 실제 서비스를 만드는 과정을 처음부터 끝까지 공유합니다. React + Supabase 조합으로 진행.",
     votes: 87,
     comments: 31,
-    thumbnail: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=240&h=160&fit=crop",
   },
   {
     slug: "ai-business-plan",
@@ -124,7 +124,6 @@ const posts = [
       "ChatGPT와 Claude를 활용하여 투자 유치용 사업계획서를 작성하는 방법을 단계별로 안내합니다.",
     votes: 76,
     comments: 19,
-    thumbnail: false,
   },
   {
     slug: "n8n-automation",
@@ -137,7 +136,6 @@ const posts = [
       "반복적인 업무를 n8n 워크플로우로 자동화한 실전 사례를 소개합니다. Slack 알림부터 데이터 수집까지.",
     votes: 54,
     comments: 14,
-    thumbnail: false,
   },
 ];
 
@@ -172,12 +170,13 @@ export default function Home() {
       {/* Whiteboard */}
       <div className="mb-8 p-6 border border-border rounded-lg">
         <div className="flex gap-6 items-center">
-          <div className="w-48 h-32 bg-muted rounded-lg shrink-0" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={whiteboard.imageUrl} alt="" className="w-48 h-32 object-cover rounded-lg shrink-0" />
           <div className="flex-1">
             <h2 className="text-lg font-semibold text-foreground mb-2">
               {whiteboard.title}
             </h2>
-            <p className="text-sm text-secondary-foreground mb-4">
+            <p className="text-sm font-regular text-foreground mb-4">
               {whiteboard.body}
             </p>
             <Link
@@ -221,26 +220,25 @@ export default function Home() {
                   <span className="font-medium text-foreground">
                     {featuredPost.author}
                   </span>
-                  {" in "}
-                  <span className="font-medium text-foreground">
-                    {featuredPost.category}
-                  </span>
+                  {" · "}
+                  <span>{featuredPost.category}</span>
+                  {" · "}{featuredPost.time}
                 </span>
               </div>
               <h2 className="text-2xl font-semibold text-foreground group-hover:underline leading-snug mb-2">
                 {featuredPost.title}
               </h2>
-              <p className="text-base text-secondary-foreground line-clamp-3 leading-relaxed mb-3">
+              <p className="text-base font-regular text-foreground line-clamp-3 leading-relaxed mb-3">
                 {featuredPost.excerpt}
               </p>
-              <div className="flex items-center gap-4 text-sm text-sub-foreground">
-                <span>{featuredPost.time}</span>
-                <span className="flex items-center gap-1">
-                  <Heart className="w-5 h-5" strokeWidth={1.5} /> {featuredPost.votes}
-                </span>
-                <span className="flex items-center gap-1">
-                  <MessageSquare className="w-5 h-5" strokeWidth={1.5} />{" "}
-                  {featuredPost.comments}
+              <div className="flex items-center gap-3 text-sm text-sub-foreground">
+                <span className="ml-auto flex items-center gap-3">
+                  <span className="flex items-center gap-1">
+                    <Heart className="w-5 h-5" strokeWidth={1.5} /> {featuredPost.votes}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <MessageSquare className="w-5 h-5" strokeWidth={1.5} /> {featuredPost.comments}
+                  </span>
                 </span>
               </div>
             </Link>
@@ -316,35 +314,16 @@ export default function Home() {
             <h3 className="text-base font-semibold text-foreground mb-4">
               추천 작성자
             </h3>
-            <div className="space-y-4">
+            <div className="space-y-1">
               {whoToFollow.map((user) => (
-                <div key={user.username} className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-muted shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Link
-                          href={`/profile/${user.username}`}
-                          className="text-sm font-medium text-foreground hover:underline"
-                        >
-                          {user.name}
-                        </Link>
-                        <p className="text-sm text-sub-foreground">
-                          @{user.username}
-                        </p>
-                      </div>
-                      <button
-                        type="button"
-                        className="px-3 py-1 text-sm font-medium border border-border rounded-full text-foreground hover:bg-muted transition-colors shrink-0"
-                      >
-                        팔로우
-                      </button>
-                    </div>
-                    <p className="text-sm text-sub-foreground line-clamp-1 mt-1">
-                      {user.bio}
-                    </p>
-                  </div>
-                </div>
+                <UserRow
+                  key={user.name}
+                  name={user.name}
+                  username={user.name}
+                  description={user.bio}
+                  href={`/profile/${encodeURIComponent(user.name)}`}
+                  showFollowButton
+                />
               ))}
             </div>
           </div>

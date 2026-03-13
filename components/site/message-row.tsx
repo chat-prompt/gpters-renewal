@@ -42,7 +42,6 @@ export function MessageRow({
           >
             {from}
           </span>
-          <span className="text-sm text-sub-foreground">@{username}</span>
         </div>
         <p
           className={cn(

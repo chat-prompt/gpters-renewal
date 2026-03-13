@@ -7,9 +7,9 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-muted text-sub-foreground px-2 py-0.5 rounded-sm",
+        default: "bg-muted text-secondary-foreground px-2 py-0.5 rounded-sm",
         active: "bg-primary/10 text-primary px-2 py-0.5 rounded-sm",
-        completed: "bg-muted text-sub-foreground px-2 py-0.5 rounded-sm",
+        completed: "bg-muted text-secondary-foreground px-2 py-0.5 rounded-sm",
         pill: "bg-accent text-primary border border-border px-2.5 py-0.5 rounded-full",
         filter:
           "bg-accent text-accent-foreground px-2 py-1 rounded-md gap-1",

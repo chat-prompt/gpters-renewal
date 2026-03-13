@@ -7,11 +7,12 @@ import {
   Monitor,
   Users,
   Share2,
-  User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 /* ─── Mock Data ─── */
+
+const isOwner = true;
 
 const eventsMap: Record<string, Event> = {
   "1": {
@@ -19,6 +20,8 @@ const eventsMap: Record<string, Event> = {
     title: "무료 AI 토크: Claude Code 활용법",
     category: "토크",
     type: "online",
+    hostType: "official",
+    status: "published",
     date: "3월 15일 (토)",
     time: "19:00 - 20:30",
     location: "온라인 (Zoom)",
@@ -50,6 +53,8 @@ const eventsMap: Record<string, Event> = {
     title: "모각AI — 강남역 위워크",
     category: "모임",
     type: "offline",
+    hostType: "official",
+    status: "published",
     date: "3월 20일 (목)",
     time: "14:00 - 18:00",
     location: "강남역 위워크 10층",
@@ -77,6 +82,8 @@ const eventsMap: Record<string, Event> = {
     title: "AI 자동화 웨비나",
     category: "웨비나",
     type: "online",
+    hostType: "user",
+    status: "published",
     date: "3월 22일 (토)",
     time: "20:00 - 21:30",
     location: "온라인 (Zoom)",
@@ -104,6 +111,8 @@ const eventsMap: Record<string, Event> = {
     title: "GPTers 네트워킹 데이",
     category: "네트워킹",
     type: "offline",
+    hostType: "official",
+    status: "published",
     date: "4월 5일 (토)",
     time: "15:00 - 19:00",
     location: "서울 성수동",
@@ -139,6 +148,8 @@ interface Event {
   title: string;
   category: string;
   type: string;
+  hostType: "official" | "user";
+  status: "draft" | "pending_review" | "rejected" | "published" | "closed" | "completed" | "cancelled";
   date: string;
   time: string;
   location: string;
@@ -151,6 +162,7 @@ interface Event {
   capacity: number;
   free: boolean;
   price?: string;
+  reviewNote?: string;
 }
 
 /* ─── Page ─── */
@@ -174,22 +186,38 @@ export default async function EventDetailPage({
     );
   }
 
+  const isPublicStatus = ["published", "closed", "completed"].includes(event.status);
   const spotsLeft = event.capacity - event.attendees;
   const fillPercent = Math.round((event.attendees / event.capacity) * 100);
 
   return (
     <div className="max-w-[1080px] mx-auto px-6 py-page">
-      {/* Back */}
-      <Link
-        href="/events"
-        className="inline-flex items-center gap-1 text-sm text-sub-foreground hover:text-foreground transition-colors mb-6"
-      >
-        <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
-        이벤트 목록
-      </Link>
+      {/* Preview Banner */}
+      {!isPublicStatus && (
+        <div className="mb-6 p-3 rounded-lg border border-primary/30 bg-accent text-sm text-primary">
+          이 이벤트는 아직 공개되지 않은 미리보기입니다.
+        </div>
+      )}
+
+      {/* Back + Edit */}
+      <div className="flex items-center justify-between mb-6">
+        <Link
+          href="/events"
+          className="inline-flex items-center gap-1 text-sm text-sub-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
+          이벤트 목록
+        </Link>
+        {isOwner && (
+          <Link href={`/events/${event.id}/edit`}>
+            <Button variant="outline" size="sm">수정</Button>
+          </Link>
+        )}
+      </div>
 
       {/* Cover Image */}
-      <div className="w-full h-56 md:h-72 bg-muted rounded-xl mb-8" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&h=576&fit=crop" alt="" className="w-full h-56 md:h-72 object-cover rounded-xl mb-8" />
 
       <div className="flex gap-8 items-start">
         {/* Left: Content */}
@@ -200,7 +228,7 @@ export default async function EventDetailPage({
               {event.category}
             </span>
             <span
-              className={`text-xs font-medium px-1.5 py-0.5 rounded ${
+              className={`text-sm font-medium px-1.5 py-0.5 rounded ${
                 event.type === "online"
                   ? "bg-accent text-primary"
                   : "bg-muted text-sub-foreground"
@@ -240,8 +268,13 @@ export default async function EventDetailPage({
             <div className="w-10 h-10 rounded-full bg-muted" />
             <div>
               <p className="text-sm text-sub-foreground">주최</p>
-              <p className="text-sm font-medium text-foreground">
+              <p className="text-sm font-medium text-foreground flex items-center gap-1.5">
                 {event.host.name}
+                {event.hostType === "official" && (
+                  <span className="text-sm font-medium px-1.5 py-0.5 rounded bg-accent text-primary">
+                    공식
+                  </span>
+                )}
               </p>
             </div>
           </div>
@@ -249,7 +282,7 @@ export default async function EventDetailPage({
           {/* Description */}
           <div className="mb-8">
             <h2 className="text-base font-semibold text-foreground mb-3">소개</h2>
-            <div className="text-sm text-sub-foreground leading-relaxed whitespace-pre-line">
+            <div className="text-sm font-regular text-sub-foreground leading-relaxed whitespace-pre-line">
               {event.longDescription}
             </div>
           </div>

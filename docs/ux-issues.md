@@ -68,6 +68,7 @@
 
 - [x] "프로필 수정" 버튼 클릭해도 아무 동작 없음 — 상 → `<Link href="/settings">` 연결 (2026-03-12)
 - [x] "LinkedIn에 공유" 버튼 동작 없음 — 중 → onClick으로 LinkedIn share 팝업 (2026-03-12)
+- [x] 팔로워/팔로잉 목록을 볼 수 있는 곳이 없고 숫자도 없음 — 중 → 4개 탭(작성글/시리즈/팔로워/팔로잉) + ProfileHeader 숫자 표시 (2026-03-13)
 
 ## 설정 (`/settings`)
 
@@ -83,7 +84,7 @@
 - [x] 이벤트 카드가 페이지에 하드코딩 (컴포넌트 미추출) — 중 → EventCard 공용 컴포넌트 추출 (2026-03-12)
 - [x] 이벤트 필터 탭이 인라인 중복 구현 (CategoryFilter 미사용) — 중 → CategoryFilter 재사용으로 교체 (2026-03-12)
 - [x] 이벤트 카드에 `bg-blue-50 text-blue-600` 등 하드코딩 색상 — 상 → `bg-accent text-primary` / `bg-muted text-muted-foreground` 디자인 토큰 사용 (2026-03-12)
-- [ ] 이벤트 카드에 실제 이미지가 없음 (placeholder만) — 하
+- [x] 이벤트 카드에 실제 이미지가 없음 (placeholder만) — 하 → `imageUrl?: string` prop 추가 + Unsplash URL 적용 (2026-03-13)
 - [ ] 이벤트 상세 커버 이미지 placeholder — 하
 
 ## 메시지 (`/messages`)
@@ -123,11 +124,21 @@
 - [x] FeedPost 액션 버튼(좋아요/댓글/공유)이 카드 Link 안에 있어 개별 클릭 불가 — 상 → 액션 바를 Link 밖으로 분리 (2026-03-12)
 - [x] InlinePostForm에 `ml-13` 비표준 Tailwind 클래스 — 중 → `ml-[52px]`로 수정 (2026-03-12)
 - [x] CategoryFilter가 flex-wrap으로 여러 줄 줄바꿈 — 하 → overflow-x-auto 가로 스크롤로 변경 (2026-03-12)
-- [x] spacing 규칙이 없어 동일 맥락에서 다른 값 혼재 — 상 → 5개 시맨틱 spacing 토큰 도입 (inline/component/block/section/page) (2026-03-12)
+- [x] spacing 규칙이 없어 동일 맥락에서 다른 값 혼재 — 상 → 5개 시맨틱 spacing 토큰 도입 (inline/component/group/section/page) (2026-03-12)
+- [x] `--spacing-block` 이름이 Tailwind v4 `inline-block` 유틸리티와 충돌하여 모든 `inline-block` 요소 width가 24px로 강제됨 — 상 → `--spacing-group`으로 이름 변경 (2026-03-13)
 - [x] 텍스트 색상이 2단계(foreground/muted-foreground)뿐, 제목·본문·메타 구분 불가 — 중 → 그레이스케일 3단계 위계 (neutral-800/600/400) (2026-03-12)
 - [x] text-xs(12px)가 여러 곳에 사용되어 가독성 저하 — 중 → 최소 폰트 사이즈 14px(text-sm) 규칙 수립 (2026-03-12)
+- [x] @username 표시가 사이트 전반에 혼재 (UserRow, ProfileHeader, UserMeta, Navbar 등) — 중 → @ 접두사 전면 제거, 이름이 곧 ID (2026-03-13)
+- [x] CategoryFilter/SortTabs/Pagination 활성 상태가 블랙(bg-foreground/text-foreground)으로 브랜드 컬러와 불일치 — 중 → primary 오렌지로 통일 (2026-03-13)
+
+## 커뮤니티 쓰레드 상세 (`/community/[id]`)
+
+- [x] 포스트를 감싼 border/rounded/padding 박스가 Threads 스타일과 맞지 않음 — 중 → 박스 제거, 배경과 구분 없는 플랫 레이아웃 (2026-03-13)
+- [x] 댓글 입력창과 댓글 목록 사이 divider가 불필요한 단절감을 줌 — 하 → divider 제거 (2026-03-13)
 
 ## 기타
 
 - [x] 페이지별 max-width가 혼용되었음 (7xl/6xl) — 중 → max-w-[1080px]로 22개 파일 통일 완료, 단 글쓰기/체크아웃은 의도적 예외 (2026-03-06)
+- [x] 프로토타입 전반의 이미지가 placeholder(회색 박스)여서 실제 서비스처럼 느껴지지 않음 — 중 → Unsplash 실제 이미지 URL로 교체, PostCard/FeedPost/VodCard/EventCard prop 구조 변경 (2026-03-13)
+- [x] 미리보기 텍스트와 본문 텍스트의 굵기 위계가 없음 — 중 → 폰트 굵기 4단계 재정의(regular=300), excerpt·본문·메타에 font-regular 적용 (2026-03-13)
 

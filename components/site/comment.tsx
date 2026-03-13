@@ -37,7 +37,7 @@ function CommentItem({ comment, depth = 0 }: CommentProps) {
               작성자
             </span>
           )}
-          <span className="text-sm text-muted-foreground">{comment.time}</span>
+          <span className="text-sm font-regular text-muted-foreground">{comment.time}</span>
         </div>
 
         {/* Body */}

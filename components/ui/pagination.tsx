@@ -32,7 +32,7 @@ export function Pagination({
           className={cn(
             "w-8 h-8 text-sm rounded-md transition-colors",
             page === currentPage
-              ? "bg-foreground text-background"
+              ? "bg-primary text-primary-foreground"
               : "text-sub-foreground hover:bg-muted"
           )}
         >

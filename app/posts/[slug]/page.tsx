@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, ChevronRight } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { CommentTree, type CommentData } from "@/components/site/comment";
 import { TagList } from "@/components/site/tag-list";
@@ -115,7 +115,6 @@ const relatedPosts = [
     excerpt: "Claude API를 실무에 적용한 다양한 사례를 정리했습니다. 고객 응대부터 콘텐츠 생성까지.",
     votes: 67,
     comments: 12,
-    thumbnail: false,
   },
   {
     slug: "automation-workflow",
@@ -127,7 +126,7 @@ const relatedPosts = [
     excerpt: "업무 자동화 워크플로우를 설계하는 단계별 가이드. 반복 작업을 줄이는 실전 팁.",
     votes: 54,
     comments: 8,
-    thumbnail: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=240&h=160&fit=crop",
   },
   {
     slug: "marketing-ai-tools",
@@ -139,7 +138,6 @@ const relatedPosts = [
     excerpt: "2025년 마케팅 팀이 알아야 할 AI 도구 10가지를 직접 사용해보고 비교했습니다.",
     votes: 89,
     comments: 15,
-    thumbnail: false,
   },
 ];
 
@@ -147,9 +145,10 @@ const relatedPosts = [
 
 export default function PostDetailPage() {
   return (
-    <div className="mx-auto max-w-[1080px] px-4 py-page">
-      {/* Breadcrumb + Tags */}
-      <div className="mb-6 space-y-2">
+    <div className="overflow-x-clip">
+      <div className="mx-auto max-w-[640px] px-6 py-page">
+      {/* Breadcrumb */}
+      <div className="mb-6">
         <Breadcrumb
           items={[
             { label: "탐색", href: "/explore/feed" },
@@ -157,22 +156,20 @@ export default function PostDetailPage() {
             { label: post.title },
           ]}
         />
-        <TagList tags={post.tags} />
       </div>
 
-      <div className="flex gap-8">
+      <div className="relative">
         {/* Main Content */}
-        <article className="flex-1 min-w-0 max-w-3xl">
-          {/* Series Banner */}
+        <article>
+          {/* Series Label */}
           <Link
             href={`/series/${seriesInfo.id}`}
-            className="flex items-center gap-2 px-4 py-2.5 mb-6 rounded-lg border border-border bg-accent text-sm hover:bg-accent/80 transition-colors"
+            className="flex items-center gap-1.5 mb-3 text-sm text-sub-foreground hover:text-primary transition-colors w-fit"
           >
-            <BookOpen className="w-4 h-4 text-primary shrink-0" strokeWidth={1.5} />
-            <span className="font-medium text-foreground">{seriesInfo.title}</span>
-            <span className="text-sub-foreground">·</span>
-            <span className="text-sub-foreground">{seriesInfo.currentPosition}/{seriesInfo.totalPosts}화</span>
-            <ChevronRight className="w-4 h-4 text-sub-foreground ml-auto" strokeWidth={1.5} />
+            <BookOpen className="w-3.5 h-3.5 shrink-0" strokeWidth={1.5} />
+            <span>{seriesInfo.title}</span>
+            <span>·</span>
+            <span>{seriesInfo.currentPosition}/{seriesInfo.totalPosts}화</span>
           </Link>
 
           <h1 className="text-2xl font-semibold text-foreground mb-4">
@@ -186,20 +183,20 @@ export default function PostDetailPage() {
             }}
             date={post.time}
             viewCount={post.views}
-            className="mb-8"
+            className="mb-4"
           />
 
           {/* Article Body */}
-          <div className="space-y-6 text-secondary-foreground leading-relaxed mb-8">
+          <div className="space-y-6 font-regular text-foreground leading-relaxed mb-8">
             <h2 className="text-lg font-semibold text-foreground">배경</h2>
-            <p className="text-sub-foreground">
+            <p className="text-secondary-foreground">
               마케팅 팀에서 매주 반복적으로 보내는 이메일 캠페인을 Claude API를
               활용해 자동화한 경험을 공유합니다. 매주 3시간 이상 소요되던 작업을
               30분으로 줄인 과정을 상세히 설명하겠습니다.
             </p>
 
             <h2 className="text-lg font-semibold text-foreground">구축 과정</h2>
-            <ol className="list-decimal list-inside space-y-2 text-sub-foreground">
+            <ol className="list-decimal list-inside space-y-2 text-secondary-foreground">
               <li>데이터 수집 파이프라인 설계</li>
               <li>Claude API 연동 및 프롬프트 설계</li>
               <li>이메일 템플릿 자동 생성</li>
@@ -208,7 +205,7 @@ export default function PostDetailPage() {
             </ol>
 
             <h2 className="text-lg font-semibold text-foreground">1. 데이터 수집 파이프라인</h2>
-            <p className="text-sub-foreground">
+            <p className="text-secondary-foreground">
               먼저 Google Sheets에서 고객 데이터를 자동으로 수집하는 파이프라인을
               구축했습니다. n8n을 활용해 스프레드시트 변경 감지 시 자동으로
               트리거되도록 설정했습니다.
@@ -224,19 +221,21 @@ const response = await anthropic.messages.create({
             </div>
 
             <h2 className="text-lg font-semibold text-foreground">2. 프롬프트 설계</h2>
-            <p className="text-sub-foreground">
+            <p className="text-secondary-foreground">
               고객의 구매 이력, 관심사, 최근 활동 데이터를 기반으로 개인화된
               이메일을 생성하는 시스템 프롬프트를 설계했습니다. 핵심은 톤앤매너를
               일관되게 유지하면서도 각 고객에게 맞춤화된 내용을 생성하는 것이었습니다.
             </p>
 
             <h2 className="text-lg font-semibold text-foreground">3. 결과</h2>
-            <p className="text-sub-foreground">
+            <p className="text-secondary-foreground">
               자동화 파이프라인 도입 후 주당 3시간의 반복 작업을 30분으로 줄일 수
               있었습니다. 이메일 개인화 수준도 크게 향상되어 오픈율이 15%
               개선되었습니다.
             </p>
           </div>
+
+          <TagList tags={post.tags} className="mb-8" />
 
           {/* Inline CTA (for non-members) */}
           <PostDetailCTA className="my-8" />
@@ -275,7 +274,10 @@ const response = await anthropic.messages.create({
         </article>
 
         {/* Sticky Sidebar (Desktop) */}
-        <PostActionsSidebar votes={post.votes} comments={post.comments} />
+        <div className="absolute left-full top-0 ml-8">
+          <PostActionsSidebar votes={post.votes} comments={post.comments} />
+        </div>
+      </div>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ interface Post {
   username: string;
   time: string;
   content: string;
-  hasImage: boolean;
+  imageUrl?: string;
   tags: string[];
   likes: number;
   comments: Comment[];
@@ -32,7 +32,7 @@ const postsMap: Record<string, Post> = {
     time: "30분 전",
     content:
       "바이브코딩으로 만든 스터디 대시보드가 드디어 완성! 에어테이블 + n8n + Cursor로 3일 만에 구현했습니다. 코딩 경험 거의 없는 상태에서 시작했는데 정말 가능하더라구요.\n\n처음엔 막막했는데 ChatGPT한테 하나씩 물어보면서 만들었어요. 에러가 나도 에러 메시지를 그대로 붙여넣으면 해결해주더라고요. 이게 바이브코딩의 힘인 것 같습니다.",
-    hasImage: true,
+    imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop",
     tags: ["바이브코딩", "n8n", "자동화"],
     likes: 23,
     comments: [
@@ -79,7 +79,6 @@ const postsMap: Record<string, Post> = {
     time: "2시간 전",
     content:
       "Claude로 마케팅 리포트 자동화를 구축해봤습니다. 매주 수동으로 2~3시간 걸리던 작업이 이제 10분으로 줄었어요.\n\nGA4 데이터 → Sheets → Claude API → 슬랙 알림 파이프라인인데, 프롬프트 설계가 핵심이었습니다. 단순히 요약 말고 인사이트를 뽑아주도록 프롬프팅했더니 결과물 퀄리티가 확 달라졌어요.",
-    hasImage: false,
     tags: ["Claude", "마케팅자동화", "프롬프트엔지니어링"],
     likes: 31,
     comments: [
@@ -108,7 +107,7 @@ const postsMap: Record<string, Post> = {
     time: "3시간 전",
     content:
       "GPT-4o로 사내 챗봇을 만들었습니다. FAQ 문서를 업로드하면 임직원들이 자연어로 질문할 수 있는 시스템이에요.\n\nRAG 방식으로 구현했는데 Supabase pgvector를 써봤어요. 처음에 임베딩 비용 걱정했는데 생각보다 많이 안 나오더라고요. 응답 품질도 꽤 만족스럽습니다.",
-    hasImage: true,
+    imageUrl: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&h=400&fit=crop",
     tags: ["GPT-4o", "챗봇", "RAG"],
     likes: 18,
     comments: [
@@ -147,7 +146,7 @@ const postsMap: Record<string, Post> = {
     time: "1시간 전",
     content:
       "Claude API 사용할 때 system prompt를 어떻게 설계하시나요?\n\n저는 지금 고객 응대 챗봇을 만들고 있는데, system prompt가 너무 길어지면 성능이 떨어지는 것 같더라고요. 적절한 길이나 구조화 방법이 있을까요? 경험 있으신 분들 조언 부탁드립니다!",
-    hasImage: false,
+
     tags: ["Claude", "API", "프롬프트엔지니어링"],
     likes: 12,
     comments: [
@@ -178,7 +177,7 @@ const postsMap: Record<string, Post> = {
     time: "4시간 전",
     content:
       "n8n vs Make 어떤 걸 쓰시나요? 초보자 입장에서 어느 쪽이 더 배우기 쉬운지 여쭤보고 싶어요.\n\n저는 블로그 글 자동 발행 + SNS 공유 파이프라인을 만들려고 하는데, 무료 플랜 한도 내에서 쓰려면 어느 쪽이 나을까요?",
-    hasImage: false,
+
     tags: ["n8n", "Make", "자동화"],
     likes: 19,
     comments: [
@@ -236,11 +235,9 @@ function CommentItem({ comment, isReply = false }: { comment: Comment; isReply?:
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-sm font-medium text-foreground">{comment.author}</span>
-            <span className="text-sm text-sub-foreground">@{comment.username}</span>
-            <span className="text-sm text-sub-foreground">·</span>
-            <span className="text-sm text-sub-foreground">{comment.time}</span>
+            <span className="text-sm font-regular text-sub-foreground">· {comment.time}</span>
           </div>
-          <p className="text-sm text-secondary-foreground leading-relaxed">{comment.content}</p>
+          <p className="text-sm font-regular text-foreground leading-relaxed">{comment.content}</p>
           <div className="flex items-center gap-4 mt-2">
             <button className="flex items-center gap-1 text-sm text-sub-foreground hover:text-primary transition-colors">
               <Heart className="w-5 h-5" strokeWidth={1.5} />
@@ -295,28 +292,25 @@ export default async function CommunityDetailPage({
       </Link>
 
       {/* Post */}
-      <div className="border border-border rounded-xl p-5 mb-6">
+      <div className="mb-6">
         {/* Author */}
         <div className="flex items-center gap-3 mb-4">
           <AvatarPlaceholder name={post.author} />
           <div>
             <span className="text-sm font-medium text-foreground">{post.author}</span>
-            <div className="flex items-center gap-1.5">
-              <span className="text-sm text-sub-foreground">@{post.username}</span>
-              <span className="text-sm text-sub-foreground">·</span>
-              <span className="text-sm text-sub-foreground">{post.time}</span>
-            </div>
+            <span className="text-sm text-sub-foreground">{post.time}</span>
           </div>
         </div>
 
         {/* Content */}
-        <div className="text-[15px] text-secondary-foreground leading-relaxed whitespace-pre-line mb-4">
+        <div className="text-[15px] font-regular text-foreground leading-relaxed whitespace-pre-line mb-4">
           {post.content}
         </div>
 
-        {/* Image placeholder */}
-        {post.hasImage && (
-          <div className="bg-muted h-56 rounded-lg mb-4" />
+        {/* Image */}
+        {post.imageUrl && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={post.imageUrl} alt="" className="w-full h-56 object-cover rounded-lg mb-4" />
         )}
 
         {/* Tags */}
@@ -357,7 +351,7 @@ export default async function CommunityDetailPage({
         </h2>
 
         {/* Comment input */}
-        <div className="flex gap-3 mb-2 pb-4 border-b border-border">
+        <div className="flex gap-3 mb-4">
           <div className="w-8 h-8 rounded-full bg-muted shrink-0" />
           <div className="flex-1 border border-border rounded-lg px-3 py-2 text-sm text-sub-foreground cursor-text">
             댓글을 남겨주세요...

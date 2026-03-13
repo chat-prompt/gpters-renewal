@@ -235,3 +235,52 @@
 - **결정**: ml-16 간격, space-y-10 섹션간격, text-base font-semibold 소제목(text-muted-foreground 유지), 토픽 pill px-4 py-2로 확대, mb-3 통일
 - **이유**: Medium 사이드바를 기준으로 비교했을 때 간격과 크기가 현저히 부족. 소제목은 보조 역할이므로 muted-foreground가 적절 (foreground로 바꾸면 게시글 제목과 경쟁)
 - **영향**: `app/explore/feed/page.tsx` (사이드바 영역), `components/site/user-row.tsx` (아바타 w-8, py-2)
+
+## 2026-03-13 | 커뮤니티 쓰레드 상세 포스트 박스 border 제거
+
+- **문제**: 커뮤니티 쓰레드 상세(/community/[id])에서 원글 포스트가 border/rounded/padding 박스로 감싸져 있어, Threads/X 스타일과 다른 묵직한 카드 느낌이 남
+- **결정**: border, rounded, padding 클래스 전체 제거. 댓글 목록 위의 `<hr>` divider도 제거
+- **이유**: Threads/X에서 쓰레드 상세를 열면 원글이 카드가 아니라 배경과 동일한 플랫 레이아웃으로 표시됨. border 박스는 "게시판" 느낌을 주고 Threads 스타일과 충돌. divider 역시 댓글 흐름을 끊는 불필요한 요소
+- **영향**: `app/community/[id]/page.tsx` (포스트 래퍼 클래스)
+
+## 2026-03-13 | 이미지 placeholder → Unsplash 실제 이미지 교체
+
+- **문제**: PostCard, FeedPost, VodCard, EventCard 모두 boolean prop(`thumbnail: true`, `hasImage: true`)으로 회색 placeholder 박스만 표시. 프로토타입이 실제 서비스처럼 느껴지지 않아 리뷰/데모에서 설득력이 부족
+- **결정**: boolean prop을 string URL prop(`thumbnailUrl: string`, `imageUrl: string`)으로 변경. 10개 페이지의 mock data에 Unsplash 무료 이미지 URL 적용
+- **이유**: 프로토타입의 목적은 실제 서비스를 시뮬레이션하는 것. 회색 박스는 레이아웃 확인엔 유용하나, 사용자 리서치·이해관계자 리뷰·포트폴리오 제시 등에서 완성도가 낮아 보임. 이미지 URL을 prop으로 받는 구조는 나중에 API 연결 시 그대로 유지됨
+- **영향**: `components/site/post-card.tsx`, `components/site/feed-post.tsx`, `components/lms/vod-card.tsx`, `components/site/event-card.tsx`, 10개 page.tsx mock data
+
+## 2026-03-13 | 폰트 굵기 4단계 재정의 — 전체적으로 더 가벼운 타이포그래피
+
+- **문제**: Tailwind 기본 폰트 굵기(medium=500, semibold=600, bold=700)로는 GPTers의 타이포그래피가 전반적으로 무거운 느낌. Pretendard 폰트 특성상 500~600이면 충분히 두드러지고, 700은 과도하게 굵어 보임. font-bold 위반이 53개로 많아 규칙 우선 수정이 필요했음
+- **결정**: globals.css @theme에서 폰트 굵기 전면 재매핑 — regular=300(신규), medium=400, semibold=500, bold=600. `.font-regular { font-weight: 300; }` 명시적 CSS 규칙 추가. excerpt·본문·메타에 font-regular 적용
+- **이유**: Pretendard Variable은 100~900 웨이트를 모두 지원. 300(light)은 미리보기 텍스트나 본문의 부드러운 표현에 적합하며, Medium/Brunch 등 콘텐츠 플랫폼이 본문에 light 웨이트를 사용하는 패턴과 일치. 기존 font-bold를 그대로 두면 600이 되어 위반 규칙도 자연스럽게 해소됨
+- **영향**: `app/globals.css` (@theme 폰트 굵기 매핑), `components/site/post-card.tsx`, `components/site/feed-post.tsx`, `components/lms/vod-card.tsx`, `components/lms/vod-lock-card.tsx`, `components/site/comment.tsx`, 7개 page.tsx
+
+## 2026-03-13 | 본문과 미리보기의 텍스트 색상 위계 분리
+
+- **문제**: 게시글 상세(/posts/[slug]) 본문 `<p>`, `<ol>` 텍스트가 `text-sub-foreground`(#737373 neutral-500)로 설정되어 있어 실제 글을 읽기에 너무 옅었음. PostCard excerpt가 `text-secondary-foreground`(#525252)인데, 본문이 미리보기보다 옅은 색은 위계 역전
+- **결정**: 게시글 상세 본문을 `text-secondary-foreground`(#525252 neutral-600)로 변경. 그레이스케일 위계: 제목=foreground(#262626) > 본문=secondary-foreground(#525252) > 미리보기·설명=secondary-foreground(동일, 본문과 같음) > 메타·타임스탬프=muted-foreground(#a3a3a3)
+- **이유**: 본문이 미리보기보다 옅으면 "본문을 읽을 의욕이 사라진다"는 피드백과 일치. 긴 글을 읽는 페이지에서 본문 색상이 너무 연하면 눈의 피로가 증가. neutral-600은 콘텐츠 플랫폼에서 본문 색상으로 널리 사용되는 값
+- **영향**: `app/posts/[slug]/page.tsx` (본문 `<p>`, `<ol>` 색상), 향후 긴 글 본문 표준 색상으로 고정
+
+## 2026-03-13 | @username 표시 전면 제거 — 이름이 곧 ID
+
+- **문제**: 사이트 전반에 `@honggildong` 형태로 username이 표시되고 있었는데, GPTers에서 @username은 실제 멘션이나 검색에 활용되지 않음. 이름과 @username이 동시에 표시되면 정보 중복이고 화면이 지저분함
+- **결정**: 모든 @username 표시 제거. 이름 하나만 표시하고, 이름 자체가 식별자 역할
+- **이유**: Twitter/X는 @handle이 필수이지만, GPTers는 실명 기반 커뮤니티로 @username이 사회적 의미가 없음. Medium, Brunch, 요즘IT 등 콘텐츠 플랫폼은 이름만 표시. 불필요한 정보는 시각적 노이즈
+- **영향**: UserRow, ProfileHeader, UserMeta, MessageRow, Navbar 등 6개 컴포넌트 + community/[id], search 등 3개 페이지
+
+## 2026-03-13 | 활성 상태 색상 블랙 → primary 오렌지 통일
+
+- **문제**: CategoryFilter 활성 칩이 `bg-foreground`(블랙), SortTabs 활성 텍스트가 `text-foreground`(블랙), Pagination 현재 페이지가 `bg-foreground`(블랙)로, 브랜드 오렌지를 사용하지 않아 시각적 일관성 부재
+- **결정**: 세 컴포넌트 모두 활성 상태를 `bg-primary` / `text-primary` / `bg-primary text-primary-foreground`로 변경
+- **이유**: 활성 상태는 사용자의 현재 선택을 나타내는 핵심 시각 피드백. 브랜드 컬러(GPTers Orange #EF6020)를 활용하지 않으면 브랜드 정체성이 희석됨. Medium(초록), Velog(초록) 등 콘텐츠 플랫폼도 브랜드 컬러를 활성 상태에 사용
+- **영향**: `components/site/category-filter.tsx`, `components/site/sort-tabs.tsx`, `components/ui/pagination.tsx`
+
+## 2026-03-13 | Spacing 토큰 이름 충돌 — block → group 으로 변경
+
+- **문제**: `--spacing-block: 1.5rem`으로 정의한 시맨틱 토큰이 Tailwind v4에서 `.inline-block { inline-size: var(--spacing-block) }` 유틸리티를 생성하여 기존 `.inline-block { display: inline-block }` 유틸리티와 충돌. 모든 `inline-block` 요소의 width가 24px로 강제되어 HeroCarousel 태그, CTA 버튼, 화이트보드 CTA 등이 글자 단위로 줄바꿈
+- **결정**: `--spacing-block` → `--spacing-group`으로 이름 변경. 사용처도 `pt-block` → `pt-group`으로 업데이트
+- **이유**: Tailwind v4는 `--spacing-*` 토큰에서 `inline-*`, `max-*` 등 접두사를 자동으로 조합하여 유틸리티를 생성. `block`이라는 이름은 CSS `inline-block`과 충돌할 수밖에 없는 구조. `group`은 Tailwind에서 접두사 조합에 충돌하지 않으면서 "컴포넌트 간 간격"이라는 의미를 유지
+- **영향**: `app/globals.css` (@theme), `app/explore/feed/page.tsx` (pt-group), `CLAUDE.md` (spacing 문서)

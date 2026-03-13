@@ -51,7 +51,7 @@ export function SortTabs({
             className={cn(
               "text-sm transition-colors",
               selected === opt.value
-                ? "font-medium text-foreground"
+                ? "font-medium text-primary"
                 : "text-sub-foreground hover:text-foreground"
             )}
           >

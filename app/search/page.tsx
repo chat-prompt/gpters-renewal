@@ -22,7 +22,7 @@ const postResults = [
       "이번에 Claude를 활용해서 마케팅 이메일 자동화 파이프라인을 구축한 경험을 공유합니다. 매주 3시간 걸리던 작업이 30분으로 줄었어요.",
     votes: 142,
     comments: 23,
-    thumbnail: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=240&h=160&fit=crop",
   },
   {
     slug: "n8n-automation",
@@ -35,7 +35,6 @@ const postResults = [
       "Claude API를 n8n과 연동해서 자동화 워크플로우를 만드는 방법을 단계별로 정리했습니다.",
     votes: 89,
     comments: 12,
-    thumbnail: false,
   },
   {
     slug: "cursor-fullstack",
@@ -48,7 +47,7 @@ const postResults = [
       "바이브 코딩으로 실제 서비스를 만드는 과정을 처음부터 끝까지 공유합니다.",
     votes: 87,
     comments: 31,
-    thumbnail: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=240&h=160&fit=crop",
   },
 ];
 
@@ -207,13 +206,10 @@ function SearchPageInner() {
                       {post.author}
                     </span>
                     <span className="text-sm text-sub-foreground">
-                      @{post.username}
-                    </span>
-                    <span className="text-sm text-sub-foreground">
                       · {post.time}
                     </span>
                   </div>
-                  <p className="text-sm text-secondary-foreground leading-relaxed line-clamp-3 mb-2">
+                  <p className="text-sm font-regular text-foreground leading-relaxed line-clamp-3 mb-2">
                     {post.content}
                   </p>
                   <div className="flex items-center gap-4 text-sm text-sub-foreground">

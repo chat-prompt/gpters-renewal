@@ -117,7 +117,7 @@ export default function StudyLandingPage() {
             {cohort.tagline}
           </h1>
           <div className="w-fit mx-auto rounded-xl bg-background/60 backdrop-blur-sm border border-border/50 px-8 py-6 mb-8">
-            <p className="text-sm md:text-base text-sub-foreground leading-relaxed whitespace-pre-line">
+            <p className="text-sm md:text-base font-regular text-sub-foreground leading-relaxed whitespace-pre-line">
               {cohort.description}
             </p>
           </div>
@@ -330,7 +330,7 @@ export default function StudyLandingPage() {
                   {review.name}
                 </span>
               </div>
-              <p className="text-sm text-sub-foreground leading-relaxed line-clamp-4">
+              <p className="text-sm font-regular text-sub-foreground leading-relaxed line-clamp-4">
                 {review.text}
               </p>
               <span className="inline-block text-xs text-sub-foreground bg-muted px-2 py-0.5 rounded-full">
@@ -370,7 +370,7 @@ export default function StudyLandingPage() {
                   </button>
                   {isOpen && (
                     <div className="px-4 pb-4">
-                      <p className="text-sm text-sub-foreground leading-relaxed">
+                      <p className="text-sm font-regular text-sub-foreground leading-relaxed">
                         {faq.a}
                       </p>
                     </div>

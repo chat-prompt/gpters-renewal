@@ -34,7 +34,7 @@ const allPosts = [
       "이번에 Claude를 활용해서 마케팅 이메일 자동화 파이프라인을 구축한 경험을 공유합니다. 매주 3시간 걸리던 작업이 30분으로 줄었어요.",
     votes: 142,
     comments: 23,
-    thumbnail: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=240&h=160&fit=crop",
   },
   {
     slug: "gpt4o-prompt",
@@ -47,7 +47,6 @@ const allPosts = [
       "프롬프트 엔지니어링 기초부터 고급 기법까지 체계적으로 정리했습니다. 비개발자도 쉽게 따라할 수 있는 가이드.",
     votes: 98,
     comments: 15,
-    thumbnail: false,
   },
   {
     slug: "cursor-fullstack",
@@ -60,7 +59,7 @@ const allPosts = [
       "바이브 코딩으로 실제 서비스를 만드는 과정을 처음부터 끝까지 공유합니다. React + Supabase 조합으로 진행.",
     votes: 87,
     comments: 31,
-    thumbnail: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=240&h=160&fit=crop",
   },
   {
     slug: "n8n-automation",
@@ -73,7 +72,6 @@ const allPosts = [
       "반복적인 업무를 n8n 워크플로우로 자동화한 실전 사례를 소개합니다. Slack 알림부터 데이터 수집까지.",
     votes: 65,
     comments: 12,
-    thumbnail: false,
   },
   {
     slug: "ai-business-plan",
@@ -86,7 +84,6 @@ const allPosts = [
       "ChatGPT와 Claude를 활용하여 투자 유치용 사업계획서를 작성하는 방법을 단계별로 안내합니다.",
     votes: 76,
     comments: 19,
-    thumbnail: false,
   },
   {
     slug: "midjourney-branding",
@@ -99,7 +96,7 @@ const allPosts = [
       "Midjourney V6의 새로운 기능을 활용하여 브랜드 로고와 마케팅 이미지를 직접 만드는 과정을 공유합니다.",
     votes: 65,
     comments: 8,
-    thumbnail: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1609921141835-710b7fa6e438?w=240&h=160&fit=crop",
   },
   {
     slug: "runway-short-film",
@@ -112,7 +109,7 @@ const allPosts = [
       "AI 영상 생성 도구 Runway Gen-3를 활용해서 3분짜리 단편 영상을 만든 전체 과정과 팁을 공유합니다.",
     votes: 54,
     comments: 17,
-    thumbnail: true,
+    thumbnailUrl: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=240&h=160&fit=crop",
   },
   {
     slug: "ai-trend-2025",
@@ -125,7 +122,6 @@ const allPosts = [
       "올해 하반기부터 주목해야 할 AI 산업 트렌드를 정리했습니다. 에이전트, 멀티모달, 온디바이스 AI까지.",
     votes: 112,
     comments: 27,
-    thumbnail: false,
   },
 ];
 
@@ -184,7 +180,7 @@ export default function FeedPage() {
 
   return (
     <div className="overflow-x-clip">
-      <div className="mx-auto max-w-[640px] px-6 py-page">
+      <div className="mx-auto max-w-[640px] px-6 pt-group pb-page">
         {/* 카테고리 섹션 */}
         <CategoryFilter
           categories={categoryTabs}
@@ -235,7 +231,7 @@ export default function FeedPage() {
           <div className="sticky top-20 space-y-10">
             {/* Editor Picks */}
             <div>
-              <h3 className="text-base font-semibold text-muted-foreground mb-3">에디터 픽</h3>
+              <h3 className="text-base font-semibold text-sub-foreground mb-3">에디터 픽</h3>
               <div className="space-y-6">
                 {editorPicks.map((pick) => (
                   <Link
@@ -245,14 +241,14 @@ export default function FeedPage() {
                   >
                     <div className="flex items-center gap-2 mb-2">
                       <div className="w-5 h-5 rounded-full bg-muted shrink-0" />
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-sm text-secondary-foreground font-medium">
                         {pick.author}
                       </span>
                     </div>
                     <p className="font-semibold text-foreground group-hover:underline line-clamp-2 leading-snug">
                       {pick.title}
                     </p>
-                    <p className="text-sm text-muted-foreground mt-1.5">
+                    <p className="text-sm font-regular text-muted-foreground mt-1.5">
                       {pick.time}
                     </p>
                   </Link>
@@ -262,7 +258,7 @@ export default function FeedPage() {
 
             {/* Recommended Topics */}
             <div>
-              <h3 className="text-base font-semibold text-muted-foreground mb-3">추천 토픽</h3>
+              <h3 className="text-base font-semibold text-sub-foreground mb-3">추천 토픽</h3>
               <div className="flex flex-wrap gap-2">
                 {recommendedTopics.map((topic) => (
                   <Link
@@ -278,7 +274,7 @@ export default function FeedPage() {
 
             {/* Who to Follow */}
             <div>
-              <h3 className="text-base font-semibold text-muted-foreground mb-3">추천 작성자</h3>
+              <h3 className="text-base font-semibold text-sub-foreground mb-3">추천 작성자</h3>
               <div className="space-y-1">
                 {whoToFollow.map((user) => (
                   <UserRow

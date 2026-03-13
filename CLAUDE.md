@@ -23,7 +23,7 @@ GPTers 커뮤니티 사이트(gpters.org) 리뉴얼 프로젝트. Bettermode 기
 - **대상 사용자**: AI 활용에 관심 있는 일반인 (비개발자 중심)
 - **핵심 기능**: 콘텐츠 커뮤니티 + AI 스터디 + AI 이력서
 - **브랜드 컬러**: GPTers Orange (#EF6020)
-- **현재 단계**: 프로토타입 완성 (정적 목업 46페이지, 백엔드 미연결)
+- **현재 단계**: 프로토타입 완성 (정적 목업 48페이지, 백엔드 미연결)
 - **GitHub**: `chat-prompt/gpters-renewal` (push 시 `gh auth switch --user hskim-a11y` 필요)
 
 ## Commands
@@ -59,7 +59,11 @@ app/globals.css
 
 **globals.css가 유일한 디자인 토큰 소스.** 외부 import 없이 모든 색상/radius/폰트를 `@theme` 블록에 hex값으로 직접 정의한다.
 
+**Tailwind v4 `--spacing-*` 이름 충돌 주의:** Tailwind v4는 spacing 토큰에서 `inline-*`, `max-*` 등 접두사를 자동 조합하여 유틸리티를 생성한다. 예: `--spacing-block`은 `.inline-block { inline-size: 24px }`를 만들어 `display: inline-block`과 충돌. 새 spacing 토큰 추가 시 Tailwind 유틸리티 이름과 겹치지 않는지 확인 필수.
+
 PostCSS: `postcss.config.mjs`에서 `@tailwindcss/postcss` 플러그인 사용.
+
+> **주의:** 루트에도 `globals.css`가 있지만 이것은 shadcn CLI(`components.json`)가 참조하는 파일일 뿐, 앱에서 import하지 않는다. 런타임 디자인 토큰은 `app/globals.css`만 사용.
 
 ### shadcn/ui
 
@@ -74,7 +78,7 @@ PostCSS: `postcss.config.mjs`에서 `@tailwindcss/postcss` 플러그인 사용.
 
 ## 디자인 시스템
 
-디자인 방향은 **Medium/Reddit 혼합** — 콘텐츠 탐색은 Medium 스타일(리스트형 카드, excerpt 미리보기, 좋아요), 커뮤니티/댓글은 Reddit 스타일(계층형 댓글, 피드 포스트). 초기 Reddit-inspired에서 Medium 방향으로 진화함 (`docs/design/ux-decisions.md` 참조).
+디자인 방향은 **Medium + Threads** — 콘텐츠 탐색(인사이트)은 Medium 스타일(리스트형 카드, excerpt 미리보기, Heart 좋아요), 커뮤니티는 Threads 스타일(1컬럼 피드, 사이드바 없음). 초기 Reddit-inspired에서 진화함 (`docs/design/ux-decisions.md` 참조).
 
 ### 색상 토큰 (globals.css @theme)
 
@@ -105,17 +109,17 @@ PostCSS: `postcss.config.mjs`에서 `@tailwindcss/postcss` 플러그인 사용.
 
 ### Spacing 가이드
 
-`globals.css @theme`에 시맨틱 spacing 토큰 등록됨. 코드에서는 `pt-section`, `gap-block` 등 시맨틱 클래스 사용.
+`globals.css @theme`에 시맨틱 spacing 토큰 등록됨. 코드에서는 `pt-section`, `gap-group`, `py-page`, `mb-component` 등 시맨틱 클래스 사용.
 
 | 토큰 | 값 | Tailwind 대응 | 용도 |
 |------|-----|--------------|------|
 | `--spacing-inline` | 0.5rem (8px) | `p-2` | 요소 내부: 아이콘+텍스트, 아바타+이름 |
 | `--spacing-component` | 1rem (16px) | `p-4` | 컴포넌트 내부: 제목→excerpt→메타 |
-| `--spacing-block` | 1.5rem (24px) | `p-6` | 컴포넌트 간: 정렬→게시글리스트 |
+| `--spacing-group` | 1.5rem (24px) | `p-6` | 컴포넌트 간: 정렬→게시글리스트 |
 | `--spacing-section` | 3.5rem (56px) | `p-14` | 섹션 간: 카테고리섹션↔게시글섹션 |
 | `--spacing-page` | 3rem (48px) | `p-12` | 페이지 상하 여백 |
 
-**사용법:** `pt-section`, `gap-block`, `py-page`, `mb-component` 등 시맨틱 클래스 사용.
+**사용법:** `pt-section`, `gap-group`, `py-page`, `mb-component` 등 시맨틱 클래스 사용.
 
 **금지:**
 - `ml-13` 등 비표준 값 — 필요하면 `ml-[52px]` arbitrary value
@@ -128,6 +132,17 @@ PostCSS: `postcss.config.mjs`에서 `@tailwindcss/postcss` 플러그인 사용.
 - **제목 font-semibold** — `font-bold`/`font-extrabold` 금지 (예외: navbar 로고)
 - **아이콘 strokeWidth={1.5}** — 모든 lucide-react 아이콘에 적용
 - **아이콘 크기**: 액션(Heart, MessageSquare, Bookmark) `w-5 h-5`, 장식(Calendar, ChevronRight) `w-4 h-4`
+
+**폰트 굵기 — Tailwind 기본값과 다름 (globals.css @theme 재매핑):**
+
+| Tailwind 클래스 | 실제 값 | 용도 |
+|---|---|---|
+| `font-regular` | 300 | excerpt, 본문 미리보기, 캡션 (가벼운 텍스트) |
+| `font-medium` | 400 | 일반 본문 (브라우저 기본) |
+| `font-semibold` | 500 | 레이블, 작성자 이름, 소제목 |
+| `font-bold` | 600 | 페이지 제목, 헤더 (실제로 semibold 수준) |
+
+> `font-regular`는 Tailwind 기본에 없으므로 globals.css에 `.font-regular { font-weight: 300; }` 명시 정의됨
 
 ### 규칙
 
@@ -179,21 +194,24 @@ export default function Page() { return <PostCard {...posts[0]} /> }
 ```
 app/layout.tsx          # Root: Navbar + <main> + Footer (모든 페이지 공통)
 app/admin/layout.tsx    # Admin: 좌측 Sidebar + Content (admin/* 페이지 공통)
+app/study/my/layout.tsx # 수강생 대시보드: 좌측 Sidebar + Content (study/my/* 페이지 공통)
 ```
 
-### 페이지 (46개)
+### 페이지 (48개)
 
-**사이트 핵심** — 홈(`/`), 인사이트(`/explore/feed`), 커뮤니티(`/community/feed`), 게시글(`/posts/[slug]`), 글쓰기(`/write`), 검색(`/search`), 태그(`/tag/[slug]`), 메시지(`/messages`)
+**사이트 핵심** — 홈(`/`), 인사이트(`/explore/feed`), 커뮤니티 피드(`/community/feed`), 커뮤니티 상세(`/community/[id]`), 게시글(`/posts/[slug]`), 글쓰기(`/write`), 검색(`/search`), 태그(`/tag/[slug]`), 시리즈(`/series/[id]`), 메시지(`/messages`)
 
-**스터디** — 목록(`/study`), 상세(`/study/[slug]`), 체크아웃(`/checkout/[studyId]`)
+**이벤트** — 목록(`/events`), 상세(`/events/[id]`), 개설(`/events/create`), 수정(`/events/[id]/edit`)
 
-**수강생 LMS** — 내 스터디(`/study/my`), 학습(`/study/[slug]/learn`), 과제(`/study/[slug]/learn/tasks`), VOD(`/study/[slug]/learn/vod`), 수강이력(`/study/my/history`), 청강(`/study/my/audit`), 수료증(`/study/my/certificates`)
+**스터디** — 목록(`/study`), 상세(`/study/[slug]`), 체크아웃(`/checkout/[studyId]`), 완료(`/checkout/complete`)
+
+**수강생 LMS** — 내 스터디(`/study/my`), 학습(`/study/[slug]/learn`), 과제(`/study/[slug]/learn/tasks`), VOD(`/study/[slug]/learn/vod`), 수강이력(`/study/my/history`), 청강(`/study/my/audit`), 수료증(`/study/my/certificates`), 게시글(`/study/my/posts`)
 
 **스터디장** — 관리(`/study/manage/[slug]`), 수강생현황(`/study/manage/[slug]/members`), 공지(`/study/manage/[slug]/notices`), VOD관리(`/study/manage/[slug]/vod`)
 
 **프로필/설정** — AI이력서(`/profile/[username]`), 설정(`/settings`)
 
-**어드민** (14개) — 대시보드, 게시글, 스터디, 배너, 텍스트, 상품, 회원, 기수, 세션, 수료/환급, 분류, 신고/모더레이션, 뱃지, 리포트 (`/admin/*`)
+**어드민** (16개) — 대시보드, 게시글, 스터디, 배너, 화이트보드, 이벤트, 텍스트, 상품, 회원, 기수, 세션, 수료/환급, 분류, 신고/모더레이션, 뱃지, 리포트 (`/admin/*`)
 
 ### 컴포넌트 (74개)
 
@@ -201,8 +219,8 @@ app/admin/layout.tsx    # Admin: 좌측 Sidebar + Content (admin/* 페이지 공
 components/
 ├── navbar.tsx          # GNB ('use client') — 3-column 풀 와이드, SearchInput 내장
 ├── footer.tsx          # 푸터 (한 줄 텍스트)
-├── ui/    (20개)       # shadcn/ui 기반: button, card, select, avatar, table, input, checkbox, textarea 등
-├── site/  (39개)       # 사이트: post-card, feed-post, search-input, sidebar-study-list 등
+├── ui/    (18개)       # shadcn/ui 기반: button, card, select, avatar, table, input, checkbox, textarea 등
+├── site/  (41개)       # 사이트: post-card, feed-post, event-card, search-input, event-form 등
 ├── admin/ (4개)        # 어드민: stat-card, activity-feed, bulk-action-bar, quick-action
 └── lms/   (9개)        # LMS: week-progress, vod-card, attendance-matrix, enrollment-card 등
 ```
@@ -253,7 +271,7 @@ GPTers AI 스터디는 4주간의 커뮤니티형 학습 프로그램입니다.
 docs/
 ├── dev-guide.md                  # 개발 가이드: Batch 0~6, 31 테이블, 병렬 실행 계획
 ├── linear-issues.md              # 프로젝트 이슈 트래커 (Phase 1 완료, Phase 2 진행 중)
-├── page-review.md                # 37개 페이지 리뷰 & 레퍼런스 추적
+├── page-review.md                # 페이지 리뷰 & 레퍼런스 추적
 ├── prd/                          # 기능 명세서
 │   ├── 01-사이트-PRD.md           # 프론트엔드: 11개 기능, 7개 화면 스펙
 │   ├── 02-어드민-PRD.md           # 어드민: 17개 기능, flat IA, 6개 화면
