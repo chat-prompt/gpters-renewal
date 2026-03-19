@@ -197,31 +197,31 @@ export default function FeedPage() {
   );
 
   return (
-    <div className="overflow-x-clip">
-      <div className="mx-auto max-w-[680px] px-6 pt-group pb-page">
-        {/* 카테고리 섹션 */}
-        <CategoryFilter
-          categories={categoryTabs}
-          selected={selectedCategory}
-          onChange={(id) => {
-            setSelectedCategory(id);
-            setCurrentPage(1);
-          }}
-        />
+    <div className="mx-auto max-w-[860px] px-6 pt-group pb-page">
+      {/* 카테고리 섹션 */}
+      <CategoryFilter
+        categories={categoryTabs}
+        selected={selectedCategory}
+        onChange={(id) => {
+          setSelectedCategory(id);
+          setCurrentPage(1);
+        }}
+      />
 
-        {/* 게시글 섹션 — 카테고리와 섹션 간 간격 */}
-        <div className="pt-section">
-          {/* Sort + Count (게시글 섹션 내부) */}
-          <div className="flex items-center justify-between">
-            <SortTabs value={sortBy} onChange={(v) => { setSortBy(v); setCurrentPage(1); }} />
-            <span className="text-sm text-sub-foreground">
-              {filteredPosts.length}개의 글
-            </span>
-          </div>
+      {/* 게시글 섹션 — 카테고리와 섹션 간 간격 */}
+      <div className="pt-section">
+        {/* Sort + Count */}
+        <div className="flex items-center justify-between">
+          <SortTabs value={sortBy} onChange={(v) => { setSortBy(v); setCurrentPage(1); }} />
+          <span className="text-sm text-sub-foreground">
+            {filteredPosts.length}개의 글
+          </span>
+        </div>
 
-          {/* Post List + Sidebar */}
-          <div className="relative">
-          <div>
+        {/* Post List + Sidebar */}
+        <div className="flex gap-10 items-start">
+          {/* Main */}
+          <div className="flex-1 min-w-0">
             {paginatedPosts.length > 0 ? (
               <div className="divide-y divide-border">
                 {paginatedPosts.map((post) => (
@@ -244,61 +244,60 @@ export default function FeedPage() {
             </div>
           </div>
 
-          {/* Sidebar — 게시글 목록과 같은 높이에서 시작 */}
-          <aside className="w-72 hidden xl:block absolute left-full top-0 ml-16">
-          <div className="sticky top-20 space-y-10">
-            {/* Editor Picks */}
-            <div>
-              <h3 className="text-base font-semibold text-sub-foreground mb-3">에디터 픽</h3>
-              <div className="space-y-6">
-                {editorPicks.map((pick) => (
-                  <Link
-                    key={pick.slug}
-                    href={`/posts/${pick.slug}`}
-                    className="block group"
-                  >
-                    <div className="flex items-center gap-2 mb-2">
-                      <Avatar size="sm" />
-                      <span className="text-sm text-secondary-foreground font-medium">
-                        {pick.author}
-                      </span>
-                    </div>
-                    <p className="font-semibold text-foreground group-hover:underline line-clamp-2 leading-snug">
-                      {pick.title}
-                    </p>
-                    <p className="text-sm font-regular text-muted-foreground mt-1.5">
-                      {pick.time}
-                    </p>
-                  </Link>
-                ))}
+          {/* Sidebar */}
+          <aside className="w-64 hidden lg:block shrink-0 sticky top-20">
+            <div className="space-y-10">
+              {/* Editor Picks */}
+              <div>
+                <h3 className="text-base font-semibold text-sub-foreground mb-3">에디터 픽</h3>
+                <div className="space-y-6">
+                  {editorPicks.map((pick) => (
+                    <Link
+                      key={pick.slug}
+                      href={`/posts/${pick.slug}`}
+                      className="block group"
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <Avatar size="sm" />
+                        <span className="text-sm text-secondary-foreground font-medium">
+                          {pick.author}
+                        </span>
+                      </div>
+                      <p className="font-semibold text-foreground group-hover:underline line-clamp-2 leading-snug">
+                        {pick.title}
+                      </p>
+                      <p className="text-sm font-regular text-muted-foreground mt-1.5">
+                        {pick.time}
+                      </p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Recommended Topics */}
+              <div>
+                <h3 className="text-base font-semibold text-sub-foreground mb-3">추천 토픽</h3>
+                <TagList tags={recommendedTopics} variant="pill" />
+              </div>
+
+              {/* Who to Follow */}
+              <div>
+                <h3 className="text-base font-semibold text-sub-foreground mb-3">추천 작성자</h3>
+                <div className="space-y-1">
+                  {whoToFollow.map((user) => (
+                    <UserRow
+                      key={user.username}
+                      name={user.name}
+                      username={user.username}
+                      description={user.bio}
+                      href={`/profile/${user.username}`}
+                      showFollowButton
+                    />
+                  ))}
+                </div>
               </div>
             </div>
-
-            {/* Recommended Topics */}
-            <div>
-              <h3 className="text-base font-semibold text-sub-foreground mb-3">추천 토픽</h3>
-              <TagList tags={recommendedTopics} variant="pill" />
-            </div>
-
-            {/* Who to Follow */}
-            <div>
-              <h3 className="text-base font-semibold text-sub-foreground mb-3">추천 작성자</h3>
-              <div className="space-y-1">
-                {whoToFollow.map((user) => (
-                  <UserRow
-                    key={user.username}
-                    name={user.name}
-                    username={user.username}
-                    description={user.bio}
-                    href={`/profile/${user.username}`}
-                    showFollowButton
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </aside>
-        </div>
+          </aside>
         </div>
       </div>
     </div>

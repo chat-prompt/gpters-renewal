@@ -21,9 +21,9 @@ import { SearchInput } from "@/components/site/search-input";
 
 const navItems = [
   { label: "인사이트", href: "/explore/feed" },
-  { label: "스터디", href: "/study" },
   { label: "커뮤니티", href: "/community/feed" },
   { label: "이벤트", href: "/events" },
+  { label: "스터디", href: "/study" },
 ];
 
 const notifications = [
@@ -79,9 +79,9 @@ export function Navbar() {
     <header className="border-b border-border bg-background sticky top-0 z-50">
       <div className="flex items-center justify-between px-6 h-14">
         {/* Left: Logo + Search */}
-        <div className="flex items-center gap-4 flex-1">
-          <Link href="/" className="text-foreground font-bold text-lg shrink-0">
-            GPTers
+        <div className="flex items-center gap-6 flex-1">
+          <Link href="/" className="shrink-0">
+            <img src="/logo.svg" alt="GPTers" className="h-7" />
           </Link>
           <SearchInput />
         </div>

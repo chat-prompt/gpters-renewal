@@ -147,8 +147,7 @@ const relatedPosts = [
 
 export default function PostDetailPage() {
   return (
-    <div className="overflow-x-clip">
-      <div className="mx-auto max-w-[680px] px-6 py-page">
+    <div className="mx-auto max-w-[860px] px-6 py-page">
       {/* Breadcrumb */}
       <div className="mb-6">
         <Breadcrumb
@@ -160,9 +159,9 @@ export default function PostDetailPage() {
         />
       </div>
 
-      <div className="relative">
+      <div className="flex gap-8 items-start">
         {/* Main Content */}
-        <article>
+        <article className="flex-1 min-w-0">
           {/* Series Label */}
           <Link
             href={`/series/${seriesInfo.id}`}
@@ -265,10 +264,9 @@ const response = await anthropic.messages.create({
         </article>
 
         {/* Sticky Sidebar (Desktop) */}
-        <div className="absolute left-full top-0 ml-8">
+        <div className="hidden lg:block sticky top-20 shrink-0">
           <PostActionsSidebar votes={post.votes} comments={post.comments} />
         </div>
-      </div>
       </div>
     </div>
   );
