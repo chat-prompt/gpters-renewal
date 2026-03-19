@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button";
 
 interface InlinePostFormProps {
   placeholder?: string;
+  onSubmit?: (content: string) => void;
 }
 
-export function InlinePostForm({ placeholder = "무슨 AI 이야기를 나누고 싶으신가요?" }: InlinePostFormProps) {
+export function InlinePostForm({ placeholder = "무슨 AI 이야기를 나누고 싶으신가요?", onSubmit }: InlinePostFormProps) {
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -92,7 +93,11 @@ export function InlinePostForm({ placeholder = "무슨 AI 이야기를 나누고
               <Button
                 size="sm"
                 disabled={isEmpty}
-                onClick={() => setContent("")}
+                onClick={() => {
+                  onSubmit?.(content.trim());
+                  setContent("");
+                  setOpen(false);
+                }}
               >
                 포스트 게시
               </Button>

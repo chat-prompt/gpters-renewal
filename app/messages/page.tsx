@@ -123,7 +123,7 @@ const receivedMessages = [
   },
 ];
 
-const sentMessages = [
+const initialSentMessages = [
   { to: "박민수", username: "parkminsu", subject: "스터디 과제 관련 질문", time: "2일 전" },
   { to: "김영호", username: "kimyoungho", subject: "re: 자동화 파이프라인 공유", time: "1주 전" },
 ];
@@ -142,11 +142,14 @@ export default function MessagesPage() {
   const [to, setTo] = useState("");
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
+  const [sentMessages, setSentMessages] = useState(initialSentMessages);
 
   const unreadNotifications = notifications.filter((n) => n.unread).length;
   const unreadMessages = receivedMessages.filter((m) => m.unread).length;
 
   function handleSend() {
+    setSentMessages(prev => [{ to, username: to, subject, time: "방금 전" }, ...prev]);
+    setActiveTab("sent");
     setComposing(false);
     setTo("");
     setSubject("");

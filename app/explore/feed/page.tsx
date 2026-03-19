@@ -167,6 +167,8 @@ const whoToFollow = [
   { username: "parkchulsoo", name: "박철수", bio: "바이브 코딩으로 10개 서비스 런칭", posts: 27 },
 ];
 
+const POSTS_PER_PAGE = 5;
+
 /* ─── Page ─── */
 
 export default function FeedPage() {
@@ -188,6 +190,12 @@ export default function FeedPage() {
     return posts;
   }, [selectedCategory, sortBy]);
 
+  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+  const paginatedPosts = filteredPosts.slice(
+    (currentPage - 1) * POSTS_PER_PAGE,
+    currentPage * POSTS_PER_PAGE
+  );
+
   return (
     <div className="overflow-x-clip">
       <div className="mx-auto max-w-[680px] px-6 pt-group pb-page">
@@ -205,7 +213,7 @@ export default function FeedPage() {
         <div className="pt-section">
           {/* Sort + Count (게시글 섹션 내부) */}
           <div className="flex items-center justify-between">
-            <SortTabs value={sortBy} onChange={setSortBy} />
+            <SortTabs value={sortBy} onChange={(v) => { setSortBy(v); setCurrentPage(1); }} />
             <span className="text-sm text-sub-foreground">
               {filteredPosts.length}개의 글
             </span>
@@ -214,9 +222,9 @@ export default function FeedPage() {
           {/* Post List + Sidebar */}
           <div className="relative">
           <div>
-            {filteredPosts.length > 0 ? (
+            {paginatedPosts.length > 0 ? (
               <div className="divide-y divide-border">
-                {filteredPosts.map((post) => (
+                {paginatedPosts.map((post) => (
                   <PostCard key={post.slug} {...post} />
                 ))}
               </div>
@@ -230,7 +238,7 @@ export default function FeedPage() {
             <div className="pt-6">
               <Pagination
                 currentPage={currentPage}
-                totalPages={5}
+                totalPages={totalPages}
                 onPageChange={setCurrentPage}
               />
             </div>

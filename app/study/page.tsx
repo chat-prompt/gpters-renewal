@@ -111,7 +111,7 @@ export default function StudyLandingPage() {
     <div>
       {/* ── Section 1: Hero ── */}
       <section className="bg-gradient-to-b from-primary/10 via-primary/5 to-transparent py-20">
-        <div className="mx-auto max-w-[1080px] px-6 text-center">
+        <div className="mx-auto max-w-[860px] px-6 text-center">
           <span className="block w-fit mx-auto px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
             {cohort.waitlistCount}명이 스터디를 기다리고 있어요!
           </span>
@@ -149,7 +149,7 @@ export default function StudyLandingPage() {
       </section>
 
       {/* ── Section 2: Programs ── */}
-      <section className="mx-auto max-w-[1080px] px-6 py-16">
+      <section className="mx-auto max-w-[860px] px-6 py-16">
         <div className="text-center mb-10">
           <p className="text-sm text-primary font-medium mb-2">Programs</p>
           <h2 className="text-2xl font-bold text-foreground mb-2">
@@ -232,7 +232,7 @@ export default function StudyLandingPage() {
       {/* ── Section 3: Pricing ── */}
       {isRecruiting && (
         <section className="bg-muted/30 py-16">
-          <div className="mx-auto max-w-[1080px] px-6">
+          <div className="mx-auto max-w-[860px] px-6">
             <div className="text-center mb-10">
               <p className="text-sm text-primary font-medium mb-2">
                 특별 혜택가
@@ -299,7 +299,7 @@ export default function StudyLandingPage() {
       )}
 
       {/* ── Section 4: Reviews ── */}
-      <section className="mx-auto max-w-[1080px] px-6 py-16">
+      <section className="mx-auto max-w-[860px] px-6 py-16">
         <div className="text-center mb-10">
           <p className="text-sm text-primary font-medium mb-2">
             AI스터디 미리보기
@@ -338,7 +338,7 @@ export default function StudyLandingPage() {
 
       {/* ── Section 5: FAQ ── */}
       <section className="bg-muted/30 py-16">
-        <div className="mx-auto max-w-[1080px] px-6">
+        <div className="mx-auto max-w-[860px] px-6">
           <h2 className="text-2xl font-bold text-foreground text-center mb-2">
             자주 묻는 질문
           </h2>
@@ -379,7 +379,7 @@ export default function StudyLandingPage() {
 
       {/* ── Section 6: Footer CTA ── */}
       <section className="py-20">
-        <div className="mx-auto max-w-[1080px] px-6 text-center">
+        <div className="mx-auto max-w-[860px] px-6 text-center">
           <h2 className="text-2xl font-bold text-foreground mb-2">
             빠르게 변화하는 AI 시대,
             <br />

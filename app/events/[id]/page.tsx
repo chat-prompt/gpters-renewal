@@ -179,7 +179,7 @@ export default function EventDetailPage() {
 
   if (!event) {
     return (
-      <div className="max-w-[1080px] mx-auto px-6 py-16 text-center">
+      <div className="max-w-[860px] mx-auto px-6 py-16 text-center">
         <p className="text-sub-foreground">이벤트를 찾을 수 없습니다.</p>
         <Link href="/events" className="text-sm text-primary mt-4 inline-block">
           이벤트 목록으로 돌아가기
@@ -194,7 +194,7 @@ export default function EventDetailPage() {
   const fillPercent = Math.round((displayAttendees / event.capacity) * 100);
 
   return (
-    <div className="max-w-[1080px] mx-auto px-6 py-page">
+    <div className="max-w-[860px] mx-auto px-6 py-page">
       {/* Preview Banner */}
       {!isPublicStatus && (
         <div className="mb-6 p-3 rounded-lg border border-primary/30 bg-accent text-sm text-primary">
@@ -338,7 +338,7 @@ export default function EventDetailPage() {
         </div>
 
         {/* Right: Registration Card (sticky) */}
-        <aside className="w-72 shrink-0 hidden lg:block sticky top-20">
+        <aside className="w-64 shrink-0 hidden lg:block sticky top-20">
           <div className="border border-border rounded-xl p-5 space-y-4">
             {/* Price */}
             <div className="text-center pb-4 border-b border-border">
@@ -397,7 +397,7 @@ export default function EventDetailPage() {
 
       {/* Mobile CTA (sticky bottom) */}
       <div className="fixed bottom-0 left-0 right-0 lg:hidden border-t border-border bg-background px-4 py-3">
-        <div className="flex items-center justify-between max-w-[1080px] mx-auto">
+        <div className="flex items-center justify-between max-w-[860px] mx-auto">
           <div>
             <p className="text-base font-semibold text-foreground">
               {event.free ? "무료" : event.price}

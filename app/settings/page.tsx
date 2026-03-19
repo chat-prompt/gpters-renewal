@@ -47,12 +47,17 @@ const coupons = [
   },
 ];
 
-const interestTags = [
+const allInterestOptions = [
   "AI 자동화",
   "프롬프트 엔지니어링",
   "n8n",
   "ChatGPT",
   "노코드",
+  "Claude API",
+  "바이브코딩",
+  "AI 비즈니스",
+  "데이터분석",
+  "AI 디자인",
 ];
 
 const tabItems = [
@@ -69,6 +74,10 @@ export default function SettingsPage() {
   const [commentNoti, setCommentNoti] = useState(true);
   const [marketingNoti, setMarketingNoti] = useState(false);
 
+  const [selectedInterests, setSelectedInterests] = useState(["AI 자동화", "프롬프트 엔지니어링", "n8n", "ChatGPT", "노코드"]);
+  const toggleInterest = (tag: string) =>
+    setSelectedInterests(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
+
   const [profileForm, setProfileForm] = useState({
     name: "김철수",
     bio: "AI를 활용한 업무 자동화에 관심이 많은 마케터입니다.",
@@ -79,7 +88,6 @@ export default function SettingsPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = () => {
-    alert("설정이 저장되었습니다.");
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
@@ -92,7 +100,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="mx-auto max-w-[1080px] px-6 py-page">
+    <div className="mx-auto max-w-[860px] px-6 py-page">
       <Link
         href="/"
         className="inline-flex items-center gap-1 text-sm text-sub-foreground hover:text-foreground transition-colors mb-4"
@@ -170,8 +178,13 @@ export default function SettingsPage() {
                 관심 분야
               </label>
               <div className="flex flex-wrap gap-2">
-                {interestTags.map((tag) => (
-                  <Badge key={tag} variant="pill">
+                {allInterestOptions.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant={selectedInterests.includes(tag) ? "active" : "default"}
+                    className="cursor-pointer"
+                    onClick={() => toggleInterest(tag)}
+                  >
                     {tag}
                   </Badge>
                 ))}

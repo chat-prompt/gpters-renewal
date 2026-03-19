@@ -184,6 +184,20 @@ export default function CommunityFeedPage() {
       ? "질문이 있으신가요?"
       : "무슨 AI 이야기를 나누고 싶으신가요?";
 
+  const handleNewPost = (content: string) => {
+    const newPost = {
+      id: `new-${Date.now()}`,
+      author: "홍길동",
+      username: "honggildong",
+      time: "방금 전",
+      content,
+      tags: [] as string[],
+      votes: 0,
+      comments: 0,
+    };
+    setPosts((prev) => [newPost, ...prev]);
+  };
+
   return (
     <div className="mx-auto max-w-[680px] px-6 py-page space-y-5">
       {/* Tab Navigation */}
@@ -204,7 +218,7 @@ export default function CommunityFeedPage() {
       </div>
 
       {/* Inline Post Form */}
-      <InlinePostForm placeholder={placeholderText} />
+      <InlinePostForm placeholder={placeholderText} onSubmit={activeTab === "feed" ? handleNewPost : undefined} />
 
       {/* Sort Toggle */}
       <SortTabs

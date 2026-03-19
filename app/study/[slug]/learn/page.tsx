@@ -88,7 +88,7 @@ export default function StudyLearnPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-[1080px] px-6 py-page space-y-6">
+    <div className="mx-auto max-w-[860px] px-6 py-page space-y-6">
       <Breadcrumb
         items={[
           { label: "내 스터디", href: "/study/my" },

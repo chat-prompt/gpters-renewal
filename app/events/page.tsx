@@ -157,7 +157,7 @@ export default function EventsPage() {
     });
 
   return (
-    <div className="max-w-[1080px] mx-auto px-6 py-page">
+    <div className="max-w-[860px] mx-auto px-6 py-page">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>

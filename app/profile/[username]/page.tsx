@@ -390,7 +390,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<"posts" | "series" | "events" | "bookmarks" | "followers" | "following">("posts");
 
   return (
-    <div className="mx-auto max-w-[1080px] px-6 py-page">
+    <div className="mx-auto max-w-[860px] px-6 py-page">
       {/* ProfileHeader - full width */}
       <ProfileHeader
         user={{

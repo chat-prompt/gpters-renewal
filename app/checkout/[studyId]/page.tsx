@@ -80,14 +80,24 @@ export default function CheckoutPage() {
             onChange={(e) => setCouponCode(e.target.value)}
             disabled={couponApplied}
           />
-          <Button
-            variant={couponApplied ? "secondary" : "default"}
-            onClick={handleApplyCoupon}
-            disabled={couponApplied || !couponCode.trim()}
-            className="shrink-0"
-          >
-            {couponApplied ? "적용됨" : "적용"}
-          </Button>
+          {couponApplied ? (
+            <Button
+              size="sm"
+              variant="ghost"
+              className="shrink-0"
+              onClick={() => { setCouponApplied(false); setCouponCode(""); }}
+            >
+              취소
+            </Button>
+          ) : (
+            <Button
+              className="shrink-0"
+              onClick={handleApplyCoupon}
+              disabled={!couponCode.trim()}
+            >
+              적용
+            </Button>
+          )}
         </div>
         {couponApplied && (
           <p className="text-sm text-primary flex items-center gap-1">

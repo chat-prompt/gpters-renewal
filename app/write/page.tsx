@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FeedPostForm } from "@/components/site/feed-post-form";
@@ -46,12 +45,12 @@ export default function WritePage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <Link
-            href="/explore/feed"
+          <button
+            onClick={() => router.back()}
             className="text-sub-foreground"
           >
             <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
-          </Link>
+          </button>
           <h1 className="text-xl font-semibold text-foreground">글쓰기</h1>
         </div>
         <Button

@@ -163,7 +163,7 @@ export default function StudyDetailPage() {
   const deadline = "2026.03.10";
 
   return (
-    <div className="mx-auto max-w-[1080px] px-6 py-page">
+    <div className="mx-auto max-w-[860px] px-6 py-page">
       <StudyHero
         cohort="21기"
         title="21기 AI 자동화 스터디"
@@ -258,7 +258,7 @@ export default function StudyDetailPage() {
         </div>
 
         {/* Desktop Sticky CTA */}
-        <aside className="hidden lg:block w-72 shrink-0">
+        <aside className="hidden lg:block w-64 shrink-0">
           <div className="sticky top-8 border border-border rounded-lg p-6 bg-background space-y-4">
             <div>
               <p className="text-xs text-sub-foreground line-through">
@@ -290,7 +290,7 @@ export default function StudyDetailPage() {
 
       {/* Mobile Sticky CTA */}
       <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-background p-4 lg:hidden z-50">
-        <div className="flex items-center justify-between max-w-[1080px] mx-auto">
+        <div className="flex items-center justify-between max-w-[860px] mx-auto">
           <div>
             <p className="text-foreground font-bold">269,000원</p>
             <p className="text-xs text-sub-foreground">

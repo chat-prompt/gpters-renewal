@@ -34,7 +34,7 @@ export default function MyStudyLayout({
       : pathname.startsWith(href);
 
   return (
-    <div className="mx-auto max-w-[1080px] px-4 py-8">
+    <div className="mx-auto max-w-[860px] px-4 py-8">
       {/* 모바일: 수평 스크롤 탭 */}
       <nav className="md:hidden mb-6 -mx-4 px-4 overflow-x-auto flex gap-1 border-b border-border pb-3">
         {menuItems.map((item) => (

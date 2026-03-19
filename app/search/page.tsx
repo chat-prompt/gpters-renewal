@@ -107,7 +107,7 @@ const communityResults = [
 
 /* ── Type Tabs ── */
 
-type FilterType = "게시글" | "커뮤니티" | "스터디" | "사용자";
+type FilterType = "전체" | "게시글" | "커뮤니티" | "스터디" | "사용자";
 
 /* ── Page ── */
 
@@ -122,11 +122,12 @@ export default function SearchPage() {
 function SearchPageInner() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") ?? "";
-  const [selectedType, setSelectedType] = useState<FilterType>("게시글");
+  const [selectedType, setSelectedType] = useState<FilterType>("전체");
   const [currentPage, setCurrentPage] = useState(1);
 
   const counts = useMemo(
     () => ({
+      전체: postResults.length + communityResults.length + studyResults.length + userResults.length,
       게시글: postResults.length,
       커뮤니티: communityResults.length,
       스터디: studyResults.length,
@@ -135,7 +136,7 @@ function SearchPageInner() {
     []
   );
 
-  const types: FilterType[] = ["게시글", "커뮤니티", "스터디", "사용자"];
+  const types: FilterType[] = ["전체", "게시글", "커뮤니티", "스터디", "사용자"];
 
   if (!query) {
     return (
@@ -152,7 +153,9 @@ function SearchPageInner() {
         &ldquo;{query}&rdquo; 검색 결과
       </h1>
       <p className="text-sm text-sub-foreground mb-6">
-        {counts[selectedType]}건
+        {selectedType === "전체"
+          ? `${counts["전체"]}건`
+          : `${counts[selectedType]}건`}
       </p>
 
       {/* Type Filter */}
@@ -176,7 +179,7 @@ function SearchPageInner() {
       </div>
 
       {/* Post Results */}
-      {selectedType === "게시글" && postResults.length > 0 && (
+      {(selectedType === "전체" || selectedType === "게시글") && postResults.length > 0 && (
         <section className="mb-8">
           <div className="divide-y divide-border">
             {postResults.map((post) => (
@@ -187,7 +190,7 @@ function SearchPageInner() {
       )}
 
       {/* Community Results — Threads style */}
-      {selectedType === "커뮤니티" && communityResults.length > 0 && (
+      {(selectedType === "전체" || selectedType === "커뮤니티") && communityResults.length > 0 && (
         <section className="mb-8">
           <div className="divide-y divide-border">
             {communityResults.map((post) => (
@@ -233,7 +236,7 @@ function SearchPageInner() {
       )}
 
       {/* Study Results */}
-      {selectedType === "스터디" && studyResults.length > 0 && (
+      {(selectedType === "전체" || selectedType === "스터디") && studyResults.length > 0 && (
         <section className="mb-8">
           <div className="divide-y divide-border">
             {studyResults.map((study) => (
@@ -260,7 +263,7 @@ function SearchPageInner() {
       )}
 
       {/* User Results */}
-      {selectedType === "사용자" && userResults.length > 0 && (
+      {(selectedType === "전체" || selectedType === "사용자") && userResults.length > 0 && (
         <section className="mb-8">
           <div className="divide-y divide-border">
             {userResults.map((user) => (

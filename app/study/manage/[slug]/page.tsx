@@ -70,7 +70,7 @@ export default function StudyManagePage({
   const [bestPresenter, setBestPresenter] = useState<string | null>("김민지");
 
   return (
-    <div className="mx-auto max-w-[1080px] px-6 py-page space-y-6">
+    <div className="mx-auto max-w-[860px] px-6 py-page space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

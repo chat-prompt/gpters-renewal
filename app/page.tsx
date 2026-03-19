@@ -165,7 +165,7 @@ const whoToFollow = [
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-[1080px] px-6 py-page">
+    <div className="mx-auto max-w-[860px] px-6 py-page">
       {/* Hero Carousel */}
       <div className="mb-8">
         <HeroCarousel slides={heroSlides} />
@@ -259,7 +259,7 @@ export default function Home() {
         </div>
 
         {/* Sidebar */}
-        <aside className="w-80 hidden lg:flex flex-col shrink-0 sticky top-20">
+        <aside className="w-64 hidden lg:flex flex-col shrink-0 sticky top-20">
           {/* Community Snapshot */}
           <div className="pb-8">
             <h3 className="text-base font-semibold text-foreground mb-3">
@@ -308,11 +308,11 @@ export default function Home() {
             <div className="space-y-1">
               {whoToFollow.map((user) => (
                 <UserRow
-                  key={user.name}
+                  key={user.username}
                   name={user.name}
-                  username={user.name}
+                  username={user.username}
                   description={user.bio}
-                  href={`/profile/${encodeURIComponent(user.name)}`}
+                  href={`/profile/${user.username}`}
                   showFollowButton
                 />
               ))}
