@@ -25,7 +25,7 @@ const nextSteps = [
 
 export default function CheckoutCompletePage() {
   return (
-    <div className="mx-auto max-w-lg px-4 py-16 space-y-8">
+    <div className="mx-auto max-w-[680px] px-6 py-16 space-y-8">
       {/* Success */}
       <div className="text-center space-y-3">
         <CheckCircle className="w-14 h-14 text-primary mx-auto" strokeWidth={1.5} />

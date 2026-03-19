@@ -154,7 +154,7 @@ export default function MessagesPage() {
   }
 
   return (
-    <div className="mx-auto max-w-[640px] px-6 py-page">
+    <div className="mx-auto max-w-[680px] px-6 py-page">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-semibold text-foreground">알림 & 메시지</h1>

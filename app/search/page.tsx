@@ -18,6 +18,7 @@ const postResults = [
     category: "AI활용법",
     title: "Claude로 마케팅 자동화 구축기",
     author: "홍길동",
+    username: "honggildong",
     time: "3시간 전",
     tags: ["Claude", "자동화"],
     excerpt:
@@ -31,6 +32,7 @@ const postResults = [
     category: "자동화",
     title: "Claude API와 n8n 연동 가이드",
     author: "이영희",
+    username: "leeyounghee",
     time: "2일 전",
     tags: ["n8n", "Claude"],
     excerpt:
@@ -43,6 +45,7 @@ const postResults = [
     category: "개발/코딩",
     title: "Cursor로 풀스택 앱 만들기",
     author: "박철수",
+    username: "parkchulsoo",
     time: "1일 전",
     tags: ["Cursor"],
     excerpt:
@@ -136,14 +139,14 @@ function SearchPageInner() {
 
   if (!query) {
     return (
-      <div className="mx-auto max-w-3xl px-6 py-16 text-center text-sm text-sub-foreground">
+      <div className="mx-auto max-w-[680px] px-6 py-16 text-center text-sm text-sub-foreground">
         검색어를 입력하세요.
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-page">
+    <div className="mx-auto max-w-[680px] px-6 py-page">
       {/* Query + Count */}
       <h1 className="text-xl font-semibold text-foreground mb-1">
         &ldquo;{query}&rdquo; 검색 결과

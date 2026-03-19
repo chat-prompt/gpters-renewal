@@ -130,7 +130,7 @@ export default function SeriesDetailPage({
 
   if (!series) {
     return (
-      <div className="max-w-3xl mx-auto px-4 py-page">
+      <div className="max-w-[680px] mx-auto px-6 py-page">
         <p className="text-sm text-sub-foreground">
           존재하지 않는 시리즈입니다.
         </p>
@@ -139,7 +139,7 @@ export default function SeriesDetailPage({
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-page">
+    <div className="max-w-[680px] mx-auto px-6 py-page">
       {/* Breadcrumb */}
       <Breadcrumb
         items={[

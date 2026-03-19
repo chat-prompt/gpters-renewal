@@ -92,7 +92,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="mx-auto max-w-[1080px] px-4 py-page">
+    <div className="mx-auto max-w-[1080px] px-6 py-page">
       <Link
         href="/"
         className="inline-flex items-center gap-1 text-sm text-sub-foreground hover:text-foreground transition-colors mb-4"

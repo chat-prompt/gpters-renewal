@@ -171,6 +171,7 @@ const bookmarkedPosts = [
     excerpt:
       "프론트엔드부터 백엔드, 배포까지 Cursor AI를 활용해 혼자서 3일 만에 완성한 실전 후기입니다.",
     author: "박철수",
+    username: "parkchulsoo",
     category: "바이브코딩",
     time: "2026.03.10",
     votes: 234,
@@ -183,6 +184,7 @@ const bookmarkedPosts = [
     excerpt:
       "매일 반복되는 슬랙 알림을 n8n 웹훅으로 자동화한 과정. 트리거 설정부터 에러 핸들링까지 정리했습니다.",
     author: "김영호",
+    username: "kimyoungho",
     category: "자동화",
     time: "2026.03.08",
     votes: 156,
@@ -195,6 +197,7 @@ const bookmarkedPosts = [
     excerpt:
       "Claude API를 프로덕션에서 6개월간 사용하며 얻은 실전 노하우. 토큰 최적화, 에러 핸들링, 프롬프트 캐싱 전략을 공유합니다.",
     author: "이수현",
+    username: "leesuhyun",
     category: "AI활용법",
     time: "2026.03.03",
     votes: 198,
@@ -207,6 +210,7 @@ const bookmarkedPosts = [
     excerpt:
       "AI 이미지 생성 도구를 활용해 스타트업 브랜드 로고, 컬러팔레트, 소셜 미디어 에셋을 제작한 경험을 공유합니다.",
     author: "정다은",
+    username: "jungdaeun",
     category: "AI디자인",
     time: "2026.02.25",
     votes: 112,
@@ -377,6 +381,8 @@ const userPosts = [
   },
 ];
 
+const USER_USERNAME = "honggildong";
+
 /* ─── Page ─── */
 
 export default function ProfilePage() {
@@ -384,7 +390,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<"posts" | "series" | "events" | "bookmarks" | "followers" | "following">("posts");
 
   return (
-    <div className="mx-auto max-w-[1080px] px-4 py-page">
+    <div className="mx-auto max-w-[1080px] px-6 py-page">
       {/* ProfileHeader - full width */}
       <ProfileHeader
         user={{
@@ -445,6 +451,7 @@ export default function ProfilePage() {
                   category={post.category}
                   title={post.title}
                   author="홍길동"
+                  username={USER_USERNAME}
                   time={post.time}
                   tags={post.tags}
                   excerpt={post.excerpt}
@@ -553,6 +560,7 @@ export default function ProfilePage() {
                   category={post.category}
                   title={post.title}
                   author={post.author}
+                  username={post.username}
                   time={post.time}
                   tags={post.tags}
                   excerpt={post.excerpt}

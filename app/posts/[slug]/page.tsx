@@ -109,6 +109,7 @@ const relatedPosts = [
     title: "Claude API 활용 사례 모음",
     category: "AI 활용법",
     author: "이수진",
+    username: "leesujin",
     time: "2일 전",
     tags: ["Claude", "API"],
     excerpt: "Claude API를 실무에 적용한 다양한 사례를 정리했습니다. 고객 응대부터 콘텐츠 생성까지.",
@@ -120,6 +121,7 @@ const relatedPosts = [
     title: "자동화 워크플로우 설계 가이드",
     category: "자동화",
     author: "박민수",
+    username: "parkminsu",
     time: "3일 전",
     tags: ["n8n", "자동화"],
     excerpt: "업무 자동화 워크플로우를 설계하는 단계별 가이드. 반복 작업을 줄이는 실전 팁.",
@@ -132,6 +134,7 @@ const relatedPosts = [
     title: "마케팅 AI 도구 비교 리뷰",
     category: "비즈니스",
     author: "김다혜",
+    username: "kimdahye",
     time: "5일 전",
     tags: ["마케팅", "비교"],
     excerpt: "2025년 마케팅 팀이 알아야 할 AI 도구 10가지를 직접 사용해보고 비교했습니다.",
@@ -145,7 +148,7 @@ const relatedPosts = [
 export default function PostDetailPage() {
   return (
     <div className="overflow-x-clip">
-      <div className="mx-auto max-w-[640px] px-6 py-page">
+      <div className="mx-auto max-w-[680px] px-6 py-page">
       {/* Breadcrumb */}
       <div className="mb-6">
         <Breadcrumb

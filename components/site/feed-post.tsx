@@ -33,10 +33,12 @@ export function FeedPost({
     <article className="py-6 flex flex-col gap-component">
       {/* Author · time */}
       <div className="flex items-center gap-2">
-        <div className="w-6 h-6 rounded-full bg-muted shrink-0" />
+        <Link href={`/profile/${username}`}>
+          <div className="w-6 h-6 rounded-full bg-muted shrink-0" />
+        </Link>
         <span className="text-sm font-regular text-sub-foreground">
           <Link
-            href={`/profile/${encodeURIComponent(author)}`}
+            href={`/profile/${username}`}
             className="font-medium text-foreground hover:underline"
           >
             {author}

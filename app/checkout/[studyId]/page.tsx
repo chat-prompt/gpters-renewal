@@ -33,7 +33,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-page">
+    <div className="mx-auto max-w-[680px] px-6 py-page">
       <Link
         href="/study/ai-automation"
         className="flex items-center gap-1 text-sm text-sub-foreground mb-6"

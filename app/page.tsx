@@ -79,6 +79,7 @@ const posts = [
     category: "AI활용법",
     title: "Claude로 마케팅 자동화 구축기",
     author: "홍길동",
+    username: "honggildong",
     time: "3시간 전",
     tags: ["Claude", "자동화"],
     excerpt:
@@ -92,6 +93,7 @@ const posts = [
     category: "프롬프트",
     title: "GPT-4o 프롬프트 작성법 완전 가이드",
     author: "이영희",
+    username: "leeyounghee",
     time: "5시간 전",
     tags: ["ChatGPT"],
     excerpt:
@@ -104,6 +106,7 @@ const posts = [
     category: "개발/코딩",
     title: "Cursor로 풀스택 앱 만들기 - Part 1",
     author: "박철수",
+    username: "parkchulsoo",
     time: "1일 전",
     tags: ["Cursor"],
     excerpt:
@@ -117,6 +120,7 @@ const posts = [
     category: "비즈니스",
     title: "AI로 사업계획서 작성하는 완벽 가이드",
     author: "김민지",
+    username: "kimminji",
     time: "2일 전",
     tags: ["ChatGPT"],
     excerpt:
@@ -129,6 +133,7 @@ const posts = [
     category: "자동화",
     title: "n8n으로 업무 자동화 워크플로우 구축하기",
     author: "김영호",
+    username: "kimyoungho",
     time: "2일 전",
     tags: ["n8n"],
     excerpt:

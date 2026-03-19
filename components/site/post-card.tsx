@@ -10,6 +10,7 @@ interface PostCardProps {
   category: string;
   title: string;
   author: string;
+  username?: string;
   time: string;
   tags: string[];
   excerpt: string;
@@ -27,6 +28,7 @@ export function PostCard({
   category,
   title,
   author,
+  username,
   time,
   tags,
   excerpt,
@@ -45,9 +47,11 @@ export function PostCard({
       {/* Author · category/series · time */}
       {showAuthor && (
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full bg-muted shrink-0" />
+          <Link href={`/profile/${username || encodeURIComponent(author)}`}>
+            <div className="w-6 h-6 rounded-full bg-muted shrink-0" />
+          </Link>
           <span className="text-sm font-regular text-sub-foreground">
-            <Link href={`/profile/${encodeURIComponent(author)}`} className="font-medium text-foreground hover:underline">{author}</Link>
+            <Link href={`/profile/${username || encodeURIComponent(author)}`} className="font-medium text-foreground hover:underline">{author}</Link>
             {seriesTitle && seriesId ? (
               <>
                 {" · "}

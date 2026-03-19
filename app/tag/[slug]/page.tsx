@@ -15,6 +15,7 @@ const allPosts = [
     category: "AI활용법",
     title: "Claude로 마케팅 자동화 구축기",
     author: "홍길동",
+    username: "honggildong",
     time: "3시간 전",
     tags: ["Claude", "자동화"],
     excerpt:
@@ -28,6 +29,7 @@ const allPosts = [
     category: "프롬프트",
     title: "GPT-4o 프롬프트 작성법 완전 가이드",
     author: "이영희",
+    username: "leeyounghee",
     time: "5시간 전",
     tags: ["ChatGPT", "프롬프트"],
     excerpt:
@@ -40,6 +42,7 @@ const allPosts = [
     category: "개발/코딩",
     title: "Cursor로 풀스택 앱 만들기 - Part 1",
     author: "박철수",
+    username: "parkchulsoo",
     time: "1일 전",
     tags: ["Cursor", "바이브코딩"],
     excerpt:
@@ -53,6 +56,7 @@ const allPosts = [
     category: "자동화",
     title: "n8n으로 업무 자동화 워크플로우 구축하기",
     author: "김영호",
+    username: "kimyoungho",
     time: "2일 전",
     tags: ["n8n", "자동화"],
     excerpt:
@@ -65,6 +69,7 @@ const allPosts = [
     category: "비즈니스",
     title: "AI로 사업계획서 작성하는 완벽 가이드",
     author: "김민지",
+    username: "kimminji",
     time: "2일 전",
     tags: ["ChatGPT", "Claude"],
     excerpt:
@@ -77,6 +82,7 @@ const allPosts = [
     category: "디자인",
     title: "Midjourney V6로 브랜드 이미지 제작하기",
     author: "이수현",
+    username: "leesuhyun",
     time: "3일 전",
     tags: ["Midjourney", "디자인"],
     excerpt:
@@ -90,6 +96,7 @@ const allPosts = [
     category: "미디어",
     title: "Runway Gen-3로 단편 영상 제작기",
     author: "정다은",
+    username: "jungdaeun",
     time: "4일 전",
     tags: ["Runway", "영상"],
     excerpt:
@@ -103,6 +110,7 @@ const allPosts = [
     category: "트렌드",
     title: "2025년 주목할 AI 트렌드 TOP 10",
     author: "최준혁",
+    username: "choijunhyuk",
     time: "5일 전",
     tags: ["ChatGPT", "Claude", "Gemini"],
     excerpt:
@@ -154,7 +162,7 @@ export default function TagPage() {
     `"${tag}" 태그가 붙은 게시글을 모아봅니다.`;
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-page">
+    <div className="mx-auto max-w-[680px] px-6 py-page">
       {/* Tag Header */}
       <div className="pb-6 border-b border-border">
         <h1 className="text-2xl font-semibold text-foreground">{tag}</h1>

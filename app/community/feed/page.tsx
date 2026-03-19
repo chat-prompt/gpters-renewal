@@ -185,7 +185,7 @@ export default function CommunityFeedPage() {
       : "무슨 AI 이야기를 나누고 싶으신가요?";
 
   return (
-    <div className="mx-auto max-w-[680px] px-6 py-6 space-y-5">
+    <div className="mx-auto max-w-[680px] px-6 py-page space-y-5">
       {/* Tab Navigation */}
       <div className="flex gap-1 border-b border-border overflow-x-auto">
         {tabs.map((tab) => (

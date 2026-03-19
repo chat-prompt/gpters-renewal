@@ -163,7 +163,7 @@ export default function StudyDetailPage() {
   const deadline = "2026.03.10";
 
   return (
-    <div className="mx-auto max-w-[1080px] px-4 py-8">
+    <div className="mx-auto max-w-[1080px] px-6 py-page">
       <StudyHero
         cohort="21기"
         title="21기 AI 자동화 스터디"

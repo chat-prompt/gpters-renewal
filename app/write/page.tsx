@@ -42,7 +42,7 @@ export default function WritePage() {
   const [type, setType] = useState<"feed" | "case">("case");
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-page">
+    <div className="mx-auto max-w-[680px] px-6 py-page">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">

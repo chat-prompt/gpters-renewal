@@ -26,7 +26,9 @@ export function PostAuthorMeta({
         className
       )}
     >
-      <Avatar size="sm" />
+      <Link href={author.href}>
+        <Avatar size="sm" />
+      </Link>
       <Link href={author.href} className="text-foreground font-medium">
         {author.name}
       </Link>
