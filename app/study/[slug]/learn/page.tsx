@@ -29,7 +29,7 @@ const weeks = [
       done: true,
       label: '제출 완료',
       postTitle: "n8n으로 이메일 자동 분류하기",
-      postSlug: "#",
+      postSlug: "/posts/n8n-email-auto-classification",
     },
     vods: [
       { title: "AI토크: n8n 기초 입문", watched: true },

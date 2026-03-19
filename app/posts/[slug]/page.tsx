@@ -10,7 +10,6 @@ import { CommentInput } from "@/components/site/comment-input";
 import { PostCard } from "@/components/site/post-card";
 import { PostAuthorMeta } from "@/components/site/post-author-meta";
 import { PostDetailCTA } from "@/components/site/post-detail-cta";
-import { StudyPromoCard } from "@/components/site/study-promo-card";
 
 /* ─── Mock Data ─── */
 
@@ -239,17 +238,6 @@ const response = await anthropic.messages.create({
 
           {/* Inline CTA (for non-members) */}
           <PostDetailCTA className="my-8" />
-
-          {/* Related Study */}
-          <StudyPromoCard
-            study={{
-              title: "21기 AI 자동화 스터디",
-              date: "3/15 ~ 4/26",
-              price: "150,000원",
-              href: "/study/ai-automation",
-            }}
-            className="mb-8"
-          />
 
           {/* Comments */}
           <section>

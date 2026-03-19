@@ -69,51 +69,70 @@ export default function VodManagePage() {
     );
   };
 
-  const accordionItems = data.map((weekData) => ({
-    key: `week-${weekData.week}`,
-    title: `${weekData.week}주차 (${weekData.vods.length}개)`,
-    children: (
-      <div className="space-y-3">
-        {weekData.vods.map((vod) => (
-          <div
-            key={vod.id}
-            className="flex items-center gap-3 rounded-lg border border-border p-3"
-          >
-            <span className="text-xs text-sub-foreground w-6 text-center shrink-0">
-              {vod.order}
-            </span>
-            <Video className="w-4 h-4 text-sub-foreground shrink-0" />
-            <div className="flex-1 min-w-0 grid grid-cols-1 md:grid-cols-2 gap-2">
-              <Input
-                defaultValue={vod.title}
-                placeholder="VOD 제목"
-                className="text-sm"
-              />
-              <Input
-                defaultValue={vod.url}
-                placeholder="YouTube 링크"
-                className="text-sm"
+  const updateVodField = (weekIdx: number, vodId: string, field: "title" | "url", value: string) => {
+    setData((prev) =>
+      prev.map((w, i) =>
+        i === weekIdx
+          ? {
+              ...w,
+              vods: w.vods.map((v) =>
+                v.id === vodId ? { ...v, [field]: value } : v
+              ),
+            }
+          : w
+      )
+    );
+  };
+
+  const accordionItems = data.map((weekData) => {
+    const weekIdx = data.findIndex((w) => w.week === weekData.week);
+    return {
+      key: `week-${weekData.week}`,
+      title: `${weekData.week}주차 (${weekData.vods.length}개)`,
+      children: (
+        <div className="space-y-3">
+          {weekData.vods.map((vod) => (
+            <div
+              key={vod.id}
+              className="flex items-center gap-3 rounded-lg border border-border p-3"
+            >
+              <span className="text-xs text-sub-foreground w-6 text-center shrink-0">
+                {vod.order}
+              </span>
+              <Video className="w-4 h-4 text-sub-foreground shrink-0" />
+              <div className="flex-1 min-w-0 grid grid-cols-1 md:grid-cols-2 gap-2">
+                <Input
+                  value={vod.title}
+                  onChange={(e) => updateVodField(weekIdx, vod.id, "title", e.target.value)}
+                  placeholder="VOD 제목"
+                  className="text-sm"
+                />
+                <Input
+                  value={vod.url}
+                  onChange={(e) => updateVodField(weekIdx, vod.id, "url", e.target.value)}
+                  placeholder="YouTube 링크"
+                  className="text-sm"
+                />
+              </div>
+              <Toggle
+                checked={vod.isPublic}
+                onChange={() => togglePublic(weekIdx, vod.id)}
+                label={vod.isPublic ? "공개" : "비공개"}
               />
             </div>
-            <Toggle
-              checked={vod.isPublic}
-              onChange={() =>
-                togglePublic(
-                  data.findIndex((w) => w.week === weekData.week),
-                  vod.id
-                )
-              }
-              label={vod.isPublic ? "공개" : "비공개"}
-            />
-          </div>
-        ))}
-        <Button variant="secondary" size="sm">
-          <Plus className="w-3.5 h-3.5" />
-          VOD 추가
-        </Button>
-      </div>
-    ),
-  }));
+          ))}
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => alert("VOD가 추가되었습니다.")}
+          >
+            <Plus className="w-3.5 h-3.5" />
+            VOD 추가
+          </Button>
+        </div>
+      ),
+    };
+  });
 
   return (
     <div className="mx-auto max-w-[1080px] px-4 py-8 space-y-6">

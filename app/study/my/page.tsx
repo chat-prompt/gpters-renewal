@@ -26,7 +26,7 @@ const actionItems = [
     icon: <Video className="w-5 h-5" />,
     title: "AI토크 참여",
     description: '화 7PM "n8n 자동화"',
-    href: "#",
+    href: "/community/feed",
     ctaLabel: "참여하기",
   },
   {
@@ -40,7 +40,7 @@ const actionItems = [
     icon: <MessageCircle className="w-5 h-5" />,
     title: "찐친챌린지 인증",
     description: "2주차 카카오톡 인증하기",
-    href: "#",
+    href: "/study/my/posts",
     ctaLabel: "인증하기",
   },
 ];

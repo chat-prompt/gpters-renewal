@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { CertificateView } from "@/components/lms/certificate-view";
 
 // -- Mock Data --
@@ -35,6 +37,13 @@ const certificates = [
 export default function CertificatesPage() {
   return (
     <div className="space-y-6">
+      <Link
+        href="/study/my"
+        className="inline-flex items-center gap-1.5 text-sm text-sub-foreground hover:text-foreground transition-colors"
+      >
+        <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
+        내 스터디로 돌아가기
+      </Link>
       <h1 className="text-2xl font-bold text-foreground">수료증</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

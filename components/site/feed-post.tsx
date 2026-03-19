@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { Heart, MessageSquare, Bookmark } from "lucide-react";
 
@@ -24,6 +27,8 @@ export function FeedPost({
   votes,
   comments,
 }: FeedPostProps) {
+  const [bookmarked, setBookmarked] = useState(false);
+
   return (
     <article className="py-6 flex flex-col gap-component">
       {/* Author · time */}
@@ -73,9 +78,14 @@ export function FeedPost({
           </span>
           <button
             type="button"
-            className="hover:text-foreground transition-colors cursor-pointer"
+            onClick={() => setBookmarked(!bookmarked)}
+            className={`hover:text-foreground transition-colors cursor-pointer ${bookmarked ? "text-primary" : ""}`}
           >
-            <Bookmark className="w-5 h-5" strokeWidth={1.5} />
+            <Bookmark
+              className="w-5 h-5"
+              strokeWidth={1.5}
+              fill={bookmarked ? "currentColor" : "none"}
+            />
           </button>
         </span>
       </div>

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { Heart, MessageSquare, Bookmark } from "lucide-react";
 import { TagList } from "@/components/site/tag-list";
@@ -35,6 +38,8 @@ export function PostCard({
   seriesTitle,
   positionInSeries,
 }: PostCardProps) {
+  const [bookmarked, setBookmarked] = useState(false);
+
   return (
     <article className="py-6 flex flex-col gap-component">
       {/* Author · category/series · time */}
@@ -108,8 +113,16 @@ export function PostCard({
           <span className="flex items-center gap-1">
             <MessageSquare className="w-5 h-5" strokeWidth={1.5} /> {comments}
           </span>
-          <button type="button" className="hover:text-foreground transition-colors cursor-pointer">
-            <Bookmark className="w-5 h-5" strokeWidth={1.5} />
+          <button
+            type="button"
+            onClick={() => setBookmarked(!bookmarked)}
+            className={`hover:text-foreground transition-colors cursor-pointer ${bookmarked ? "text-primary" : ""}`}
+          >
+            <Bookmark
+              className="w-5 h-5"
+              strokeWidth={1.5}
+              fill={bookmarked ? "currentColor" : "none"}
+            />
           </button>
         </span>
       </div>

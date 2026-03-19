@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Mail,
   User,
   Settings,
   LogOut,
@@ -117,7 +116,7 @@ export function Navbar() {
           {/* Notifications */}
           <div className="relative">
             <IconButton
-              icon={Mail}
+              icon={Bell}
               badge={3}
               onClick={() => toggle("notifications")}
             />

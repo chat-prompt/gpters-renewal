@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { ImageIcon, Plus, X } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -24,6 +23,7 @@ export function CaseArticleForm({
   const [isNewSeries, setIsNewSeries] = useState(false);
   const [newSeriesTitle, setNewSeriesTitle] = useState("");
   const [newSeriesDesc, setNewSeriesDesc] = useState("");
+  const [savedAt, setSavedAt] = useState<string | null>(null);
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
@@ -202,9 +202,24 @@ export function CaseArticleForm({
       {/* Auto-save indicator */}
       <div className="flex items-center justify-between text-sm text-sub-foreground">
         <span>자동 저장: 30초마다 저장됩니다</span>
-        <Link href="/write/drafts" className="text-primary">
-          임시저장 목록
-        </Link>
+        <div className="flex items-center gap-2">
+          {savedAt && (
+            <span className="text-sm text-sub-foreground">{savedAt} 저장됨</span>
+          )}
+          <button
+            onClick={() => {
+              setSavedAt(
+                new Date().toLocaleTimeString("ko-KR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+              );
+            }}
+            className="text-primary"
+          >
+            임시저장
+          </button>
+        </div>
       </div>
     </div>
   );

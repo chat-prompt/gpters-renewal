@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Heart, MessageSquare, Share2 } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
@@ -241,13 +245,11 @@ function CommentItem({ comment, isReply = false }: { comment: Comment; isReply?:
   );
 }
 
-export default async function CommunityDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+export default function CommunityDetailPage() {
+  const { id } = useParams<{ id: string }>();
   const post = postsMap[id];
+  const [liked, setLiked] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   if (!post) {
     return (
@@ -303,17 +305,31 @@ export default async function CommunityDetailPage({
 
         {/* Actions */}
         <div className="flex items-center gap-5 pt-3 border-t border-border">
-          <button className="flex items-center gap-1.5 text-sm text-sub-foreground hover:text-primary transition-colors">
-            <Heart className="w-5 h-5" strokeWidth={1.5} />
-            <span>{post.likes}</span>
+          <button
+            onClick={() => setLiked((prev) => !prev)}
+            className={`flex items-center gap-1.5 text-sm transition-colors ${
+              liked ? "text-primary" : "text-sub-foreground hover:text-primary"
+            }`}
+          >
+            <Heart className="w-5 h-5" strokeWidth={1.5} fill={liked ? "currentColor" : "none"} />
+            <span>{liked ? post.likes + 1 : post.likes}</span>
           </button>
           <button className="flex items-center gap-1.5 text-sm text-sub-foreground hover:text-foreground transition-colors">
             <MessageSquare className="w-5 h-5" strokeWidth={1.5} />
             <span>{totalComments}</span>
           </button>
-          <button className="flex items-center gap-1.5 text-sm text-sub-foreground hover:text-foreground transition-colors ml-auto">
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            }}
+            className={`flex items-center gap-1.5 text-sm transition-colors ml-auto ${
+              copied ? "text-primary" : "text-sub-foreground hover:text-foreground"
+            }`}
+          >
             <Share2 className="w-5 h-5" strokeWidth={1.5} />
-            <span>공유</span>
+            <span>{copied ? "복사됨" : "공유"}</span>
           </button>
         </div>
       </div>

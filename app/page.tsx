@@ -9,7 +9,6 @@ import { HeroCarousel } from "@/components/site/hero-carousel";
 import { UserRow } from "@/components/site/user-row";
 import { Avatar } from "@/components/ui/avatar";
 import { TagList } from "@/components/site/tag-list";
-import { StatGrid } from "@/components/site/stat-grid";
 
 /* ─── Mock Data ─── */
 
@@ -258,17 +257,23 @@ export default function Home() {
         <aside className="w-80 hidden lg:flex flex-col shrink-0 sticky top-20">
           {/* Community Snapshot */}
           <div className="pb-8">
-            <h3 className="text-base font-semibold text-foreground mb-4">
+            <h3 className="text-base font-semibold text-foreground mb-3">
               커뮤니티
             </h3>
-            <StatGrid
-              columns={3}
-              items={[
-                { label: "회원", value: "12,400" },
-                { label: "게시글", value: "3,200" },
-                { label: "수료", value: "2,100" },
-              ]}
-            />
+            <div className="flex items-baseline gap-6">
+              <div className="text-center">
+                <p className="text-xl font-semibold text-foreground">12,400</p>
+                <p className="text-sm text-sub-foreground">회원</p>
+              </div>
+              <div className="text-center">
+                <p className="text-xl font-semibold text-foreground">3,200</p>
+                <p className="text-sm text-sub-foreground">게시글</p>
+              </div>
+              <div className="text-center">
+                <p className="text-xl font-semibold text-foreground">2,100</p>
+                <p className="text-sm text-sub-foreground">수료</p>
+              </div>
+            </div>
           </div>
 
           {/* Upcoming Event */}

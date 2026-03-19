@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -37,6 +38,7 @@ const suggestedTags = [
 /* --- Page --- */
 
 export default function WritePage() {
+  const router = useRouter();
   const [type, setType] = useState<"feed" | "case">("case");
 
   return (
@@ -52,7 +54,11 @@ export default function WritePage() {
           </Link>
           <h1 className="text-xl font-semibold text-foreground">글쓰기</h1>
         </div>
-        <Button>
+        <Button
+          onClick={() => {
+            router.push(type === "case" ? "/posts/claude-marketing" : "/community/feed");
+          }}
+        >
           {type === "feed" ? "포스트 게시" : "게시글 발행"}
         </Button>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ImageIcon, LinkIcon, Hash } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,8 @@ interface InlinePostFormProps {
 export function InlinePostForm({ placeholder = "무슨 AI 이야기를 나누고 싶으신가요?" }: InlinePostFormProps) {
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const isEmpty = content.trim().length === 0;
 
@@ -32,6 +34,7 @@ export function InlinePostForm({ placeholder = "무슨 AI 이야기를 나누고
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-full bg-muted shrink-0" />
             <Textarea
+              ref={textareaRef}
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder={placeholder}
@@ -41,13 +44,37 @@ export function InlinePostForm({ placeholder = "무슨 AI 이야기를 나누고
           </div>
           <div className="flex items-center justify-between ml-[52px]">
             <div className="flex items-center gap-1">
-              <Button variant="ghost" size="icon-sm" className="text-sub-foreground">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+              />
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                className="text-sub-foreground"
+                onClick={() => fileInputRef.current?.click()}
+              >
                 <ImageIcon className="w-4 h-4" strokeWidth={1.5} />
               </Button>
-              <Button variant="ghost" size="icon-sm" className="text-sub-foreground">
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                className="text-sub-foreground"
+                onClick={() => setContent((prev) => prev + " [링크제목](URL)")}
+              >
                 <LinkIcon className="w-4 h-4" strokeWidth={1.5} />
               </Button>
-              <Button variant="ghost" size="icon-sm" className="text-sub-foreground">
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                className="text-sub-foreground"
+                onClick={() => {
+                  setContent((prev) => prev + " #");
+                  textareaRef.current?.focus();
+                }}
+              >
                 <Hash className="w-4 h-4" strokeWidth={1.5} />
               </Button>
             </div>
@@ -65,6 +92,7 @@ export function InlinePostForm({ placeholder = "무슨 AI 이야기를 나누고
               <Button
                 size="sm"
                 disabled={isEmpty}
+                onClick={() => setContent("")}
               >
                 포스트 게시
               </Button>

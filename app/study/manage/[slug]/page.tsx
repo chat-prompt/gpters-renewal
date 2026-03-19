@@ -126,7 +126,11 @@ export default function StudyManagePage({
                   상세페이지 수정
                 </Button>
               </Link>
-              <Button variant="secondary" size="sm">
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => alert("커리큘럼 수정 모드는 백엔드 연결 후 동작합니다.")}
+              >
                 커리큘럼 수정
               </Button>
             </div>

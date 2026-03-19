@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Users, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { PriceBreakdown } from "@/components/site/price-breakdown";
 
 export default function CheckoutPage() {
+  const router = useRouter();
   const [couponCode, setCouponCode] = useState("");
   const [couponApplied, setCouponApplied] = useState(false);
   const [buddyName, setBuddyName] = useState("");
@@ -151,7 +153,12 @@ export default function CheckoutPage() {
       </section>
 
       {/* CTA */}
-      <Button size="lg" className="w-full" disabled={!allAgreed}>
+      <Button
+        size="lg"
+        className="w-full"
+        disabled={!allAgreed}
+        onClick={() => router.push("/checkout/complete")}
+      >
         {finalPrice.toLocaleString()}원 결제하기
       </Button>
     </div>

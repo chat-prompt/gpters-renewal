@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -9,6 +10,8 @@ interface VodCardProps {
   duration: string;
   watched: boolean;
   thumbnailUrl?: string;
+  href?: string;
+  onClick?: () => void;
   className?: string;
 }
 
@@ -19,15 +22,12 @@ export function VodCard({
   duration,
   watched,
   thumbnailUrl,
+  href,
+  onClick,
   className,
 }: VodCardProps) {
-  return (
-    <div
-      className={cn(
-        "rounded-lg border border-border overflow-hidden",
-        className
-      )}
-    >
+  const content = (
+    <>
       <div className="aspect-video bg-muted flex items-center justify-center relative overflow-hidden">
         {thumbnailUrl && (
           // eslint-disable-next-line @next/next/no-img-element
@@ -46,6 +46,30 @@ export function VodCard({
           {studyName} &middot; {week}주차 &middot; {duration}
         </p>
       </div>
-    </div>
+    </>
   );
+
+  const baseClassName = cn(
+    "rounded-lg border border-border overflow-hidden",
+    (href || onClick) && "cursor-pointer hover:border-primary/50 transition-colors",
+    className
+  );
+
+  if (href) {
+    return (
+      <Link href={href} className={baseClassName}>
+        {content}
+      </Link>
+    );
+  }
+
+  if (onClick) {
+    return (
+      <div role="button" tabIndex={0} onClick={onClick} className={baseClassName}>
+        {content}
+      </div>
+    );
+  }
+
+  return <div className={baseClassName}>{content}</div>;
 }

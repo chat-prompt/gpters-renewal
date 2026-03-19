@@ -85,6 +85,7 @@ export default function StudyLandingPage() {
   const [openCategories, setOpenCategories] = useState<Set<string>>(
     new Set(categories)
   );
+  const [notifyRegistered, setNotifyRegistered] = useState(false);
 
   const toggleFaq = (idx: number) => {
     setOpenFaqs((prev) => {
@@ -131,8 +132,13 @@ export default function StudyLandingPage() {
                 </Button>
               </Link>
             ) : (
-              <Button size="lg" className="text-base px-8 py-3">
-                다음 기수 알림 받기
+              <Button
+                size="lg"
+                className="text-base px-8 py-3"
+                disabled={notifyRegistered}
+                onClick={() => setNotifyRegistered(true)}
+              >
+                {notifyRegistered ? "알림 등록됨" : "다음 기수 알림 받기"}
               </Button>
             )}
           </div>
@@ -392,8 +398,13 @@ export default function StudyLandingPage() {
               </Button>
             </Link>
           ) : (
-            <Button size="lg" className="text-base px-8 py-3">
-              다음 기수 알림 받기
+            <Button
+              size="lg"
+              className="text-base px-8 py-3"
+              disabled={notifyRegistered}
+              onClick={() => setNotifyRegistered(true)}
+            >
+              {notifyRegistered ? "알림 등록됨" : "다음 기수 알림 받기"}
             </Button>
           )}
         </div>

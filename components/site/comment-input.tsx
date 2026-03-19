@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -16,6 +17,15 @@ export function CommentInput({
   helperText = "댓글 작성 (로그인 필요)",
   className,
 }: CommentInputProps) {
+  const [value, setValue] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (!submitted) return;
+    const timer = setTimeout(() => setSubmitted(false), 2000);
+    return () => clearTimeout(timer);
+  }, [submitted]);
+
   return (
     <div className={cn("border border-border rounded-lg p-4", className)}>
       {helperText && (
@@ -25,10 +35,24 @@ export function CommentInput({
         rows={3}
         placeholder={placeholder}
         className="resize-none"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
       />
       <div className="flex justify-end mt-2">
-        <button className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md">
-          {submitLabel}
+        <button
+          onClick={() => {
+            setValue("");
+            setSubmitted(true);
+          }}
+          disabled={submitted}
+          className={cn(
+            "px-4 py-2 text-sm rounded-md",
+            submitted
+              ? "bg-muted text-sub-foreground"
+              : "bg-primary text-primary-foreground"
+          )}
+        >
+          {submitted ? "등록됨" : submitLabel}
         </button>
       </div>
     </div>

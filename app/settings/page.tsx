@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Check } from "lucide-react";
+import { Check, ChevronLeft } from "lucide-react";
 import { Tabs } from "@/components/ui/tabs";
+import Link from "next/link";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -78,6 +79,7 @@ export default function SettingsPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = () => {
+    alert("설정이 저장되었습니다.");
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
@@ -91,6 +93,13 @@ export default function SettingsPage() {
 
   return (
     <div className="mx-auto max-w-[1080px] px-4 py-page">
+      <Link
+        href="/"
+        className="inline-flex items-center gap-1 text-sm text-sub-foreground hover:text-foreground transition-colors mb-4"
+      >
+        <ChevronLeft className="w-4 h-4" strokeWidth={1.5} />
+        홈
+      </Link>
       <h1 className="text-xl font-semibold text-foreground mb-6">계정 설정</h1>
 
       <Tabs

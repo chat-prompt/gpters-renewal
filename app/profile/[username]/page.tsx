@@ -394,9 +394,9 @@ export default function ProfilePage() {
           joinDate: "2025.03",
           interestTags,
           links: [
-            { label: "GitHub", href: "#" },
-            { label: "LinkedIn", href: "#" },
-            { label: "블로그", href: "#" },
+            { label: "GitHub", href: "https://github.com/honggildong" },
+            { label: "LinkedIn", href: "https://linkedin.com/in/honggildong" },
+            { label: "블로그", href: "https://honggildong.tistory.com" },
           ],
         }}
         featuredBadges={featuredBadges}
@@ -524,7 +524,7 @@ export default function ProfilePage() {
                             <Link href={`/events/${event.id}/edit`}>
                               <Button variant="outline" size="sm">수정</Button>
                             </Link>
-                            <Button variant="outline" size="sm">마감</Button>
+                            <Button variant="outline" size="sm" onClick={() => alert("이벤트가 마감되었습니다.")}>마감</Button>
                           </>
                         )}
                         {event.status === "rejected" && (
@@ -533,7 +533,7 @@ export default function ProfilePage() {
                           </Link>
                         )}
                         {(event.status === "published" || event.status === "rejected") && (
-                          <Button variant="ghost" size="sm" className="text-destructive">취소</Button>
+                          <Button variant="ghost" size="sm" className="text-destructive" onClick={() => alert("이벤트가 취소되었습니다.")}>취소</Button>
                         )}
                       </div>
                     )}

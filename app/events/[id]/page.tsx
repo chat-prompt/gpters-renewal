@@ -1,4 +1,8 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import {
   ArrowLeft,
   Calendar,
@@ -168,12 +172,9 @@ interface Event {
 
 /* ─── Page ─── */
 
-export default async function EventDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+export default function EventDetailPage() {
+  const { id } = useParams<{ id: string }>();
+  const [registered, setRegistered] = useState(false);
   const event = eventsMap[id];
 
   if (!event) {
@@ -188,8 +189,9 @@ export default async function EventDetailPage({
   }
 
   const isPublicStatus = ["published", "closed", "completed"].includes(event.status);
-  const spotsLeft = event.capacity - event.attendees;
-  const fillPercent = Math.round((event.attendees / event.capacity) * 100);
+  const displayAttendees = registered ? event.attendees + 1 : event.attendees;
+  const spotsLeft = event.capacity - displayAttendees;
+  const fillPercent = Math.round((displayAttendees / event.capacity) * 100);
 
   return (
     <div className="max-w-[1080px] mx-auto px-6 py-page">
@@ -350,7 +352,7 @@ export default async function EventDetailPage({
               <div className="flex justify-between text-sm text-sub-foreground mb-1.5">
                 <span className="flex items-center gap-1">
                   <Users className="w-4 h-4" strokeWidth={1.5} />
-                  {event.attendees}명 참여
+                  {displayAttendees}명 참여
                 </span>
                 <span>{spotsLeft}자리 남음</span>
               </div>
@@ -369,15 +371,17 @@ export default async function EventDetailPage({
                   <Avatar key={i} />
                 ))}
               </AvatarGroup>
-              {event.attendees > 5 && (
+              {displayAttendees > 5 && (
                 <span className="text-sm text-sub-foreground">
-                  +{event.attendees - 5}
+                  +{displayAttendees - 5}
                 </span>
               )}
             </div>
 
             {/* CTA */}
-            <Button className="w-full">신청하기</Button>
+            <Button className="w-full" onClick={() => setRegistered(true)} disabled={registered}>
+              {registered ? "신청완료" : "신청하기"}
+            </Button>
 
             {/* Share */}
             <button
@@ -402,7 +406,9 @@ export default async function EventDetailPage({
               {spotsLeft}자리 남음
             </p>
           </div>
-          <Button>신청하기</Button>
+          <Button onClick={() => setRegistered(true)} disabled={registered}>
+            {registered ? "신청완료" : "신청하기"}
+          </Button>
         </div>
       </div>
     </div>

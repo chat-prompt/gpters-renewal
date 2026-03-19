@@ -21,7 +21,10 @@ interface CommentProps {
 
 function CommentItem({ comment, depth = 0 }: CommentProps) {
   const [showReply, setShowReply] = useState(false);
-  const hasReplies = comment.replies && comment.replies.length > 0;
+  const [replyText, setReplyText] = useState("");
+  const [localReplies, setLocalReplies] = useState<CommentData[]>([]);
+  const allReplies = [...(comment.replies || []), ...localReplies];
+  const hasReplies = allReplies.length > 0;
 
   return (
     <div className={depth > 0 ? "ml-10" : ""}>
@@ -67,15 +70,37 @@ function CommentItem({ comment, depth = 0 }: CommentProps) {
               rows={2}
               placeholder="답글을 입력하세요..."
               className="resize-none"
+              value={replyText}
+              onChange={(e) => setReplyText(e.target.value)}
             />
             <div className="flex justify-end gap-2 mt-2">
               <button
-                onClick={() => setShowReply(false)}
+                onClick={() => {
+                  setShowReply(false);
+                  setReplyText("");
+                }}
                 className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 취소
               </button>
-              <button className="px-3 py-1.5 text-sm bg-primary text-primary-foreground rounded-md">
+              <button
+                onClick={() => {
+                  if (replyText.trim().length === 0) return;
+                  setLocalReplies((prev) => [
+                    ...prev,
+                    {
+                      id: `reply-${Date.now()}`,
+                      author: "나",
+                      time: "방금 전",
+                      text: replyText,
+                      votes: 0,
+                    },
+                  ]);
+                  setReplyText("");
+                  setShowReply(false);
+                }}
+                className="px-3 py-1.5 text-sm bg-primary text-primary-foreground rounded-md"
+              >
                 답글 등록
               </button>
             </div>
@@ -86,7 +111,7 @@ function CommentItem({ comment, depth = 0 }: CommentProps) {
       {/* Replies */}
       {hasReplies && (
         <div>
-          {comment.replies!.map((reply) => (
+          {allReplies.map((reply) => (
             <CommentItem key={reply.id} comment={reply} depth={depth + 1} />
           ))}
         </div>
