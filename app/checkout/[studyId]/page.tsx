@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Users, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,9 +9,12 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PriceBreakdown } from "@/components/site/price-breakdown";
+import { useAuth } from "@/lib/auth-context";
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const pathname = usePathname();
+  const { isLoggedIn } = useAuth();
   const [couponCode, setCouponCode] = useState("");
   const [couponApplied, setCouponApplied] = useState(false);
   const [buddyName, setBuddyName] = useState("");
@@ -31,6 +34,18 @@ export default function CheckoutPage() {
       setCouponApplied(true);
     }
   };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="flex flex-col items-center justify-center py-page gap-group">
+        <p className="text-lg font-semibold text-foreground">로그인이 필요합니다</p>
+        <p className="text-sm text-sub-foreground">이 페이지를 보려면 로그인해주세요.</p>
+        <Link href={`/login?from=${encodeURIComponent(pathname)}`} className="inline-flex items-center px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
+          로그인
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-[680px] px-6 py-page">

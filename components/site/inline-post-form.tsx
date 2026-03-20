@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ImageIcon, LinkIcon, Hash } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth-context";
 
 interface InlinePostFormProps {
   placeholder?: string;
@@ -11,6 +14,8 @@ interface InlinePostFormProps {
 }
 
 export function InlinePostForm({ placeholder = "무슨 AI 이야기를 나누고 싶으신가요?", onSubmit }: InlinePostFormProps) {
+  const { isLoggedIn } = useAuth();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -18,16 +23,18 @@ export function InlinePostForm({ placeholder = "무슨 AI 이야기를 나누고
 
   const isEmpty = content.trim().length === 0;
 
+  const loginUrl = `/login?from=${encodeURIComponent(pathname)}`;
+
   return (
     <div className="border border-border rounded-lg p-4">
       {!open ? (
         <div
           className="flex items-center gap-3 cursor-pointer"
-          onClick={() => setOpen(true)}
+          onClick={() => isLoggedIn ? setOpen(true) : window.location.assign(loginUrl)}
         >
           <div className="w-10 h-10 rounded-full bg-muted shrink-0" />
           <span className="text-sm text-sub-foreground">
-            {placeholder}
+            {isLoggedIn ? placeholder : "로그인하고 자유롭게 의견을 남겨주세요"}
           </span>
         </div>
       ) : (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { AuthProviderWrapper } from "@/lib/auth-provider-wrapper";
 
 export const metadata: Metadata = {
   title: "GPTers - AI 커뮤니티",
@@ -19,9 +20,11 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
       </head>
       <body className="bg-background text-foreground min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <AuthProviderWrapper>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </AuthProviderWrapper>
       </body>
     </html>
   );

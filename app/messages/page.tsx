@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams, usePathname } from "next/navigation";
 import { PenSquare, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +11,7 @@ import { MessageRow } from "@/components/site/message-row";
 import { NotificationRow } from "@/components/site/notification-row";
 import { Avatar } from "@/components/ui/avatar";
 import Link from "next/link";
+import { useAuth } from "@/lib/auth-context";
 
 /* ─── Mock Data ─── */
 
@@ -65,20 +67,30 @@ const notifications = [
     unread: false,
   },
   {
+    type: "system",
+    text: "21기 AI 스터디 모집이 시작되었습니다. 얼리버드 할인은 3월 25일까지입니다.",
+    href: "/notices/1",
+    time: "1일 전",
+    unread: false,
+  },
+  {
     type: "study",
     text: "21기 AI 자동화 스터디가 3월 15일에 시작됩니다. 오리엔테이션에 참여해주세요.",
+    href: "/study/my",
     time: "3일 전",
     unread: false,
   },
   {
     type: "event",
     text: "이번 주 AI토크: 'Claude 실전 활용법' 설명회가 내일 열립니다.",
+    href: "/events/1",
     time: "4일 전",
     unread: false,
   },
   {
     type: "payment",
     text: "21기 AI 자동화 스터디 결제가 완료되었습니다. (150,000원)",
+    href: "/study/my",
     time: "2주 전",
     unread: false,
   },
@@ -137,12 +149,32 @@ const tabItems = [
 /* ─── Page ─── */
 
 export default function MessagesPage() {
+  return (
+    <Suspense>
+      <MessagesContent />
+    </Suspense>
+  );
+}
+
+function MessagesContent() {
+  const { isLoggedIn } = useAuth();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState("notifications");
   const [composing, setComposing] = useState(false);
   const [to, setTo] = useState("");
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
   const [sentMessages, setSentMessages] = useState(initialSentMessages);
+
+  useEffect(() => {
+    const toParam = searchParams.get("to");
+    if (toParam) {
+      setTo(toParam);
+      setComposing(true);
+      setActiveTab("received");
+    }
+  }, [searchParams]);
 
   const unreadNotifications = notifications.filter((n) => n.unread).length;
   const unreadMessages = receivedMessages.filter((m) => m.unread).length;
@@ -154,6 +186,18 @@ export default function MessagesPage() {
     setTo("");
     setSubject("");
     setBody("");
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <div className="flex flex-col items-center justify-center py-page gap-group">
+        <p className="text-lg font-semibold text-foreground">로그인이 필요합니다</p>
+        <p className="text-sm text-sub-foreground">이 페이지를 보려면 로그인해주세요.</p>
+        <Link href={`/login?from=${encodeURIComponent(pathname)}`} className="inline-flex items-center px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
+          로그인
+        </Link>
+      </div>
+    );
   }
 
   return (

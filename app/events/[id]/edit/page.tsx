@@ -1,16 +1,18 @@
 "use client";
 
 import { use } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { EventForm, type EventFormData } from "@/components/site/event-form";
+import { useAuth } from "@/lib/auth-context";
 
 /* ─── Mock Data ─── */
 
 const eventsMap: Record<string, MockEvent> = {
   "1": {
     id: 1,
+    hostUsername: "honggildong",
     title: "무료 AI 토크: Claude Code 활용법",
     category: "토크",
     eventType: "online",
@@ -39,6 +41,7 @@ const eventsMap: Record<string, MockEvent> = {
   },
   "3": {
     id: 3,
+    hostUsername: "youngho",
     title: "AI 자동화 웨비나",
     category: "웨비나",
     eventType: "online",
@@ -65,6 +68,7 @@ const eventsMap: Record<string, MockEvent> = {
 
 interface MockEvent extends EventFormData {
   id: number;
+  hostUsername: string;
   status: string;
   reviewNote?: string;
 }
@@ -78,6 +82,8 @@ export default function EventEditPage({
 }) {
   const router = useRouter();
   const { id } = use(params);
+  const pathname = usePathname();
+  const { isLoggedIn, isOwner } = useAuth();
   const event = eventsMap[id];
 
   if (!event) {
@@ -87,6 +93,34 @@ export default function EventEditPage({
         <Link href="/events" className="text-sm text-primary mt-4 inline-block">
           이벤트 목록으로 돌아가기
         </Link>
+      </div>
+    );
+  }
+
+  if (!isLoggedIn || !isOwner(event.hostUsername)) {
+    return (
+      <div className="flex flex-col items-center justify-center py-page gap-group">
+        <p className="text-lg font-semibold text-foreground">접근 권한이 없습니다</p>
+        <p className="text-sm text-sub-foreground">
+          {!isLoggedIn
+            ? "이벤트를 수정하려면 로그인해주세요."
+            : "이벤트 주최자만 수정할 수 있습니다."}
+        </p>
+        {!isLoggedIn ? (
+          <Link
+            href={`/login?from=${encodeURIComponent(pathname)}`}
+            className="inline-flex items-center justify-center px-6 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+          >
+            로그인
+          </Link>
+        ) : (
+          <Link
+            href={`/events/${id}`}
+            className="inline-flex items-center justify-center px-6 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+          >
+            이벤트로 돌아가기
+          </Link>
+        )}
       </div>
     );
   }

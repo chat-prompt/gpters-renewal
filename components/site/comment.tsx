@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { Heart, MessageSquare } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/lib/auth-context";
 
 interface CommentData {
   id: string;
@@ -20,7 +22,18 @@ interface CommentProps {
 }
 
 function CommentItem({ comment, depth = 0 }: CommentProps) {
+  const { isLoggedIn } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
   const [showReply, setShowReply] = useState(false);
+
+  const requireLogin = () => {
+    if (!isLoggedIn) {
+      router.push(`/login?from=${encodeURIComponent(pathname)}`);
+      return true;
+    }
+    return false;
+  };
   const [replyText, setReplyText] = useState("");
   const [localReplies, setLocalReplies] = useState<CommentData[]>([]);
   const allReplies = [...(comment.replies || []), ...localReplies];
@@ -50,12 +63,15 @@ function CommentItem({ comment, depth = 0 }: CommentProps) {
 
         {/* Actions */}
         <div className="flex items-center gap-4 text-sm text-muted-foreground pl-9">
-          <button className="flex items-center gap-1 hover:text-foreground transition-colors">
+          <button
+            onClick={() => { if (requireLogin()) return; }}
+            className="flex items-center gap-1 hover:text-foreground transition-colors"
+          >
             <Heart className="w-4 h-4" strokeWidth={1.5} />
             {comment.votes}
           </button>
           <button
-            onClick={() => setShowReply(!showReply)}
+            onClick={() => { if (requireLogin()) return; setShowReply(!showReply); }}
             className="flex items-center gap-1 hover:text-foreground transition-colors"
           >
             <MessageSquare className="w-4 h-4" strokeWidth={1.5} />

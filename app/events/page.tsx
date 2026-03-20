@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "@/lib/auth-context";
 
 /* ─── Mock Data ─── */
 
@@ -139,8 +140,10 @@ const categories = [
 /* ─── Page ─── */
 
 export default function EventsPage() {
+  const { isLoggedIn } = useAuth();
   const [activeFilter, setActiveFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("recent");
 
   // Only show published + closed + completed
   const visibleEvents = events.filter(
@@ -150,10 +153,13 @@ export default function EventsPage() {
   const filtered = visibleEvents
     .filter((e) => activeFilter === "all" || e.category === activeFilter)
     .filter((e) => typeFilter === "all" || e.type === typeFilter)
-    // Sort: active events first, then closed/completed at bottom
+    // Sort: active events first, then by user selection
     .sort((a, b) => {
       const order = { published: 0, closed: 1, completed: 2 };
-      return (order[a.status] ?? 0) - (order[b.status] ?? 0);
+      const statusDiff = (order[a.status] ?? 0) - (order[b.status] ?? 0);
+      if (statusDiff !== 0) return statusDiff;
+      if (sortBy === "popular") return b.capacity - a.capacity;
+      return 0; // recent: 원본 순서 유지
     });
 
   return (
@@ -166,9 +172,11 @@ export default function EventsPage() {
             AI 토크, 웨비나, 오프라인 모임 등 다양한 이벤트에 참여하세요.
           </p>
         </div>
-        <Link href="/events/create">
-          <Button>이벤트 개설</Button>
-        </Link>
+        {isLoggedIn && (
+          <Link href="/events/create">
+            <Button>이벤트 개설</Button>
+          </Link>
+        )}
       </div>
 
       {/* Filters */}
@@ -189,7 +197,7 @@ export default function EventsPage() {
               <SelectItem value="offline">오프라인</SelectItem>
             </SelectContent>
           </Select>
-          <SortTabs />
+          <SortTabs value={sortBy} onChange={setSortBy} />
         </div>
       </div>
 

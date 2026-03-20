@@ -18,6 +18,7 @@ import {
 import { IconButton } from "@/components/ui/icon-button";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuDivider } from "@/components/ui/dropdown-menu";
 import { SearchInput } from "@/components/site/search-input";
+import { useAuth } from "@/lib/auth-context";
 
 const navItems = [
   { label: "인사이트", href: "/explore/feed" },
@@ -63,6 +64,7 @@ function useClickOutside(
 
 export function Navbar() {
   const pathname = usePathname();
+  const { isLoggedIn, isAdmin, user, toggle: authToggle } = useAuth();
   const [openDropdown, setOpenDropdown] = useState<
     "notifications" | "profile" | null
   >(null);
@@ -70,7 +72,7 @@ export function Navbar() {
 
   useClickOutside(dropdownRef, () => setOpenDropdown(null));
 
-  const toggle = (key: "notifications" | "profile") =>
+  const toggleDropdown = (key: "notifications" | "profile") =>
     setOpenDropdown((prev) => (prev === key ? null : key));
 
   const close = () => setOpenDropdown(null);
@@ -105,80 +107,95 @@ export function Navbar() {
 
         {/* Right: Write + DM + Profile */}
         <div className="flex items-center gap-3 flex-1 justify-end" ref={dropdownRef}>
-          <Link
-            href="/write?type=case"
-            className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-          >
-            <PenSquare className="w-4 h-4" strokeWidth={1.5} />
-            글쓰기
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Link
+                href="/write?type=case"
+                className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+              >
+                <PenSquare className="w-4 h-4" strokeWidth={1.5} />
+                글쓰기
+              </Link>
 
-          {/* Notifications */}
-          <div className="relative">
-            <IconButton
-              icon={Bell}
-              badge={3}
-              onClick={() => toggle("notifications")}
-            />
-            {openDropdown === "notifications" && (
-              <DropdownMenu className="w-80">
-                <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-                  <p className="text-sm font-semibold text-foreground">알림</p>
-                  <button className="text-sm text-primary hover:underline">모두 읽음</button>
-                </div>
-                <div className="divide-y divide-border">
-                  {notifications.map((n, i) => (
+              {/* Notifications */}
+              <div className="relative">
+                <IconButton
+                  icon={Bell}
+                  badge={3}
+                  onClick={() => toggleDropdown("notifications")}
+                />
+                {openDropdown === "notifications" && (
+                  <DropdownMenu className="w-80">
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+                      <p className="text-sm font-semibold text-foreground">알림</p>
+                      <button className="text-sm text-primary hover:underline">모두 읽음</button>
+                    </div>
+                    <div className="divide-y divide-border">
+                      {notifications.map((n, i) => (
+                        <Link
+                          key={i}
+                          href={n.href}
+                          onClick={close}
+                          className="flex items-start gap-3 px-4 py-3 hover:bg-muted transition-colors"
+                        >
+                          <n.icon className="w-4 h-4 text-primary shrink-0 mt-0.5" strokeWidth={1.5} />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm text-foreground">{n.text}</p>
+                            <p className="text-sm text-sub-foreground">{n.time}</p>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
                     <Link
-                      key={i}
-                      href={n.href}
+                      href="/messages"
                       onClick={close}
-                      className="flex items-start gap-3 px-4 py-3 hover:bg-muted transition-colors"
+                      className="block text-center text-sm text-primary py-3 border-t border-border hover:bg-muted transition-colors"
                     >
-                      <n.icon className="w-4 h-4 text-primary shrink-0 mt-0.5" strokeWidth={1.5} />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-foreground">{n.text}</p>
-                        <p className="text-sm text-sub-foreground">{n.time}</p>
-                      </div>
+                      전체보기
                     </Link>
-                  ))}
-                </div>
-                <Link
-                  href="/messages"
-                  onClick={close}
-                  className="block text-center text-sm text-primary py-3 border-t border-border hover:bg-muted transition-colors"
-                >
-                  전체보기
-                </Link>
-              </DropdownMenu>
-            )}
-          </div>
+                  </DropdownMenu>
+                )}
+              </div>
 
-          {/* Profile */}
-          <div className="relative">
-            <IconButton icon={User} onClick={() => toggle("profile")} />
-            {openDropdown === "profile" && (
-              <DropdownMenu className="w-56">
-                <div className="px-4 py-3 border-b border-border">
-                  <p className="text-sm font-medium text-foreground">홍길동</p>
-                  <p className="text-sm text-sub-foreground">honggildong</p>
-                </div>
-                <div className="py-1">
-                  <DropdownMenuItem icon={User} label="내 프로필" href="/profile/honggildong" onClick={close} />
-                  <DropdownMenuItem icon={BookOpen} label="내 스터디" href="/study/my" onClick={close} />
-                  <DropdownMenuItem icon={Bell} label="알림/쪽지" href="/messages" onClick={close} />
-                  <DropdownMenuItem icon={Settings} label="설정" href="/settings" onClick={close} />
-                </div>
-                <DropdownMenuDivider />
-                <div className="py-1">
-                  <DropdownMenuItem icon={Shield} label="어드민" href="/admin" onClick={close} />
-                </div>
-                <DropdownMenuDivider />
-                <div className="py-1">
-                  <DropdownMenuItem icon={LogOut} label="로그아웃" onClick={close} />
-                </div>
-              </DropdownMenu>
-            )}
-          </div>
+              {/* Profile */}
+              <div className="relative">
+                <IconButton icon={User} onClick={() => toggleDropdown("profile")} />
+                {openDropdown === "profile" && (
+                  <DropdownMenu className="w-56">
+                    <div className="px-4 py-3 border-b border-border">
+                      <p className="text-sm font-medium text-foreground">{user?.name}</p>
+                      <p className="text-sm text-sub-foreground">{user?.username}</p>
+                    </div>
+                    <div className="py-1">
+                      <DropdownMenuItem icon={User} label="내 프로필" href="/profile/my" onClick={close} />
+                      <DropdownMenuItem icon={BookOpen} label="내 스터디" href="/study/my" onClick={close} />
+                      <DropdownMenuItem icon={Bell} label="알림/쪽지" href="/messages" onClick={close} />
+                      <DropdownMenuItem icon={Settings} label="설정" href="/settings" onClick={close} />
+                    </div>
+                    {isAdmin && (
+                      <>
+                        <DropdownMenuDivider />
+                        <div className="py-1">
+                          <DropdownMenuItem icon={Shield} label="어드민" href="/admin" onClick={close} />
+                        </div>
+                      </>
+                    )}
+                    <DropdownMenuDivider />
+                    <div className="py-1">
+                      <DropdownMenuItem icon={LogOut} label="로그아웃" onClick={() => { authToggle(); close(); }} />
+                    </div>
+                  </DropdownMenu>
+                )}
+              </div>
+            </>
+          ) : (
+            <Link
+              href={`/login?from=${encodeURIComponent(pathname)}`}
+              className="px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            >
+              로그인
+            </Link>
+          )}
         </div>
       </div>
     </header>

@@ -4,6 +4,8 @@ export function Footer() {
   return (
     <footer className="py-6 mt-12">
       <p className="text-sm text-sub-foreground text-center">
+        <Link href="/community/feed">공지사항</Link>
+        {" · "}
         <Link href="#">콘텐츠 규정</Link>
         {" · "}
         <Link href="#">개인정보 처리방침</Link>

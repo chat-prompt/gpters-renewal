@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import {
   ArrowLeft,
   Calendar,
@@ -14,10 +14,9 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarGroup } from "@/components/ui/avatar";
+import { useAuth } from "@/lib/auth-context";
 
 /* ─── Mock Data ─── */
-
-const isOwner = true;
 
 const eventsMap: Record<string, Event> = {
   "1": {
@@ -44,7 +43,7 @@ const eventsMap: Record<string, Event> = {
       { time: "20:00", title: "Q&A" },
       { time: "20:30", title: "마무리" },
     ],
-    host: { name: "GPTers", avatar: "" },
+    host: { name: "GPTers", username: "gpters", avatar: "" },
     speakers: [
       { name: "김현수", role: "AI 엔지니어", avatar: "" },
       { name: "이다혜", role: "프로덕트 매니저", avatar: "" },
@@ -76,7 +75,7 @@ const eventsMap: Record<string, Event> = {
       { time: "16:30", title: "각자 작업 시간 (2차)" },
       { time: "17:30", title: "마무리 공유 & 네트워킹" },
     ],
-    host: { name: "GPTers 서울", avatar: "" },
+    host: { name: "GPTers 서울", username: "gpters-seoul", avatar: "" },
     speakers: [],
     attendees: 18,
     capacity: 30,
@@ -105,7 +104,7 @@ const eventsMap: Record<string, Event> = {
       { time: "21:00", title: "나만의 워크플로우 설계 팁" },
       { time: "21:15", title: "Q&A" },
     ],
-    host: { name: "김영호", avatar: "" },
+    host: { name: "김영호", username: "youngho", avatar: "" },
     speakers: [{ name: "김영호", role: "자동화 컨설턴트", avatar: "" }],
     attendees: 132,
     capacity: 300,
@@ -135,7 +134,7 @@ const eventsMap: Record<string, Event> = {
       { time: "17:30", title: "AI 프로젝트 쇼케이스" },
       { time: "18:30", title: "자유 네트워킹 & 마무리" },
     ],
-    host: { name: "GPTers", avatar: "" },
+    host: { name: "GPTers", username: "gpters", avatar: "" },
     speakers: [
       { name: "신연권", role: "GPTers 대표", avatar: "" },
       { name: "박소연", role: "AI 마케터", avatar: "" },
@@ -161,7 +160,7 @@ interface Event {
   description: string;
   longDescription: string;
   agenda: { time: string; title: string }[];
-  host: { name: string; avatar: string };
+  host: { name: string; username: string; avatar: string };
   speakers: { name: string; role: string; avatar: string }[];
   attendees: number;
   capacity: number;
@@ -174,6 +173,8 @@ interface Event {
 
 export default function EventDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const pathname = usePathname();
+  const { isLoggedIn, isOwner } = useAuth();
   const [registered, setRegistered] = useState(false);
   const event = eventsMap[id];
 
@@ -211,7 +212,7 @@ export default function EventDetailPage() {
           <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
           이벤트 목록
         </Link>
-        {isOwner && (
+        {isLoggedIn && isOwner(event.host.username) && (
           <Link href={`/events/${event.id}/edit`}>
             <Button variant="outline" size="sm">수정</Button>
           </Link>
@@ -379,9 +380,18 @@ export default function EventDetailPage() {
             </div>
 
             {/* CTA */}
-            <Button className="w-full" onClick={() => setRegistered(true)} disabled={registered}>
-              {registered ? "신청완료" : "신청하기"}
-            </Button>
+            {isLoggedIn ? (
+              <Button className="w-full" onClick={() => setRegistered(true)} disabled={registered}>
+                {registered ? "신청완료" : "신청하기"}
+              </Button>
+            ) : (
+              <Link
+                href={`/login?from=${encodeURIComponent(pathname)}`}
+                className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+              >
+                로그인 후 참가
+              </Link>
+            )}
 
             {/* Share */}
             <button
@@ -406,9 +416,18 @@ export default function EventDetailPage() {
               {spotsLeft}자리 남음
             </p>
           </div>
-          <Button onClick={() => setRegistered(true)} disabled={registered}>
-            {registered ? "신청완료" : "신청하기"}
-          </Button>
+          {isLoggedIn ? (
+            <Button onClick={() => setRegistered(true)} disabled={registered}>
+              {registered ? "신청완료" : "신청하기"}
+            </Button>
+          ) : (
+            <Link
+              href={`/login?from=${encodeURIComponent(pathname)}`}
+              className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            >
+              로그인 후 참가
+            </Link>
+          )}
         </div>
       </div>
     </div>

@@ -1,15 +1,15 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Check, ChevronLeft } from "lucide-react";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { Tabs } from "@/components/ui/tabs";
 import Link from "next/link";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { List, ListItem } from "@/components/ui/list";
 import { Toggle } from "@/components/ui/toggle";
+import { useAuth } from "@/lib/auth-context";
 
 const purchaseHistory = [
   {
@@ -47,19 +47,6 @@ const coupons = [
   },
 ];
 
-const allInterestOptions = [
-  "AI 자동화",
-  "프롬프트 엔지니어링",
-  "n8n",
-  "ChatGPT",
-  "노코드",
-  "Claude API",
-  "바이브코딩",
-  "AI 비즈니스",
-  "데이터분석",
-  "AI 디자인",
-];
-
 const tabItems = [
   { key: "profile", label: "내 정보" },
   { key: "purchases", label: "구매내역" },
@@ -68,46 +55,29 @@ const tabItems = [
 ];
 
 export default function SettingsPage() {
+  const { isLoggedIn } = useAuth();
+  const pathname = usePathname();
   const [activeTab, setActiveTab] = useState("profile");
   const [emailNoti, setEmailNoti] = useState(true);
   const [studyNoti, setStudyNoti] = useState(true);
   const [commentNoti, setCommentNoti] = useState(true);
   const [marketingNoti, setMarketingNoti] = useState(false);
 
-  const [selectedInterests, setSelectedInterests] = useState(["AI 자동화", "프롬프트 엔지니어링", "n8n", "ChatGPT", "노코드"]);
-  const toggleInterest = (tag: string) =>
-    setSelectedInterests(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
 
-  const [profileForm, setProfileForm] = useState({
-    name: "김철수",
-    bio: "AI를 활용한 업무 자동화에 관심이 많은 마케터입니다.",
-    link: "https://linkedin.com/in/chulsu",
-  });
-  const [saved, setSaved] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleSave = () => {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  };
-
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setAvatarUrl(URL.createObjectURL(file));
-    }
-  };
+  if (!isLoggedIn) {
+    return (
+      <div className="flex flex-col items-center justify-center py-page gap-group">
+        <p className="text-lg font-semibold text-foreground">로그인이 필요합니다</p>
+        <p className="text-sm text-sub-foreground">이 페이지를 보려면 로그인해주세요.</p>
+        <Link href={`/login?from=${encodeURIComponent(pathname)}`} className="inline-flex items-center px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
+          로그인
+        </Link>
+      </div>
+    );
+  }
 
   return (
-    <div className="mx-auto max-w-[860px] px-6 py-page">
-      <Link
-        href="/"
-        className="inline-flex items-center gap-1 text-sm text-sub-foreground hover:text-foreground transition-colors mb-4"
-      >
-        <ChevronLeft className="w-4 h-4" strokeWidth={1.5} />
-        홈
-      </Link>
+    <div className="mx-auto max-w-[680px] px-6 py-page">
       <h1 className="text-xl font-semibold text-foreground mb-6">계정 설정</h1>
 
       <Tabs
@@ -119,100 +89,20 @@ export default function SettingsPage() {
 
       {/* Profile Tab */}
       {activeTab === "profile" && (
-        <section className="space-y-6 max-w-xl">
-          <div className="flex items-center gap-4">
-            <Avatar size="lg">
-              {avatarUrl && <AvatarImage src={avatarUrl} />}
-            </Avatar>
-            <div>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleAvatarChange}
-              />
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                사진 변경
-              </Button>
-            </div>
+        <section className="max-w-xl space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-1">이메일</label>
+            <Input defaultValue="chulsu@example.com" disabled />
+            <p className="text-sm text-sub-foreground mt-1">이메일은 변경할 수 없습니다.</p>
           </div>
-
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1">
-                이름
-              </label>
-              <Input
-                value={profileForm.name}
-                onChange={(e) =>
-                  setProfileForm({ ...profileForm, name: e.target.value })
-                }
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1">
-                이메일
-              </label>
-              <Input defaultValue="chulsu@example.com" disabled />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1">
-                소개
-              </label>
-              <textarea
-                className="w-full border border-input rounded-md px-4 py-2 text-sm bg-background text-foreground placeholder:text-sub-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                rows={3}
-                value={profileForm.bio}
-                onChange={(e) =>
-                  setProfileForm({ ...profileForm, bio: e.target.value })
-                }
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                관심 분야
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {allInterestOptions.map((tag) => (
-                  <Badge
-                    key={tag}
-                    variant={selectedInterests.includes(tag) ? "active" : "default"}
-                    className="cursor-pointer"
-                    onClick={() => toggleInterest(tag)}
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1">
-                외부 링크
-              </label>
-              <Input
-                value={profileForm.link}
-                onChange={(e) =>
-                  setProfileForm({ ...profileForm, link: e.target.value })
-                }
-              />
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-1">비밀번호</label>
+            <Button variant="secondary" size="sm">비밀번호 변경</Button>
           </div>
-
-          <Button onClick={handleSave}>
-            {saved ? (
-              <>
-                <Check className="w-4 h-4" strokeWidth={1.5} />
-                저장됨
-              </>
-            ) : (
-              "저장"
-            )}
-          </Button>
+          <p className="text-sm text-sub-foreground pt-2">
+            이름, 소개, 프로필 사진, 외부 링크는{" "}
+            <a href="/profile/me" className="text-primary hover:underline">내 프로필</a>에서 변경할 수 있습니다.
+          </p>
         </section>
       )}
 

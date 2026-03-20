@@ -178,7 +178,10 @@ export default function CommunityFeedPage() {
   const [posts, setPosts] = useState(feedPosts);
   const [loadCount, setLoadCount] = useState(0);
 
-  const currentPosts = activeTab === "qna" ? qnaPosts : posts;
+  const unsortedPosts = activeTab === "qna" ? qnaPosts : posts;
+  const currentPosts = sort === "popular"
+    ? [...unsortedPosts].sort((a, b) => b.votes - a.votes)
+    : unsortedPosts;
   const placeholderText =
     activeTab === "qna"
       ? "질문이 있으신가요?"

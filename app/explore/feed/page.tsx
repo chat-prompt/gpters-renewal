@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { Heart, MessageSquare } from "lucide-react";
 import { PostCard } from "@/components/site/post-card";
 import { SortTabs } from "@/components/site/sort-tabs";
 import { CategoryFilter } from "@/components/site/category-filter";
@@ -9,6 +10,7 @@ import { Pagination } from "@/components/ui/pagination";
 import { UserRow } from "@/components/site/user-row";
 import { Avatar } from "@/components/ui/avatar";
 import { TagList } from "@/components/site/tag-list";
+import { useAuth } from "@/lib/auth-context";
 
 /* ─── Mock Data ─── */
 
@@ -140,24 +142,35 @@ const recommendedTopics = [
   "n8n", "Midjourney", "바이브코딩", "AI 에이전트",
 ];
 
-const editorPicks = [
+const mostRead = [
   {
     slug: "ai-trend-2025",
     title: "2025년 주목할 AI 트렌드 TOP 10",
     author: "최준혁",
-    time: "5일 전",
+    username: "choijunhyuk",
+    excerpt: "에이전트, 멀티모달, 온디바이스까지 핵심 흐름을 짚어봅니다.",
+    votes: 312,
+    comments: 47,
+    thumbnailUrl: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=120&h=80&fit=crop",
   },
   {
     slug: "claude-marketing",
     title: "Claude로 마케팅 자동화 구축기",
     author: "홍길동",
-    time: "3시간 전",
+    username: "honggildong",
+    excerpt: "매주 3시간 걸리던 작업이 30분으로 줄었어요.",
+    votes: 142,
+    comments: 23,
+    thumbnailUrl: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=120&h=80&fit=crop",
   },
   {
     slug: "cursor-fullstack",
     title: "Cursor로 풀스택 앱 만들기",
     author: "박철수",
-    time: "1일 전",
+    username: "parkchulsoo",
+    excerpt: "바이브 코딩으로 실제 서비스를 만드는 과정을 공유합니다.",
+    votes: 87,
+    comments: 31,
   },
 ];
 
@@ -172,6 +185,7 @@ const POSTS_PER_PAGE = 5;
 /* ─── Page ─── */
 
 export default function FeedPage() {
+  const { isLoggedIn } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [sortBy, setSortBy] = useState("popular");
   const [currentPage, setCurrentPage] = useState(1);
@@ -197,7 +211,7 @@ export default function FeedPage() {
   );
 
   return (
-    <div className="mx-auto max-w-[860px] px-6 pt-group pb-page">
+    <div className="mx-auto max-w-[1020px] px-6 pt-group pb-page">
       {/* 카테고리 섹션 */}
       <CategoryFilter
         categories={categoryTabs}
@@ -210,18 +224,17 @@ export default function FeedPage() {
 
       {/* 게시글 섹션 — 카테고리와 섹션 간 간격 */}
       <div className="pt-section">
-        {/* Sort + Count */}
-        <div className="flex items-center justify-between">
-          <SortTabs value={sortBy} onChange={(v) => { setSortBy(v); setCurrentPage(1); }} />
-          <span className="text-sm text-sub-foreground">
-            {filteredPosts.length}개의 글
-          </span>
-        </div>
-
         {/* Post List + Sidebar */}
-        <div className="flex gap-10 items-start">
+        <div className="flex gap-16 items-start">
           {/* Main */}
           <div className="flex-1 min-w-0">
+            {/* Sort + Count */}
+            <div className="flex items-center justify-between mb-4">
+              <SortTabs value={sortBy} onChange={(v) => { setSortBy(v); setCurrentPage(1); }} />
+              <span className="text-sm text-sub-foreground">
+                {filteredPosts.length}개의 글
+              </span>
+            </div>
             {paginatedPosts.length > 0 ? (
               <div className="divide-y divide-border">
                 {paginatedPosts.map((post) => (
@@ -245,44 +258,63 @@ export default function FeedPage() {
           </div>
 
           {/* Sidebar */}
-          <aside className="w-64 hidden lg:block shrink-0 sticky top-20">
-            <div className="space-y-10">
-              {/* Editor Picks */}
-              <div>
-                <h3 className="text-base font-semibold text-sub-foreground mb-3">에디터 픽</h3>
-                <div className="space-y-6">
-                  {editorPicks.map((pick) => (
+          <aside className="w-[360px] hidden lg:block shrink-0 sticky top-20 space-y-4">
+              {/* Most Read */}
+              <div className="border border-border rounded-lg p-5">
+                <h3 className="text-base font-semibold text-foreground mb-4">많이 읽은 글</h3>
+                <div className="divide-y divide-border">
+                  {mostRead.map((post) => (
                     <Link
-                      key={pick.slug}
-                      href={`/posts/${pick.slug}`}
-                      className="block group"
+                      key={post.slug}
+                      href={`/posts/${post.slug}`}
+                      className="block group py-4 first:pt-0 last:pb-0"
                     >
-                      <div className="flex items-center gap-2 mb-2">
-                        <Avatar size="sm" />
-                        <span className="text-sm text-secondary-foreground font-medium">
-                          {pick.author}
+                      <div className="flex gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-foreground group-hover:underline line-clamp-2 leading-snug">
+                            {post.title}
+                          </p>
+                          <p className="text-sm font-regular text-sub-foreground line-clamp-1 mt-1.5">
+                            {post.excerpt}
+                          </p>
+                        </div>
+                        {post.thumbnailUrl && (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={post.thumbnailUrl}
+                            alt=""
+                            className="w-16 h-16 object-cover rounded-md shrink-0"
+                          />
+                        )}
+                      </div>
+                      <div className="flex items-center gap-3 mt-2 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-2">
+                          <Avatar size="sm" />
+                          <span className="text-secondary-foreground font-medium">
+                            {post.author}
+                          </span>
+                        </div>
+                        <span className="flex items-center gap-1">
+                          <Heart className="w-4 h-4" strokeWidth={1.5} /> {post.votes}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <MessageSquare className="w-4 h-4" strokeWidth={1.5} /> {post.comments}
                         </span>
                       </div>
-                      <p className="font-semibold text-foreground group-hover:underline line-clamp-2 leading-snug">
-                        {pick.title}
-                      </p>
-                      <p className="text-sm font-regular text-muted-foreground mt-1.5">
-                        {pick.time}
-                      </p>
                     </Link>
                   ))}
                 </div>
               </div>
 
               {/* Recommended Topics */}
-              <div>
-                <h3 className="text-base font-semibold text-sub-foreground mb-3">추천 토픽</h3>
+              <div className="border border-border rounded-lg p-5">
+                <h3 className="text-base font-semibold text-foreground mb-4">추천 토픽</h3>
                 <TagList tags={recommendedTopics} variant="pill" />
               </div>
 
-              {/* Who to Follow */}
-              <div>
-                <h3 className="text-base font-semibold text-sub-foreground mb-3">추천 작성자</h3>
+              {/* Active Members */}
+              <div className="border border-border rounded-lg p-5">
+                <h3 className="text-base font-semibold text-foreground mb-4">가장 활발한 멤버</h3>
                 <div className="space-y-1">
                   {whoToFollow.map((user) => (
                     <UserRow
@@ -291,12 +323,11 @@ export default function FeedPage() {
                       username={user.username}
                       description={user.bio}
                       href={`/profile/${user.username}`}
-                      showFollowButton
+                      showFollowButton={isLoggedIn}
                     />
                   ))}
                 </div>
               </div>
-            </div>
           </aside>
         </div>
       </div>

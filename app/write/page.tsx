@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FeedPostForm } from "@/components/site/feed-post-form";
 import { CaseArticleForm } from "@/components/site/case-article-form";
+import { useAuth } from "@/lib/auth-context";
+import Link from "next/link";
 
 /* --- Mock Data --- */
 
@@ -16,6 +18,11 @@ const categories = [
   "개발/코딩",
   "비즈니스/마케팅",
   "AI 뉴스",
+];
+
+const mySeries = [
+  { id: "1", title: "맘스만 개발기" },
+  { id: "2", title: "자동화 마스터 클래스" },
 ];
 
 const suggestedTags = [
@@ -38,7 +45,21 @@ const suggestedTags = [
 
 export default function WritePage() {
   const router = useRouter();
+  const pathname = usePathname();
+  const { isLoggedIn } = useAuth();
   const [type, setType] = useState<"feed" | "case">("case");
+
+  if (!isLoggedIn) {
+    return (
+      <div className="flex flex-col items-center justify-center py-page gap-group">
+        <p className="text-lg font-semibold text-foreground">로그인이 필요합니다</p>
+        <p className="text-sm text-sub-foreground">이 페이지를 보려면 로그인해주세요.</p>
+        <Link href={`/login?from=${encodeURIComponent(pathname)}`} className="inline-flex items-center px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
+          로그인
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-[680px] px-6 py-page">
@@ -92,6 +113,7 @@ export default function WritePage() {
         <CaseArticleForm
           categories={categories}
           suggestedTags={suggestedTags}
+          existingSeries={mySeries}
         />
       )}
     </div>

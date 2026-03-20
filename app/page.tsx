@@ -3,13 +3,8 @@ import {
   Heart,
   MessageSquare,
 } from "lucide-react";
-import { PostCard } from "@/components/site/post-card";
-import { SortTabs } from "@/components/site/sort-tabs";
 import { HeroCarousel } from "@/components/site/hero-carousel";
-import { UserRow } from "@/components/site/user-row";
 import { Avatar } from "@/components/ui/avatar";
-import { TagList } from "@/components/site/tag-list";
-
 /* ─── Mock Data ─── */
 
 const heroSlides = [
@@ -42,122 +37,39 @@ const heroSlides = [
   },
 ];
 
-const whiteboard = {
-  imageUrl: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=384&h=256&fit=crop",
-  title: "AI로 일하는 법, GPTers에서 시작하세요",
-  body: "12,000명의 AI 실무자 커뮤니티에서 최신 AI 활용법을 배우고, 함께 성장하세요. 초보자도 환영합니다.",
-  ctaText: "커뮤니티 둘러보기",
-  ctaHref: "/explore/feed",
-};
-
-const featuredPost = {
-  slug: "ai-trend-2025",
-  category: "트렌드",
-  title: "2025년 주목할 AI 트렌드 TOP 10 — 에이전트, 멀티모달, 온디바이스까지",
-  author: "최준혁",
-  time: "5일 전",
-  excerpt:
-    "올해 하반기부터 주목해야 할 AI 산업 트렌드를 정리했습니다. AI 에이전트의 실전 도입부터 멀티모달 모델의 대중화, 온디바이스 AI의 확산까지 핵심 흐름을 짚어봅니다.",
-  votes: 312,
-  comments: 47,
-};
-
-const trendingTopics = [
-  "ChatGPT",
-  "Claude",
-  "Cursor",
-  "프롬프트",
-  "자동화",
-  "n8n",
-  "Midjourney",
-  "바이브코딩",
-];
-
-const posts = [
+const featuredPosts = [
   {
-    slug: "claude-marketing",
-    category: "AI활용법",
-    title: "Claude로 마케팅 자동화 구축기",
-    author: "홍길동",
-    username: "honggildong",
-    time: "3시간 전",
-    tags: ["Claude", "자동화"],
+    slug: "ai-trend-2025",
+    category: "트렌드",
+    title: "2025년 주목할 AI 트렌드 TOP 10 — 에이전트, 멀티모달, 온디바이스까지",
+    author: "최준혁",
+    username: "choijunhyuk",
+    time: "5일 전",
     excerpt:
-      "이번에 Claude를 활용해서 마케팅 이메일 자동화 파이프라인을 구축한 경험을 공유합니다. 매주 3시간 걸리던 작업이 30분으로 줄었어요.",
-    votes: 142,
-    comments: 23,
-    thumbnailUrl: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=240&h=160&fit=crop",
-  },
-  {
-    slug: "gpt4o-prompt",
-    category: "프롬프트",
-    title: "GPT-4o 프롬프트 작성법 완전 가이드",
-    author: "이영희",
-    username: "leeyounghee",
-    time: "5시간 전",
-    tags: ["ChatGPT"],
-    excerpt:
-      "프롬프트 엔지니어링 기초부터 고급 기법까지 체계적으로 정리했습니다. 비개발자도 쉽게 따라할 수 있는 가이드.",
-    votes: 98,
-    comments: 15,
+      "올해 하반기부터 주목해야 할 AI 산업 트렌드를 정리했습니다. AI 에이전트의 실전 도입부터 멀티모달 모델의 대중화, 온디바이스 AI의 확산까지 핵심 흐름을 짚어봅니다.",
+    votes: 312,
+    comments: 47,
+    thumbnailUrl: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&h=400&fit=crop",
   },
   {
     slug: "cursor-fullstack",
     category: "개발/코딩",
-    title: "Cursor로 풀스택 앱 만들기 - Part 1",
+    title: "Cursor로 풀스택 앱 만들기 — 바이브 코딩 실전기",
     author: "박철수",
     username: "parkchulsoo",
     time: "1일 전",
-    tags: ["Cursor"],
-    excerpt:
-      "바이브 코딩으로 실제 서비스를 만드는 과정을 처음부터 끝까지 공유합니다. React + Supabase 조합으로 진행.",
     votes: 87,
     comments: 31,
-    thumbnailUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=240&h=160&fit=crop",
   },
   {
-    slug: "ai-business-plan",
-    category: "비즈니스",
-    title: "AI로 사업계획서 작성하는 완벽 가이드",
-    author: "김민지",
-    username: "kimminji",
-    time: "2일 전",
-    tags: ["ChatGPT"],
-    excerpt:
-      "ChatGPT와 Claude를 활용하여 투자 유치용 사업계획서를 작성하는 방법을 단계별로 안내합니다.",
-    votes: 76,
-    comments: 19,
-  },
-  {
-    slug: "n8n-automation",
-    category: "자동화",
-    title: "n8n으로 업무 자동화 워크플로우 구축하기",
-    author: "김영호",
-    username: "kimyoungho",
-    time: "2일 전",
-    tags: ["n8n"],
-    excerpt:
-      "반복적인 업무를 n8n 워크플로우로 자동화한 실전 사례를 소개합니다. Slack 알림부터 데이터 수집까지.",
-    votes: 54,
-    comments: 14,
-  },
-];
-
-const whoToFollow = [
-  {
+    slug: "claude-marketing",
+    category: "AI활용법",
+    title: "Claude로 마케팅 자동화 구축기 — 주 3시간을 30분으로",
+    author: "홍길동",
     username: "honggildong",
-    name: "홍길동",
-    bio: "AI 마케팅 자동화 전문가",
-  },
-  {
-    username: "leeyounghee",
-    name: "이영희",
-    bio: "프롬프트 엔지니어링 강사",
-  },
-  {
-    username: "parkchulsoo",
-    name: "박철수",
-    bio: "바이브 코딩으로 10개 서비스 런칭",
+    time: "3시간 전",
+    votes: 142,
+    comments: 23,
   },
 ];
 
@@ -165,160 +77,81 @@ const whoToFollow = [
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-[860px] px-6 py-page">
+    <div className="mx-auto max-w-[1020px] px-6 py-page">
       {/* Hero Carousel */}
       <div className="mb-8">
         <HeroCarousel slides={heroSlides} />
       </div>
 
-      {/* Whiteboard */}
-      <div className="mb-8 p-6 border border-border rounded-lg">
-        <div className="flex gap-6 items-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={whiteboard.imageUrl} alt="" className="w-48 h-32 object-cover rounded-lg shrink-0" />
-          <div className="flex-1">
-            <h2 className="text-lg font-semibold text-foreground mb-2">
-              {whiteboard.title}
-            </h2>
-            <p className="text-sm font-regular text-foreground mb-4">
-              {whiteboard.body}
-            </p>
-            <Link
-              href={whiteboard.ctaHref}
-              className="inline-block px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-            >
-              {whiteboard.ctaText}
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Trending Topics */}
+      {/* Editor's Pick — Magazine Layout */}
       <div className="mb-8">
-        <h3 className="text-sm font-semibold text-foreground mb-3">트렌딩 토픽</h3>
-        <TagList tags={trendingTopics} variant="pill" />
-      </div>
-
-      <div className="flex gap-10 items-start">
-        {/* Main Feed */}
-        <div className="flex-1 min-w-0">
-          {/* Editor's Pick */}
-          <div className="mb-8 pb-8 border-b border-border">
-            <p className="text-sm font-semibold text-sub-foreground uppercase tracking-wider mb-4">
-              Editor&apos;s Pick
+        <p className="text-sm font-semibold text-sub-foreground uppercase tracking-wider mb-4">
+          Editor&apos;s Pick
+        </p>
+        <div className="flex gap-6">
+          {/* Main Feature (Left) */}
+          <Link href={`/posts/${featuredPosts[0].slug}`} className="group flex-1 min-w-0">
+            {featuredPosts[0].thumbnailUrl && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={featuredPosts[0].thumbnailUrl}
+                alt=""
+                className="w-full h-56 object-cover rounded-lg mb-4"
+              />
+            )}
+            <div className="flex items-center gap-2 mb-2">
+              <Avatar size="sm" />
+              <span className="text-sm text-sub-foreground">
+                <span className="font-medium text-foreground">
+                  {featuredPosts[0].author}
+                </span>
+                {" · "}
+                <span>{featuredPosts[0].category}</span>
+                {" · "}{featuredPosts[0].time}
+              </span>
+            </div>
+            <h2 className="text-xl font-semibold text-foreground group-hover:underline leading-snug mb-2">
+              {featuredPosts[0].title}
+            </h2>
+            <p className="text-sm font-regular text-secondary-foreground line-clamp-2 leading-relaxed mb-3">
+              {featuredPosts[0].excerpt}
             </p>
-            <Link href={`/posts/${featuredPost.slug}`} className="group block">
-              <div className="flex items-center gap-2 mb-3">
-                <Avatar size="sm" />
-                <span className="text-sm text-sub-foreground">
-                  <span className="font-medium text-foreground">
-                    {featuredPost.author}
-                  </span>
-                  {" · "}
-                  <span>{featuredPost.category}</span>
-                  {" · "}{featuredPost.time}
-                </span>
-              </div>
-              <h2 className="text-2xl font-semibold text-foreground group-hover:underline leading-snug mb-2">
-                {featuredPost.title}
-              </h2>
-              <p className="text-base font-regular text-foreground line-clamp-3 leading-relaxed mb-3">
-                {featuredPost.excerpt}
-              </p>
-              <div className="flex items-center gap-3 text-sm text-sub-foreground">
-                <span className="ml-auto flex items-center gap-3">
-                  <span className="flex items-center gap-1">
-                    <Heart className="w-5 h-5" strokeWidth={1.5} /> {featuredPost.votes}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <MessageSquare className="w-5 h-5" strokeWidth={1.5} /> {featuredPost.comments}
-                  </span>
-                </span>
-              </div>
-            </Link>
-          </div>
+            <div className="flex items-center gap-3 text-sm text-sub-foreground">
+              <span className="flex items-center gap-1">
+                <Heart className="w-5 h-5" strokeWidth={1.5} /> {featuredPosts[0].votes}
+              </span>
+              <span className="flex items-center gap-1">
+                <MessageSquare className="w-5 h-5" strokeWidth={1.5} /> {featuredPosts[0].comments}
+              </span>
+            </div>
+          </Link>
 
-          <div className="pb-4">
-            <SortTabs />
-          </div>
-
-          <div className="divide-y divide-border">
-            {posts.map((post) => (
-              <PostCard key={post.slug} {...post} />
+          {/* Side Features (Right) */}
+          <div className="w-72 shrink-0 flex flex-col gap-6">
+            {featuredPosts.slice(1).map((fp) => (
+              <Link key={fp.slug} href={`/posts/${fp.slug}`} className="group flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <Avatar size="sm" />
+                  <span className="text-sm text-sub-foreground">
+                    <span className="font-medium text-foreground">{fp.author}</span>
+                    {" · "}{fp.category}
+                  </span>
+                </div>
+                <h3 className="font-semibold text-foreground group-hover:underline leading-snug mb-2">
+                  {fp.title}
+                </h3>
+                <div className="flex items-center gap-3 text-sm text-sub-foreground">
+                  <span className="flex items-center gap-1">
+                    <Heart className="w-5 h-5" strokeWidth={1.5} /> {fp.votes}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <MessageSquare className="w-5 h-5" strokeWidth={1.5} /> {fp.comments}
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
-
-          <div className="pt-6">
-            <Link
-              href="/explore/feed"
-              className="block text-center py-3 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-            >
-              탐색 더 보기 →
-            </Link>
-          </div>
         </div>
-
-        {/* Sidebar */}
-        <aside className="w-64 hidden lg:flex flex-col shrink-0 sticky top-20">
-          {/* Community Snapshot */}
-          <div className="pb-8">
-            <h3 className="text-base font-semibold text-foreground mb-3">
-              커뮤니티
-            </h3>
-            <div className="flex items-baseline gap-6">
-              <div className="text-center">
-                <p className="text-xl font-semibold text-foreground">12,400</p>
-                <p className="text-sm text-sub-foreground">회원</p>
-              </div>
-              <div className="text-center">
-                <p className="text-xl font-semibold text-foreground">3,200</p>
-                <p className="text-sm text-sub-foreground">게시글</p>
-              </div>
-              <div className="text-center">
-                <p className="text-xl font-semibold text-foreground">2,100</p>
-                <p className="text-sm text-sub-foreground">수료</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Upcoming Event */}
-          <div className="pb-8">
-            <h3 className="text-base font-semibold text-foreground mb-4">
-              다가오는 이벤트
-            </h3>
-            <Link
-              href="/events"
-              className="block p-4 border border-border rounded-lg hover:bg-muted transition-colors"
-            >
-              <p className="text-sm font-medium text-foreground mb-1">
-                무료 AI 토크: Claude Code 활용법
-              </p>
-              <p className="text-sm text-sub-foreground mb-2">
-                3월 15일 (토) 19:00 · 온라인
-              </p>
-              <p className="text-sm text-primary font-medium">신청하기 →</p>
-            </Link>
-          </div>
-
-          {/* Who to Follow */}
-          <div className="pb-8">
-            <h3 className="text-base font-semibold text-foreground mb-4">
-              추천 작성자
-            </h3>
-            <div className="space-y-1">
-              {whoToFollow.map((user) => (
-                <UserRow
-                  key={user.username}
-                  name={user.name}
-                  username={user.username}
-                  description={user.bio}
-                  href={`/profile/${user.username}`}
-                  showFollowButton
-                />
-              ))}
-            </div>
-          </div>
-        </aside>
       </div>
     </div>
   );

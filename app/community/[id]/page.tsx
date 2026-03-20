@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Heart, MessageSquare, Share2 } from "lucide-react";
+import { useAuth } from "@/lib/auth-context";
 import { Avatar } from "@/components/ui/avatar";
 import { TagList } from "@/components/site/tag-list";
 
@@ -217,6 +218,18 @@ const postsMap: Record<string, Post> = {
 };
 
 function CommentItem({ comment, isReply = false }: { comment: Comment; isReply?: boolean }) {
+  const { isLoggedIn } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const requireLogin = () => {
+    if (!isLoggedIn) {
+      router.push(`/login?from=${encodeURIComponent(pathname)}`);
+      return true;
+    }
+    return false;
+  };
+
   return (
     <div className={isReply ? "ml-10" : ""}>
       <div className="flex gap-3 py-4">
@@ -228,11 +241,17 @@ function CommentItem({ comment, isReply = false }: { comment: Comment; isReply?:
           </div>
           <p className="text-sm font-regular text-foreground leading-relaxed">{comment.content}</p>
           <div className="flex items-center gap-4 mt-2">
-            <button className="flex items-center gap-1 text-sm text-sub-foreground hover:text-primary transition-colors">
+            <button
+              onClick={() => { if (requireLogin()) return; }}
+              className="flex items-center gap-1 text-sm text-sub-foreground hover:text-primary transition-colors"
+            >
               <Heart className="w-5 h-5" strokeWidth={1.5} />
               <span>{comment.likes}</span>
             </button>
-            <button className="text-sm text-sub-foreground hover:text-foreground transition-colors">
+            <button
+              onClick={() => { if (requireLogin()) return; }}
+              className="text-sm text-sub-foreground hover:text-foreground transition-colors"
+            >
               답글
             </button>
           </div>
@@ -250,6 +269,17 @@ export default function CommunityDetailPage() {
   const post = postsMap[id];
   const [liked, setLiked] = useState(false);
   const [copied, setCopied] = useState(false);
+  const { isLoggedIn } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const requireLogin = () => {
+    if (!isLoggedIn) {
+      router.push(`/login?from=${encodeURIComponent(pathname)}`);
+      return true;
+    }
+    return false;
+  };
 
   if (!post) {
     return (
@@ -306,7 +336,7 @@ export default function CommunityDetailPage() {
         {/* Actions */}
         <div className="flex items-center gap-5 pt-3 border-t border-border">
           <button
-            onClick={() => setLiked((prev) => !prev)}
+            onClick={() => { if (requireLogin()) return; setLiked((prev) => !prev); }}
             className={`flex items-center gap-1.5 text-sm transition-colors ${
               liked ? "text-primary" : "text-sub-foreground hover:text-primary"
             }`}
@@ -341,10 +371,13 @@ export default function CommunityDetailPage() {
         </h2>
 
         {/* Comment input */}
-        <div className="flex gap-3 mb-4">
+        <div
+          className="flex gap-3 mb-4 cursor-text"
+          onClick={!isLoggedIn ? () => router.push(`/login?from=${encodeURIComponent(pathname)}`) : undefined}
+        >
           <div className="w-8 h-8 rounded-full bg-muted shrink-0" />
-          <div className="flex-1 border border-border rounded-lg px-3 py-2 text-sm text-sub-foreground cursor-text">
-            댓글을 남겨주세요...
+          <div className="flex-1 border border-border rounded-lg px-3 py-2 text-sm text-sub-foreground">
+            {isLoggedIn ? "댓글을 남겨주세요..." : "로그인하고 자유롭게 의견을 남겨주세요"}
           </div>
         </div>
 

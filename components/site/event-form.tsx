@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { ImageIcon, Plus, X } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { AgendaInput, type AgendaItem } from "@/components/site/agenda-input";
@@ -400,12 +399,9 @@ export function EventForm({ mode, initialData, rejectionNote }: EventFormProps) 
       </div>
 
       {/* Auto-save indicator */}
-      <div className="flex items-center justify-between text-sm text-sub-foreground">
-        <span>자동 저장: 30초마다 저장됩니다</span>
-        <Link href="/events" className="text-primary">
-          내 이벤트 목록
-        </Link>
-      </div>
+      <p className="text-sm text-sub-foreground">
+        자동 저장: 30초마다 저장됩니다
+      </p>
     </div>
   );
 }

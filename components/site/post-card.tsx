@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 import { Heart, MessageSquare, Bookmark } from "lucide-react";
 import { TagList } from "@/components/site/tag-list";
+import { useAuth } from "@/lib/auth-context";
 
 interface PostCardProps {
   slug: string;
@@ -40,7 +42,18 @@ export function PostCard({
   seriesTitle,
   positionInSeries,
 }: PostCardProps) {
+  const { isLoggedIn } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
   const [bookmarked, setBookmarked] = useState(false);
+
+  const requireLogin = () => {
+    if (!isLoggedIn) {
+      router.push(`/login?from=${encodeURIComponent(pathname)}`);
+      return true;
+    }
+    return false;
+  };
 
   return (
     <article className="py-6 flex flex-col gap-component">
@@ -119,7 +132,7 @@ export function PostCard({
           </span>
           <button
             type="button"
-            onClick={() => setBookmarked(!bookmarked)}
+            onClick={() => { if (requireLogin()) return; setBookmarked(!bookmarked); }}
             className={`hover:text-foreground transition-colors cursor-pointer ${bookmarked ? "text-primary" : ""}`}
           >
             <Bookmark

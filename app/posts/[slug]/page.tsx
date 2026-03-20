@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { BookOpen } from "lucide-react";
+import { BookOpen, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { CommentTree, type CommentData } from "@/components/site/comment";
 import { TagList } from "@/components/site/tag-list";
@@ -10,6 +11,9 @@ import { CommentInput } from "@/components/site/comment-input";
 import { PostCard } from "@/components/site/post-card";
 import { PostAuthorMeta } from "@/components/site/post-author-meta";
 import { PostDetailCTA } from "@/components/site/post-detail-cta";
+import { useAuth } from "@/lib/auth-context";
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 /* ─── Mock Data ─── */
 
@@ -146,13 +150,16 @@ const relatedPosts = [
 /* ─── Page ─── */
 
 export default function PostDetailPage() {
+  const { isOwner } = useAuth();
+  const isPostOwner = isOwner(post.username);
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div className="mx-auto max-w-[860px] px-6 py-page">
       {/* Breadcrumb */}
       <div className="mb-6">
         <Breadcrumb
           items={[
-            { label: "탐색", href: "/explore/feed" },
             { label: post.category, href: `/explore/feed?category=ai-usage` },
             { label: post.title },
           ]}
@@ -173,9 +180,29 @@ export default function PostDetailPage() {
             <span>{seriesInfo.currentPosition}/{seriesInfo.totalPosts}화</span>
           </Link>
 
-          <h1 className="text-2xl font-semibold text-foreground mb-4">
-            {post.title}
-          </h1>
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <h1 className="text-2xl font-semibold text-foreground">
+              {post.title}
+            </h1>
+            {isPostOwner && (
+              <div className="relative shrink-0">
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  className="text-sub-foreground"
+                  onClick={() => setMenuOpen((v) => !v)}
+                >
+                  <MoreHorizontal className="w-5 h-5" strokeWidth={1.5} />
+                </Button>
+                {menuOpen && (
+                  <DropdownMenu className="min-w-[120px]">
+                    <DropdownMenuItem icon={Pencil} label="수정" onClick={() => setMenuOpen(false)} />
+                    <DropdownMenuItem icon={Trash2} label="삭제" onClick={() => setMenuOpen(false)} />
+                  </DropdownMenu>
+                )}
+              </div>
+            )}
+          </div>
 
           <PostAuthorMeta
             author={{
