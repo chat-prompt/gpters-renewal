@@ -41,28 +41,32 @@ export function EventCard({
   return (
     <Link
       href={`/events/${id}`}
-      className="group flex gap-4 p-4 rounded-lg border border-border hover:border-primary/30 transition-colors"
+      className="group block rounded-lg border border-border hover:border-primary/30 transition-colors overflow-hidden"
     >
       {/* Thumbnail */}
-      <div className="w-28 h-28 rounded-lg shrink-0 overflow-hidden bg-muted">
+      <div className="h-36 bg-muted overflow-hidden">
         {imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={imageUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+          <img
+            src={imageUrl}
+            alt=""
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
         ) : (
-          <div className="w-full h-full group-hover:scale-105 transition-transform bg-muted" />
+          <div className="w-full h-full bg-muted" />
         )}
       </div>
 
       {/* Info */}
-      <div className="flex-1 min-w-0 flex flex-col">
-        {/* Date + Badge */}
-        <div className="flex items-center gap-2 mb-1.5">
-          <span className="text-xs font-medium text-primary">
+      <div className="p-4">
+        {/* Date + badges */}
+        <div className="flex items-center gap-2 mb-2 flex-wrap">
+          <span className="text-sm font-medium text-primary">
             {date} {time}
           </span>
           <span
             className={cn(
-              "text-xs font-medium px-1.5 py-0.5 rounded",
+              "text-sm font-medium px-1.5 py-0.5 rounded",
               type === "online"
                 ? "bg-accent text-primary"
                 : "bg-muted text-sub-foreground"
@@ -76,53 +80,36 @@ export function EventCard({
             </span>
           )}
           {status === "closed" && (
-            <span className="text-sm font-medium px-1.5 py-0.5 rounded bg-muted text-secondary-foreground">
+            <span className="text-sm font-medium px-1.5 py-0.5 rounded bg-muted text-sub-foreground">
               마감
             </span>
           )}
           {status === "completed" && (
-            <span className="text-sm font-medium px-1.5 py-0.5 rounded bg-muted text-secondary-foreground">
+            <span className="text-sm font-medium px-1.5 py-0.5 rounded bg-muted text-sub-foreground">
               종료
             </span>
           )}
         </div>
 
         {/* Title */}
-        <h2 className="text-sm font-semibold text-foreground group-hover:underline line-clamp-2 mb-1">
+        <h2 className="font-semibold text-foreground group-hover:underline line-clamp-2 leading-snug mb-2">
           {title}
         </h2>
 
         {/* Location */}
-        <div className="flex items-center gap-1 text-xs text-sub-foreground mb-auto">
+        <div className="flex items-center gap-1 text-sm text-sub-foreground mb-3">
           {type === "online" ? (
-            <Monitor className="w-4 h-4" strokeWidth={1.5} />
+            <Monitor className="w-4 h-4 shrink-0" strokeWidth={1.5} />
           ) : (
-            <MapPin className="w-4 h-4" strokeWidth={1.5} />
+            <MapPin className="w-4 h-4 shrink-0" strokeWidth={1.5} />
           )}
           <span className="truncate">{location}</span>
         </div>
 
-        {/* Footer: Host + Attendees + Price */}
-        <div className="flex items-center justify-between mt-2">
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-sub-foreground">
-              {host}
-            </span>
-            <div className="flex items-center gap-1.5">
-              <div className="flex -space-x-1.5">
-                {[...Array(Math.min(3, attendees))].map((_, i) => (
-                  <div
-                    key={i}
-                    className="w-5 h-5 rounded-full bg-muted border-2 border-background"
-                  />
-                ))}
-              </div>
-              <span className="text-sm text-sub-foreground">
-                {attendees}명
-              </span>
-            </div>
-          </div>
-          <span className="text-sm font-medium text-foreground">
+        {/* Footer */}
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-sub-foreground">{host}</span>
+          <span className="text-sm font-semibold text-foreground">
             {free ? "무료" : price}
           </span>
         </div>

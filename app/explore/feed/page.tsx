@@ -323,7 +323,7 @@ export default function FeedPage() {
                       username={user.username}
                       description={user.bio}
                       href={`/profile/${user.username}`}
-                      showFollowButton={isLoggedIn}
+                      showFollowButton
                     />
                   ))}
                 </div>

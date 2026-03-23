@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/lib/auth-context";
 
 interface UserRowProps {
   name: string;
@@ -27,6 +29,8 @@ export function UserRow({
   initialFollowing = false,
   className,
 }: UserRowProps) {
+  const { isLoggedIn } = useAuth();
+  const pathname = usePathname();
   const [following, setFollowing] = useState(initialFollowing);
 
   const info = (
@@ -53,14 +57,22 @@ export function UserRow({
         <div className="flex items-center gap-2 flex-1 min-w-0">{info}</div>
       )}
       {showFollowButton && (
-        <Button
-          variant={following ? "secondary" : "soft"}
-          size="xs"
-          className="shrink-0"
-          onClick={() => setFollowing((f) => !f)}
-        >
-          {following ? "팔로잉" : "팔로우"}
-        </Button>
+        isLoggedIn ? (
+          <Button
+            variant={following ? "secondary" : "soft"}
+            size="xs"
+            className="shrink-0"
+            onClick={() => setFollowing((f) => !f)}
+          >
+            {following ? "팔로잉" : "팔로우"}
+          </Button>
+        ) : (
+          <Link href={`/login?from=${encodeURIComponent(pathname)}`}>
+            <Button variant="soft" size="xs" className="shrink-0">
+              팔로우
+            </Button>
+          </Link>
+        )
       )}
     </div>
   );

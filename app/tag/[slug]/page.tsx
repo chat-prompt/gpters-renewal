@@ -120,22 +120,6 @@ const allPosts = [
   },
 ];
 
-const tagDescriptions: Record<string, string> = {
-  Claude: "Anthropic이 개발한 AI 어시스턴트. 긴 문맥 처리와 안전성에 강점이 있습니다.",
-  ChatGPT: "OpenAI의 대화형 AI. GPT-4o 기반으로 텍스트, 이미지, 음성 멀티모달을 지원합니다.",
-  Cursor: "AI 기반 코드 에디터. VS Code 포크로 자동 완성과 코드 생성 기능을 제공합니다.",
-  n8n: "오픈소스 워크플로우 자동화 도구. 노코드로 복잡한 업무 자동화를 구축할 수 있습니다.",
-  자동화: "AI와 노코드 도구를 활용한 업무 자동화 관련 콘텐츠입니다.",
-  프롬프트: "AI에게 효과적으로 지시하는 프롬프트 엔지니어링 기법과 사례를 다룹니다.",
-  Midjourney: "텍스트-투-이미지 AI 생성 도구. 고품질 이미지 생성에 특화되어 있습니다.",
-  Runway: "AI 기반 영상 생성 및 편집 도구. Gen-3 모델로 텍스트에서 영상을 생성합니다.",
-  Gemini: "Google DeepMind의 멀티모달 AI 모델. 텍스트, 이미지, 코드를 통합 처리합니다.",
-  바이브코딩: "AI와 함께 코딩하는 새로운 개발 방식. 자연어로 소프트웨어를 만듭니다.",
-  "AI 에이전트": "자율적으로 작업을 수행하는 AI 시스템. 복잡한 워크플로우를 자동으로 처리합니다.",
-  디자인: "AI를 활용한 디자인 작업 관련 콘텐츠입니다.",
-  영상: "AI를 활용한 영상 제작 관련 콘텐츠입니다.",
-};
-
 
 /* --- Page --- */
 
@@ -157,19 +141,12 @@ export default function TagPage() {
     return matched;
   }, [tag, sortBy]);
 
-  const description =
-    tagDescriptions[tag] ??
-    `"${tag}" 태그가 붙은 게시글을 모아봅니다.`;
-
   return (
     <div className="mx-auto max-w-[680px] px-6 py-page">
       {/* Tag Header */}
       <div className="pb-6 border-b border-border">
         <h1 className="text-2xl font-semibold text-foreground">{tag}</h1>
-        <p className="text-sm text-sub-foreground mt-1">{description}</p>
-        <p className="text-sm text-sub-foreground mt-2">
-          게시글 {filteredPosts.length}개 · 이번 주 3개
-        </p>
+        <p className="text-sm text-sub-foreground mt-1">게시글 {filteredPosts.length}개</p>
       </div>
 
       {/* Sort */}
