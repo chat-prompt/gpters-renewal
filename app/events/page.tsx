@@ -29,7 +29,6 @@ const events = [
     description:
       "AI 코드 에디터 Claude Code의 실전 활용법을 알려드립니다. 비개발자도 참여 가능!",
     host: "GPTers",
-    hostType: "official" as const,
     status: "published" as const,
     attendees: 84,
     capacity: 200,
@@ -46,7 +45,6 @@ const events = [
     location: "강남역 위워크 10층",
     description: "각자 AI 프로젝트를 진행하며 네트워킹하는 모임입니다.",
     host: "GPTers 서울",
-    hostType: "official" as const,
     status: "published" as const,
     attendees: 18,
     capacity: 30,
@@ -64,7 +62,6 @@ const events = [
     description:
       "n8n과 Make를 활용한 업무 자동화 실전 노하우를 공유합니다.",
     host: "김영호",
-    hostType: "user" as const,
     status: "published" as const,
     attendees: 132,
     capacity: 300,
@@ -82,7 +79,6 @@ const events = [
     description:
       "AI에 관심 있는 분들의 대규모 오프라인 네트워킹 행사입니다. 다양한 분야의 AI 실무자를 만나보세요.",
     host: "GPTers",
-    hostType: "official" as const,
     status: "published" as const,
     attendees: 56,
     capacity: 150,
@@ -101,7 +97,6 @@ const events = [
     description:
       "프롬프트 엔지니어링의 기초부터 고급 기법까지 실습과 함께 배워봅니다.",
     host: "이수현",
-    hostType: "user" as const,
     status: "published" as const,
     attendees: 24,
     capacity: 50,
@@ -119,7 +114,6 @@ const events = [
     description:
       "Claude API를 실무에 적용하는 방법을 공유합니다. 토큰 최적화부터 프롬프트 캐싱까지.",
     host: "홍길동",
-    hostType: "user" as const,
     status: "completed" as const,
     attendees: 87,
     capacity: 100,

@@ -27,7 +27,6 @@ interface AdminEvent {
   category: string;
   type: "online" | "offline";
   host: string;
-  hostType: "official" | "user";
   eventDate: string;
   submittedAt: string;
   status: "pending_review" | "published" | "rejected" | "closed" | "completed" | "cancelled";
@@ -35,18 +34,18 @@ interface AdminEvent {
 }
 
 const initialEvents: AdminEvent[] = [
-  { id: 1, title: "AI 트렌드 2026 토크쇼", category: "토크", type: "online", host: "GPTers", hostType: "official", eventDate: "2026-03-20", submittedAt: "2026-03-01", status: "published" },
-  { id: 2, title: "프롬프트 엔지니어링 워크숍", category: "워크숍", type: "offline", host: "김민수", hostType: "user", eventDate: "2026-03-25", submittedAt: "2026-03-05", status: "pending_review" },
-  { id: 3, title: "AI 창업 네트워킹 데이", category: "네트워킹", type: "offline", host: "GPTers", hostType: "official", eventDate: "2026-03-15", submittedAt: "2026-02-28", status: "completed" },
-  { id: 4, title: "Claude 활용법 웨비나", category: "웨비나", type: "online", host: "이영희", hostType: "user", eventDate: "2026-03-22", submittedAt: "2026-03-08", status: "pending_review" },
-  { id: 5, title: "GPTers 정기 모임 3월", category: "모임", type: "offline", host: "GPTers", hostType: "official", eventDate: "2026-03-18", submittedAt: "2026-03-02", status: "closed" },
-  { id: 6, title: "바이브 코딩 라이브 세션", category: "웨비나", type: "online", host: "박철수", hostType: "user", eventDate: "2026-04-01", submittedAt: "2026-03-10", status: "pending_review" },
-  { id: 7, title: "AI 디자인 툴 체험 워크숍", category: "워크숍", type: "offline", host: "한서연", hostType: "user", eventDate: "2026-03-12", submittedAt: "2026-02-25", status: "rejected", reviewNote: "장소 정보 미기재" },
-  { id: 8, title: "n8n 자동화 핸즈온", category: "워크숍", type: "online", host: "정우성", hostType: "user", eventDate: "2026-04-05", submittedAt: "2026-03-11", status: "published" },
-  { id: 9, title: "AI 비즈니스 밋업", category: "네트워킹", type: "offline", host: "GPTers", hostType: "official", eventDate: "2026-03-10", submittedAt: "2026-02-20", status: "completed" },
-  { id: 10, title: "Cursor IDE 소개 토크", category: "토크", type: "online", host: "김영호", hostType: "user", eventDate: "2026-03-28", submittedAt: "2026-03-09", status: "published" },
-  { id: 11, title: "LLM 파인튜닝 세미나", category: "기타", type: "online", host: "최지원", hostType: "user", eventDate: "2026-04-10", submittedAt: "2026-03-12", status: "pending_review" },
-  { id: 12, title: "GPTers 송년회", category: "모임", type: "offline", host: "GPTers", hostType: "official", eventDate: "2026-02-28", submittedAt: "2026-02-10", status: "cancelled" },
+  { id: 1, title: "AI 트렌드 2026 토크쇼", category: "토크", type: "online", host: "GPTers", eventDate: "2026-03-20", submittedAt: "2026-03-01", status: "published" },
+  { id: 2, title: "프롬프트 엔지니어링 워크숍", category: "워크숍", type: "offline", host: "김민수", eventDate: "2026-03-25", submittedAt: "2026-03-05", status: "pending_review" },
+  { id: 3, title: "AI 창업 네트워킹 데이", category: "네트워킹", type: "offline", host: "GPTers", eventDate: "2026-03-15", submittedAt: "2026-02-28", status: "completed" },
+  { id: 4, title: "Claude 활용법 웨비나", category: "웨비나", type: "online", host: "이영희", eventDate: "2026-03-22", submittedAt: "2026-03-08", status: "pending_review" },
+  { id: 5, title: "GPTers 정기 모임 3월", category: "모임", type: "offline", host: "GPTers", eventDate: "2026-03-18", submittedAt: "2026-03-02", status: "closed" },
+  { id: 6, title: "바이브 코딩 라이브 세션", category: "웨비나", type: "online", host: "박철수", eventDate: "2026-04-01", submittedAt: "2026-03-10", status: "pending_review" },
+  { id: 7, title: "AI 디자인 툴 체험 워크숍", category: "워크숍", type: "offline", host: "한서연", eventDate: "2026-03-12", submittedAt: "2026-02-25", status: "rejected", reviewNote: "장소 정보 미기재" },
+  { id: 8, title: "n8n 자동화 핸즈온", category: "워크숍", type: "online", host: "정우성", eventDate: "2026-04-05", submittedAt: "2026-03-11", status: "published" },
+  { id: 9, title: "AI 비즈니스 밋업", category: "네트워킹", type: "offline", host: "GPTers", eventDate: "2026-03-10", submittedAt: "2026-02-20", status: "completed" },
+  { id: 10, title: "Cursor IDE 소개 토크", category: "토크", type: "online", host: "김영호", eventDate: "2026-03-28", submittedAt: "2026-03-09", status: "published" },
+  { id: 11, title: "LLM 파인튜닝 세미나", category: "기타", type: "online", host: "최지원", eventDate: "2026-04-10", submittedAt: "2026-03-12", status: "pending_review" },
+  { id: 12, title: "GPTers 송년회", category: "모임", type: "offline", host: "GPTers", eventDate: "2026-02-28", submittedAt: "2026-02-10", status: "cancelled" },
 ];
 
 const categories = ["토크", "모임", "웨비나", "네트워킹", "워크숍", "기타"];
@@ -216,7 +215,7 @@ export default function AdminEventsPage() {
                   </TableCell>
                   <TableCell>
                     <span className="text-sm text-sub-foreground whitespace-nowrap">
-                      {event.hostType === "official" ? `${event.host} (공식)` : event.host}
+                      {event.host}
                     </span>
                   </TableCell>
                   <TableCell>

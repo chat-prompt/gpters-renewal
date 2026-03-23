@@ -24,7 +24,6 @@ const eventsMap: Record<string, Event> = {
     title: "무료 AI 토크: Claude Code 활용법",
     category: "토크",
     type: "online",
-    hostType: "official",
     status: "published",
     date: "3월 15일 (토)",
     time: "19:00 - 20:30",
@@ -45,7 +44,7 @@ const eventsMap: Record<string, Event> = {
     ],
     host: { name: "GPTers", username: "gpters", avatar: "" },
     speakers: [
-      { name: "김현수", role: "AI 엔지니어", avatar: "" },
+      { name: "김현수", role: "AI 엔지니어", avatar: "", username: "kimhs" },
       { name: "이다혜", role: "프로덕트 매니저", avatar: "" },
     ],
     attendees: 84,
@@ -57,7 +56,6 @@ const eventsMap: Record<string, Event> = {
     title: "모각AI — 강남역 위워크",
     category: "모임",
     type: "offline",
-    hostType: "official",
     status: "published",
     date: "3월 20일 (목)",
     time: "14:00 - 18:00",
@@ -86,7 +84,6 @@ const eventsMap: Record<string, Event> = {
     title: "AI 자동화 웨비나",
     category: "웨비나",
     type: "online",
-    hostType: "user",
     status: "published",
     date: "3월 22일 (토)",
     time: "20:00 - 21:30",
@@ -115,7 +112,6 @@ const eventsMap: Record<string, Event> = {
     title: "GPTers 네트워킹 데이",
     category: "네트워킹",
     type: "offline",
-    hostType: "official",
     status: "published",
     date: "4월 5일 (토)",
     time: "15:00 - 19:00",
@@ -152,7 +148,6 @@ interface Event {
   title: string;
   category: string;
   type: string;
-  hostType: "official" | "user";
   status: "draft" | "pending_review" | "rejected" | "published" | "closed" | "completed" | "cancelled";
   date: string;
   time: string;
@@ -161,7 +156,7 @@ interface Event {
   longDescription: string;
   agenda: { time: string; title: string }[];
   host: { name: string; username: string; avatar: string };
-  speakers: { name: string; role: string; avatar: string }[];
+  speakers: { name: string; role: string; avatar: string; username?: string }[];
   attendees: number;
   capacity: number;
   free: boolean;
@@ -176,6 +171,16 @@ export default function EventDetailPage() {
   const pathname = usePathname();
   const { isLoggedIn, isOwner } = useAuth();
   const [registered, setRegistered] = useState(false);
+  const [followingSet, setFollowingSet] = useState<Set<string>>(new Set());
+
+  const toggleFollow = (username: string) => {
+    setFollowingSet((prev) => {
+      const next = new Set(prev);
+      if (next.has(username)) next.delete(username);
+      else next.add(username);
+      return next;
+    });
+  };
   const event = eventsMap[id];
 
   if (!event) {
@@ -272,13 +277,8 @@ export default function EventDetailPage() {
             <Avatar size="lg" />
             <div>
               <p className="text-sm text-sub-foreground">주최</p>
-              <p className="text-sm font-medium text-foreground flex items-center gap-1.5">
+              <p className="text-sm font-medium text-foreground">
                 {event.host.name}
-                {event.hostType === "official" && (
-                  <span className="text-sm font-medium px-1.5 py-0.5 rounded bg-accent text-primary">
-                    공식
-                  </span>
-                )}
               </p>
             </div>
           </div>
@@ -320,17 +320,39 @@ export default function EventDetailPage() {
                 {event.speakers.map((speaker) => (
                   <div
                     key={speaker.name}
-                    className="flex items-center gap-3 p-3 border border-border rounded-lg"
+                    className="flex flex-col items-center text-center p-4 border border-border rounded-lg w-40"
                   >
-                    <Avatar size="lg" fallback={speaker.name[0]} />
-                    <div>
-                      <p className="text-sm font-medium text-foreground">
+                    {speaker.username ? (
+                      <Link href={`/profile/${speaker.username}`}>
+                        <Avatar size="xl" fallback={speaker.name[0]} />
+                      </Link>
+                    ) : (
+                      <Avatar size="xl" fallback={speaker.name[0]} />
+                    )}
+                    {speaker.username ? (
+                      <Link href={`/profile/${speaker.username}`} className="mt-3 text-sm font-medium text-foreground hover:underline">
                         {speaker.name}
-                      </p>
-                      <p className="text-sm text-sub-foreground">
-                        {speaker.role}
-                      </p>
-                    </div>
+                      </Link>
+                    ) : (
+                      <p className="mt-3 text-sm font-medium text-foreground">{speaker.name}</p>
+                    )}
+                    <p className="text-sm text-sub-foreground mt-0.5">{speaker.role}</p>
+                    {speaker.username && (
+                      isLoggedIn ? (
+                        <Button
+                          variant={followingSet.has(speaker.username) ? "secondary" : "soft"}
+                          size="sm"
+                          className="mt-3 w-full"
+                          onClick={() => toggleFollow(speaker.username!)}
+                        >
+                          {followingSet.has(speaker.username) ? "팔로잉" : "팔로우"}
+                        </Button>
+                      ) : (
+                        <Link href={`/login?from=${encodeURIComponent(pathname)}`} className="mt-3 w-full inline-flex items-center justify-center px-3 py-1.5 text-sm rounded-md bg-accent text-accent-foreground hover:bg-accent/80 transition-colors">
+                          팔로우
+                        </Link>
+                      )
+                    )}
                   </div>
                 ))}
               </div>

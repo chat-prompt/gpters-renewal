@@ -12,7 +12,6 @@ export interface EventCardProps {
   location: string;
   description: string;
   host: string;
-  hostType?: "official" | "user";
   status?: "published" | "closed" | "completed" | "draft" | "pending" | "rejected";
   attendees: number;
   capacity: number;
@@ -29,7 +28,6 @@ export function EventCard({
   time,
   location,
   host,
-  hostType,
   status,
   attendees,
   capacity,
@@ -107,13 +105,8 @@ export function EventCard({
         {/* Footer: Host + Attendees + Price */}
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center gap-3">
-            <span className="text-sm text-sub-foreground flex items-center gap-1">
+            <span className="text-sm text-sub-foreground">
               {host}
-              {hostType === "official" && (
-                <span className="text-sm font-medium px-1.5 py-0.5 rounded bg-accent text-primary">
-                  공식
-                </span>
-              )}
             </span>
             <div className="flex items-center gap-1.5">
               <div className="flex -space-x-1.5">

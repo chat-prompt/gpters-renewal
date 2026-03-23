@@ -93,9 +93,9 @@ const bookmarkedPosts = [
 ];
 
 const userEvents = [
-  { id: 5, title: "AI 프롬프트 워크숍", category: "워크숍", type: "online" as const, date: "4월 12일 (토)", time: "14:00", location: "온라인 (Zoom)", description: "실전에서 바로 쓸 수 있는 프롬프트 작성법을 배우는 핸즈온 워크숍입니다.", host: "홍길동", hostType: "user" as const, status: "published" as const, attendees: 24, capacity: 50, free: true },
-  { id: 6, title: "Claude API 활용 세미나", category: "웨비나", type: "online" as const, date: "3월 8일 (토)", time: "20:00", location: "온라인 (Zoom)", description: "Claude API를 활용한 프로덕션 서비스 구축 경험을 공유합니다.", host: "홍길동", hostType: "user" as const, status: "completed" as const, attendees: 87, capacity: 100, free: true },
-  { id: 7, title: "AI 마케팅 모임", category: "모임", type: "offline" as const, date: "3월 25일 (화)", time: "19:00", location: "강남역 스타벅스", description: "AI를 활용한 마케팅 전략을 공유하는 소규모 모임입니다.", host: "홍길동", hostType: "user" as const, status: "rejected" as const, attendees: 0, capacity: 20, free: true, reviewNote: "이벤트 장소가 불명확합니다. 정확한 주소를 기재해주세요." },
+  { id: 5, title: "AI 프롬프트 워크숍", category: "워크숍", type: "online" as const, date: "4월 12일 (토)", time: "14:00", location: "온라인 (Zoom)", description: "실전에서 바로 쓸 수 있는 프롬프트 작성법을 배우는 핸즈온 워크숍입니다.", host: "홍길동", status: "published" as const, attendees: 24, capacity: 50, free: true },
+  { id: 6, title: "Claude API 활용 세미나", category: "웨비나", type: "online" as const, date: "3월 8일 (토)", time: "20:00", location: "온라인 (Zoom)", description: "Claude API를 활용한 프로덕션 서비스 구축 경험을 공유합니다.", host: "홍길동", status: "completed" as const, attendees: 87, capacity: 100, free: true },
+  { id: 7, title: "AI 마케팅 모임", category: "모임", type: "offline" as const, date: "3월 25일 (화)", time: "19:00", location: "강남역 스타벅스", description: "AI를 활용한 마케팅 전략을 공유하는 소규모 모임입니다.", host: "홍길동", status: "rejected" as const, attendees: 0, capacity: 20, free: true, reviewNote: "이벤트 장소가 불명확합니다. 정확한 주소를 기재해주세요." },
 ];
 
 const EVENT_STATUS_LABELS: Record<string, { label: string; className: string }> = {
