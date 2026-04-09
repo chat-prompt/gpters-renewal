@@ -21,8 +21,9 @@ import { SearchInput } from "@/components/site/search-input";
 import { useAuth } from "@/lib/auth-context";
 
 const navItems = [
-  { label: "인사이트", href: "/explore/feed" },
-  { label: "커뮤니티", href: "/community/feed" },
+  { label: "홈", href: "/", exact: true },
+  { label: "포스트", href: "/explore/feed" },
+  { label: "AI 라운지", href: "/community/feed" },
   { label: "이벤트", href: "/events" },
   { label: "스터디", href: "/study" },
 ];
@@ -80,12 +81,11 @@ export function Navbar() {
   return (
     <header className="border-b border-border bg-background sticky top-0 z-50">
       <div className="flex items-center justify-between px-6 h-14">
-        {/* Left: Logo + Search */}
-        <div className="flex items-center gap-6 flex-1">
+        {/* Left: Logo */}
+        <div className="flex items-center gap-6 shrink-0">
           <Link href="/" className="shrink-0">
             <img src="/logo.svg" alt="GPTers" className="h-7" />
           </Link>
-          <SearchInput />
         </div>
 
         {/* Center: Navigation */}
@@ -95,7 +95,7 @@ export function Navbar() {
               key={item.href}
               href={item.href}
               className={`text-sm transition-colors ${
-                pathname.startsWith(item.href)
+                (item.exact ? pathname === item.href : pathname.startsWith(item.href))
                   ? "text-foreground font-medium"
                   : "text-sub-foreground hover:text-foreground"
               }`}
@@ -105,8 +105,9 @@ export function Navbar() {
           ))}
         </nav>
 
-        {/* Right: Write + DM + Profile */}
-        <div className="flex items-center gap-3 flex-1 justify-end" ref={dropdownRef}>
+        {/* Right: Search + Write + Notifications + Profile */}
+        <div className="flex items-center gap-3 justify-end" ref={dropdownRef}>
+          <SearchInput />
           {isLoggedIn ? (
             <>
               <Link

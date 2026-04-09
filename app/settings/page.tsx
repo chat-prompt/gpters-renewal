@@ -58,10 +58,21 @@ export default function SettingsPage() {
   const { isLoggedIn } = useAuth();
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState("profile");
-  const [emailNoti, setEmailNoti] = useState(true);
-  const [studyNoti, setStudyNoti] = useState(true);
-  const [commentNoti, setCommentNoti] = useState(true);
-  const [marketingNoti, setMarketingNoti] = useState(false);
+  const [noti, setNoti] = useState({
+    commentInApp: true,
+    commentEmail: true,
+    likeInApp: true,
+    likeEmail: false,
+    mentionInApp: true,
+    mentionEmail: true,
+    studyInApp: true,
+    studyEmail: true,
+    systemInApp: true,
+    systemEmail: true,
+    marketingInApp: false,
+    marketingEmail: false,
+  });
+  const toggle = (key: keyof typeof noti) => setNoti((prev) => ({ ...prev, [key]: !prev[key] }));
 
 
   if (!isLoggedIn) {
@@ -176,53 +187,74 @@ export default function SettingsPage() {
 
       {/* Notifications Tab */}
       {activeTab === "notifications" && (
-        <section className="max-w-xl">
-          <List>
-            <ListItem className="justify-between">
-              <div>
-                <p className="text-sm font-medium text-foreground">
-                  이메일 알림
-                </p>
-                <p className="text-sm text-sub-foreground">
-                  주요 공지사항을 이메일로 받습니다
-                </p>
+        <section className="max-w-xl space-y-6">
+          {/* Header */}
+          <div className="grid grid-cols-[1fr_60px_60px] items-center gap-2 text-sm text-sub-foreground border-b border-border pb-3">
+            <span />
+            <span className="text-center">인앱</span>
+            <span className="text-center">이메일</span>
+          </div>
+
+          {/* 활동 알림 */}
+          <div>
+            <p className="text-sm font-semibold text-foreground mb-3">활동 알림</p>
+            <div className="space-y-1">
+              <div className="grid grid-cols-[1fr_60px_60px] items-center gap-2 py-3 border-b border-border">
+                <div>
+                  <p className="text-sm font-medium text-foreground">댓글/답글</p>
+                  <p className="text-sm text-sub-foreground">내 글에 댓글이나 답글이 달리면 알림</p>
+                </div>
+                <div className="flex justify-center"><Toggle checked={noti.commentInApp} onChange={() => toggle("commentInApp")} /></div>
+                <div className="flex justify-center"><Toggle checked={noti.commentEmail} onChange={() => toggle("commentEmail")} /></div>
               </div>
-              <Toggle checked={emailNoti} onChange={setEmailNoti} />
-            </ListItem>
-            <ListItem className="justify-between">
-              <div>
-                <p className="text-sm font-medium text-foreground">
-                  스터디 알림
-                </p>
-                <p className="text-sm text-sub-foreground">
-                  스터디 일정, 과제 마감 등 알림을 받습니다
-                </p>
+              <div className="grid grid-cols-[1fr_60px_60px] items-center gap-2 py-3 border-b border-border">
+                <div>
+                  <p className="text-sm font-medium text-foreground">좋아요</p>
+                  <p className="text-sm text-sub-foreground">내 글이나 댓글에 좋아요를 받으면 알림</p>
+                </div>
+                <div className="flex justify-center"><Toggle checked={noti.likeInApp} onChange={() => toggle("likeInApp")} /></div>
+                <div className="flex justify-center"><Toggle checked={noti.likeEmail} onChange={() => toggle("likeEmail")} /></div>
               </div>
-              <Toggle checked={studyNoti} onChange={setStudyNoti} />
-            </ListItem>
-            <ListItem className="justify-between">
+            </div>
+          </div>
+
+          {/* 스터디 알림 */}
+          <div>
+            <p className="text-sm font-semibold text-foreground mb-3">스터디 알림</p>
+            <div className="grid grid-cols-[1fr_60px_60px] items-center gap-2 py-3 border-b border-border">
               <div>
-                <p className="text-sm font-medium text-foreground">
-                  댓글/답글 알림
-                </p>
-                <p className="text-sm text-sub-foreground">
-                  내 글에 댓글이나 답글이 달리면 알림을 받습니다
-                </p>
+                <p className="text-sm font-medium text-foreground">스터디 일정/과제</p>
+                <p className="text-sm text-sub-foreground">세션 일정, 과제 마감, 공지사항 알림</p>
               </div>
-              <Toggle checked={commentNoti} onChange={setCommentNoti} />
-            </ListItem>
-            <ListItem className="justify-between">
-              <div>
-                <p className="text-sm font-medium text-foreground">
-                  마케팅 알림
-                </p>
-                <p className="text-sm text-sub-foreground">
-                  새 스터디, 프로모션 등 마케팅 정보를 받습니다
-                </p>
+              <div className="flex justify-center"><Toggle checked={noti.studyInApp} onChange={() => toggle("studyInApp")} /></div>
+              <div className="flex justify-center"><Toggle checked={noti.studyEmail} onChange={() => toggle("studyEmail")} /></div>
+            </div>
+          </div>
+
+          {/* 시스템 알림 */}
+          <div>
+            <p className="text-sm font-semibold text-foreground mb-3">시스템 알림</p>
+            <div className="space-y-1">
+              <div className="grid grid-cols-[1fr_60px_60px] items-center gap-2 py-3 border-b border-border">
+                <div>
+                  <p className="text-sm font-medium text-foreground">공지사항</p>
+                  <p className="text-sm text-sub-foreground">서비스 업데이트, 정책 변경 등 주요 공지</p>
+                </div>
+                <div className="flex justify-center"><Toggle checked={noti.systemInApp} onChange={() => toggle("systemInApp")} /></div>
+                <div className="flex justify-center"><Toggle checked={noti.systemEmail} onChange={() => toggle("systemEmail")} /></div>
               </div>
-              <Toggle checked={marketingNoti} onChange={setMarketingNoti} />
-            </ListItem>
-          </List>
+              <div className="grid grid-cols-[1fr_60px_60px] items-center gap-2 py-3 border-b border-border">
+                <div>
+                  <p className="text-sm font-medium text-foreground">마케팅</p>
+                  <p className="text-sm text-sub-foreground">새 스터디, 이벤트, 프로모션 정보</p>
+                </div>
+                <div className="flex justify-center"><Toggle checked={noti.marketingInApp} onChange={() => toggle("marketingInApp")} /></div>
+                <div className="flex justify-center"><Toggle checked={noti.marketingEmail} onChange={() => toggle("marketingEmail")} /></div>
+              </div>
+            </div>
+          </div>
+
+          <Button variant="default" size="sm">저장</Button>
         </section>
       )}
     </div>

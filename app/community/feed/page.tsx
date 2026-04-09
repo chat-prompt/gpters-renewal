@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { BarChart3 } from "lucide-react";
 import { InlinePostForm } from "@/components/site/inline-post-form";
 import { FeedPost } from "@/components/site/feed-post";
 import { SortTabs } from "@/components/site/sort-tabs";
@@ -96,6 +97,22 @@ const qnaPosts = [
     comments: 9,
   },
 ];
+
+const activePoll = {
+  id: "poll-1",
+  author: "GPTers",
+  username: "gpters",
+  time: "1일 전",
+  question: "요즘 가장 많이 쓰는 AI 코딩 도구는?",
+  options: [
+    { id: "a", label: "Claude Code", votes: 142 },
+    { id: "b", label: "Cursor", votes: 98 },
+    { id: "c", label: "GitHub Copilot", votes: 67 },
+    { id: "d", label: "Windsurf", votes: 31 },
+  ],
+  totalVotes: 338,
+  endsAt: "2일 남음",
+};
 
 const extraFeedPosts = [
   [
@@ -202,9 +219,9 @@ export default function CommunityFeedPage() {
   };
 
   return (
-    <div className="mx-auto max-w-[680px] px-6 py-page space-y-5">
+    <div className="mx-auto max-w-[1020px] px-6 py-page">
       {/* Tab Navigation */}
-      <div className="flex gap-1 border-b border-border overflow-x-auto">
+      <div className="flex gap-1 border-b border-border overflow-x-auto mb-5">
         {tabs.map((tab) => (
           <button
             key={tab.key}
@@ -220,38 +237,119 @@ export default function CommunityFeedPage() {
         ))}
       </div>
 
-      {/* Inline Post Form */}
-      <InlinePostForm placeholder={placeholderText} onSubmit={activeTab === "feed" ? handleNewPost : undefined} />
+      <div className="flex gap-8 items-start">
+        {/* Main Feed */}
+        <div className="flex-1 min-w-0 space-y-5">
+          {/* Inline Post Form */}
+          <InlinePostForm placeholder={placeholderText} onSubmit={activeTab === "feed" ? handleNewPost : undefined} />
 
-      {/* Sort Toggle */}
-      <SortTabs
-        options={[
-          { label: "최신", value: "latest" },
-          { label: "인기", value: "popular" },
-        ]}
-        value={sort}
-        onChange={(v) => setSort(v as "latest" | "popular")}
-      />
+          {/* Sort Toggle */}
+          <SortTabs
+            options={[
+              { label: "최신", value: "latest" },
+              { label: "인기", value: "popular" },
+            ]}
+            value={sort}
+            onChange={(v) => setSort(v as "latest" | "popular")}
+          />
 
-      {/* Posts */}
-      <div className="divide-y divide-border">
-        {currentPosts.map((post) => (
-          <FeedPost key={post.id} {...post} />
-        ))}
+          {/* Posts */}
+          <div className="divide-y divide-border">
+            {currentPosts.map((post) => (
+              <FeedPost key={post.id} {...post} />
+            ))}
+          </div>
+
+          {/* Load More */}
+          {activeTab === "feed" && loadCount < extraFeedPosts.length && (
+            <button
+              onClick={() => {
+                setPosts((prev) => [...prev, ...extraFeedPosts[loadCount]]);
+                setLoadCount((prev) => prev + 1);
+              }}
+              className="w-full py-3 text-sm text-sub-foreground border border-border rounded-lg"
+            >
+              더 불러오기
+            </button>
+          )}
+        </div>
+
+        {/* Sidebar */}
+        <aside className="w-[300px] hidden lg:block shrink-0 sticky top-20 space-y-4">
+          {/* Poll */}
+          <div className="border border-border rounded-lg p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <BarChart3 className="w-5 h-5 text-primary" strokeWidth={1.5} />
+              <span className="text-sm font-semibold text-foreground">투표</span>
+              <span className="text-sm text-sub-foreground ml-auto">{activePoll.endsAt}</span>
+            </div>
+            <p className="text-sm font-semibold text-foreground mb-3">{activePoll.question}</p>
+            <div className="space-y-2">
+              {activePoll.options.map((opt) => {
+                const pct = Math.round((opt.votes / activePoll.totalVotes) * 100);
+                return (
+                  <button
+                    key={opt.id}
+                    className="w-full relative border border-border rounded-md px-3 py-2 text-left hover:border-primary transition-colors overflow-hidden"
+                  >
+                    <div
+                      className="absolute inset-y-0 left-0 bg-accent"
+                      style={{ width: `${pct}%` }}
+                    />
+                    <div className="relative flex items-center justify-between">
+                      <span className="text-sm text-foreground">{opt.label}</span>
+                      <span className="text-sm text-sub-foreground">{pct}%</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+            <p className="text-sm text-sub-foreground mt-3">{activePoll.totalVotes}명 참여</p>
+          </div>
+
+          {/* 지금 주목받는 주제 — 지피터스 발행 글 */}
+          <div className="border border-border rounded-lg p-5">
+            <h3 className="text-sm font-semibold text-foreground mb-3">
+              지금 가장 주목받는 주제예요!
+            </h3>
+            <div className="space-y-3">
+              <a href="/posts/ai-trend-2025" className="group block">
+                <p className="text-sm font-medium text-primary">AI Trend</p>
+                <p className="text-sm font-semibold text-foreground group-hover:underline leading-snug mt-0.5">
+                  2025년 주목할 AI 트렌드 TOP 10
+                </p>
+                <p className="text-sm text-sub-foreground mt-0.5">GPTers 에디터</p>
+              </a>
+              <div className="border-t border-border" />
+              <a href="/posts/mcp-opencode" className="group block">
+                <p className="text-sm font-medium text-primary">에이전트</p>
+                <p className="text-sm font-semibold text-foreground group-hover:underline leading-snug mt-0.5">
+                  MCP 서버 입문 가이드
+                </p>
+                <p className="text-sm text-sub-foreground mt-0.5">GPTers 에디터</p>
+              </a>
+              <div className="border-t border-border" />
+              <a href="/posts/claude-code-vibecoding" className="group block">
+                <p className="text-sm font-medium text-primary">바이브코딩</p>
+                <p className="text-sm font-semibold text-foreground group-hover:underline leading-snug mt-0.5">
+                  Claude Code로 SaaS 런칭하기
+                </p>
+                <p className="text-sm text-sub-foreground mt-0.5">GPTers 에디터</p>
+              </a>
+            </div>
+          </div>
+
+          {/* Community Rules */}
+          <div className="border border-border rounded-lg p-5">
+            <h3 className="text-sm font-semibold text-foreground mb-3">커뮤니티 가이드</h3>
+            <ul className="space-y-2 text-sm text-secondary-foreground">
+              <li>AI 활용 경험을 자유롭게 공유해주세요</li>
+              <li>서로 존중하며 건설적인 대화를 나눠요</li>
+              <li>광고성 글은 운영진이 삭제할 수 있어요</li>
+            </ul>
+          </div>
+        </aside>
       </div>
-
-      {/* Load More */}
-      {activeTab === "feed" && loadCount < extraFeedPosts.length && (
-        <button
-          onClick={() => {
-            setPosts((prev) => [...prev, ...extraFeedPosts[loadCount]]);
-            setLoadCount((prev) => prev + 1);
-          }}
-          className="w-full py-3 text-sm text-sub-foreground border border-border rounded-lg"
-        >
-          더 불러오기
-        </button>
-      )}
     </div>
   );
 }

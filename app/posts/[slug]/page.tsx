@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { BookOpen, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { BookOpen, Heart, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { CommentTree, type CommentData } from "@/components/site/comment";
 import { TagList } from "@/components/site/tag-list";
@@ -107,6 +107,33 @@ const seriesInfo = {
   nextPost: { slug: "moms-dev-3", title: "런칭 후기 — 첫 사용자 100명 달성" },
 };
 
+const categoryPosts = [
+  {
+    slug: "chatgpt-usage-guide",
+    title: "ChatGPT 사용법 완전 가이드 — 무료로 시작하기",
+    author: "이영희",
+    username: "leeyounghee",
+    time: "1일 전",
+    votes: 198,
+  },
+  {
+    slug: "perplexity-review",
+    title: "퍼플렉시티 vs 젠스파크 — AI 리서치 도구 비교",
+    author: "김영호",
+    username: "kimyoungho",
+    time: "3일 전",
+    votes: 134,
+  },
+  {
+    slug: "gemini-tips",
+    title: "제미나이 2.5 실전 팁 10가지",
+    author: "정다은",
+    username: "jungdaeun",
+    time: "4일 전",
+    votes: 89,
+  },
+];
+
 const relatedPosts = [
   {
     slug: "claude-api-cases",
@@ -150,12 +177,12 @@ const relatedPosts = [
 /* ─── Page ─── */
 
 export default function PostDetailPage() {
-  const { isOwner } = useAuth();
+  const { isLoggedIn, isOwner } = useAuth();
   const isPostOwner = isOwner(post.username);
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="mx-auto max-w-[860px] px-6 py-page">
+    <div className={`mx-auto max-w-[860px] px-6 py-page ${!isLoggedIn ? "max-h-[80vh] overflow-hidden" : ""}`}>
       {/* Breadcrumb */}
       <div className="mb-6">
         <Breadcrumb
@@ -248,20 +275,26 @@ const response = await anthropic.messages.create({
 });`}</pre>
             </div>
 
-            <h2 className="text-lg font-semibold text-foreground">2. 프롬프트 설계</h2>
-            <p className="text-secondary-foreground">
-              고객의 구매 이력, 관심사, 최근 활동 데이터를 기반으로 개인화된
-              이메일을 생성하는 시스템 프롬프트를 설계했습니다. 핵심은 톤앤매너를
-              일관되게 유지하면서도 각 고객에게 맞춤화된 내용을 생성하는 것이었습니다.
-            </p>
+            {/* 로그인 상태에서만 나머지 본문 표시 */}
+            {isLoggedIn && (
+              <>
+                <h2 className="text-lg font-semibold text-foreground">2. 프롬프트 설계</h2>
+                <p className="text-secondary-foreground">
+                  고객의 구매 이력, 관심사, 최근 활동 데이터를 기반으로 개인화된
+                  이메일을 생성하는 시스템 프롬프트를 설계했습니다. 핵심은 톤앤매너를
+                  일관되게 유지하면서도 각 고객에게 맞춤화된 내용을 생성하는 것이었습니다.
+                </p>
 
-            <h2 className="text-lg font-semibold text-foreground">3. 결과</h2>
-            <p className="text-secondary-foreground">
-              자동화 파이프라인 도입 후 주당 3시간의 반복 작업을 30분으로 줄일 수
-              있었습니다. 이메일 개인화 수준도 크게 향상되어 오픈율이 15%
-              개선되었습니다.
-            </p>
+                <h2 className="text-lg font-semibold text-foreground">3. 결과</h2>
+                <p className="text-secondary-foreground">
+                  자동화 파이프라인 도입 후 주당 3시간의 반복 작업을 30분으로 줄일 수
+                  있었습니다. 이메일 개인화 수준도 크게 향상되어 오픈율이 15%
+                  개선되었습니다.
+                </p>
+              </>
+            )}
           </div>
+
 
           <TagList tags={post.tags} className="mb-8" />
 
@@ -277,6 +310,54 @@ const response = await anthropic.messages.create({
             <CommentTree comments={comments} />
 
             <CommentInput className="mt-6" />
+          </section>
+
+          {/* Ad Banner */}
+          <section className="my-8">
+            <Link
+              href="/study/ai-study-22"
+              className="block border border-border rounded-lg p-5 bg-accent/30 hover:bg-accent transition-colors"
+            >
+              <p className="text-sm text-sub-foreground mb-1">AD</p>
+              <p className="text-sm font-semibold text-foreground">22기 AI 스터디 모집 중 — 바이브코딩, AI 자동화, 에이전트 등 6개 프로그램</p>
+              <p className="text-sm text-primary mt-1">자세히 보기</p>
+            </Link>
+          </section>
+
+          {/* Category Posts */}
+          <section className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-semibold text-foreground">
+                <span className="text-primary">{post.category}</span>의 다른 글도 확인해보세요
+              </h3>
+              <Link
+                href={`/explore/feed?category=${encodeURIComponent(post.category)}`}
+                className="text-sm text-sub-foreground hover:text-foreground transition-colors"
+              >
+                더보기
+              </Link>
+            </div>
+            <div className="space-y-3">
+              {categoryPosts.map((cp) => (
+                <Link
+                  key={cp.slug}
+                  href={`/posts/${cp.slug}`}
+                  className="group flex items-center justify-between py-3 border-b border-border last:border-0"
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-foreground group-hover:underline line-clamp-1">
+                      {cp.title}
+                    </p>
+                    <p className="text-sm text-sub-foreground mt-0.5">
+                      {cp.author} · {cp.time}
+                    </p>
+                  </div>
+                  <span className="flex items-center gap-1 text-sm text-sub-foreground shrink-0 ml-4">
+                    <Heart className="w-4 h-4" strokeWidth={1.5} /> {cp.votes}
+                  </span>
+                </Link>
+              ))}
+            </div>
           </section>
 
           {/* Related Posts */}
@@ -295,6 +376,45 @@ const response = await anthropic.messages.create({
           <PostActionsSidebar votes={post.votes} comments={post.comments} />
         </div>
       </div>
+
+      {/* Paywall Overlay — 비로그인 시 하단 블러 + 스크롤 차단 + CTA */}
+      {!isLoggedIn && (
+        <div className="fixed bottom-0 left-0 right-0 z-40">
+          {/* 블러 그래디언트: 아래에서 위로 페이드 */}
+          <div className="h-64 bg-gradient-to-t from-background via-background/95 to-transparent pointer-events-none" />
+          {/* CTA 카드 */}
+          <div className="bg-background pb-8 pt-0 px-6">
+            <div className="mx-auto max-w-sm rounded-2xl bg-foreground p-8 text-center">
+              <h3 className="text-lg font-semibold text-white mb-2">
+                1분만 투자하면<br />모든 글을 읽을 수 있어요
+              </h3>
+              <p className="text-sm text-white/60 mt-4 mb-3">지피터스 가입 혜택</p>
+              <ul className="text-left max-w-xs mx-auto space-y-3 mb-6">
+                <li className="flex items-start gap-2 text-sm text-white/80">
+                  <span className="text-primary shrink-0 mt-0.5">*</span>
+                  엄선된 최신 AI 소식과 사례를 받아보세요
+                </li>
+                <li className="flex items-start gap-2 text-sm text-white/80">
+                  <span className="text-primary shrink-0 mt-0.5">*</span>
+                  바이브코딩 용어집을 무료로 제공해드립니다
+                </li>
+              </ul>
+              <Link
+                href="/login?from=/posts/claude-marketing"
+                className="block w-full py-3 text-sm font-medium bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors"
+              >
+                무료 회원가입하기
+              </Link>
+              <Link
+                href="/login?from=/posts/claude-marketing"
+                className="block mt-3 text-sm text-primary hover:underline"
+              >
+                이미 회원이신가요? 로그인하기
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

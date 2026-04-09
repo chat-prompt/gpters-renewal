@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { Heart, MessageSquare, Bookmark, Share2 } from "lucide-react";
+import { Heart, MessageSquare, Bookmark, Send, Link2, PenSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth-context";
 
@@ -66,16 +66,38 @@ export function PostActionsSidebar({ votes, comments }: PostActionsSidebarProps)
             fill={bookmarked ? "currentColor" : "none"}
           />
         </button>
-        <button
-          onClick={() => {
-            if (requireLogin()) return;
-            navigator.clipboard.writeText(window.location.href);
-            setCopied(true);
-          }}
-          className={copied ? "text-primary" : "text-sub-foreground"}
+        {/* SNS Share */}
+        <div className="flex flex-col items-center gap-2">
+          <button
+            onClick={() => {
+              const url = encodeURIComponent(window.location.href);
+              window.open(`https://t.me/share/url?url=${url}`, "_blank", "width=600,height=400");
+            }}
+            className="text-sub-foreground hover:text-primary transition-colors"
+            title="공유하기"
+          >
+            <Send className="w-5 h-5" strokeWidth={1.5} />
+          </button>
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              setCopied(true);
+            }}
+            className={copied ? "text-primary" : "text-sub-foreground hover:text-primary transition-colors"}
+            title="링크 복사"
+          >
+            <Link2 className="w-5 h-5" strokeWidth={1.5} />
+          </button>
+        </div>
+        <div className="w-full border-t border-border" />
+        {/* Write */}
+        <a
+          href="/write?type=case"
+          className="text-sub-foreground hover:text-primary transition-colors"
+          title="글쓰기"
         >
-          <Share2 className="w-5 h-5" strokeWidth={1.5} />
-        </button>
+          <PenSquare className="w-5 h-5" strokeWidth={1.5} />
+        </a>
       </div>
     </aside>
   );

@@ -78,7 +78,7 @@ PostCSS: `postcss.config.mjs`에서 `@tailwindcss/postcss` 플러그인 사용.
 
 ## 디자인 시스템
 
-디자인 방향은 **Medium + Threads** — 콘텐츠 탐색(인사이트)은 Medium 스타일(리스트형 카드, excerpt 미리보기, Heart 좋아요), 커뮤니티는 Threads 스타일(1컬럼 피드, 사이드바 없음). 초기 Reddit-inspired에서 진화함 (`docs/design/ux-decisions.md` 참조).
+디자인 방향은 **Medium + Threads** — 포스트 탐색은 Medium 스타일(리스트형 카드, excerpt 미리보기, Heart 좋아요), AI 라운지는 Threads 스타일 피드 + 우측 사이드바(투표, 커뮤니티 가이드). 초기 Reddit-inspired에서 진화함 (`docs/design/ux-decisions.md` 참조).
 
 ### 색상 토큰 (globals.css @theme)
 
@@ -199,15 +199,13 @@ app/study/my/layout.tsx # 수강생 대시보드: 좌측 Sidebar + Content (stud
 
 ### 페이지 (48개)
 
-**사이트 핵심** — 홈(`/`), 인사이트(`/explore/feed`), 커뮤니티 피드(`/community/feed`), 커뮤니티 상세(`/community/[id]`), 게시글(`/posts/[slug]`), 글쓰기(`/write`), 검색(`/search`), 태그(`/tag/[slug]`), 시리즈(`/series/[id]`), 메시지(`/messages`)
+**사이트 핵심** — 홈(`/`), 포스트(`/explore/feed`), AI 라운지(`/community/feed`), AI 라운지 상세(`/community/[id]`), 게시글(`/posts/[slug]`), 글쓰기(`/write`), 검색(`/search`), 태그(`/tag/[slug]`), 시리즈(`/series/[id]`), 메시지(`/messages`)
 
 **이벤트** — 목록(`/events`), 상세(`/events/[id]`), 개설(`/events/create`), 수정(`/events/[id]/edit`)
 
 **스터디** — 목록(`/study`), 상세(`/study/[slug]`), 체크아웃(`/checkout/[studyId]`), 완료(`/checkout/complete`)
 
-**수강생 LMS** — 내 스터디(`/study/my`), 학습(`/study/[slug]/learn`), 과제(`/study/[slug]/learn/tasks`), VOD(`/study/[slug]/learn/vod`), 수강이력(`/study/my/history`), 청강(`/study/my/audit`), 수료증(`/study/my/certificates`), 게시글(`/study/my/posts`)
-
-**스터디장** — 관리(`/study/manage/[slug]`), 수강생현황(`/study/manage/[slug]/members`), 공지(`/study/manage/[slug]/notices`), VOD관리(`/study/manage/[slug]/vod`)
+**수강생** — 내 스터디(`/study/my`, LMS 링크 허브). 학습/과제/VOD/출석/수료증은 ai-study.gpters.org(외부 LMS)에서 관리, Portal에서 링크만 연결.
 
 **프로필/설정** — AI이력서(`/profile/[username]`), 설정(`/settings`)
 

@@ -16,20 +16,19 @@ import { useAuth } from "@/lib/auth-context";
 
 const categoryTabs = [
   { id: "전체", name: "전체" },
-  { id: "AI활용법", name: "AI활용법" },
-  { id: "프롬프트", name: "프롬프트" },
-  { id: "자동화", name: "자동화" },
-  { id: "개발/코딩", name: "개발/코딩" },
-  { id: "디자인", name: "디자인" },
-  { id: "미디어", name: "미디어" },
+  { id: "바이브코딩", name: "바이브코딩" },
+  { id: "AI 사용법", name: "AI 사용법" },
+  { id: "에이전트", name: "에이전트" },
+  { id: "AI 콘텐츠", name: "AI 콘텐츠" },
   { id: "비즈니스", name: "비즈니스" },
-  { id: "트렌드", name: "트렌드" },
+  { id: "자동화/노코드", name: "자동화/노코드" },
+  { id: "AI Trend", name: "AI Trend" },
 ];
 
 const allPosts = [
   {
     slug: "claude-marketing",
-    category: "AI활용법",
+    category: "AI 사용법",
     title: "Claude로 마케팅 자동화 구축기",
     author: "홍길동",
     username: "honggildong",
@@ -43,12 +42,12 @@ const allPosts = [
   },
   {
     slug: "gpt4o-prompt",
-    category: "프롬프트",
+    category: "AI 사용법",
     title: "GPT-4o 프롬프트 작성법 완전 가이드",
     author: "이영희",
     username: "leeyounghee",
     time: "5시간 전",
-    tags: ["ChatGPT"],
+    tags: ["ChatGPT", "프롬프트"],
     excerpt:
       "프롬프트 엔지니어링 기초부터 고급 기법까지 체계적으로 정리했습니다. 비개발자도 쉽게 따라할 수 있는 가이드.",
     votes: 98,
@@ -56,12 +55,12 @@ const allPosts = [
   },
   {
     slug: "cursor-fullstack",
-    category: "개발/코딩",
+    category: "바이브코딩",
     title: "Cursor로 풀스택 앱 만들기 - Part 1",
     author: "박철수",
     username: "parkchulsoo",
     time: "1일 전",
-    tags: ["Cursor"],
+    tags: ["Cursor", "바이브코딩"],
     excerpt:
       "바이브 코딩으로 실제 서비스를 만드는 과정을 처음부터 끝까지 공유합니다. React + Supabase 조합으로 진행.",
     votes: 87,
@@ -70,12 +69,12 @@ const allPosts = [
   },
   {
     slug: "n8n-automation",
-    category: "자동화",
+    category: "자동화/노코드",
     title: "n8n으로 업무 자동화 워크플로우 구축하기",
     author: "김영호",
     username: "kimyoungho",
     time: "2일 전",
-    tags: ["n8n"],
+    tags: ["n8n", "워크플로우"],
     excerpt:
       "반복적인 업무를 n8n 워크플로우로 자동화한 실전 사례를 소개합니다. Slack 알림부터 데이터 수집까지.",
     votes: 65,
@@ -88,7 +87,7 @@ const allPosts = [
     author: "김민지",
     username: "kimminji",
     time: "2일 전",
-    tags: ["ChatGPT"],
+    tags: ["ChatGPT", "비즈니스"],
     excerpt:
       "ChatGPT와 Claude를 활용하여 투자 유치용 사업계획서를 작성하는 방법을 단계별로 안내합니다.",
     votes: 76,
@@ -96,12 +95,12 @@ const allPosts = [
   },
   {
     slug: "midjourney-branding",
-    category: "디자인",
+    category: "AI 콘텐츠",
     title: "Midjourney V6로 브랜드 이미지 제작하기",
     author: "이수현",
     username: "leesuhyun",
     time: "3일 전",
-    tags: ["Midjourney"],
+    tags: ["Midjourney", "이미지생성"],
     excerpt:
       "Midjourney V6의 새로운 기능을 활용하여 브랜드 로고와 마케팅 이미지를 직접 만드는 과정을 공유합니다.",
     votes: 65,
@@ -109,22 +108,22 @@ const allPosts = [
     thumbnailUrl: "https://images.unsplash.com/photo-1609921141835-710b7fa6e438?w=240&h=160&fit=crop",
   },
   {
-    slug: "runway-short-film",
-    category: "미디어",
-    title: "Runway Gen-3로 단편 영상 제작기",
+    slug: "mcp-agent-workflow",
+    category: "에이전트",
+    title: "MCP 서버로 AI 에이전트 워크플로우 구축하기",
     author: "정다은",
     username: "jungdaeun",
     time: "4일 전",
-    tags: ["Runway"],
+    tags: ["MCP", "에이전트"],
     excerpt:
-      "AI 영상 생성 도구 Runway Gen-3를 활용해서 3분짜리 단편 영상을 만든 전체 과정과 팁을 공유합니다.",
+      "Model Context Protocol을 활용해서 Claude와 외부 도구를 연결하는 AI 에이전트를 만든 과정을 공유합니다.",
     votes: 54,
     comments: 17,
     thumbnailUrl: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=240&h=160&fit=crop",
   },
   {
     slug: "ai-trend-2025",
-    category: "트렌드",
+    category: "AI Trend",
     title: "2025년 주목할 AI 트렌드 TOP 10",
     author: "최준혁",
     username: "choijunhyuk",
@@ -261,7 +260,7 @@ export default function FeedPage() {
           <aside className="w-[360px] hidden lg:block shrink-0 sticky top-20 space-y-4">
               {/* Most Read */}
               <div className="border border-border rounded-lg p-5">
-                <h3 className="text-base font-semibold text-foreground mb-4">많이 읽은 글</h3>
+                <h3 className="text-base font-semibold text-foreground mb-4">관심있어할만한 글</h3>
                 <div className="divide-y divide-border">
                   {mostRead.map((post) => (
                     <Link
