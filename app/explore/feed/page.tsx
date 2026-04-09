@@ -184,7 +184,7 @@ const POSTS_PER_PAGE = 5;
 /* ─── Page ─── */
 
 export default function FeedPage() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [sortBy, setSortBy] = useState("popular");
   const [currentPage, setCurrentPage] = useState(1);
@@ -260,7 +260,9 @@ export default function FeedPage() {
           <aside className="w-[360px] hidden lg:block shrink-0 sticky top-20 space-y-4">
               {/* Most Read */}
               <div className="border border-border rounded-lg p-5">
-                <h3 className="text-base font-semibold text-foreground mb-4">관심있어할만한 글</h3>
+                <h3 className="text-base font-semibold text-foreground mb-4">
+                  {isLoggedIn ? `${user?.name}님이 관심있어할만한 글` : "많이 읽은 글"}
+                </h3>
                 <div className="divide-y divide-border">
                   {mostRead.map((post) => (
                     <Link
