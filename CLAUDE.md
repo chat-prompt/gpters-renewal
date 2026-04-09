@@ -220,15 +220,15 @@ components/
 ├── ui/    (18개)       # shadcn/ui 기반: button, card, select, avatar, table, input, checkbox, textarea 등
 ├── site/  (41개)       # 사이트: post-card, feed-post, event-card, search-input, event-form 등
 ├── admin/ (4개)        # 어드민: stat-card, activity-feed, bulk-action-bar, quick-action
-└── lms/   (9개)        # LMS: week-progress, vod-card, attendance-matrix, enrollment-card 등
+└── lms/   (9개)        # LMS 컴포넌트 (레거시 — ai-study.gpters.org에서 관리, 페이지 삭제됨)
 ```
 
 **핵심 공용 컴포넌트:**
-- `site/post-card` — Medium 스타일 게시글 카드 (인사이트/검색/태그/홈에서 공용). flex-col 구조: 프로필 → 제목+excerpt+썸네일 → 메타(full width)
-- `site/feed-post` — Threads 스타일 커뮤니티 포스트 (액션 버튼이 Link 밖에 분리됨)
+- `site/post-card` — Medium 스타일 게시글 카드 (포스트/검색/태그/홈에서 공용). flex-col 구조: 프로필 → 제목+excerpt+썸네일 → 메타(full width)
+- `site/feed-post` — Threads 스타일 AI 라운지 포스트 (액션 버튼이 Link 밖에 분리됨)
 - `site/event-card` — Lu.ma 스타일 이벤트 카드 (디자인 토큰 사용)
-- `site/sort-tabs` — `최신 | 인기` 텍스트 토글 (인사이트/커뮤니티/태그/홈 공용)
-- `site/category-filter` — 가로 스크롤 카테고리 필터 (인사이트/이벤트 공용)
+- `site/sort-tabs` — `최신 | 인기` 텍스트 토글 (포스트/AI 라운지/태그/홈 공용)
+- `site/category-filter` — 가로 스크롤 카테고리 필터 (포스트/이벤트 공용)
 - `site/search-input` — GNB 검색바 + 드롭다운 (인기 태그, 인기 검색어)
 - `ui/icon-button` — 아이콘 버튼 (Link/button 자동 분기, 뱃지 지원)
 
