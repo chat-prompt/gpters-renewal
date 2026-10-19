@@ -23,7 +23,7 @@ GPTers 커뮤니티 사이트(gpters.org) 리뉴얼 프로젝트. Bettermode 기
 - **대상 사용자**: AI 활용에 관심 있는 일반인 (비개발자 중심)
 - **핵심 기능**: 콘텐츠 커뮤니티 + AI 스터디 + AI 이력서
 - **브랜드 컬러**: GPTers Orange (#EF6020)
-- **현재 단계**: 프로토타입 완성 (정적 목업 48페이지, 백엔드 미연결)
+- **현재 단계**: 프로토타입 (정적 목업, 백엔드 미연결)
 - **GitHub**: `chat-prompt/gpters-renewal` (push 시 `gh auth switch --user hskim-a11y` 필요)
 
 ## Commands
@@ -174,7 +174,7 @@ export default function Page() { return <PostCard {...posts[0]} /> }
 
 ## 작업 방식: 에이전트 팀 활용
 
-`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`가 활성화되어 있다 (`.claude/settings.local.json`).
+에이전트 팀 기능(`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`)은 각자의 `.claude/settings.local.json`(레포에 커밋되지 않음)에서 켠다.
 
 **큰 작업(Development Guide 작성, 다중 PRD 분석, 병렬 구현 등)은 Task tool로 에이전트를 구성해서 처리한다:**
 
@@ -185,7 +185,7 @@ export default function Page() { return <PostCard {...posts[0]} /> }
 
 ## Hooks
 
-- **PostToolUse (Write|Edit)**: `components/` 또는 `app/` 파일 수정 시 `.claude/scripts/lint-design-rules.sh` 자동 실행 (이모지/하드코딩 색상/간격/shadow 위반 탐지)
+- `.claude/scripts/lint-design-rules.sh`: 이모지/하드코딩 색상/간격/shadow 위반 탐지. 로컬 settings에 PostToolUse(Write|Edit) 훅으로 걸어 두면 `components/`·`app/` 수정 시 자동 실행된다. 훅이 없으면 직접 실행한다.
 
 ## App Structure
 
@@ -197,7 +197,7 @@ app/admin/layout.tsx    # Admin: 좌측 Sidebar + Content (admin/* 페이지 공
 app/study/my/layout.tsx # 수강생 대시보드: 좌측 Sidebar + Content (study/my/* 페이지 공통)
 ```
 
-### 페이지 (48개)
+### 페이지
 
 **사이트 핵심** — 홈(`/`), 포스트(`/explore/feed`), AI 라운지(`/community/feed`), AI 라운지 상세(`/community/[id]`), 게시글(`/posts/[slug]`), 글쓰기(`/write`), 검색(`/search`), 태그(`/tag/[slug]`), 시리즈(`/series/[id]`), 메시지(`/messages`)
 
@@ -211,16 +211,16 @@ app/study/my/layout.tsx # 수강생 대시보드: 좌측 Sidebar + Content (stud
 
 **어드민** (16개) — 대시보드, 게시글, 스터디, 배너, 화이트보드, 이벤트, 텍스트, 상품, 회원, 기수, 세션, 수료/환급, 분류, 신고/모더레이션, 뱃지, 리포트 (`/admin/*`)
 
-### 컴포넌트 (74개)
+### 컴포넌트
 
 ```
 components/
 ├── navbar.tsx          # GNB ('use client') — 3-column 풀 와이드, SearchInput 내장
 ├── footer.tsx          # 푸터 (한 줄 텍스트)
-├── ui/    (18개)       # shadcn/ui 기반: button, card, select, avatar, table, input, checkbox, textarea 등
-├── site/  (41개)       # 사이트: post-card, feed-post, event-card, search-input, event-form 등
-├── admin/ (4개)        # 어드민: stat-card, activity-feed, bulk-action-bar, quick-action
-└── lms/   (9개)        # LMS 컴포넌트 (레거시 — ai-study.gpters.org에서 관리, 페이지 삭제됨)
+├── ui/                 # shadcn/ui 기반: button, card, select, avatar, table, input, checkbox, textarea 등
+├── site/               # 사이트: post-card, feed-post, event-card, search-input, event-form 등
+├── admin/              # 어드민: stat-card, activity-feed, bulk-action-bar, quick-action
+└── lms/                # LMS 컴포넌트 (레거시 — ai-study.gpters.org에서 관리, 페이지 삭제됨)
 ```
 
 **핵심 공용 컴포넌트:**
@@ -267,20 +267,17 @@ GPTers AI 스터디는 4주간의 커뮤니티형 학습 프로그램입니다.
 
 ```
 docs/
-├── dev-guide.md                  # 개발 가이드: Batch 0~6, 31 테이블, 병렬 실행 계획
-├── linear-issues.md              # 프로젝트 이슈 트래커 (Phase 1 완료, Phase 2 진행 중)
-├── page-review.md                # 페이지 리뷰 & 레퍼런스 추적
 ├── prd/                          # 기능 명세서
+│   ├── dev-guide.md              # 개발 가이드: Batch 0~6, 31 테이블, 병렬 실행 계획
 │   ├── 01-사이트-PRD.md           # 프론트엔드: 11개 기능, 7개 화면 스펙
 │   ├── 02-어드민-PRD.md           # 어드민: 17개 기능, flat IA, 6개 화면
 │   ├── 03-LMS-수강생대시보드-PRD.md  # LMS: 수강생/스터디장/운영자 3파트
 │   └── 04-디자인-가이드.md        # 컴포넌트 카탈로그, 토큰, 레이아웃, Reddit-inspired 방향
-├── design/                       # 디자인 에셋 (.pen, screenshots, user-flow, ia-sitemap)
+├── design/                       # 디자인 에셋 (.pen, screenshots, user-flow, ia-sitemap, page-review.md, ux-decisions.md)
 ├── context/                      # 도메인 지식 & 운영 체계 (AI 스터디, 체크리스트)
-├── research/                     # 사전 조사 & 분석
-│   ├── 00~06 분석 보고서          # 문제정의서, 벤치마킹, UX감사, IA, 와이어프레임
-│   └── interview/                # 운영진 인터뷰 4인 (신연권, 소연, 재호, 다혜)
-└── migration/                    # 마이그레이션 참조 (포트폴리오, 비교분석, IA)
+└── research/                     # 사전 조사 & 분석
+    ├── 00~06 분석 보고서          # 문제정의서, 벤치마킹, UX감사, IA, 와이어프레임
+    └── interview/                # 운영진 인터뷰 4인 (신연권, 소연, 재호, 다혜)
 ```
 
 ## PRD/기획 작성 가이드
